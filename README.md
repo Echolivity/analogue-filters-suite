@@ -1,47 +1,200 @@
-# Dub Filter — Max for Live audio effect (Ableton Live 12)
+<p align="center">
+  <img src="docs/media/hero.png" alt="Dub Filter: the full Max for Live device panel" width="100%">
+</p>
 
-A performance filter for dub mixing in the Ariwa tradition: big resonant low-pass sweeps, sudden bass removal and instant return, and expressive hands-on control. There are three independent filter engines: low-pass and high-pass, each with six analogue-inspired models, and a band-pass engine with five models and three architectures. New in v1.3 is a reorderable dynamics chain: Tube saturation, an LA-2A-inspired optical compressor and an API 2500-inspired VCA compressor, plus a gate, an external sidechain key and key listen.
+<h3 align="center">A dub mixing filter in the Ariwa tradition, built from real circuit analysis.</h3>
 
-![panel preview](docs/preview.png)
-*Approximate layout preview rendered from the patch file. Max draws the live.* controls in its own style.*
+<p align="center">
+  <img alt="Ableton Live 12" src="https://img.shields.io/badge/Ableton%20Live-12-f2a03a?style=flat-square&labelColor=211f1d">
+  <img alt="Max for Live" src="https://img.shields.io/badge/Max%20for%20Live-gen~-f2a03a?style=flat-square&labelColor=211f1d">
+  <img alt="Version" src="https://img.shields.io/badge/version-1.5-ece4d4?style=flat-square&labelColor=211f1d">
+  <img alt="DSP tests" src="https://img.shields.io/badge/DSP%20tests-95%2F95-ece4d4?style=flat-square&labelColor=211f1d">
+  <img alt="UI tests" src="https://img.shields.io/badge/UI%20tests-47%2F47-ece4d4?style=flat-square&labelColor=211f1d">
+  <img alt="Live status" src="https://img.shields.io/badge/in--Live%20testing-pending-6b4a24?style=flat-square&labelColor=211f1d">
+</p>
 
-## What's in the box
+<p align="center">
+  <a href="#quick-start">Quick start</a> ·
+  <a href="#the-instrument">The instrument</a> ·
+  <a href="#signal-flow">Signal flow</a> ·
+  <a href="#classic-moves">Classic moves</a> ·
+  <a href="#documentation">Docs</a> ·
+  <a href="#building-from-source">Build</a> ·
+  <a href="#status">Status</a>
+</p>
 
-| | |
-|---|---|
-| `DubFilter.amxd` | The device. Drag onto an audio track. |
-| `DubFilter.maxpat` | Editable Max patch (identical content). |
-| `docs/INSTALL.md` | Installation, plus a fallback procedure if the .amxd will not load. |
-| `df_button.js`, `df_routing.js`, `df_arch.js` | v1.5 jsui components. Keep them next to the .amxd, or use Freeze Device in Max to embed them. |
-| `docs/UI.md` | v1.5 UI architecture, design system, availability rules, full parameter-to-control mapping. |
-| `docs/UI_VALIDATION.md` | v1.5 UI checks (47 offline) and the Max/Live checklist still to run. |
-| `docs/ROUTING.md` | v1.4 filter routing: SERIES / PARALLEL / HYBRID, parallel levels, how the sum works. |
-| `docs/CHAIN.md` | v1.3 processing chain: modules, reordering, detector sourcing, gain staging, latency, limitations. |
-| `docs/BPF.md` | v1.2 band-pass engine: architectures, models, native/derived matrix, sources. |
-| `docs/MODELS.md` | The six models, the capability matrix, approximations and limitations, and how to add a model. |
-| `docs/PARAMETERS.md` | All 20 parameters, automation names, CHARACTER per model, MIDI-mapping tips. |
-| `docs/ARCHITECTURE.md` | Signal flow, filter topologies, smoothing, state handling, CPU strategy. |
-| `docs/VALIDATION.md` | Validation report with frequency-response plots, tables, CPU benchmark and a manual test checklist for Live. |
-| `source/`, `build.sh` | Generator, transpiler/checker, test harness, device builder. |
+---
+
+The device is made for the big resonant low-pass sweep, the sudden bass drop and instant return, and the screaming feedback ride, all with hands-on control. It has three filter engines with 16 analogue-inspired models between them, which you can route in series, in parallel or both. After them comes a reorderable chain of tube, opto and VCA dynamics, with a gate and an external sidechain.
+
+- **Real models, no substitution.** Each model runs its own engine, built from the published circuit analysis of its namesake. At low levels each one matches its circuit's analogue transfer function to within 0.05 dB.
+- **Click-free while playing.** Every control is smoothed per sample. Changes of model, slope, order, routing and chain order crossfade.
+- **Transparent when open.** With the LPF fully up and the HPF fully down, the stage crossfades to the dry signal.
+- **Sets and automation keep working.** Each release is checked so that Live Sets, presets, automation and MIDI maps from earlier versions load unchanged.
+
+## Quick start
+
+1. Download or clone this repository.
+2. Keep **`DubFilter.amxd`** and the three **`df_*.js`** files together in one folder.
+3. Drag `DubFilter.amxd` onto an audio track in Ableton Live 12.
+4. Sweep **LPF Cut**, and you're dubbing.
+
+If the device won't load, see [docs/INSTALL.md](docs/INSTALL.md). To share the device as a single file, open it in the Max editor and choose **Freeze Device**, which embeds the `.js` files.
 
 ## The instrument
 
-- **LOW-PASS** (amber) and **HIGH-PASS** (copper) stages, each with a large CUTOFF knob, RESONANCE, DRIVE, COMP, a model-specific CHARACTER knob, a 12/24/36/48 dB slope selector and ON.
-- **Models:** 01 Sherman Filterbank · 02 Korg 35 / MS-20 · 03 Moog-style Ladder · 04 Steiner-Parker · 05 Oberheim SEM · 06 TB-303 Diode (LPF only). Each is built from the published circuit or circuit analysis of its namesake (sources in MODELS.md), and each matches its circuit's transfer function to within 0.05 dB. The HPF menu has no 303, and the ladder's highpass is labelled "ALT pole-mix" in the menu.
-- **BAND-PASS** (brass, v1.2): Model (SEM, Steiner-Parker, Korg 35/MS-20, ARP 2600, EMS VCS3), Architecture (SVF / CASCADE / MULTIMODE), CENTRE, BW, Q, RES, DRIVE, COMP, MIX, POST/PRE position. Off by default.
-- **PROCESSING CHAIN** (v1.3): three draggable blocks (TUBE, OPTO, VCA) with ON, IN/OUT meters and GR, any of the six orders (WARM DUB / PUNCH & COLOUR / FINAL COLOUR as starting points), a GATE, KEY LISTEN, a KEY FROM external key, and an EDIT page for each module's controls. Everything is off by default.
-- **FILTER ROUTING** (v1.4): run the LPF, HPF and BPF in SERIES (default), PARALLEL (summed, with a level per path) or HYBRID (LP/HP in series, BPF in parallel). A live signal-flow readout shows the result.
-- **Centre strip:** stage ORDER (LP>HP / HP>LP), 1x/2x OVERSAMPLE, OUTPUT, SOFT CLIP.
-- **OPEN zones:** LPF fully clockwise or HPF fully anticlockwise crossfades that stage to the dry signal, so "both open" is transparent.
-- Every control is smoothed per sample. Model, slope, order and oversampling changes are click-free during playback.
+<img src="docs/media/section_filters.png" alt="LOW-PASS, DUB FILTER and HIGH-PASS sections" width="100%">
+
+### Low-pass & high-pass
+
+The LPF and HPF have the same layout:
+- a large cutoff knob
+- Resonance, Drive and Compensation
+- a **Character** knob whose job changes with the model
+- slope: 12 / 24 / 36 / 48 dB per octave
+- an ON switch
+
+| # | Model | LPF | HPF | Character knob |
+|---|---|:-:|:-:|---|
+| 01 | Sherman Filterbank | ✓ | ✓ | Feedback |
+| 02 | Korg 35 / MS-20 | ✓ | ✓ | FB Clip |
+| 03 | Moog-style ladder | ✓ | ✓ (ALT pole-mix) | Stage Sat |
+| 04 | Steiner-Parker | ✓ | ✓ | BP Blend |
+| 05 | Oberheim SEM | ✓ | ✓ | Notch Morph |
+| 06 | TB-303 diode ladder | ✓ | — | Squelch |
+
+The **centre strip** has two groups:
+- **Routing:** the stage order, LP>HP or HP>LP.
+- **Processing:** 1x/2x oversampling, output level and the soft clipper.
+
+### Band-pass
+
+<img src="docs/media/section_bandpass.png" alt="BAND-PASS section" width="58%"> <img src="docs/media/bpf_architectures_glyphs.png" alt="SVF, CASCADE and MULTIMODE topology glyphs" width="38%">
+
+There are five models: Oberheim SEM, Steiner-Parker, Korg 35 / MS-20, ARP 2600 and EMS VCS3. The ARP and EMS models are labelled *derived*, because those instruments have no native band-pass mode.
+
+Each model can run as one of three structures, and each structure reads different width controls. The panel dims any control the current structure doesn't use, and the glyph beside it shows the structure:
+
+| Structure | How it works | Width controls it reads |
+|---|---|---|
+| SVF | A 2-pole state-variable filter | Q only |
+| CASCADE | A 2-pole high-pass feeding a 2-pole low-pass | Bandwidth and Q |
+| MULTIMODE | A 4-pole ladder with its poles mixed | Bandwidth only |
+
+The band-pass also has Mix and a PRE/POST position for series routing.
+
+### Processing chain
+
+<img src="docs/media/section_chain.png" alt="PROCESSING CHAIN with VCA > TUBE > OPTO order" width="100%">
+
+**TUBE, OPTO and VCA** can run in any of the six possible orders:
+- **TUBE:** triode saturation, 2× oversampled, with auto gain.
+- **OPTO:** inspired by the LA-2A, using a model of its T4 optical cell.
+- **VCA:** inspired by the API 2500, with Thrust and NEW/OLD detector types.
+
+To change the order, drag a block's grip or pick from the menu. Three buttons give suggested starting orders, and the matching one lights up:
+
+| Button | Order |
+|---|---|
+| WARM DUB | TUBE → OPTO → VCA |
+| PUNCH & COLOUR | VCA → TUBE → OPTO |
+| FINAL COLOUR | OPTO → VCA → TUBE |
+
+A **GATE** follows the chain. The opto, the VCA and the gate can each be keyed from their own input, from the chain input, or from an **external sidechain** track. **Key Listen** lets you hear any of the three detectors.
+
+### Filter routing
+
+<img src="docs/media/routing_modes.png" alt="Routing diagrams for SERIES, PARALLEL and HYBRID" width="70%">
+
+| Mode | Signal path |
+|---|---|
+| **SERIES** (default) | The filters are chained. The BPF goes before or after LP/HP. |
+| **PARALLEL** | LP, HP and BP all take the input and are summed, each with its own level. |
+| **HYBRID** | LP/HP in series, with the BPF added in parallel. |
+
+The diagram is drawn from the same state the engine uses, and it marks bypassed stages.
+
+## Signal flow
+
+```mermaid
+flowchart LR
+    IN([Audio in]) --> FR
+    subgraph FR [Filter routing · SERIES / PARALLEL / HYBRID]
+        direction LR
+        LP[Low-pass<br/>6 models] --- HP[High-pass<br/>5 models] --- BP[Band-pass<br/>5 models × 3 structures]
+    end
+    FR --> CH
+    subgraph CH [Processing chain · any of 6 orders]
+        direction LR
+        T[TUBE] --- O[OPTO] --- V[VCA]
+    end
+    CH --> G[GATE] --> OUT[Output + soft clip] --> OUTX([Audio out])
+    KEY([External key<br/>sidechain]) -.-> O & V & G
+```
 
 ## Classic moves
-- **The drop:** HPF to about 300–600 Hz on the downbeat, back to OPEN on the "one". Map it to a pad (see PARAMETERS.md).
-- **The long sweep:** Ladder or Sherman LPF, Resonance 60–80 %, a slow sweep from OPEN to 200 Hz over a few bars.
-- **The scream:** Sherman with FEEDBACK at 40–70 %, resonance just under self-oscillation. Ride the cutoff.
-- **MS-20 rig:** both stages on K35, Order HP>LP, resonance up on both. Narrow the band and sweep.
+
+| Move | How |
+|---|---|
+| **The drop** | HPF to about 300–600 Hz on the downbeat, back to OPEN on the "one". Map it to a pad. |
+| **The long sweep** | Ladder or Sherman LPF, Resonance 60–80 %. Sweep slowly from OPEN down to 200 Hz over a few bars. |
+| **The scream** | Sherman with Feedback at 40–70 % and resonance just under self-oscillation. Ride the cutoff. |
+| **MS-20 rig** | Both stages on K35, order HP>LP, resonance up on both. Narrow the band and sweep. |
+| **Dub split** | PARALLEL: the LPF on the bass weight, and the BPF swept through the mids at −6 dB. |
+| **Warm bus** | WARM DUB order: tube colour, then the opto gently levelling, then the VCA catching peaks. |
+
+## Documentation
+
+| Topic | Document |
+|---|---|
+| Installing, and what to do if the device won't load | [INSTALL.md](docs/INSTALL.md) |
+| Interface: design system, components, the dimming rules, a map of all 79 parameters | [UI.md](docs/UI.md) |
+| LPF/HPF models, capability matrix, sources | [MODELS.md](docs/MODELS.md) |
+| Band-pass engine: structures, native and derived models | [BPF.md](docs/BPF.md) |
+| Filter routing and how the parallel sum works | [ROUTING.md](docs/ROUTING.md) |
+| Processing chain: modules, reordering, sidechain, latency | [CHAIN.md](docs/CHAIN.md) |
+| LPF/HPF parameters, Character per model, MIDI-mapping tips | [PARAMETERS.md](docs/PARAMETERS.md) |
+| Engine internals: topologies, smoothing, state, CPU | [ARCHITECTURE.md](docs/ARCHITECTURE.md) |
+| DSP validation: plots, tables, CPU benchmark | [VALIDATION.md](docs/VALIDATION.md) |
+| UI validation and the in-Live checklist | [UI_VALIDATION.md](docs/UI_VALIDATION.md) |
+| Release history | [CHANGELOG.md](CHANGELOG.md) |
+
+## Building from source
+
+The device is generated, not hand-patched. `./build.sh` regenerates everything and stops at the first failure. It needs Python 3 with numpy and matplotlib, a C compiler, Node.js and `rsvg-convert`. In order, it:
+
+1. Generates the GenExpr engine (`source/src/`).
+2. Transpiles the engine to C and statically checks it (`source/tools/genexpr2c.py`).
+3. Runs the exact shipped gen~ code offline against bit-exact golden renders.
+4. Runs the 95 DSP checks.
+5. Builds `DubFilter.amxd` and `DubFilter.maxpat`.
+6. Checks compatibility with every earlier release.
+7. Runs the 47 UI checks.
+8. Renders the previews.
+
+```
+.
+├── DubFilter.amxd / .maxpat   the device
+├── df_*.js                    jsui components (keep beside the device)
+├── docs/                      documentation, validation plots, renders
+└── source/
+    ├── src/                   engine generator: filters, BPF, dynamics, routing
+    ├── device/                patch builder, design tokens, jsui sources, preview renderer
+    ├── tools/                 GenExpr→C transpiler, jsui simulator, filter design
+    └── tests/                 golden renders, validation suites, compatibility snapshots
+```
 
 ## Status
-The DSP was validated offline by running the exact gen~ code: 95 of 95 checks pass. They include bit-exact regression of the v1.1 LPF/HPF, v1.2 BPF and v1.3 dynamics engines, exact parallel/hybrid filter sums, all six chain orders and all 30 live reorders, and sidechain and gate behaviour (see VALIDATION.md). The chain UI's drag/move/page logic is verified statically, not yet run in Max. The device file itself has **not yet been opened in Max or Live**. Please run the short manual checklist at the end of VALIDATION.md on first use. v1.5 changed only the interface: the gen~ code is byte-identical to v1.4. Its 47 offline UI checks pass, and its Max/Live checklist is in UI_VALIDATION.md.
 
-The models are inspired by the named instruments. They are not affiliated with, endorsed by, or claimed to be equivalent to products of Sherman, Korg, Moog, Steiner-Parker, Oberheim, Roland, ARP, EMS, Teletronix/Universal Audio or API.
+| Area | State |
+|---|---|
+| DSP engine | 95/95 offline checks pass, running the exact gen~ code. Earlier engines are bit-exact against v1.1–v1.4. |
+| Compatibility | Every parameter, connection and gen~ Param is intact against all earlier releases. |
+| Interface (v1.5) | 47/47 offline checks pass: structure, wiring, layout, contrast, and the component code run outside Max. |
+| **In Max / Live** | **Not yet opened in Max or Live.** Please run the checklists in [VALIDATION.md](docs/VALIDATION.md) and [UI_VALIDATION.md](docs/UI_VALIDATION.md) on first use, and open an issue with what you find. |
+
+The panel images on this page are approximate renders generated from the patch file. They are not Max screenshots.
+
+---
+
+<sub>The models are inspired by the named instruments. They are not affiliated with, endorsed by, or claimed to be equivalent to products of Sherman, Korg, Moog, Steiner-Parker, Oberheim, Roland, ARP, EMS, Teletronix/Universal Audio or API. All trademarks belong to their owners.</sub>
