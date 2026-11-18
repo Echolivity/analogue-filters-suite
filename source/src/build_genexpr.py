@@ -15,6 +15,7 @@ import os, sys, math
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(HERE, "..", "tools"))
 from hiir_design import coefs as hiir_coefs
+import bpf  # v1.2 band-pass engine (separate module)
 
 HIIR = hiir_coefs(10, 0.0227)
 
@@ -392,6 +393,9 @@ def build():
     P("ovs_sel", 0, 0, 1)
     P("out_db", 0, -24, 12)
     P("softclip", 1, 0, 1)
+    # v1.2: band-pass engine parameters (appended; existing parameters unchanged)
+    for (n, d, lo, hi) in bpf.params():
+        P(n, d, lo, hi)
 
     # ----- state declarations -----
     statevars = []   # local names mirrored from histories
@@ -415,6 +419,9 @@ def build():
                 for z in range(6):
                     SV(f"os_{c}_{d}{p}{z}")
         SV(f"dc_{c}_x"); SV(f"dc_{c}_y")
+    bpf_sv = []
+    def SVB(name):  # v1.2 BPF state (registered after all existing state)
+        bpf_sv.append(name)
 
     # smoothed control histories (not reset with filter state)
     ctrl = []
@@ -432,6 +439,9 @@ def build():
         CV(f"{s}_fade", 1)
     for n, i in (("cur_order", 0), ("cur_os", 0), ("duck", 1), ("og", 1), ("init", 0)):
         CV(n, i)
+    bpf.register_state(SVB, CV)
+    for v in bpf_sv:
+        SV(v)
 
     # ======================= main body ==========================
     w = G.w
@@ -547,19 +557,25 @@ def build():
             w("}")
         w()
 
+    bpf.emit_controls(w, G)
+
     # ---- duck / config switching ----
     w("// ================= order / oversampling switching (duck) =================")
     w("cfg_o = order_sel > 0.5 ? 1 : 0;")
     w("cfg_s = ovs_sel > 0.5 ? 1 : 0;")
-    w("pend = (cfg_o != cur_order || cfg_s != cur_os) ? 1 : 0;")
+    w("cfg_p = b_pos > 0.5 ? 1 : 0;")
+    w("b_cur_pos = H_b_cur_pos;")
+    w("pend = (cfg_o != cur_order || cfg_s != cur_os || cfg_p != b_cur_pos) ? 1 : 0;")
     w("duck = H_duck;")
     w("duck = pend > 0.5 ? max(0, duck - dstep) : min(1, duck + dstep);")
     w("new_order = cur_order;")
     w("new_os = cur_os;")
+    w("new_pos = b_cur_pos;")
     w("rst = 0;")
     w("if (pend > 0.5 && duck <= 0) {")
     w("\tnew_order = cfg_o;")
     w("\tnew_os = cfg_s;")
+    w("\tnew_pos = cfg_p;")
     w("\trst = cfg_s != cur_os ? 1 : 0;")
     w("}")
     w()
@@ -640,6 +656,11 @@ def build():
             w("if (ovs > 1.5) {")
             G.ind += 1
         w(f"// ================= processing chain, subsample {sub} =================")
+        w("if (b_cur_pos > 0.5) {")  # v1.2: BPF before the LPF/HPF chain
+        G.ind += 1
+        bpf.emit_process(w, G, {ch: f"x{sub}_{ch}" for ch in CH}, {ch: f"x{sub}_{ch}" for ch in CH})
+        G.ind -= 1
+        w("}")
         for ch in CH:
             w(f"hy{sub}_{ch} = 0;")
         w("if (cur_order > 0.5) {")
@@ -657,6 +678,11 @@ def build():
         emit_stage(hst, sub, {ch: f"ly{sub}_{ch}" for ch in CH})
         for ch in CH:
             w(f"z{sub}_{ch} = hy{sub}_{ch};")
+        G.ind -= 1
+        w("}")
+        w("if (b_cur_pos < 0.5) {")  # v1.2: BPF after the LPF/HPF chain (default)
+        G.ind += 1
+        bpf.emit_process(w, G, {ch: f"z{sub}_{ch}" for ch in CH}, {ch: f"z{sub}_{ch}" for ch in CH})
         G.ind -= 1
         w("}")
         if sub == "b":
@@ -722,6 +748,9 @@ def build():
     w("H_duck = duck;")
     w("H_og = og;")
     w("H_init = 1;")
+    for n in bpf.ctrl_names():
+        w(f"H_{n} = {n};")
+    w("H_b_cur_pos = new_pos;")
 
     # ---- assemble ----
     out = []
@@ -735,6 +764,7 @@ def build():
     for (n, init) in G.hist:
         out.append(f"History {n}({init!r});")
     out.append(LIB)
+    out.append(bpf.LIB)
     out.extend(G.lines)
     return "\n".join(out) + "\n", params
 

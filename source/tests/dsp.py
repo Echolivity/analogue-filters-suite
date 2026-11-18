@@ -36,3 +36,12 @@ def tf(params, sr=48000, n=1<<16, pre=None, level=1e-3, seed=1):
     y = run(x, params, sr)[pre:, 0]; x = x[pre:]
     f, pxy = csd(x, y, fs=sr, nperseg=8192); _, pxx = welch(x, fs=sr, nperseg=8192)
     return f, pxy / pxx
+BP_MODELS = ["SEM", "Steiner-Parker", "K35/MS-20", "ARP 2600", "EMS VCS3"]
+BP_ARCHS = ["SVF", "CASCADE", "MULTIMODE"]
+
+def bpf(**kw):
+    """BPF alone (LPF/HPF off)."""
+    glob = {"softclip", "out_db", "order_sel", "ovs_sel"}
+    d = dict(b_on=1)
+    d.update({(k if (k.startswith(("b_", "l_", "h_")) or k in glob) else "b_" + k): v for k, v in kw.items()})
+    return base(**d)
