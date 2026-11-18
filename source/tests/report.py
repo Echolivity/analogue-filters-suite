@@ -146,10 +146,39 @@ w("\n### CPU with the BPF\n\n| Configuration | % of one core at 48 kHz |\n|---|-
 for r in cp["rows"]:
     w(f"| {r['config']} | {r['pct_of_one_core_48k']} % |")
 w("")
+w("## v1.3 — Dynamics chain\n")
+w("Regression gates: the v1.1 LPF/HPF golden renders (48) and the v1.2 BPF golden renders (35, captured with the v1.2 engine before any v1.3 change) are reproduced bit for bit. The patch compatibility check passes against both the v1.1 and v1.2 device snapshots. Every v1.2 check above produces the same numbers as the v1.2 report.\n")
+w("![six orders](validation/chain_orders.png)\n")
+def table(prefix, cols, heads):
+    t = find(prefix)
+    w("| " + " | ".join(heads) + " |\n|" + "---|" * len(heads))
+    for r in t["rows"]:
+        w("| " + " | ".join(str(r[c]) for c in cols) + " |")
+    w("")
+w("### Six processing orders (all modules on, same settings, same input)\n")
+table("CHAIN: all six", ["order", "out_level_dbfs", "peak_dbfs", "opto_gr_db", "vca_gr_db"], ["Order", "Output level dBFS", "Peak dBFS", "Opto GR (median dB)", "VCA GR (median dB)"])
+w("### Real-time reordering (all 30 transitions, −6 dBFS 110 Hz sine)\n")
+table("CHAIN: real-time", ["transition", "hf_burst_dbfs"], ["Transition", ">8 kHz burst (dBFS)"])
+w("### Gain staging at extreme settings\n")
+table("GAIN STAGING: extreme", ["order", "max_internal_dbfs", "out_peak_dbfs"], ["Order", "Highest internal level", "Output peak"])
+w("### Tube\n")
+table("TUBE:", ["drive", "bias", "thd_pct", "h2_db", "h3_db"], ["Drive %", "Bias", "THD %", "H2 dB", "H3 dB"])
+w("### Opto (LA-2A-inspired)\n")
+table("OPTO: static", ["mode", "peak_reduction", "out_dbfs", "ratio_top"], ["Mode", "Peak Reduction", "Output for −30/−20/−10/0 dBFS in", "Ratio (top 10 dB)"])
+table("OPTO: T4", ["burst_s", "gr_db", "attack_63_ms", "release_50_ms", "release_to_1dB_s"], ["Burst", "GR dB", "Attack (63 %) ms", "Release to 50 % ms", "Release to < 1 dB s"])
+w("The attack figure is the 63 % rise of gain reduction inside the feedback loop. The cell's own attack constant is 10 ms, the figure the sources quote.\n")
+w("### VCA (API 2500-inspired)\n")
+table("VCA: static", ["ratio", "expected_dbfs", "measured_dbfs"], ["Ratio", "Expected out dBFS", "Measured"])
+table("VCA: knee", ["knee", "gr_at_threshold_db"], ["Knee", "GR exactly at threshold (dB)"])
+table("VCA: attack", ["attack_setting_ms", "measured_63_ms"], ["Attack setting (ms)", "Measured 63 % rise (ms)"])
+w("### Latency\n")
+table("LATENCY", ["module", "peak_offset_samples", "group_delay_1k_samples"], ["Item", "Impulse peak offset (samples)", "Group delay at 1 kHz (samples) / value"])
+w("### CPU with the dynamics chain\n")
+table("CPU with the dynamics", ["config", "pct_of_one_core_48k"], ["Configuration", "% of one core at 48 kHz"])
 w("## Manual test checklist (in Live)\n")
 for item in [
     "Device loads without errors in the Max console (Max window). The gen~ object compiles (no red error bar).",
-    "All 31 parameters appear in Live's automation chooser with the names listed in PARAMETERS.md.",
+    "All 75 parameters appear in Live's automation chooser with the names listed in PARAMETERS.md.",
     "Turn LPF CUTOFF fully clockwise and HPF CUTOFF fully anticlockwise: the signal should be audibly identical to the device bypassed.",
     "MIDI-map LPF CUTOFF and HPF CUTOFF (Cmd/Ctrl+M) to a controller and sweep fast: no zipper noise.",
     "Draw automation on LPF Cutoff and play it back: smooth sweep.",
@@ -161,6 +190,12 @@ for item in [
     "Open a Live Set saved with v1.1, swap in v1.2 (or replace the file): the LPF/HPF settings, automation and MIDI maps carry over and the BPF is off.",
     "BPF: switch it on, sweep BPF Centre, change Model and Architecture during playback (about 25 ms crossfade, no click), switch POST/PRE (8 ms dip).",
     "BPF: MIDI-map BPF Centre and BPF Mix; automate BPF Centre.",
+    "Open a Live Set saved with v1.1 or v1.2: filter settings, automation and MIDI maps carry over; all dynamics modules and the gate are off.",
+    "PROCESSING CHAIN: drag a block's grip left or right and release; the block moves 1 or 2 slots and Chain Order updates. Try the three preset buttons and the Chain Order menu.",
+    "Reorder during playback with all three modules on (25 ms crossfade, no click). Automate Chain Order.",
+    "EDIT page tabs show the TUBE / OPTO / VCA / GATE controls; hidden pages stay automatable.",
+    "External key: choose a track in the KEY FROM selector; set Opto, VCA or Gate source to EXT; the EXT KEY meter moves; KEY LISTEN plays the detector signal.",
+    "Meters: block IN/OUT meters and GR readouts respond; GATE OPEN meter follows the gate.",
 ]:
     w(f"- [ ] {item}")
 open(os.path.join(D, "VALIDATION.md"), "w").write("\n".join(L) + "\n")

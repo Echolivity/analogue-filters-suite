@@ -8,8 +8,11 @@ still wired to the same gen~ Param. This script verifies exactly that, plus
 that the v1.1 gen~ Params keep their names, defaults and ranges."""
 import json, re, sys, os
 HERE = os.path.dirname(os.path.abspath(__file__))
-old = json.load(open(os.path.join(HERE, "baseline", "DubFilter_v1.1.maxpat")))["patcher"]
-new = json.load(open(sys.argv[1] if len(sys.argv) > 1 else os.path.join(HERE, "..", "build", "device", "DubFilter.maxpat")))["patcher"]
+args = [a for a in sys.argv[1:] if not a.startswith("--base=")]
+base_name = next((a[7:] for a in sys.argv[1:] if a.startswith("--base=")), "DubFilter_v1.1.maxpat")
+old = json.load(open(os.path.join(HERE, "baseline", base_name)))["patcher"]
+new = json.load(open(args[0] if args else os.path.join(HERE, "..", "build", "device", "DubFilter.maxpat")))["patcher"]
+GEN_IO = {"patcher", "numinlets", "numoutlets", "outlettype"}  # v1.3: gen~ gains key inlets + meter outlets
 ob = {b["box"]["id"]: b["box"] for b in old["boxes"]}
 nb = {b["box"]["id"]: b["box"] for b in new["boxes"]}
 problems, notes = [], []
@@ -18,9 +21,15 @@ for i, b in ob.items():
         problems.append(f"missing box {i}"); continue
     n = nb[i]
     if b.get("text") == "gen~":
-        if {k: v for k, v in b.items() if k != "patcher"} != {k: v for k, v in n.items() if k != "patcher"}:
+        if {k: v for k, v in b.items() if k not in GEN_IO} != {k: v for k, v in n.items() if k not in GEN_IO}:
             problems.append("gen~ box attributes changed")
-        notes.append("gen~ engine code extended (expected)")
+        if n["numinlets"] < b["numinlets"] or n["numoutlets"] < b["numoutlets"]:
+            problems.append("gen~ lost inlets/outlets")
+        oi = {json.dumps(x["box"].get("text")) for x in b["patcher"]["boxes"]}
+        ni = {json.dumps(x["box"].get("text")) for x in n["patcher"]["boxes"]}
+        if not oi <= ni:
+            problems.append("gen~ inner in/out objects missing")
+        notes.append(f"gen~ engine code extended; inlets {b['numinlets']}->{n['numinlets']}, outlets {b['numoutlets']}->{n['numoutlets']} (expected)")
         continue
     if b != n:
         diff = [k for k in set(b) | set(n) if b.get(k) != n.get(k)]
@@ -45,7 +54,7 @@ added = [p for p in newp if p not in oldp]
 dups = len(newp) - len(set(newp))
 if dups:
     problems.append(f"{dups} duplicate parameter names")
-print(f"v1.1 boxes checked: {len(ob)}  connections: {len(ol)}  parameters: {len(oldp)}")
+print(f"[{base_name}] boxes checked: {len(ob)}  connections: {len(ol)}  parameters: {len(oldp)}")
 print(f"new parameters ({len(added)}): {', '.join(added)}")
 for n_ in notes:
     print("note:", n_)

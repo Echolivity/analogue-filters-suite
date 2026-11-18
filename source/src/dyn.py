@@ -52,7 +52,8 @@ PARAMS = [
     ("g_lpf", 20000, 200, 20000),
 ]
 
-TUBE_ST = [f"up{p}{i}" for p in "ab" for i in range(6)] + [f"dn{p}{i}" for p in "ab" for i in range(6)] + ["ton", "dcx", "dcy"]
+TUBE_ST = [f"up{p}{i}" for p in "ab" for i in range(6)] + [f"dn{p}{i}" for p in "ab" for i in range(6)] + ["ton", "dcx", "dcy"] + \
+          [f"dd{p}{i}" for p in "ab" for i in range(6)]  # phase-matched dry path (same up/down filters, no shaping)
 OPTO_ST = ["lt", "cf", "cs", "mem", "yp", "hp", "he"]
 VCA_ST = ["hp", "t1", "t2", "ms", "gr", "yp"]
 LANE_ST = {"T": TUBE_ST, "O": OPTO_ST, "V": VCA_ST}
@@ -192,9 +193,10 @@ def emit_controls(w, G):
     w("g_Ghp = g_ghp / (1 + g_ghp);")
     w("g_glp = tan(pi * min(clamp(g_lpf, 200, 20000), 0.45 * fs) / fs);")
     w("g_Glp = g_glp / (1 + g_glp);")
-    w("g_dec = exp(-1 / (0.010 * fs));")
-    w("g_aat = 1 - exp(-1 / (0.001 * clamp(g_att, 0.1, 50) * fs));")
-    w("g_are = 1 - exp(-1 / (0.001 * clamp(g_rel, 5, 2000) * fs));")
+    w("g_dec = exp(-1 / (0.030 * fs));")                     # key envelope decay (low ripple -> clean hysteresis)
+    w("g_rdb = -clamp(g_range, -80, 0) + 0.0001;")             # gain moves in dB: Attack/Release = full open/close time
+    w("g_sat = g_rdb / (0.001 * clamp(g_att, 0.1, 50) * fs);")
+    w("g_sre = g_rdb / (0.001 * clamp(g_rel, 5, 2000) * fs);")
     w("g_hs = 0.001 * clamp(g_hold, 0, 500) * fs;")
     w("g_floor = exp(0.11512925465 * clamp(g_range, -80, 0));")
     # key listen
@@ -281,10 +283,17 @@ def emit_tube(w, G, ln, xin, xout, meter):
         w(f"tpa, {', '.join(da)} = f_ap5(tlb, {', '.join(da)}, {', '.join(repr(c) for c in CA)});")
         w(f"tpb, {', '.join(db_)} = f_ap5(tla, {', '.join(db_)}, {', '.join(repr(c) for c in CB)});")
         w(f"ty = 0.5 * (tpa + tpb) * t_ko;")
+        # dry path through the identical up/down filter pair -> wet/dry mix without comb filtering
+        dda = [s(ch, f"dda{i}") for i in range(6)]
+        ddb = [s(ch, f"ddb{i}") for i in range(6)]
+        w(f"tqa, {', '.join(dda)} = f_ap5(tub, {', '.join(dda)}, {', '.join(repr(c) for c in CA)});")
+        w(f"tqb, {', '.join(ddb)} = f_ap5(tua, {', '.join(ddb)}, {', '.join(repr(c) for c in CB)});")
+        w(f"tdr = 0.5 * (tqa + tqb) / max(dz_t_gi, 1e-9);")
         w(f"tdy = ty - {s(ch, 'dcx')} + t_dcr * {s(ch, 'dcy')};")
         w(f"{s(ch, 'dcx')} = ty;")
         w(f"{s(ch, 'dcy')} = fixdenorm(tdy);")
-        w(f"{xout[ch]} = {xin[ch]} + dz_t_w * dz_t_mx * (tdy * dz_t_go - {xin[ch]});")
+        w(f"tbl = tdr + dz_t_mx * (tdy * dz_t_go - tdr);")
+        w(f"{xout[ch]} = {xin[ch]} + dz_t_w * (tbl - {xin[ch]});")
     w(f"{meter}_tin = max(abs(tu_L), abs(tu_R));")
     w(f"{meter}_tout = max(abs({xout['L']}), abs({xout['R']}));")
     G.ind -= 1
@@ -443,11 +452,12 @@ def emit_chain(w, G, src, dst):
     w("\t\tdg_open = 0;")
     w("\t}")
     w("}")
-    w("gtg = dg_open > 0.5 ? 1 : g_floor;")
-    w("dg_g = fixdenorm(dg_g + (gtg - dg_g) * (gtg > dg_g ? g_aat : g_are));")
+    w("gtd = dg_open > 0.5 ? 0 : -g_rdb;")
+    w("dg_g = gtd > dg_g ? min(gtd, dg_g + g_sat) : max(gtd, dg_g - g_sre);")   # dg_g holds the gate gain in dB
+    w("gg = dg_open > 0.5 || dg_g > -g_rdb + 0.001 ? exp(0.11512925465 * dg_g) : g_floor;")
     for ch in CH:
-        w(f"{dst[ch]} = {dst[ch]} + dz_g_w * (dst_gated - {dst[ch]});".replace("dst_gated", f"{dst[ch]} * dg_g"))
-    w("dm_g = dg_g;")
+        w(f"{dst[ch]} = {dst[ch]} + dz_g_w * ({dst[ch]} * gg - {dst[ch]});")
+    w("dm_g = gg;")
     G.ind -= 1
     w("}")
     # ---------------- key listen

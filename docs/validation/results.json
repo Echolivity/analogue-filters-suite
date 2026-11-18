@@ -2849,39 +2849,39 @@
   {
    "name": "CPU benchmark (transpiled C, gcc -O2, this machine)",
    "passed": true,
-   "detail": "Both stages off (pass-through): 2.34%; Default device (Ladder LPF 24 dB + K35 HPF), 1x: 3.09%; Diode LPF 48 dB + Sherman HPF 48 dB, 1x: 4.29%; Default device, 2x oversampling: 4.05%; Worst case: Diode+Sherman 48 dB, 2x, both mid-crossfade: 7.26%",
+   "detail": "Both stages off (pass-through): 3.62%; Default device (Ladder LPF 24 dB + K35 HPF), 1x: 4.41%; Diode LPF 48 dB + Sherman HPF 48 dB, 1x: 5.55%; Default device, 2x oversampling: 5.85%; Worst case: Diode+Sherman 48 dB, 2x, both mid-crossfade: 10.41%",
    "rows": [
     {
      "config": "Both stages off (pass-through)",
-     "ns_per_frame": 487.6,
-     "pct_of_one_core_48k": 2.34
+     "ns_per_frame": 754.6,
+     "pct_of_one_core_48k": 3.62
     },
     {
      "config": "Default device (Ladder LPF 24 dB + K35 HPF), 1x",
-     "ns_per_frame": 644.3,
-     "pct_of_one_core_48k": 3.09
+     "ns_per_frame": 919.2,
+     "pct_of_one_core_48k": 4.41
     },
     {
      "config": "Diode LPF 48 dB + Sherman HPF 48 dB, 1x",
-     "ns_per_frame": 893.6,
-     "pct_of_one_core_48k": 4.29
+     "ns_per_frame": 1156.8,
+     "pct_of_one_core_48k": 5.55
     },
     {
      "config": "Default device, 2x oversampling",
-     "ns_per_frame": 844.6,
-     "pct_of_one_core_48k": 4.05
+     "ns_per_frame": 1218.9,
+     "pct_of_one_core_48k": 5.85
     },
     {
      "config": "Worst case: Diode+Sherman 48 dB, 2x, both mid-crossfade",
-     "ns_per_frame": 1513.3,
-     "pct_of_one_core_48k": 7.26
+     "ns_per_frame": 2169.2,
+     "pct_of_one_core_48k": 10.41
     }
    ]
   },
   {
    "name": "Denormals: decay tails flush to zero; silence costs no more than signal",
    "passed": true,
-   "detail": "silence/signal CPU ratio 0.84"
+   "detail": "silence/signal CPU ratio 1.07"
   },
   {
    "name": "DC offset at output with asymmetric saturation (drive 100%, hot input)",
@@ -2927,7 +2927,7 @@
   {
    "name": "REGRESSION: v1.1 presets/automation/MIDI maps \u2014 every v1.1 object, connection and gen~ Param unchanged",
    "passed": true,
-   "detail": "COMPATIBLE \u2014 new parameters (11): BPF On, BPF Model, BPF Architecture, BPF Centre, BPF Bandwidth, BPF Q, BPF Resonance, BPF Drive, BPF Compensation, BPF Mix, BPF Position"
+   "detail": "COMPATIBLE \u2014 new parameters (55): BPF On, BPF Model, BPF Architecture, BPF Centre, BPF Bandwidth, BPF Q, BPF Resonance, BPF Drive, BPF Compensation, BPF Mix, BPF Position, Chain Order, Key Listen, Tube On, Opto On, VCA On, Gate On, Tube Input, Tube Drive, Tube Bias, Tube Tone, Tube Mix, Tube Output, Tube Auto Gain, Opto Input, Opto Peak Reduction, Opto HF Emphasis, Opto SC HPF, Opto Link, Opto Mix, Opto Gain, Opto Mode, Opto SC Source, VCA Input, VCA Threshold, VCA Release, VCA SC HPF, VCA Link, VCA Mix, VCA Output, VCA Ratio, VCA Attack, VCA Knee, VCA Thrust, VCA Type, VCA Auto Makeup, VCA SC Source, Gate Threshold, Gate Attack, Gate Hold, Gate Release, Gate Range, Gate Key HPF, Gate Key LPF, Gate Key Source"
   },
   {
    "name": "REGRESSION: BPF switched on at Mix 0 is bit-transparent to the LPF/HPF signal (48 scenarios \u00d7 POST/PRE)",
@@ -4221,39 +4221,754 @@
   {
    "name": "CPU with BPF (transpiled C, gcc -O2, this machine)",
    "passed": true,
-   "detail": "v1.1 default device (LPF+HPF), BPF off: 3.11%; + BPF SVF: 3.46%; + BPF CASCADE: 3.7%; + BPF MULTIMODE (ARP): 4.18%; worst: all three, 48 dB slopes, 2x, BPF mid-crossfade: 9.21%",
+   "detail": "v1.1 default device (LPF+HPF), BPF off: 4.54%; + BPF SVF: 4.79%; + BPF CASCADE: 5.05%; + BPF MULTIMODE (ARP): 5.9%; worst: all three, 48 dB slopes, 2x, BPF mid-crossfade: 10.6%",
    "rows": [
     {
      "config": "v1.1 default device (LPF+HPF), BPF off",
-     "ns_per_frame": 647.8,
-     "pct_of_one_core_48k": 3.11
+     "ns_per_frame": 946.4,
+     "pct_of_one_core_48k": 4.54
     },
     {
      "config": "+ BPF SVF",
-     "ns_per_frame": 720.9,
-     "pct_of_one_core_48k": 3.46
+     "ns_per_frame": 996.9,
+     "pct_of_one_core_48k": 4.79
     },
     {
      "config": "+ BPF CASCADE",
-     "ns_per_frame": 769.9,
-     "pct_of_one_core_48k": 3.7
+     "ns_per_frame": 1052.2,
+     "pct_of_one_core_48k": 5.05
     },
     {
      "config": "+ BPF MULTIMODE (ARP)",
-     "ns_per_frame": 870.2,
-     "pct_of_one_core_48k": 4.18
+     "ns_per_frame": 1229.7,
+     "pct_of_one_core_48k": 5.9
     },
     {
      "config": "worst: all three, 48 dB slopes, 2x, BPF mid-crossfade",
-     "ns_per_frame": 1918.8,
-     "pct_of_one_core_48k": 9.21
+     "ns_per_frame": 2209.2,
+     "pct_of_one_core_48k": 10.6
     }
    ]
+  },
+  {
+   "name": "REGRESSION v1.3: LPF/HPF bit-exact vs v1.1 baseline (48 scenarios, dynamics off)",
+   "passed": true,
+   "detail": "48/48 bit-identical"
+  },
+  {
+   "name": "REGRESSION v1.3: BPF bit-exact vs v1.2 baseline (35 scenarios, dynamics off)",
+   "passed": true,
+   "detail": "35/35 bit-identical"
+  },
+  {
+   "name": "REGRESSION v1.3: presets/automation/MIDI of v1.1 devices intact (objects, connections, parameters, gen~ Params)",
+   "passed": true,
+   "detail": "COMPATIBLE \u2014 [DubFilter_v1.1.maxpat] boxes checked: 89  connections: 111  parameters: 20"
+  },
+  {
+   "name": "REGRESSION v1.3: presets/automation/MIDI of v1.2 devices intact (objects, connections, parameters, gen~ Params)",
+   "passed": true,
+   "detail": "COMPATIBLE \u2014 [DubFilter_v1.2.maxpat] boxes checked: 136  connections: 178  parameters: 31"
+  },
+  {
+   "name": "REGRESSION v1.3: Opto+VCA switched on at Mix 0 are bit-transparent (24 filter scenarios); TUBE at Mix 0 passes its phase-matched dry path (see LATENCY)",
+   "passed": true,
+   "detail": "24/24 bit-identical"
+  },
+  {
+   "name": "CHAIN: all six processing orders run (all modules on) \u2014 stable, bounded, audibly distinct, level spread < 6 dB",
+   "passed": true,
+   "detail": "level spread across orders 1.07 dB; TUBE>OPTO>VCA -23.14 dBFS; TUBE>VCA>OPTO -23.29 dBFS; OPTO>TUBE>VCA -22.93 dBFS; OPTO>VCA>TUBE -22.22 dBFS; VCA>TUBE>OPTO -22.64 dBFS; VCA>OPTO>TUBE -22.41 dBFS",
+   "rows": [
+    {
+     "order": "TUBE>OPTO>VCA",
+     "out_level_dbfs": -23.14,
+     "peak_dbfs": -10.33,
+     "opto_gr_db": 6.77,
+     "vca_gr_db": 6.6,
+     "finite": true
+    },
+    {
+     "order": "TUBE>VCA>OPTO",
+     "out_level_dbfs": -23.29,
+     "peak_dbfs": -10.33,
+     "opto_gr_db": 1.9,
+     "vca_gr_db": 11.6,
+     "finite": true
+    },
+    {
+     "order": "OPTO>TUBE>VCA",
+     "out_level_dbfs": -22.93,
+     "peak_dbfs": -10.33,
+     "opto_gr_db": 6.85,
+     "vca_gr_db": 7.05,
+     "finite": true
+    },
+    {
+     "order": "OPTO>VCA>TUBE",
+     "out_level_dbfs": -22.22,
+     "peak_dbfs": -10.33,
+     "opto_gr_db": 6.85,
+     "vca_gr_db": 6.53,
+     "finite": true
+    },
+    {
+     "order": "VCA>TUBE>OPTO",
+     "out_level_dbfs": -22.64,
+     "peak_dbfs": -10.33,
+     "opto_gr_db": 2.15,
+     "vca_gr_db": 11.63,
+     "finite": true
+    },
+    {
+     "order": "VCA>OPTO>TUBE",
+     "out_level_dbfs": -22.41,
+     "peak_dbfs": -10.33,
+     "opto_gr_db": 1.95,
+     "vca_gr_db": 11.63,
+     "finite": true
+    }
+   ]
+  },
+  {
+   "name": "CHAIN: real-time reordering \u2014 all 30 order transitions click-free (>8 kHz burst < \u221260 dBFS on a \u22126 dBFS sine, 25 ms crossfade)",
+   "passed": true,
+   "detail": "worst -120.8 dBFS",
+   "rows": [
+    {
+     "transition": "TUBE>OPTO>VCA -> TUBE>VCA>OPTO",
+     "hf_burst_dbfs": -153.3,
+     "finite": true
+    },
+    {
+     "transition": "TUBE>OPTO>VCA -> OPTO>TUBE>VCA",
+     "hf_burst_dbfs": -130.8,
+     "finite": true
+    },
+    {
+     "transition": "TUBE>OPTO>VCA -> OPTO>VCA>TUBE",
+     "hf_burst_dbfs": -120.8,
+     "finite": true
+    },
+    {
+     "transition": "TUBE>OPTO>VCA -> VCA>TUBE>OPTO",
+     "hf_burst_dbfs": -132.6,
+     "finite": true
+    },
+    {
+     "transition": "TUBE>OPTO>VCA -> VCA>OPTO>TUBE",
+     "hf_burst_dbfs": -120.8,
+     "finite": true
+    },
+    {
+     "transition": "TUBE>VCA>OPTO -> TUBE>OPTO>VCA",
+     "hf_burst_dbfs": -156.7,
+     "finite": true
+    },
+    {
+     "transition": "TUBE>VCA>OPTO -> OPTO>TUBE>VCA",
+     "hf_burst_dbfs": -145.7,
+     "finite": true
+    },
+    {
+     "transition": "TUBE>VCA>OPTO -> OPTO>VCA>TUBE",
+     "hf_burst_dbfs": -120.8,
+     "finite": true
+    },
+    {
+     "transition": "TUBE>VCA>OPTO -> VCA>TUBE>OPTO",
+     "hf_burst_dbfs": -123.6,
+     "finite": true
+    },
+    {
+     "transition": "TUBE>VCA>OPTO -> VCA>OPTO>TUBE",
+     "hf_burst_dbfs": -120.8,
+     "finite": true
+    },
+    {
+     "transition": "OPTO>TUBE>VCA -> TUBE>OPTO>VCA",
+     "hf_burst_dbfs": -141.2,
+     "finite": true
+    },
+    {
+     "transition": "OPTO>TUBE>VCA -> TUBE>VCA>OPTO",
+     "hf_burst_dbfs": -141.1,
+     "finite": true
+    },
+    {
+     "transition": "OPTO>TUBE>VCA -> OPTO>VCA>TUBE",
+     "hf_burst_dbfs": -133.5,
+     "finite": true
+    },
+    {
+     "transition": "OPTO>TUBE>VCA -> VCA>TUBE>OPTO",
+     "hf_burst_dbfs": -153.0,
+     "finite": true
+    },
+    {
+     "transition": "OPTO>TUBE>VCA -> VCA>OPTO>TUBE",
+     "hf_burst_dbfs": -133.5,
+     "finite": true
+    },
+    {
+     "transition": "OPTO>VCA>TUBE -> TUBE>OPTO>VCA",
+     "hf_burst_dbfs": -138.4,
+     "finite": true
+    },
+    {
+     "transition": "OPTO>VCA>TUBE -> TUBE>VCA>OPTO",
+     "hf_burst_dbfs": -138.3,
+     "finite": true
+    },
+    {
+     "transition": "OPTO>VCA>TUBE -> OPTO>TUBE>VCA",
+     "hf_burst_dbfs": -141.0,
+     "finite": true
+    },
+    {
+     "transition": "OPTO>VCA>TUBE -> VCA>TUBE>OPTO",
+     "hf_burst_dbfs": -140.2,
+     "finite": true
+    },
+    {
+     "transition": "OPTO>VCA>TUBE -> VCA>OPTO>TUBE",
+     "hf_burst_dbfs": -150.8,
+     "finite": true
+    },
+    {
+     "transition": "VCA>TUBE>OPTO -> TUBE>OPTO>VCA",
+     "hf_burst_dbfs": -139.2,
+     "finite": true
+    },
+    {
+     "transition": "VCA>TUBE>OPTO -> TUBE>VCA>OPTO",
+     "hf_burst_dbfs": -139.2,
+     "finite": true
+    },
+    {
+     "transition": "VCA>TUBE>OPTO -> OPTO>TUBE>VCA",
+     "hf_burst_dbfs": -139.8,
+     "finite": true
+    },
+    {
+     "transition": "VCA>TUBE>OPTO -> OPTO>VCA>TUBE",
+     "hf_burst_dbfs": -145.4,
+     "finite": true
+    },
+    {
+     "transition": "VCA>TUBE>OPTO -> VCA>OPTO>TUBE",
+     "hf_burst_dbfs": -145.2,
+     "finite": true
+    },
+    {
+     "transition": "VCA>OPTO>TUBE -> TUBE>OPTO>VCA",
+     "hf_burst_dbfs": -138.5,
+     "finite": true
+    },
+    {
+     "transition": "VCA>OPTO>TUBE -> TUBE>VCA>OPTO",
+     "hf_burst_dbfs": -138.5,
+     "finite": true
+    },
+    {
+     "transition": "VCA>OPTO>TUBE -> OPTO>TUBE>VCA",
+     "hf_burst_dbfs": -138.8,
+     "finite": true
+    },
+    {
+     "transition": "VCA>OPTO>TUBE -> OPTO>VCA>TUBE",
+     "hf_burst_dbfs": -153.1,
+     "finite": true
+    },
+    {
+     "transition": "VCA>OPTO>TUBE -> VCA>TUBE>OPTO",
+     "hf_burst_dbfs": -147.4,
+     "finite": true
+    }
+   ]
+  },
+  {
+   "name": "CHAIN: independent bypass \u2014 a bypassed module is fully transparent, does not affect the others, toggles click-free",
+   "passed": true,
+   "detail": "orders equivalent without TUBE: True; VCA GR change when TUBE (downstream) bypassed: 0.00e+00 dB; worst toggle burst -125.9 dBFS"
+  },
+  {
+   "name": "GAIN STAGING: extreme settings (+12 dB into every module, max drive) \u2014 floating-point headroom, no internal clipping, output held by soft clip",
+   "passed": true,
+   "detail": "TUBE>OPTO>VCA internal 5.6 dBFS / out -8.71; TUBE>VCA>OPTO internal 5.6 dBFS / out -8.71; OPTO>TUBE>VCA internal 5.6 dBFS / out -8.71; OPTO>VCA>TUBE internal 5.6 dBFS / out -8.71; VCA>TUBE>OPTO internal 5.6 dBFS / out -8.71; VCA>OPTO>TUBE internal 5.6 dBFS / out -8.71",
+   "rows": [
+    {
+     "order": "TUBE>OPTO>VCA",
+     "max_internal_dbfs": 5.6,
+     "out_peak_dbfs": -8.71
+    },
+    {
+     "order": "TUBE>VCA>OPTO",
+     "max_internal_dbfs": 5.6,
+     "out_peak_dbfs": -8.71
+    },
+    {
+     "order": "OPTO>TUBE>VCA",
+     "max_internal_dbfs": 5.6,
+     "out_peak_dbfs": -8.71
+    },
+    {
+     "order": "OPTO>VCA>TUBE",
+     "max_internal_dbfs": 5.6,
+     "out_peak_dbfs": -8.71
+    },
+    {
+     "order": "VCA>TUBE>OPTO",
+     "max_internal_dbfs": 5.6,
+     "out_peak_dbfs": -8.71
+    },
+    {
+     "order": "VCA>OPTO>TUBE",
+     "max_internal_dbfs": 5.6,
+     "out_peak_dbfs": -8.71
+    }
+   ]
+  },
+  {
+   "name": "GAIN STAGING: tube Auto Gain holds a \u221212 dBFS program level across the drive range (\u00b12 dB)",
+   "passed": true,
+   "detail": "levels -12.0, -12.0, -11.7, -10.8, -9.7 dBFS"
+  },
+  {
+   "name": "GAIN STAGING: per-module input/output gain and level meters (VCA in +6 dB, out \u22123 dB on a \u221210 dBFS tone)",
+   "passed": true,
+   "detail": "meter in -4.00 dBFS, out -19.08 dBFS, GR 12.08 dB"
+  },
+  {
+   "name": "TUBE: harmonic content rises with drive; bias produces even harmonics; no DC at the output",
+   "passed": true,
+   "detail": "THD 0.27% \u2192 38.61% (bias 0); H2 at bias 50: -29.6, -19.9, -14.8, -24.7 dB",
+   "rows": [
+    {
+     "drive": 0,
+     "bias": 0,
+     "thd_pct": 0.27,
+     "h2_db": -56.0,
+     "h3_db": -53.5,
+     "dc": 0.0
+    },
+    {
+     "drive": 0,
+     "bias": 50,
+     "thd_pct": 3.32,
+     "h2_db": -29.6,
+     "h3_db": -54.9,
+     "dc": 0.0
+    },
+    {
+     "drive": 30,
+     "bias": 0,
+     "thd_pct": 2.88,
+     "h2_db": -35.6,
+     "h3_db": -32.6,
+     "dc": 0.0
+    },
+    {
+     "drive": 30,
+     "bias": 50,
+     "thd_pct": 10.35,
+     "h2_db": -19.9,
+     "h3_db": -33.8,
+     "dc": 0.0
+    },
+    {
+     "drive": 60,
+     "bias": 0,
+     "thd_pct": 17.13,
+     "h2_db": -23.2,
+     "h3_db": -16.3,
+     "dc": 0.0
+    },
+    {
+     "drive": 60,
+     "bias": 50,
+     "thd_pct": 22.88,
+     "h2_db": -14.8,
+     "h3_db": -17.9,
+     "dc": 0.0
+    },
+    {
+     "drive": 100,
+     "bias": 0,
+     "thd_pct": 38.61,
+     "h2_db": -31.3,
+     "h3_db": -9.9,
+     "dc": 0.0
+    },
+    {
+     "drive": 100,
+     "bias": 50,
+     "thd_pct": 38.91,
+     "h2_db": -24.7,
+     "h3_db": -10.0,
+     "dc": 0.0
+    }
+   ]
+  },
+  {
+   "name": "OPTO: static curve \u2014 COMP soft-knee \u22482\u20134:1, LIMIT \u2265 8:1 (sources: ~3:1 / 4:1 compress, ~\u221e limit)",
+   "passed": true,
+   "detail": "COMP PR50: 2.2:1; COMP PR75: 2.6:1; LIMIT PR50: 8.4:1; LIMIT PR75: 9.6:1",
+   "rows": [
+    {
+     "mode": "COMP",
+     "peak_reduction": 50,
+     "out_dbfs": [
+      -30.2,
+      -21.5,
+      -15.2,
+      -10.6
+     ],
+     "ratio_top": 2.2
+    },
+    {
+     "mode": "COMP",
+     "peak_reduction": 75,
+     "out_dbfs": [
+      -32.2,
+      -26.4,
+      -22.1,
+      -18.3
+     ],
+     "ratio_top": 2.6
+    },
+    {
+     "mode": "LIMIT",
+     "peak_reduction": 50,
+     "out_dbfs": [
+      -30.0,
+      -23.1,
+      -21.4,
+      -20.2
+     ],
+     "ratio_top": 8.4
+    },
+    {
+     "mode": "LIMIT",
+     "peak_reduction": 75,
+     "out_dbfs": [
+      -35.0,
+      -33.5,
+      -32.4,
+      -31.4
+     ],
+     "ratio_top": 9.6
+    }
+   ]
+  },
+  {
+   "name": "OPTO: T4 timing \u2014 attack \u224810\u201320 ms, fast release \u224860 ms to 50 %, program-dependent slow release (longer after longer compression)",
+   "passed": true,
+   "detail": "1 s burst: attack 21.1 ms, 50 % release 53 ms, to 1 dB 1.24 s; 10 s burst: attack 21.1 ms, 50 % release 55 ms, to 1 dB 3.64 s",
+   "rows": [
+    {
+     "burst_s": 1,
+     "gr_db": 12.9,
+     "attack_63_ms": 21.1,
+     "release_50_ms": 53,
+     "release_to_1dB_s": 1.24
+    },
+    {
+     "burst_s": 10,
+     "gr_db": 12.9,
+     "attack_63_ms": 21.1,
+     "release_50_ms": 55,
+     "release_to_1dB_s": 3.64
+    }
+   ]
+  },
+  {
+   "name": "OPTO: HF emphasis increases gain reduction on high-frequency material (6 kHz tone)",
+   "passed": true,
+   "detail": "output -17.5 \u2192 -24.5 dBFS"
+  },
+  {
+   "name": "VCA: static ratios 1.5:1 \u2026 \u221e:1 within \u00b10.5 dB (hard knee, threshold \u221224 dBFS, input 20 dB over)",
+   "passed": true,
+   "detail": "1.5:1 \u2192 -10.7 (exp -10.67); 2:1 \u2192 -14.05 (exp -14.0); 3:1 \u2192 -17.4 (exp -17.33); 4:1 \u2192 -19.08 (exp -19.0); 6:1 \u2192 -20.75 (exp -20.67); 10:1 \u2192 -22.1 (exp -22.0); inf:1 \u2192 -24.11 (exp -24.0)",
+   "rows": [
+    {
+     "ratio": 1.5,
+     "expected_dbfs": -10.67,
+     "measured_dbfs": -10.7
+    },
+    {
+     "ratio": 2,
+     "expected_dbfs": -14.0,
+     "measured_dbfs": -14.05
+    },
+    {
+     "ratio": 3,
+     "expected_dbfs": -17.33,
+     "measured_dbfs": -17.4
+    },
+    {
+     "ratio": 4,
+     "expected_dbfs": -19.0,
+     "measured_dbfs": -19.08
+    },
+    {
+     "ratio": 6,
+     "expected_dbfs": -20.67,
+     "measured_dbfs": -20.75
+    },
+    {
+     "ratio": 10,
+     "expected_dbfs": -22.0,
+     "measured_dbfs": -22.1
+    },
+    {
+     "ratio": "inf",
+     "expected_dbfs": -24.0,
+     "measured_dbfs": -24.11
+    }
+   ]
+  },
+  {
+   "name": "VCA: knee \u2014 gain reduction exactly at threshold: HARD 0 dB, MED/SOFT progressively more (soft onset)",
+   "passed": true,
+   "detail": "HARD 0.11 dB; MED 0.8 dB; SOFT 1.55 dB",
+   "rows": [
+    {
+     "knee": "HARD",
+     "gr_at_threshold_db": 0.11
+    },
+    {
+     "knee": "MED",
+     "gr_at_threshold_db": 0.8
+    },
+    {
+     "knee": "SOFT",
+     "gr_at_threshold_db": 1.55
+    }
+   ]
+  },
+  {
+   "name": "VCA: attack settings .03\u201330 ms \u2014 measured gain-reduction rise follows the setting (RMS detector \u03c4 = 3 ms sets the floor)",
+   "passed": true,
+   "detail": "0.03 \u2192 0.38 ms; 0.1 \u2192 0.54 ms; 0.3 \u2192 0.88 ms; 1 \u2192 1.81 ms; 3 \u2192 4.02 ms; 10 \u2192 11.08 ms; 30 \u2192 30.92 ms",
+   "rows": [
+    {
+     "attack_setting_ms": 0.03,
+     "measured_63_ms": 0.38
+    },
+    {
+     "attack_setting_ms": 0.1,
+     "measured_63_ms": 0.54
+    },
+    {
+     "attack_setting_ms": 0.3,
+     "measured_63_ms": 0.88
+    },
+    {
+     "attack_setting_ms": 1,
+     "measured_63_ms": 1.81
+    },
+    {
+     "attack_setting_ms": 3,
+     "measured_63_ms": 4.02
+    },
+    {
+     "attack_setting_ms": 10,
+     "measured_63_ms": 11.08
+    },
+    {
+     "attack_setting_ms": 30,
+     "measured_63_ms": 30.92
+    }
+   ]
+  },
+  {
+   "name": "VCA: THRUST (filter before the RMS detector) \u2014 bass-heavy material triggers less gain reduction NORM > MED > LOUD",
+   "passed": true,
+   "detail": "GR NORM 16.0, MED 12.1, LOUD 10.3 dB"
+  },
+  {
+   "name": "VCA: TYPE \u2014 OLD (feedback) compresses more gently than NEW (feed-forward) at the same settings",
+   "passed": true,
+   "detail": "NEW -24.11, OLD -14.05 dBFS"
+  },
+  {
+   "name": "STEREO: identical L/R \u2192 bit-identical (6 orders + gate); VCA link 100 % applies the loud channel's GR to the quiet one, 0 % keeps them independent; no crosstalk",
+   "passed": true,
+   "detail": "quiet-channel gain: linked -21.1 dB, unlinked -0.01 dB; R output with L-only input & link 0: 0.0e+00"
+  },
+  {
+   "name": "SIDECHAIN: external key (plugin~ 3/4) drives VCA and OPTO gain reduction; internal detection ignores the key",
+   "passed": true,
+   "detail": "VCA ext: GR 19.3 dB during key vs 11.3 dB between; VCA int: 3.9 vs 4.0 dB; OPTO ext max GR 46.5 dB"
+  },
+  {
+   "name": "SIDECHAIN: detector sourcing \u2014 CHAIN source gives identical VCA gain reduction in all six orders; INT source follows the module's position",
+   "passed": true,
+   "detail": "max GR difference across orders: CHAIN 0.00e+00 dB, INT 4.52 dB"
+  },
+  {
+   "name": "SIDECHAIN: SC HPF reduces bass-triggered gain reduction (50 Hz-heavy input)",
+   "passed": true,
+   "detail": "GR 14.2 \u2192 1.6 dB"
+  },
+  {
+   "name": "KEY LISTEN: VCA listen outputs the THRUST-filtered detector signal (not the program)",
+   "passed": true,
+   "detail": "listen vs program max difference 0.101"
+  },
+  {
+   "name": "GATE: externally keyed \u2014 open while the key is above threshold, closed to the Range floor between hits",
+   "passed": true,
+   "detail": "open 98.9% of key-on time; median gain between hits -60.0 dB"
+  },
+  {
+   "name": "GATE: hysteresis \u2014 opens at the threshold and closes \u22484 dB below it",
+   "passed": true,
+   "detail": "opened at -19.9 dBFS, closed at -23.5 dBFS (threshold \u221220)"
+  },
+  {
+   "name": "GATE: independent of the chain order (external key: identical gate gain in all six orders)",
+   "passed": true,
+   "detail": "max difference 0.0e+00"
+  },
+  {
+   "name": "AUTOMATION: block-rate (64-sample) ramps of VCA threshold, tube drive, opto peak reduction \u2248 sample-accurate ramps (< \u221230 dB difference)",
+   "passed": true,
+   "detail": "v_thr -67.9 dB; t_drive -72.3 dB; o_pr -66.0 dB",
+   "rows": [
+    {
+     "param": "v_thr",
+     "block_vs_sample_db": -67.9
+    },
+    {
+     "param": "t_drive",
+     "block_vs_sample_db": -72.3
+    },
+    {
+     "param": "o_pr",
+     "block_vs_sample_db": -66.0
+    }
+   ]
+  },
+  {
+   "name": "MIDI: 7-bit CC stepping (one step per 8 ms) of tube drive, VCA threshold, gate threshold \u2014 >8 kHz energy within 1 dB of a smooth ramp (no zipper)",
+   "passed": true,
+   "detail": "t_drive -0.00 dB; v_thr -0.00 dB; g_thr -0.00 dB",
+   "rows": [
+    {
+     "param": "t_drive",
+     "hf_vs_smooth_db": -0.0
+    },
+    {
+     "param": "v_thr",
+     "hf_vs_smooth_db": -0.0
+    },
+    {
+     "param": "g_thr",
+     "hf_vs_smooth_db": -0.0
+    }
+   ]
+  },
+  {
+   "name": "LATENCY: no lookahead or buffering anywhere (reported device latency stays 0); TUBE's IIR oversampler adds a frequency-dependent phase delay (\u22483.6 samples \u2248 0.075 ms at 1 kHz), and its dry path is phase-matched so Mix does not comb-filter",
+   "passed": true,
+   "detail": "TUBE: peak +5, GD 3.6; OPTO: peak +0, GD 0.01; VCA: peak +0, GD 0.01; all three: peak +5, GD 3.6; GATE (open): peak +0, GD 0.01; TUBE wet-vs-dry phase error after removing the Tone filter and 8 Hz DC blocker, 50 Hz-10 kHz (deg; an unmatched dry path would be 270 deg at 10 kHz): peak +0, GD 0.15; TUBE at Mix 0: magnitude deviation of the phase-matched dry path (dB): peak +0, GD 0.06",
+   "rows": [
+    {
+     "module": "TUBE",
+     "peak_offset_samples": 5,
+     "group_delay_1k_samples": 3.6
+    },
+    {
+     "module": "OPTO",
+     "peak_offset_samples": 0,
+     "group_delay_1k_samples": 0.01
+    },
+    {
+     "module": "VCA",
+     "peak_offset_samples": 0,
+     "group_delay_1k_samples": 0.01
+    },
+    {
+     "module": "all three",
+     "peak_offset_samples": 5,
+     "group_delay_1k_samples": 3.6
+    },
+    {
+     "module": "GATE (open)",
+     "peak_offset_samples": 0,
+     "group_delay_1k_samples": 0.01
+    },
+    {
+     "module": "TUBE wet-vs-dry phase error after removing the Tone filter and 8 Hz DC blocker, 50 Hz-10 kHz (deg; an unmatched dry path would be 270 deg at 10 kHz)",
+     "peak_offset_samples": 0,
+     "group_delay_1k_samples": 0.15
+    },
+    {
+     "module": "TUBE at Mix 0: magnitude deviation of the phase-matched dry path (dB)",
+     "peak_offset_samples": 0,
+     "group_delay_1k_samples": 0.06
+    }
+   ]
+  },
+  {
+   "name": "CPU with the dynamics chain (transpiled C, gcc -O2, this machine)",
+   "passed": true,
+   "detail": "v1.2 device, dynamics off: 4.49%; + TUBE: 5.6%; + OPTO: 5.44%; + VCA: 5.1%; + all three + gate: 6.49%; worst: LPF+HPF+BPF 2x + all dynamics, reordering every 20 ms: 12.48%",
+   "rows": [
+    {
+     "config": "v1.2 device, dynamics off",
+     "ns_per_frame": 934.8,
+     "pct_of_one_core_48k": 4.49
+    },
+    {
+     "config": "+ TUBE",
+     "ns_per_frame": 1166.5,
+     "pct_of_one_core_48k": 5.6
+    },
+    {
+     "config": "+ OPTO",
+     "ns_per_frame": 1133.4,
+     "pct_of_one_core_48k": 5.44
+    },
+    {
+     "config": "+ VCA",
+     "ns_per_frame": 1061.8,
+     "pct_of_one_core_48k": 5.1
+    },
+    {
+     "config": "+ all three + gate",
+     "ns_per_frame": 1351.6,
+     "pct_of_one_core_48k": 6.49
+    },
+    {
+     "config": "worst: LPF+HPF+BPF 2x + all dynamics, reordering every 20 ms",
+     "ns_per_frame": 2599.7,
+     "pct_of_one_core_48k": 12.48
+    }
+   ]
+  },
+  {
+   "name": "DENORMALS: dynamics decay tails flush to zero",
+   "passed": true,
+   "detail": "max tail 0.0e+00"
+  },
+  {
+   "name": "COMBINED: 30 s stress \u2014 LPF+HPF+BPF + all dynamics + gate with external key, random changes to every dynamics parameter",
+   "passed": true,
+   "detail": "peak 0.00 dBFS, finite=True"
+  },
+  {
+   "name": "DEVICE: chain UI wiring \u2014 every scripted object exists, all connections in range, drag LUT moves exactly the dragged block, 75 unique stored parameters, drag/edit/preset controls are not parameters",
+   "passed": true,
+   "detail": "ok"
   }
  ],
  "summary": {
-  "total": 42,
-  "passed": 42,
-  "seconds": 112.0
+  "total": 77,
+  "passed": 77,
+  "seconds": 201.7
  }
 }

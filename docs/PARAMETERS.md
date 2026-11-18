@@ -1,6 +1,6 @@
 # Parameters, automation and MIDI mapping
 
-All 31 controls are Live parameters: the 20 from v1.1, unchanged, plus 11 for the v1.2 band-pass engine. Every one can be automated, MIDI-mapped (Cmd/Ctrl+M, click the control, move a controller) and key-mapped, and all are stored with the Live Set. Names below are the exact names in Live's automation chooser.
+All 75 controls are Live parameters: the 20 from v1.1 and the 11 from v1.2, all unchanged, plus 44 for the v1.3 processing chain. Every one can be automated, MIDI-mapped (Cmd/Ctrl+M, click the control, move a controller) and key-mapped, and all are stored with the Live Set. Names below are the exact names in Live's automation chooser.
 
 ## Low-pass stage (amber)
 
@@ -73,3 +73,54 @@ Full details, including what BW and Q do in each architecture, are in BPF.md.
 | BPF Position | BPF Pos | POST / PRE | POST |
 
 **MIDI tip:** map BPF Centre to a knob and BPF Mix to a fader. With CASCADE, BW about 1.5 oct and Mix about 60 %, you get the classic dub "telephone" mid band riding over the full mix.
+
+## Processing chain (v1.3)
+
+See CHAIN.md for routing, detector sourcing and gain staging. The drag grips, EDIT page tabs and preset buttons are UI only (not parameters).
+
+| Live name | Range | Default |
+|---|---|---|
+| Chain Order | TUBE > OPTO > VCA · TUBE > VCA > OPTO · OPTO > TUBE > VCA · OPTO > VCA > TUBE · VCA > TUBE > OPTO · VCA > OPTO > TUBE | TUBE > OPTO > VCA |
+| Key Listen | OFF / OPTO / VCA / GATE | OFF |
+| Tube On | off / on | off |
+| Tube Input | -24 – 24 dB | 0 |
+| Tube Output | -24 – 24 dB | 0 |
+| Tube Mix | 0 – 100 % | 100 |
+| Tube Drive | 0 – 100 % | 30 |
+| Tube Bias | -100 – 100 | 20 |
+| Tube Tone | 1000 – 20000 Hz | 12000 |
+| Tube Auto Gain | off / on | on |
+| Opto On | off / on | off |
+| Opto Input | -24 – 24 dB | 0 |
+| Opto Gain | -24 – 24 dB | 0 |
+| Opto Mix | 0 – 100 % | 100 |
+| Opto Peak Reduction | 0 – 100 % | 40 |
+| Opto Mode | COMP / LIMIT | COMP |
+| Opto HF Emphasis | 0 – 100 % | 0 |
+| Opto SC HPF | 20 – 500 Hz | 20 |
+| Opto SC Source | INT / CHAIN / EXT | INT |
+| Opto Link | 0 – 100 % | 100 |
+| VCA On | off / on | off |
+| VCA Input | -24 – 24 dB | 0 |
+| VCA Output | -24 – 24 dB | 0 |
+| VCA Mix | 0 – 100 % | 100 |
+| VCA Threshold | -50 – 0 dB(FS) | -20 |
+| VCA Ratio | 1.5 / 2 / 3 / 4 / 6 / 10 / ∞ :1 | 4:1 |
+| VCA Attack | .03 / .1 / .3 / 1 / 3 / 10 / 30 ms | 1 |
+| VCA Release | 0.05 – 3 s (VCA) / ms (Gate) | 0.3 |
+| VCA Knee | HARD / MED / SOFT | HARD |
+| VCA Thrust | NORM / MED / LOUD | NORM |
+| VCA Type | NEW (feed-forward) / OLD (feedback) | NEW (feed-forward) |
+| VCA SC HPF | 20 – 500 Hz | 20 |
+| VCA SC Source | INT / CHAIN / EXT | INT |
+| VCA Link | 0 – 100 % | 100 |
+| VCA Auto Makeup | off / on | off |
+| Gate On | off / on | off |
+| Gate Threshold | -80 – 0 dB(FS) | -40 |
+| Gate Attack | 0.1 – 50 ms | 1 |
+| Gate Hold | 0 – 500 ms | 20 |
+| Gate Release | 5 – 2000 s (VCA) / ms (Gate) | 150 |
+| Gate Range | -80 – 0 dB | -80 |
+| Gate Key Source | INT / CHAIN / EXT | INT |
+| Gate Key HPF | 20 – 2000 Hz | 20 |
+| Gate Key LPF | 200 – 20000 Hz | 20000 |

@@ -88,3 +88,9 @@ The BPF lives in its own module (`source/src/bpf.py`). The LPF/HPF generator rec
 Each insertion point is wrapped in `if (b_run)`, so with the BPF off no LPF/HPF variable is touched. The golden test confirms the output is bit-identical.
 
 Model and architecture changes use two **configuration slots** (A/B). A new configuration goes into the idle slot, which is reset and crossfaded in over 25 ms. Only the running slot(s) are computed. The regeneration loop (SVF, CASCADE) is solved with zero delay: every section is written in affine form (output = a·x + b for the current sample, from its secant gains), so the loop gain is known before the states are committed.
+
+## v1.3: dynamics chain
+
+The chain lives in `source/src/dyn.py`. The generator gained append-only hooks: parameters, state, one insertion point between the filter section's output and the DC blocker, and the meter outlets (gen~ `out3`…`out14`). The gen~ object now has 4 inlets: `in3`/`in4` are the external key from `plugin~ 3 4`. With every dynamics module and the gate off, none of this code touches the signal; the v1.1 and v1.2 golden renders prove it bit for bit.
+
+Reordering uses two lane copies of the module states. See CHAIN.md for the state-copy crossfade, detector sourcing and latency.
