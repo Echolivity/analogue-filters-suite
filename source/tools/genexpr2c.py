@@ -2,8 +2,9 @@
 """GenExpr (subset) -> C transpiler used to test the exact gen~ code offline.
 
 Supported: Param / History declarations, user functions with multiple return
-values, if / else if / else, assignment and multi-assignment, ternary, the
-usual operators and the gen builtins used by the engine.
+values, if / else if / else, for loops in the documented GenExpr form
+`for (i = a; cond; i += step) { ... }`, assignment, `+=`, multi-assignment,
+ternary, the usual operators and the gen builtins used by the engine.
 
 Static checks performed (each one is a way the code could fail in gen~):
   * every identifier is defined before use (no typos / undeclared names)
@@ -19,7 +20,7 @@ TOK = re.compile(r"""
  (?P<ws>\s+|//[^\n]*|/\*.*?\*/)
 |(?P<num>(\d+\.\d*|\.\d+|\d+)([eE][+-]?\d+)?)
 |(?P<id>[A-Za-z_][A-Za-z_0-9]*)
-|(?P<op>==|!=|<=|>=|&&|\|\||[-+*/%<>=!?:,;(){}])
+|(?P<op>\+=|==|!=|<=|>=|&&|\|\||[-+*/%<>=!?:,;(){}])
 """, re.S | re.X)
 
 BUILTIN_F = {
@@ -29,7 +30,7 @@ BUILTIN_F = {
     "floor": ("floor", 1), "sin": ("sin", 1), "cos": ("cos", 1), "fixdenorm": ("fixdenorm", 1),
 }
 BUILTIN_V = {"samplerate": "g_sr", "pi": "M_PI", "in1": "in1", "in2": "in2", "in3": "in3", "in4": "in4"}
-OUTPUTS = {f"out{i}" for i in range(1, 15)}
+OUTPUTS = {f"out{i}" for i in range(1, 18)}
 
 
 class Err(Exception):
@@ -79,7 +80,7 @@ class P:
             k, txt, ln = self.peek()
             if txt in ("Param", "History"):
                 decls.append(self.decl())
-            elif k == "id" and txt != "if" and self.peek(1)[1] == "(" and self._is_funcdef():
+            elif k == "id" and txt not in ("if", "for") and self.peek(1)[1] == "(" and self._is_funcdef():
                 f = self.funcdef()
                 if f["name"] in funcs:
                     raise Err(f"line {ln}: duplicate function {f['name']}")
@@ -166,6 +167,25 @@ class P:
                 else:
                     els = self.block()
             return ("if", c, then, els, ln)
+        if txt == "for":
+            self.nx()
+            self.expect("(")
+            v = self.nx()
+            if v[0] != "id":
+                raise Err(f"line {v[2]}: for: expected loop variable")
+            self.expect("=")
+            init = self.expr()
+            self.expect(";")
+            cond = self.expr()
+            self.expect(";")
+            v2 = self.nx()
+            if v2[1] != v[1]:
+                raise Err(f"line {v2[2]}: for: update must increment the loop variable {v[1]}")
+            self.expect("+=")
+            step = self.expr()
+            self.expect(")")
+            body = self.block()
+            return ("for", v[1], init, cond, step, body, ln)
         if txt == "return":
             self.nx()
             vals = [self.expr()]
@@ -182,6 +202,11 @@ class P:
         for t in targets:
             if t[0] != "id":
                 raise Err(f"line {t[2]}: bad assignment target {t[1]!r}")
+        if len(targets) == 1 and self.peek()[1] == "+=":
+            self.nx()
+            e = self.expr()
+            self.expect(";")
+            return ("asg", [targets[0][1]], ("bin", "+", ("var", targets[0][1], ln), e), ln)
         self.expect("=")
         e = self.expr()
         self.expect(";")
@@ -268,6 +293,8 @@ class Compiler:
                     walk(s[2])
                     if s[3]:
                         walk(s[3])
+                elif s[0] == "for":
+                    walk(s[5])
         walk(f["body"])
         if len(counts) != 1:
             raise Err(f"function {f['name']}: inconsistent return counts {counts}")
@@ -365,6 +392,16 @@ class Compiler:
             if s[3] is not None:
                 out.append(pad + "} else {")
                 self.blk(s[3], scope.child(), ctx, out, ind + 1)
+            out.append(pad + "}")
+        elif s[0] == "for":
+            var, init, cond, step, body, ln = s[1], s[2], s[3], s[4], s[5], s[6]
+            sc = scope.child()
+            iv = self.ex(init, scope, ctx)
+            lv = self.lhs(var, sc, ctx, ln)
+            cv = self.ex(cond, sc, ctx)
+            stv = self.ex(step, sc, ctx)
+            out.append(pad + f"for ({lv} = {iv}; ({cv}) != 0.0; {lv} += {stv}) {{")
+            self.blk(body, sc.child(), ctx, out, ind + 1)
             out.append(pad + "}")
         elif s[0] == "ret":
             if ctx["kind"] != "func":

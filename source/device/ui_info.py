@@ -22,7 +22,9 @@ DESC = {
     "h_slope": "Filter slope in dB/oct. Slopes beyond the model's native order add extension stages.",
     # DUB FILTER centre
     "order_sel": "Series order of the low-pass and high-pass stages. Not used in PARALLEL routing.",
-    "ovs_sel": "Oversampling for the filter engines. 2x reduces aliasing from drive and resonance.",
+    "ovs_sel": "Oversampling for the filter engines and TUBE: 1x or 2x (see High Oversampling for 4x-16x). In REFERENCE mode this is a minimum: the engine runs at least at each active model's measured minimum.",
+    "eng_mode": "REFERENCE: every active model runs at least at its measured minimum oversampling (filters <= -80 dBc aliasing at a bright test point; TUBE 8x). CREATIVE: the engine runs at exactly the factor you set, including 1x.",
+    "ovs_hi": "Optional 4x, 8x or 16x oversampling for the filter engines and TUBE. Overrides the 1x/2x switch when not OFF. Higher factors cost CPU.",
     "out_db": "Device output level after all processing.",
     "softclip": "Gentle output soft clipper that catches peaks from resonance and drive.",
     # BAND-PASS
@@ -91,6 +93,8 @@ DESC = {
 
 # non-parameter controls (jsui / navigation)
 UI_DESC = {
+    "os_now_filters": ("Active filter oversampling", "The factor the filter engines are running at right now (REFERENCE may raise it above your setting)."),
+    "os_now_tube": ("Active TUBE oversampling", "The factor the TUBE stage is running at right now."),
     "preset_0": ("WARM DUB", "Sets Chain Order to TUBE > OPTO > VCA: saturation first, then smooth opto levelling, then VCA control. Changes only the order."),
     "preset_4": ("PUNCH & COLOUR", "Sets Chain Order to VCA > TUBE > OPTO: VCA punch first, tube colour after, opto glue last. Changes only the order."),
     "preset_3": ("FINAL COLOUR", "Sets Chain Order to OPTO > VCA > TUBE: compression first, tube colour last. Changes only the order."),

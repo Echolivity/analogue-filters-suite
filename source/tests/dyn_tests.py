@@ -36,8 +36,8 @@ ALL3 = dict(t_on=1, o_on=1, v_on=1, t_drive=45, o_pr=55, v_thr=-24, v_ratio=3, v
 
 def run_all(record, plt, OUT, SEQ, CAT, GRID, sig):
     # ================================================================ regression gates
-    for args, name in ((["check"], "REGRESSION v1.3: LPF/HPF bit-exact vs v1.1 baseline (48 scenarios, dynamics off)"),
-                       (["check-bpf"], "REGRESSION v1.3: BPF bit-exact vs v1.2 baseline (35 scenarios, dynamics off)")):
+    for args, name in ((["check"], "REGRESSION v1.3: LPF/HPF bit-exact vs v1.1 baseline except documented v1.6 changes (48 scenarios, dynamics off)"),
+                       (["check-bpf"], "REGRESSION v1.3: BPF bit-exact vs v1.2 baseline except documented v1.6 changes (35 scenarios, dynamics off)")):
         r = subprocess.run([sys.executable, os.path.join(HERE, "golden.py")] + args, capture_output=True, text=True)
         record(name, r.returncode == 0, r.stdout.strip())
     for b in ("DubFilter_v1.1.maxpat", "DubFilter_v1.2.maxpat"):

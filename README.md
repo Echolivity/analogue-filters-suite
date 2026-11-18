@@ -148,8 +148,9 @@ flowchart LR
 | Topic | Document |
 |---|---|
 | Installing, and what to do if the device won't load | [INSTALL.md](docs/INSTALL.md) |
-| Interface: design system, components, the dimming rules, a map of all 79 parameters | [UI.md](docs/UI.md) |
+| Interface: design system, components, the dimming rules, a map of the parameters | [UI.md](docs/UI.md) |
 | LPF/HPF models, capability matrix, sources | [MODELS.md](docs/MODELS.md) |
+| v1.6 engine: stability fix, fault containment, 4x–16x oversampling, Reference mode (before/after numbers) | [V1.6_ENGINE.md](docs/V1.6_ENGINE.md) |
 | Band-pass engine: structures, native and derived models | [BPF.md](docs/BPF.md) |
 | Filter routing and how the parallel sum works | [ROUTING.md](docs/ROUTING.md) |
 | Processing chain: modules, reordering, sidechain, latency | [CHAIN.md](docs/CHAIN.md) |
@@ -188,10 +189,10 @@ The device is generated, not hand-patched. `./build.sh` regenerates everything a
 
 | Area | State |
 |---|---|
-| DSP engine | 95/95 offline checks pass, running the exact gen~ code. Earlier engines are bit-exact against v1.1–v1.4. |
+| DSP engine | 95/95 + 15/15 (v1.6) offline checks pass, running the exact gen~ code. v1.6 changes Sherman, Steiner and the BPF SVF slightly (a stability fix); every other render is bit-exact against v1.1–v1.5. See [V1.6_ENGINE.md](docs/V1.6_ENGINE.md). |
 | Compatibility | Every parameter, connection and gen~ Param is intact against all earlier releases. |
-| Interface (v1.5) | 47/47 offline checks pass: structure, wiring, layout, contrast, and the component code run outside Max. |
-| **In Max / Live** | **Not yet opened in Max or Live.** Please run the checklists in [VALIDATION.md](docs/VALIDATION.md) and [UI_VALIDATION.md](docs/UI_VALIDATION.md) on first use, and open an issue with what you find. |
+| Interface (v1.5, plus the v1.6 ENGINE strip) | 47/47 offline checks pass: structure, wiring, layout, contrast, and the component code run outside Max. |
+| **In Max / Live** | **Not yet opened in Max or Live.** v1.6's GenExpr is about 14,000 lines; please report its compile time. Please run the checklists in [VALIDATION.md](docs/VALIDATION.md) and [UI_VALIDATION.md](docs/UI_VALIDATION.md) on first use, and open an issue with what you find. |
 
 The panel images on this page are approximate renders generated from the patch file. They are not Max screenshots.
 

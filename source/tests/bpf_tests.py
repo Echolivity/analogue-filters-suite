@@ -68,7 +68,7 @@ def hf_burst(y, at, win=0.006):
 def run_all(record, plt, OUT, SEQ, CAT, GRID, sig):
     # ------------------------------------------------------------ regression gates
     r = subprocess.run([sys.executable, os.path.join(HERE, "golden.py"), "check"], capture_output=True, text=True)
-    record("REGRESSION: LPF/HPF bit-exact against the v1.1 baseline (BPF off; 48 scenarios)", r.returncode == 0, r.stdout.strip())
+    record("REGRESSION: LPF/HPF bit-exact against the v1.1 baseline except the documented v1.6 solver changes (BPF off; 48 scenarios)", r.returncode == 0, r.stdout.strip())
     r = subprocess.run([sys.executable, os.path.join(HERE, "compat.py"), "--ui"], capture_output=True, text=True)
     record("REGRESSION: v1.1 presets/automation/MIDI maps — every v1.1 object, connection and gen~ Param unchanged",
            r.returncode == 0, r.stdout.strip().splitlines()[-1] + " — " + r.stdout.strip().splitlines()[1])

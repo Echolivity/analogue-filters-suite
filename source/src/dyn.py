@@ -54,6 +54,8 @@ PARAMS = [
 
 TUBE_ST = [f"up{p}{i}" for p in "ab" for i in range(6)] + [f"dn{p}{i}" for p in "ab" for i in range(6)] + ["ton", "dcx", "dcy"] + \
           [f"dd{p}{i}" for p in "ab" for i in range(6)]  # phase-matched dry path (same up/down filters, no shaping)
+# v1.6: half-band stages 2..4 for 4x / 8x / 16x (stage 1 = the v1.3 states above)
+TUBE_ST += [f"s{g}{d}{p}{i}" for g in (2, 3, 4) for d in ("up", "dn", "dd") for p in "ab" for i in range(6)]
 OPTO_ST = ["lt", "cf", "cs", "mem", "yp", "hp", "he"]
 VCA_ST = ["hp", "t1", "t2", "ms", "gr", "yp"]
 LANE_ST = {"T": TUBE_ST, "O": OPTO_ST, "V": VCA_ST}
@@ -100,14 +102,16 @@ def register_state(SV, CV):
                  ("o_gi", 1.0), ("o_go", 1.0), ("o_mx", 1.0), ("o_w", 0.0), ("o_prz", 0.4), ("o_emz", 0.0), ("o_lkz", 1.0),
                  ("v_gi", 1.0), ("v_go", 1.0), ("v_mx", 1.0), ("v_w", 0.0), ("v_thz", -20.0), ("v_lkz", 1.0),
                  ("g_w", 0.0), ("kl_w", 0.0), ("kl_sel", 0),
-                 ("d_oP", 0), ("d_oQ", 0), ("d_act", 0), ("d_fade", 1)):
+                 ("d_oP", 0), ("d_oQ", 0), ("d_act", 0), ("d_fade", 1),
+                 ("T_dirty", 0), ("O_dirty", 0), ("V_dirty", 0), ("G_dirty", 0)):
         CV(f"H_dyn_{n}" if False else f"dz_{n}", i)
 
 
 def ctrl_names():
     return ["dz_t_gi", "dz_t_go", "dz_t_mx", "dz_t_w", "dz_t_dz", "dz_t_bz", "dz_o_gi", "dz_o_go", "dz_o_mx", "dz_o_w",
             "dz_o_prz", "dz_o_emz", "dz_o_lkz", "dz_v_gi", "dz_v_go", "dz_v_mx", "dz_v_w", "dz_v_thz", "dz_v_lkz",
-            "dz_g_w", "dz_kl_w", "dz_kl_sel", "dz_d_oP", "dz_d_oQ", "dz_d_act", "dz_d_fade"]
+            "dz_g_w", "dz_kl_w", "dz_kl_sel", "dz_d_oP", "dz_d_oQ", "dz_d_act", "dz_d_fade",
+            "dz_T_dirty", "dz_O_dirty", "dz_V_dirty", "dz_G_dirty"]
 
 
 def _sm(w, name, target, coef="a_par"):
@@ -143,7 +147,8 @@ def emit_controls(w, G):
     # (mean of the stage's positive and negative excursion at that level)
     w("t_ref = 0.5 * (abs(f_tube(0.25 * t_k, t_b, t_ib)) + abs(f_tube(-0.25 * t_k, t_b, t_ib)));")
     w("t_ko = t_auto > 0.5 ? 0.25 / max(t_ref, 1e-9) : 1 / (0.3 * sqrt(t_D));")
-    w("t_gt = tan(pi * min(clamp(t_tone, 1000, 20000), 0.45 * 2 * fs) / (2 * fs));")
+    w("t_nf = cur_tos < 1.5 ? 2 : (cur_tos < 2.5 ? 4 : (cur_tos < 3.5 ? 8 : 16));")   # v1.6: TUBE oversampling factor
+    w("t_gt = tan(pi * min(clamp(t_tone, 1000, 20000), 0.45 * t_nf * fs) / (t_nf * fs));")
     w("t_Gt = t_gt / (1 + t_gt);")
     w("t_dcr = 1 - 2 * pi * 8 / fs;")
     # opto
@@ -242,21 +247,27 @@ def emit_controls(w, G):
         G.ind -= 1
         w("}")
     # reset state of disabled modules (both lanes) so re-enabling starts neutral
-    for m, flag in (("T", "dz_t_w"), ("O", "dz_o_w"), ("V", "dz_v_w")):
-        w(f"if ({flag} <= 0) {{")
+    # v1.6: clear a disabled module's state once (when it has state), not on every sample;
+    # nothing writes a disabled module's state, so this is bit-exact with v1.5.
+    for m, flag in (("T", "dz_t_w"), ("O", "dz_o_w"), ("V", "dz_v_w"), ("G", "dz_g_w")):
+        dzn = f"dz_{m}_dirty"
+        w(f"{dzn} = H_{dzn};")
+        w(f"if ({flag} <= 0 && {dzn} > 0.5) {{")
         G.ind += 1
-        for ln in LANES:
-            for ch in CH:
-                for v in LANE_ST[m]:
-                    w(f"d{ln}_{m}_{ch}_{v} = 0;")
+        if m == "G":
+            for v in GATE_ST:
+                w(f"dg_{v} = 0;")
+        else:
+            for ln in LANES:
+                for ch in CH:
+                    for v in LANE_ST[m]:
+                        w(f"d{ln}_{m}_{ch}_{v} = 0;")
+        w(f"{dzn} = 0;")
         G.ind -= 1
         w("}")
-    w("if (dz_g_w <= 0) {")
-    G.ind += 1
-    for v in GATE_ST:
-        w(f"dg_{v} = 0;")
-    G.ind -= 1
-    w("}")
+        w(f"if ({flag} > 0) {{")
+        w(f"\t{dzn} = 1;")
+        w("}")
 
 
 def _src(sel, internal, ch):
@@ -264,31 +275,60 @@ def _src(sel, internal, ch):
 
 
 def emit_tube(w, G, ln, xin, xout, meter):
+    """TUBE stage at 2x / 4x / 8x / 16x (v1.6; the 2x branch is the v1.3 code path, bit-exact)."""
     s = lambda ch, v: f"d{ln}_T_{ch}_{v}"
+    cas, cbs = ", ".join(repr(c) for c in CA), ", ".join(repr(c) for c in CB)
+
+    def zs(ch, stg, d, p):
+        if stg == 1:
+            return [s(ch, f"{d}{p}{i}") for i in range(6)]
+        return [s(ch, f"s{stg}{d}{p}{i}") for i in range(6)]
+
+    def down(ch, vals, kind, stg):
+        while len(vals) > 1:
+            za, zb = zs(ch, stg, kind, "a"), zs(ch, stg, kind, "b")
+            nxt = []
+            for j in range(len(vals) // 2):
+                w(f"tpa, {', '.join(za)} = f_ap5({vals[2 * j + 1]}, {', '.join(za)}, {cas});")
+                w(f"tpb, {', '.join(zb)} = f_ap5({vals[2 * j]}, {', '.join(zb)}, {cbs});")
+                nm = f"t{kind}{stg}_{j}"
+                w(f"{nm} = 0.5 * (tpa + tpb);")
+                nxt.append(nm)
+            vals = nxt
+            stg -= 1
+        return vals[0]
+
     w("if (dz_t_w > 0) {")
     G.ind += 1
     for ch in CH:
-        za = [s(ch, f"upa{i}") for i in range(6)]
-        zb = [s(ch, f"upb{i}") for i in range(6)]
-        da = [s(ch, f"dna{i}") for i in range(6)]
-        db_ = [s(ch, f"dnb{i}") for i in range(6)]
         w(f"tu_{ch} = {xin[ch]} * dz_t_gi;")
-        w(f"tua, {', '.join(za)} = f_ap5(tu_{ch}, {', '.join(za)}, {', '.join(repr(c) for c in CA)});")
-        w(f"tub, {', '.join(zb)} = f_ap5(tu_{ch}, {', '.join(zb)}, {', '.join(repr(c) for c in CB)});")
-        w(f"tya = f_tube(tua * t_k, t_b, t_ib);")
-        w(f"tla, {s(ch, 'ton')} = f_op(tya, {s(ch, 'ton')}, t_Gt);")
-        w(f"tyb = f_tube(tub * t_k, t_b, t_ib);")
-        w(f"tlb, {s(ch, 'ton')} = f_op(tyb, {s(ch, 'ton')}, t_Gt);")
-        w(f"{s(ch, 'ton')} = fixdenorm({s(ch, 'ton')});")
-        w(f"tpa, {', '.join(da)} = f_ap5(tlb, {', '.join(da)}, {', '.join(repr(c) for c in CA)});")
-        w(f"tpb, {', '.join(db_)} = f_ap5(tla, {', '.join(db_)}, {', '.join(repr(c) for c in CB)});")
-        w(f"ty = 0.5 * (tpa + tpb) * t_ko;")
-        # dry path through the identical up/down filter pair -> wet/dry mix without comb filtering
-        dda = [s(ch, f"dda{i}") for i in range(6)]
-        ddb = [s(ch, f"ddb{i}") for i in range(6)]
-        w(f"tqa, {', '.join(dda)} = f_ap5(tub, {', '.join(dda)}, {', '.join(repr(c) for c in CA)});")
-        w(f"tqb, {', '.join(ddb)} = f_ap5(tua, {', '.join(ddb)}, {', '.join(repr(c) for c in CB)});")
-        w(f"tdr = 0.5 * (tqa + tqb) / max(dz_t_gi, 1e-9);")
+        w("ty = 0;")
+        w("tdr = 0;")
+        for idx, n in ((1, 2), (2, 4), (3, 8), (4, 16)):
+            w(("if" if idx == 1 else "} else if") + f" (cur_tos < {idx + 0.5}) {{")
+            G.ind += 1
+            level = [f"tu_{ch}"]
+            for stg in range(1, idx + 1):
+                za, zb = zs(ch, stg, "up", "a"), zs(ch, stg, "up", "b")
+                nxt = []
+                for j, v in enumerate(level):
+                    w(f"tv{stg}_{2 * j}, {', '.join(za)} = f_ap5({v}, {', '.join(za)}, {cas});")
+                    w(f"tv{stg}_{2 * j + 1}, {', '.join(zb)} = f_ap5({v}, {', '.join(zb)}, {cbs});")
+                    nxt += [f"tv{stg}_{2 * j}", f"tv{stg}_{2 * j + 1}"]
+                level = nxt
+            wet = []
+            for j, v in enumerate(level):
+                w(f"tyy = f_tube({v} * t_k, t_b, t_ib);")
+                w(f"tl_{j}, {s(ch, 'ton')} = f_op(tyy, {s(ch, 'ton')}, t_Gt);")
+                wet.append(f"tl_{j}")
+            w(f"{s(ch, 'ton')} = fixdenorm({s(ch, 'ton')});")
+            yv = down(ch, wet, "dn", idx)
+            w(f"ty = {yv} * t_ko;")
+            # dry path through the identical up/down filters -> wet/dry mix without comb filtering
+            dv = down(ch, list(level), "dd", idx)
+            w(f"tdr = {dv} / max(dz_t_gi, 1e-9);")
+            G.ind -= 1
+        w("}")
         w(f"tdy = ty - {s(ch, 'dcx')} + t_dcr * {s(ch, 'dcy')};")
         w(f"{s(ch, 'dcx')} = ty;")
         w(f"{s(ch, 'dcy')} = fixdenorm(tdy);")

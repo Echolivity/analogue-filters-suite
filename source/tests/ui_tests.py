@@ -9,6 +9,7 @@ sys.path.insert(0, os.path.join(ROOT, "device")); sys.path.insert(0, os.path.joi
 import ui_theme as T, dyn as DYN
 P = json.load(open(os.path.join(ROOT, "build/device/DubFilter.maxpat")))["patcher"]
 OLD = json.load(open(os.path.join(HERE, "baseline/DubFilter_v1.4.maxpat")))["patcher"]
+OLD15 = json.load(open(os.path.join(HERE, "baseline/DubFilter_v1.5.maxpat")))["patcher"]
 AV = json.load(open(os.path.join(ROOT, "build/device/ui_availability.json")))
 B = [b["box"] for b in P["boxes"]]; byid = {b["id"]: b for b in B}; byv = {b["varname"]: b for b in B if b.get("varname")}
 L = [l["patchline"] for l in P["lines"]]
@@ -28,12 +29,13 @@ def sim(f, w, h, args, script):
 # 1 parameters: same set, same definitions, same box ids as v1.4
 par = lambda X: {b["box"]["id"]: (b["box"]["varname"], b["box"]["saved_attribute_attributes"]) for b in X["boxes"] if b["box"].get("parameter_enable")}
 po, pn = par(OLD), par(P)
-check("79 parameters, identical ids, names and definitions to v1.4", po == pn and len(pn) == 79, f"{len(pn)} parameters")
-check("parameter table (Live identity) unchanged", OLD["parameters"] == P["parameters"])
+check("all 79 v1.4 parameters kept: identical ids, names and definitions (v1.6 appends 2)",
+      all(pn.get(i) == v for i, v in po.items()) and len(pn) == 81, f"{len(pn)} parameters")
+check("parameter table (Live identity): every v1.4 entry unchanged", all(P["parameters"].get(k) == v for k, v in OLD["parameters"].items()))
 gc = lambda X: next(b["box"]["patcher"]["boxes"][2]["box"]["code"] for b in X["boxes"] if b["box"].get("text") == "gen~")
-check("gen~ code byte-identical to v1.4 (no DSP change)", gc(OLD) == gc(P))
-ol = {json.dumps(l["patchline"], sort_keys=True) for l in OLD["lines"]}
-check("all v1.4 connections kept", ol <= {json.dumps(l, sort_keys=True) for l in L})
+check("v1.6 is a DSP release: gen~ code differs from v1.5 (intended; see docs/V1.6_ENGINE.md)", gc(OLD15) != gc(P))
+ol = {json.dumps(l["patchline"], sort_keys=True) for l in OLD15["lines"]}
+check("all v1.5 connections kept", ol <= {json.dumps(l, sort_keys=True) for l in L})
 check("every parameter control visible in presentation", all(byid[i].get("presentation") == 1 for i in pn))
 
 # 2 Info View text

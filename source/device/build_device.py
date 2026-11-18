@@ -535,7 +535,7 @@ pd(0, dial("t_tone", "Tube Tone", "Tone", [dx(3), DY, 48, 46], 1000, 20000, 1200
 pd(0, dial("t_mix", "Tube Mix", "Mix", [dx(4), DY, 48, 46], 0, 100, 100, 5, EMBER))
 pd(0, dial("t_out", "Tube Output", "Tube Out", [dx(5), DY, 48, 46], -24, 24, 0, 4, EMBER))
 pd(0, toggle("t_auto", "Tube Auto Gain", "Auto Gain", [dx(6) + 4, DY + 14, 70, 15], "AUTO GAIN", 1, EMBER))
-pd(0, comment("TRIODE STAGE  |  2x OVERSAMPLED  |  AUTO GAIN HOLDS -12 dBFS PROGRAM LEVEL", [DX, DY + 52, 520, 11], MUTED, 7.5, 0))
+pd(0, comment("TRIODE STAGE  |  2x-16x OVERSAMPLED (ENGINE)  |  AUTO GAIN HOLDS -12 dBFS PROGRAM LEVEL", [DX, DY + 52, 520, 11], MUTED, 7.5, 0))
 # OPTO
 pd(1, dial("o_in", "Opto Input", "Opto In", [dx(0), DY, 48, 46], -24, 24, 0, 4, GOLD))
 pd(1, dial("o_pr", "Opto Peak Reduction", "Peak Red", [dx(1), DY, 48, 46], 0, 100, 40, 5, GOLD))
@@ -672,7 +672,7 @@ comment("PROCESSING", [308, 66, 84, 10], T.AMBER, T.F_TINY, 1, 1)
 plate([CX + 6, 89, CW - 12, 1], T.BEVEL)
 
 # chain blocks: header plates + captions, created at their TUBE > OPTO > VCA positions
-CAPS = {"T": "TRIODE · 2x OS", "O": "T4 OPTO CELL", "V": "RMS VCA"}
+CAPS = {"T": "TRIODE · OVERSAMPLED", "O": "T4 OPTO CELL", "V": "RMS VCA"}
 for m in DYN.MODS:
     bx = SLOT_X[DYN.PERMS[0].index(m)]
     plate([bx + 1, BY + 1, BW_ - 2, 15], T.HEADER, f"blk_{m}_hdr")
@@ -761,6 +761,50 @@ for pfx, on in (("t", "t_on"), ("o", "o_on"), ("v", "v_on"), ("g", "g_on")):
     ts = [b["box"]["varname"] for b in boxes if b["box"].get("parameter_enable")
           and b["box"].get("varname", "").startswith(pfx + "_") and b["box"]["varname"] != on]
     avail([on], "$i1", ts, f"{on[:-3].upper()} module bypassed")
+
+# ------------------------------------------------- v1.6: ENGINE strip (mode, high oversampling, active factors)
+# Appended after every v1.5 object. gen~ gains outlets 15-17 (filter factor, TUBE factor, fault flag).
+gb["numoutlets"] = 17
+gb["outlettype"] = ["signal"] * 17
+gp["boxes"][2]["box"]["numoutlets"] = 17
+gp["boxes"][2]["box"]["outlettype"] = [""] * 17
+for i in range(15, 18):
+    gp["boxes"].append({"box": {"id": f"obj-out{i}", "maxclass": "newobj", "text": f"out {i}", "numinlets": 1, "numoutlets": 0,
+                                "patching_rect": [20 + 50 * i, 680, 40, 22]}})
+    gp["lines"].append({"patchline": {"source": ["obj-3", i - 1], "destination": [f"obj-out{i}", 0]}})
+EX = W_TOTAL
+EW = 122
+W_TOTAL = EX + EW + 4
+panel([EX - 2, 0, W_TOTAL - EX + 2, H], BG, rounded=0)
+panel([EX, 4, EW, 161], STRIP, border=T.BEVEL)
+plate([EX + 1, 5, EW - 2, 17], T.HEADER)
+comment("ENGINE", [EX + 8, 6, 100, 14], T.TEXT, T.F_TITLE, 1)
+comment("MODE", [EX + 6, 25, EW - 12, 10], T.AMBER, T.F_TINY, 1)
+em = box("live.tab", [2900, 700, 110, 30], [EX + 6, 36, EW - 12, 32], numinlets=1, numoutlets=3, outlettype=["", "", "float"],
+         parameter_enable=1, varname="eng_mode", num_lines_patching=2, num_lines_presentation=2, fontsize=8.0, fontface=1,
+         **SEG_COLOURS, saved_attribute_attributes=valueof("Engine Mode", "Mode", 2, 0, 1, 0, 9, enum=["REFERENCE", "CREATIVE"]))
+bid_x[em] = 2900
+param_ids[em] = ("Engine Mode", "Mode")
+wire(em, "eng_mode")
+comment("HIGH OVERSAMPLING", [EX + 6, 72, EW - 12, 10], MUTED, T.F_TINY, 0)
+oh = box("live.tab", [3020, 700, 110, 15], [EX + 6, 83, EW - 12, 15], numinlets=1, numoutlets=3, outlettype=["", "", "float"],
+         parameter_enable=1, varname="ovs_hi", num_lines_patching=1, num_lines_presentation=1, fontsize=8.0, fontface=1,
+         **SEG_COLOURS, saved_attribute_attributes=valueof("High Oversampling", "High OS", 2, 0, 3, 0, 9, enum=["OFF", "4x", "8x", "16x"]))
+bid_x[oh] = 3020
+param_ids[oh] = ("High Oversampling", "High OS")
+wire(oh, "ovs_hi")
+plate([EX + 6, 104, EW - 12, 1], T.BEVEL)
+comment("RUNNING AT", [EX + 6, 107, EW - 12, 10], T.AMBER, T.F_TINY, 1)
+for j, (lab, outlet, vn) in enumerate((("FILTERS", 14, "os_now_filters"), ("TUBE", 15, "os_now_tube"))):
+    comment(lab, [EX + 6, 120 + 16 * j, 60, 12], MUTED, T.F_SMALL, 0)
+    rd_ = comment("1x" if j == 0 else "2x", [EX + 70, 120 + 16 * j, 44, 12], T.TEXT, T.F_LABEL, 1, 2)
+    named(rd_, vn)
+    sn = newobj("snapshot~ 100", [3150 + 120 * j, 760, 80, 22], 2, 1, ["float"])
+    ii = newobj("i", [3150 + 120 * j, 790, 30, 22], 2, 1, ["int"])
+    ch_ = newobj("change", [3150 + 120 * j, 820, 50, 22], 1, 3, ["", "int", "int"])
+    sp = newobj("sprintf set %ldx", [3150 + 120 * j, 850, 100, 22], 1, 1, [""])
+    connect(gen, outlet, sn, 0); connect(sn, 0, ii, 0); connect(ii, 0, ch_, 0); connect(ch_, 0, sp, 0); connect(sp, 0, rd_, 0)
+comment("REF = MODEL MINIMUMS", [EX + 6, 152, EW - 12, 10], T.TEXT_DIM, 6.5, 0)
 
 # Info View / hint text on every parameter and on the jsui controls
 for b in boxes:
