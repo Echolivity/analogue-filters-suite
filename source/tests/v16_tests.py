@@ -270,6 +270,21 @@ cpu["K35 Mk1 LPF 8x"] = round(min(run(xn, M1(l_on=1, l_model=1, l_cut=1000, ovs_
 cpu["K35 Mk2 LPF 8x"] = round(min(run(xn, base(l_on=1, l_model=1, l_cut=1000, ovs_hi=2), ns=True)[1] for _ in range(3)), 1)
 data["cpu_ns_per_sample"] = cpu
 
+# ------------------------------------------------------------------ Steiner diode law (Electronic Design, 6 Dec 1974)
+ts = np.arange(int(0.6 * SR)) / SR
+fsw = np.geomspace(300, 4000, 40)
+def f3db(L):
+    g = []
+    for f_ in fsw:
+        xx = 10 ** (L / 20) * np.sin(2 * np.pi * f_ * ts)
+        yy = run(xx, base(l_on=1, l_model=3, l_cut=1000, l_res=0, l_drive=100))[SR // 4:, 0]
+        g.append(db(np.std(yy) / np.std(xx[SR // 4:])))
+    g = np.array(g); return float(fsw[np.argmax(g < g[0] - 3)])
+st = {L: round(f3db(L)) for L in (-40, -10, 0)}
+data["steiner_cutoff_vs_level"] = st
+check("Steiner: the mirrored diode string's sinh law raises cutoff with level (Drive 100, res 0), small-signal unchanged",
+      st[-10] > st[-40] and st[0] > 1.5 * st[-40] and abs(st[-40] - 760) < 40, "; ".join(f"{L:+d} dBFS: -3 dB at {v} Hz" for L, v in st.items()))
+
 n_ok = sum(r["ok"] for r in results)
 json.dump(dict(results=results, data=data), open(os.path.join(ROOT, "build", "v16_results.json"), "w"), indent=1, default=float)
 print(f"\nv1.6 tests: {n_ok}/{len(results)} passed")

@@ -92,6 +92,11 @@ It self-oscillates at K = 3. The model solves the two capacitor states with a 2�
 
 **Uncertain, so flagged:** I could not access Steiner's 1974 article, so the exact injection node for HP is inferred from standard Sallen-Key analysis. With injection at C2 the HP response is resonant near the cutoff but relaxes to **6 dB/oct well below it**. Use the slope selector (24–48) when you need a steep bass cut. If the original circuit injects HP elsewhere, its skirt may be steeper.
 
+
+**v1.6, from Steiner's article** (Electronic Design, 6 Dec 1974; [check](independent-review/STEINER_1974_CHECK.md)):
+- The article confirms the transfer functions, the three input points and the high-pass node (bottom of C2).
+- **Diode law.** The diode "resistors" are one forward-biased string fed in mirror from both ends. The net law is therefore sinh, and cutoff rises with level, bounded by the 2 kΩ feed resistors. v1.5's tanh law ran the other way.
+- **Level reference (assumption):** one model unit = the article's 0 dBm input at the low-pass node.
 ## 05 Oberheim SEM-inspired, revised
 
 **Circuit.** A 2-pole state-variable filter whose integrators are CA3080 OTAs. An OTA's output current follows gm·tanh(v_in/2V_T), so each integrator's input saturates. The resonance pot sets the damping, and the mode control mixes LP and HP (notch in the middle).

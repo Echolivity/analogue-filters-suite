@@ -55,6 +55,16 @@ f_dg(v) {
 }
 
 // secant gain of algebraic hard-knee sigmoid v/sqrt(1+v^2)
+// v1.6: Steiner diode-string conductance secant (Electronic Design, 6 Dec 1974). The string is fed in mirror
+// from both ends, so signal current runs against the bias in one half and with it in the other:
+// i = 2I sinh(v/V'), and conductance RISES with level (even orders cancel). The 2k feed resistors in series
+// bound it: secant = (1 + rho) / (1 / (sinh(a)/a) + rho), rho = 2 pi fc 4.7nF 2k (1 at small signal).
+f_sg(v, rho) {
+	a = min(abs(v), 20);
+	t = a > 0.0001 ? (exp(a) - exp(-a)) * 0.5 / a : 1 + a * a * 0.166666667;
+	return (1 + rho) / (1 / t + rho);      // normalised: exactly 1 at small signal
+}
+
 f_ag(v) {
 	return 1 / sqrt(1 + v * v);
 }
@@ -263,15 +273,17 @@ f_stsolve(xl, xb, xh, s1, s2, t1, t2, Ke, g) {
 	return q1, q2, vA, vB;
 }
 
-f_steiner(xl, xb, xh, s1, s2, d1p, d2p, vbp, g, K) {
-	t1 = f_tg(d1p * 0.7);
-	t2 = f_tg(d2p * 0.7);
+f_steiner(xl, xb, xh, s1, s2, d1p, d2p, vbp, g, K, rho) {
+	// argument: one model unit = the article's 0 dBm input at the LP node (1.1 V pk / 48 = 22.9 mV);
+	// V' = 2 n Vt = 98 mV per diode pair, so a = d * 0.233.
+	t1 = f_sg(d1p * 0.233, rho);
+	t2 = f_sg(d2p * 0.233, rho);
 	Ke = K * f_ag(K * vbp * 0.7);
 	q1, q2, vA, vB = f_stsolve(xl, xb, xh, s1, s2, t1, t2, Ke, g);
 	// v1.6: re-evaluate the diode-string secants and amplifier limit at the current
 	// solution (one fixed-point step) - removes the fs/4 overshoot (+30 dBFS) of v1.5.
-	t1 = f_tg((xl - vA) * 0.7);
-	t2 = f_tg((vA - vB) * 0.7);
+	t1 = f_sg((xl - vA) * 0.233, rho);
+	t2 = f_sg((vA - vB) * 0.233, rho);
 	Ke = K * f_ag(K * vB * 0.7);
 	q1, q2, vA, vB = f_stsolve(xl, xb, xh, s1, s2, t1, t2, Ke, g);
 	return Ke * vB, fixdenorm(2 * q1 - s1), fixdenorm(2 * q2 - s2), xl - vA, vA - vB, vB;
@@ -393,8 +405,9 @@ MODELS = [
          states=["s1", "s2", "d1", "d2", "vb"], lp="native", hp="native", char="BP BLEND",
          coef=["{p}_g = {s}_gw;",
                "{p}_K = 1 + 2.1 * pow({r}, 1.3);",
-               "{p}_kd = 1 / pow({p}_K, {s}_cmp);"],
-         call=["o1, {sv} = f_steiner({x} * (1 - {c}) * {lpflag}, {x} * {c}, {x} * (1 - {c}) * {hp}, {sv}, {p}_g, {p}_K);",
+               "{p}_kd = 1 / pow({p}_K, {s}_cmp);",
+               "{p}_rho = 0.0000590619 * {s}_fcc;"],                 # 2 pi x 4.7 nF x 2k x fc
+         call=["o1, {sv} = f_steiner({x} * (1 - {c}) * {lpflag}, {x} * {c}, {x} * (1 - {c}) * {hp}, {sv}, {p}_g, {p}_K, {p}_rho);",
                "{acc} = {acc} + {mix} * o1 * {p}_kd;"]),
     dict(id=4, key="se", name="Oberheim SEM-inspired", taps="12",
          states=["s1", "s2", "hq", "bq"], lp="native", hp="native", char="NOTCH MORPH",
