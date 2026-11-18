@@ -78,3 +78,14 @@ See [LA2A_MANUAL_CHECK.md](LA2A_MANUAL_CHECK.md). `tests/review/la2a_manual.py` 
 | E46 | Cell exponent: 2 fits the addendum's COMP; 3.5 fits Figure 1, which the addendum gives as the LIMIT curve; no single value fits both | M (static solve) | The user chose per-mode exponents: COMP 2, LIMIT 3.5 |
 | E47 | Lawrence 1964: release about 2 s after 5–6 dB, 5–10 s after 20–30 dB, 50 % < 1 s; no cell transfer data | P | Consistent with E21 |
 
+## Added 2026-11-18: Stinchcombe MS-10/MS-20 study [S]
+
+See [MS20_STUDY_CHECK.md](MS20_STUDY_CHECK.md).
+
+| ID | Finding | Class | Verdict |
+|---|---|---|---|
+| E48 | Korg35 low-pass denominator s² + (7/3 − k)s + 1; OTA s² + (2 − k)s + 1 (re-derived) | S + derivation | Model matches the OTA form within 0.23 dB below 3 kHz |
+| E49 | Both MS-20 high-pass variants are 6 dB/oct: s(s + 4/3) and s(s + 1) numerators | S + derivation | Model is 12 dB/oct; deviates |
+| E50 | Korg35 diodes are in the forward path (×58, ~0.5 V knee); OTA diodes are in the feedback path (×4, ~2 V) | S | Model's clipper is feedback-path, so it is Mk2-like; Mk1 is missing |
+| E51 | Korg35 resonance is asymmetric (SPICE only) | S (unverified) | Not modelled |
+
