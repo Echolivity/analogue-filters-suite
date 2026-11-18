@@ -13,6 +13,7 @@ sys.path.insert(0, HERE)
 from dsp import run, base
 GOLD = os.path.join(HERE, "baseline", "lpf_hpf_golden.json")
 GOLD_BPF = os.path.join(HERE, "baseline", "bpf_golden_v1.2.json")
+GOLD_DYN = os.path.join(HERE, "baseline", "dyn_golden_v1.3.json")
 SR = 48000
 
 def signal(n, seed=3):
@@ -68,8 +69,29 @@ def battery_bpf():
     cases.append(("BPF on/off/mix", base(l_on=1, b_freq=600), [(E // 3, "b_on", 1), (E, "b_mix", 30), (3 * E // 2, "b_on", 0)]))
     return cases, signal(n)
 
-def render_all(extra=None, bpf=False):
-    cases, x = battery_bpf() if bpf else battery()
+def battery_dyn():
+    """v1.3 dynamics-chain scenarios (captured with the v1.3 engine before v1.4 work)."""
+    n = SR * 2 // 5
+    E = n // 2
+    a3 = dict(t_on=1, o_on=1, v_on=1, t_drive=50, o_pr=60, v_thr=-26, v_ratio=4)
+    cases = []
+    for o in range(6):
+        cases.append((f"chain order {o}", base(**a3, c_order=o), []))
+        cases.append((f"chain order {o} + filters", base(**a3, c_order=o, l_on=1, h_on=1, b_on=1, l_cut=4000, h_cut=90, b_freq=800,
+                                                          b_mix=50, l_res=50, order_sel=o % 2, b_pos=(o // 2) % 2), []))
+    cases.append(("reorders", base(**a3), [(E // 3 * i, "c_order", i % 6) for i in range(1, 6)]))
+    cases.append(("bypass toggles", base(**a3), [(E // 2, "t_on", 0), (E, "o_on", 0), (3 * E // 2, "v_on", 0)]))
+    cases.append(("vca old/feedback soft knee", base(v_on=1, v_type=1, v_knee=2, v_thrust=2, v_thr=-30, v_ratio=6, v_link=30), []))
+    cases.append(("opto limit emph", base(o_on=1, o_mode=1, o_pr=80, o_emph=70, o_hpf=200, o_link=0), []))
+    cases.append(("tube hot", base(t_on=1, t_drive=100, t_bias=-60, t_tone=4000, t_auto=0, t_mix=60), []))
+    cases.append(("gate", base(g_on=1, g_thr=-25, g_hold=5, g_rel=40, g_range=-50, g_hpf=100), []))
+    cases.append(("key listen", base(v_on=1, v_thrust=1, key_listen=2), []))
+    cases.append(("chain-in source", base(**a3, v_src=1, o_src=1, g_on=1, g_src=1, c_order=4), []))
+    cases.append(("chain + 2x OS", base(**a3, ovs_sel=1, l_on=1, l_cut=3000), []))
+    return cases, signal(n)
+
+def render_all(extra=None, bpf=False, dyn=False):
+    cases, x = battery_dyn() if dyn else (battery_bpf() if bpf else battery())
     out = {}
     for name, p, ev in cases:
         p = dict(p); p.update(extra or {})
@@ -88,6 +110,16 @@ if __name__ == "__main__":
         h = render_all(bpf=True)
         json.dump(h, open(GOLD_BPF, "w"), indent=1)
         print(f"captured {len(h)} BPF golden renders")
+    elif mode == "capture-dyn":
+        h = render_all(dyn=True)
+        json.dump(h, open(GOLD_DYN, "w"), indent=1)
+        print(f"captured {len(h)} dynamics golden renders")
+    elif mode == "check-dyn":
+        gold = json.load(open(GOLD_DYN))
+        h = render_all(dyn=True)
+        bad = [k for k in gold if h.get(k) != gold[k]]
+        print(f"{len(gold) - len(bad)}/{len(gold)} bit-identical" + (" — MISMATCH: " + ", ".join(bad) if bad else ""))
+        sys.exit(1 if bad else 0)
     elif mode == "check-bpf":
         gold = json.load(open(GOLD_BPF))
         h = render_all(bpf=True)
