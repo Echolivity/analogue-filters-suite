@@ -29,6 +29,12 @@ Details and before/after measurements: [docs/V1.6_ENGINE.md](docs/V1.6_ENGINE.md
   - Reference mode runs it at 8x (LPF) / 4x (HPF), measured at the default CHARACTER as for every model. Heavy CHARACTER aliases more: at 8x, −67.9 dBc at CHARACTER 50 and −44.5 at 100. It costs about 2.3× the OTA circuit's CPU at the same factor.
   - **Assumptions:** 5 V peak per unit inside the filter (after Drive, which feeds the models at −12 dB at Drive 0). The diode knee is then reached at about +2 dBFS input at Drive 0, and about −16 dBFS at Drive 60; the study's R1 = R2/3 and ×1.1 buffer gain; MS-10 component values. The study's asymmetric resonance is not modelled (simulation only).
   - A new K35 strip sits at the right edge, and the parameter is appended (82 in total).
+- **Changed: the Steiner-Parker diode law now follows Steiner's own circuit** (Electronic Design, 6 Dec 1974, which you supplied). The resistors are one forward-biased 1N4148 string fed in mirror from both ends, so the law is sinh: cutoff **rises** with level. v1.5 used tanh, so its cutoff fell.
+  - Bounded by the circuit's 2 kΩ feed resistors.
+  - Identical at small signal.
+  - At Drive 100, the −3 dB point goes 760 → 992 → 2059 Hz at −40 / −10 / 0 dBFS. The old law gave 760 / 812 / 760 Hz.
+  - The article also confirms the model's transfer functions, input points and high-pass node; its plots fit K/48 and Q = 1/(3 − K).
+  - Level reference (assumption): one model unit = the article's 0 dBm input at the low-pass node.
 - **New UI:** an ENGINE strip at the right edge showing the mode, the high-oversampling choice, and the factors actually running. Two new Live parameters, appended; all 79 earlier ones are unchanged.
 - **Compatibility:**
   - Earlier Sets open in REFERENCE. Choose CREATIVE to get v1.5's oversampling factor back.
@@ -45,7 +51,7 @@ Details and before/after measurements: [docs/V1.6_ENGINE.md](docs/V1.6_ENGINE.md
   - `tests/v16_tests.py` (15 checks)
   - `tests/golden.py check-v16`
   - `compat.py --allow-dsp`
-  - Suite: 95/95 + 20/20 + UI 47/47
+  - Suite: 95/95 + 21/21 + UI 47/47
 - **Not yet compiled in Max.** The GenExpr is now about 14,000 lines.
 
 ## v1.5 — premium analogue UI (presentation only)

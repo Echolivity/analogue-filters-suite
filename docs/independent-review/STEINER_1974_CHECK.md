@@ -56,4 +56,12 @@ So the high-pass skirt is 6 dB/oct, as the model and `validate.py` already assum
 
 **Conclusion.** The linear model, the injection points and the high-pass node are confirmed by a primary source, which settles review item R10's "no primary source". One defect remains: the diode law runs in the opposite direction to the circuit. Since the article operates the circuit below 50 mV per pair, where the law is within 4.4 % of linear, the difference shows up when driven hard (Drive, high resonance).
 
-**Assumption a change would need.** A level reference. The article's levels are 0 dBm input at low Q and −10 dBm at Q ≥ 10. Mapping them to the model's units, e.g. 50 mV per diode pair at a stated dBFS, is an assumption, as with the Korg35 diode knee.
+## Decision and status (user, 2026-11-19): fix in place. Done.
+
+- **The law is now sinh, bounded by the 2 kΩ feed resistors:** secant = (1 + ρ)/(1/(sinh(a)/a) + ρ), with ρ = 2π·fc·4.7 nF·2 kΩ and a = 0.233·(voltage across the element). It is exactly 1 at small signal.
+- **Level reference (assumption):** one model unit = the article's 0 dBm input at the low-pass node (1.1 V peak / 48 = 22.9 mV). V′ = 2·n·Vt = 98 mV per pair.
+- **Measured** (Drive 100, res 0), −3 dB point: 760 Hz at −40 dBFS (unchanged), 992 Hz at −10 dBFS, 2059 Hz at 0 dBFS. The old law gave 760 / 812 / 760 Hz. At res 50 and 0 dBFS: 3067 Hz now, against 1132 Hz before.
+- **Gates:** fs/4 sweep, self-oscillation pitch and Reference aliasing all still pass. The new v1.6 check locks in the direction.
+- **Goldens:** only scenarios passing through the Steiner model change, and they were already in the documented set.
+
+**Original note:**  A level reference. The article's levels are 0 dBm input at low Q and −10 dBm at Q ≥ 10. Mapping them to the model's units, e.g. 50 mV per diode pair at a stated dBFS, is an assumption, as with the Korg35 diode knee.

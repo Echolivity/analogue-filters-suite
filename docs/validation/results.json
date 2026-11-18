@@ -1298,7 +1298,7 @@
      "model": "Steiner-Parker",
      "fc": 100,
      "oscillates": true,
-     "peak_dbfs": -5.4,
+     "peak_dbfs": -5.5,
      "freq": 100.0,
      "cents": 0
     },
@@ -1308,9 +1308,9 @@
      "model": "Steiner-Parker",
      "fc": 1000,
      "oscillates": true,
-     "peak_dbfs": -5.4,
-     "freq": 996.0,
-     "cents": -7
+     "peak_dbfs": -5.5,
+     "freq": 1000.0,
+     "cents": 0
     },
     {
      "os": 1,
@@ -1318,9 +1318,9 @@
      "model": "Steiner-Parker",
      "fc": 5000,
      "oscillates": true,
-     "peak_dbfs": -5.5,
-     "freq": 4977.0,
-     "cents": -8
+     "peak_dbfs": -5.6,
+     "freq": 4996.0,
+     "cents": -1
     },
     {
      "os": 1,
@@ -1478,7 +1478,7 @@
      "model": "Steiner-Parker",
      "fc": 60,
      "oscillates": true,
-     "peak_dbfs": -5.4,
+     "peak_dbfs": -5.5,
      "freq": 60.0,
      "cents": 0
     },
@@ -1488,9 +1488,9 @@
      "model": "Steiner-Parker",
      "fc": 300,
      "oscillates": true,
-     "peak_dbfs": -5.4,
-     "freq": 299.0,
-     "cents": -6
+     "peak_dbfs": -5.5,
+     "freq": 300.0,
+     "cents": 0
     },
     {
      "os": 1,
@@ -1498,9 +1498,9 @@
      "model": "Steiner-Parker",
      "fc": 1500,
      "oscillates": true,
-     "peak_dbfs": -5.4,
-     "freq": 1494.0,
-     "cents": -7
+     "peak_dbfs": -5.5,
+     "freq": 1499.0,
+     "cents": -1
     },
     {
      "os": 1,
@@ -1628,7 +1628,7 @@
      "model": "Steiner-Parker",
      "fc": 100,
      "oscillates": true,
-     "peak_dbfs": -5.4,
+     "peak_dbfs": -5.5,
      "freq": 100.0,
      "cents": 0
     },
@@ -1638,9 +1638,9 @@
      "model": "Steiner-Parker",
      "fc": 1000,
      "oscillates": true,
-     "peak_dbfs": -5.4,
-     "freq": 996.0,
-     "cents": -7
+     "peak_dbfs": -5.5,
+     "freq": 1000.0,
+     "cents": 0
     },
     {
      "os": 2,
@@ -1648,9 +1648,9 @@
      "model": "Steiner-Parker",
      "fc": 5000,
      "oscillates": true,
-     "peak_dbfs": -5.3,
-     "freq": 4978.0,
-     "cents": -8
+     "peak_dbfs": -5.4,
+     "freq": 4997.0,
+     "cents": -1
     },
     {
      "os": 2,
@@ -1808,7 +1808,7 @@
      "model": "Steiner-Parker",
      "fc": 60,
      "oscillates": true,
-     "peak_dbfs": -5.4,
+     "peak_dbfs": -5.5,
      "freq": 60.0,
      "cents": 0
     },
@@ -1818,9 +1818,9 @@
      "model": "Steiner-Parker",
      "fc": 300,
      "oscillates": true,
-     "peak_dbfs": -5.4,
-     "freq": 299.0,
-     "cents": -6
+     "peak_dbfs": -5.5,
+     "freq": 300.0,
+     "cents": 0
     },
     {
      "os": 2,
@@ -1828,9 +1828,9 @@
      "model": "Steiner-Parker",
      "fc": 1500,
      "oscillates": true,
-     "peak_dbfs": -5.4,
-     "freq": 1494.0,
-     "cents": -7
+     "peak_dbfs": -5.5,
+     "freq": 1499.0,
+     "cents": -1
     },
     {
      "os": 2,
@@ -1936,21 +1936,21 @@
      "model": "Steiner-Parker",
      "drive": 0,
      "thd_pct": 0.21,
-     "even_db": -180.6,
+     "even_db": -182.3,
      "peak": 0.496
     },
     {
      "model": "Steiner-Parker",
      "drive": 50,
      "thd_pct": 5.266,
-     "even_db": -181.3,
+     "even_db": -180.7,
      "peak": 0.966
     },
     {
      "model": "Steiner-Parker",
      "drive": 100,
-     "thd_pct": 29.276,
-     "even_db": -176.5,
+     "thd_pct": 29.241,
+     "even_db": -177.4,
      "peak": 0.682
     },
     {
@@ -2000,7 +2000,7 @@
   {
    "name": "Oversampling: 2x reduces aliasing for every model (7 kHz sine, drive 100%)",
    "passed": true,
-   "detail": "Sherman -10.1\u2192-23.1 dB, K35/MS-20 -12.3\u2192-26.2 dB, Ladder 3.7\u2192-15.1 dB, Steiner-Parker -13.1\u2192-43.4 dB, SEM -19.8\u2192-49.5 dB, Diode/303 -13.4\u2192-26.7 dB",
+   "detail": "Sherman -10.1\u2192-23.1 dB, K35/MS-20 -12.3\u2192-26.2 dB, Ladder 3.7\u2192-15.1 dB, Steiner-Parker -12.1\u2192-28.5 dB, SEM -19.8\u2192-49.5 dB, Diode/303 -13.4\u2192-26.7 dB",
    "rows": [
     {
      "model": "Sherman",
@@ -2019,8 +2019,8 @@
     },
     {
      "model": "Steiner-Parker",
-     "alias_db_1x": -13.1,
-     "alias_db_2x": -43.4
+     "alias_db_1x": -12.1,
+     "alias_db_2x": -28.5
     },
     {
      "model": "SEM",
@@ -2197,7 +2197,7 @@
     {
      "case": "LPF Steiner-Parker: cutoff 200 Hz\u219220 kHz",
      "hf_abs_dbfs": -116.5,
-     "hf_rel_db": 41.3,
+     "hf_rel_db": 41.2,
      "finite": true
     },
     {
@@ -2418,14 +2418,14 @@
     },
     {
      "case": "HPF model switch Steiner-Parker\u2192SEM",
-     "hf_abs_dbfs": -130.5,
-     "hf_rel_db": 19.2,
+     "hf_abs_dbfs": -127.0,
+     "hf_rel_db": 22.5,
      "finite": true
     },
     {
      "case": "HPF Steiner-Parker: stage on",
-     "hf_abs_dbfs": -150.5,
-     "hf_rel_db": 7.8,
+     "hf_abs_dbfs": -150.7,
+     "hf_rel_db": 7.7,
      "finite": true
     },
     {
@@ -2454,13 +2454,13 @@
     },
     {
      "case": "Stage order LP\u2192HP to HP\u2192LP",
-     "hf_abs_dbfs": -75.3,
-     "hf_rel_db": 47.0,
+     "hf_abs_dbfs": -75.2,
+     "hf_rel_db": 46.9,
      "finite": true
     },
     {
      "case": "Oversampling 1x\u21922x",
-     "hf_abs_dbfs": -74.8,
+     "hf_abs_dbfs": -74.7,
      "hf_rel_db": 47.4,
      "finite": true
     },
@@ -2486,7 +2486,7 @@
   {
    "name": "3. LPF at maximum resonance with program input, all models (soft clip OFF)",
    "passed": true,
-   "detail": "Sherman 2.4, K35/MS-20 1.7, Ladder 1.0, Steiner-Parker -2.7, SEM -7.8, Diode/303 -3.3 dBFS peak"
+   "detail": "Sherman 2.4, K35/MS-20 1.7, Ladder 1.0, Steiner-Parker -2.9, SEM -7.8, Diode/303 -3.3 dBFS peak"
   },
   {
    "name": "4. HPF sweep 20 Hz\u21921 kHz",
@@ -2566,7 +2566,7 @@
      "stage": "l",
      "fc": 1000,
      "peak_cents": -64,
-     "selfosc_peak_dbfs": -5.4
+     "selfosc_peak_dbfs": -5.5
     },
     {
      "sr": 44100,
@@ -2574,7 +2574,7 @@
      "stage": "l",
      "fc": 10000,
      "peak_cents": -25,
-     "selfosc_peak_dbfs": -5.8
+     "selfosc_peak_dbfs": -5.9
     },
     {
      "sr": 44100,
@@ -2630,7 +2630,7 @@
      "stage": "l",
      "fc": 1000,
      "peak_cents": -38,
-     "selfosc_peak_dbfs": -5.4
+     "selfosc_peak_dbfs": -5.5
     },
     {
      "sr": 48000,
@@ -2638,7 +2638,7 @@
      "stage": "l",
      "fc": 10000,
      "peak_cents": -27,
-     "selfosc_peak_dbfs": -5.8
+     "selfosc_peak_dbfs": -5.9
     },
     {
      "sr": 48000,
@@ -2694,7 +2694,7 @@
      "stage": "l",
      "fc": 1000,
      "peak_cents": -16,
-     "selfosc_peak_dbfs": -5.4
+     "selfosc_peak_dbfs": -5.5
     },
     {
      "sr": 88200,
@@ -2702,7 +2702,7 @@
      "stage": "l",
      "fc": 10000,
      "peak_cents": -33,
-     "selfosc_peak_dbfs": -5.5
+     "selfosc_peak_dbfs": -5.6
     },
     {
      "sr": 88200,
@@ -2758,7 +2758,7 @@
      "stage": "l",
      "fc": 1000,
      "peak_cents": -27,
-     "selfosc_peak_dbfs": -5.4
+     "selfosc_peak_dbfs": -5.5
     },
     {
      "sr": 96000,
@@ -2766,7 +2766,7 @@
      "stage": "l",
      "fc": 10000,
      "peak_cents": -38,
-     "selfosc_peak_dbfs": -5.5
+     "selfosc_peak_dbfs": -5.6
     },
     {
      "sr": 96000,
@@ -2822,7 +2822,7 @@
      "stage": "l",
      "fc": 1000,
      "peak_cents": -27,
-     "selfosc_peak_dbfs": -5.4
+     "selfosc_peak_dbfs": -5.5
     },
     {
      "sr": 192000,
@@ -2830,7 +2830,7 @@
      "stage": "l",
      "fc": 10000,
      "peak_cents": -31,
-     "selfosc_peak_dbfs": -5.4
+     "selfosc_peak_dbfs": -5.5
     },
     {
      "sr": 192000,
@@ -2853,39 +2853,39 @@
   {
    "name": "CPU benchmark (transpiled C, gcc -O2, this machine)",
    "passed": true,
-   "detail": "Both stages off (pass-through): 4.36%; Default device (Ladder LPF 24 dB + K35 HPF), 1x: 5.18%; Diode LPF 48 dB + Sherman HPF 48 dB, 1x: 6.62%; Default device, 2x oversampling: 6.34%; Worst case: Diode+Sherman 48 dB, 2x, both mid-crossfade: 10.38%",
+   "detail": "Both stages off (pass-through): 4.29%; Default device (Ladder LPF 24 dB + K35 HPF), 1x: 5.24%; Diode LPF 48 dB + Sherman HPF 48 dB, 1x: 6.71%; Default device, 2x oversampling: 6.28%; Worst case: Diode+Sherman 48 dB, 2x, both mid-crossfade: 10.06%",
    "rows": [
     {
      "config": "Both stages off (pass-through)",
-     "ns_per_frame": 908.2,
-     "pct_of_one_core_48k": 4.36
+     "ns_per_frame": 894.6,
+     "pct_of_one_core_48k": 4.29
     },
     {
      "config": "Default device (Ladder LPF 24 dB + K35 HPF), 1x",
-     "ns_per_frame": 1079.4,
-     "pct_of_one_core_48k": 5.18
+     "ns_per_frame": 1090.8,
+     "pct_of_one_core_48k": 5.24
     },
     {
      "config": "Diode LPF 48 dB + Sherman HPF 48 dB, 1x",
-     "ns_per_frame": 1378.7,
-     "pct_of_one_core_48k": 6.62
+     "ns_per_frame": 1398.5,
+     "pct_of_one_core_48k": 6.71
     },
     {
      "config": "Default device, 2x oversampling",
-     "ns_per_frame": 1321.7,
-     "pct_of_one_core_48k": 6.34
+     "ns_per_frame": 1308.3,
+     "pct_of_one_core_48k": 6.28
     },
     {
      "config": "Worst case: Diode+Sherman 48 dB, 2x, both mid-crossfade",
-     "ns_per_frame": 2163.4,
-     "pct_of_one_core_48k": 10.38
+     "ns_per_frame": 2095.5,
+     "pct_of_one_core_48k": 10.06
     }
    ]
   },
   {
    "name": "Denormals: decay tails flush to zero; silence costs no more than signal",
    "passed": true,
-   "detail": "silence/signal CPU ratio 0.91"
+   "detail": "silence/signal CPU ratio 0.80"
   },
   {
    "name": "DC offset at output with asymmetric saturation (drive 100%, hot input)",
@@ -4225,32 +4225,32 @@
   {
    "name": "CPU with BPF (transpiled C, gcc -O2, this machine)",
    "passed": true,
-   "detail": "v1.1 default device (LPF+HPF), BPF off: 5.15%; + BPF SVF: 5.93%; + BPF CASCADE: 6.23%; + BPF MULTIMODE (ARP): 6.46%; worst: all three, 48 dB slopes, 2x, BPF mid-crossfade: 12.42%",
+   "detail": "v1.1 default device (LPF+HPF), BPF off: 5.18%; + BPF SVF: 6.07%; + BPF CASCADE: 5.96%; + BPF MULTIMODE (ARP): 6.47%; worst: all three, 48 dB slopes, 2x, BPF mid-crossfade: 11.82%",
    "rows": [
     {
      "config": "v1.1 default device (LPF+HPF), BPF off",
-     "ns_per_frame": 1072.5,
-     "pct_of_one_core_48k": 5.15
+     "ns_per_frame": 1079.8,
+     "pct_of_one_core_48k": 5.18
     },
     {
      "config": "+ BPF SVF",
-     "ns_per_frame": 1234.8,
-     "pct_of_one_core_48k": 5.93
+     "ns_per_frame": 1264.9,
+     "pct_of_one_core_48k": 6.07
     },
     {
      "config": "+ BPF CASCADE",
-     "ns_per_frame": 1298.0,
-     "pct_of_one_core_48k": 6.23
+     "ns_per_frame": 1240.9,
+     "pct_of_one_core_48k": 5.96
     },
     {
      "config": "+ BPF MULTIMODE (ARP)",
-     "ns_per_frame": 1345.2,
-     "pct_of_one_core_48k": 6.46
+     "ns_per_frame": 1347.3,
+     "pct_of_one_core_48k": 6.47
     },
     {
      "config": "worst: all three, 48 dB slopes, 2x, BPF mid-crossfade",
-     "ns_per_frame": 2587.0,
-     "pct_of_one_core_48k": 12.42
+     "ns_per_frame": 2462.3,
+     "pct_of_one_core_48k": 11.82
     }
    ]
   },
@@ -4920,37 +4920,37 @@
   {
    "name": "CPU with the dynamics chain (transpiled C, gcc -O2, this machine)",
    "passed": true,
-   "detail": "v1.2 device, dynamics off: 5.21%; + TUBE: 6.13%; + OPTO: 6.29%; + VCA: 6.07%; + all three + gate: 7.56%; worst: LPF+HPF+BPF 2x + all dynamics, reordering every 20 ms: 14.34%",
+   "detail": "v1.2 device, dynamics off: 5.23%; + TUBE: 6.32%; + OPTO: 6.21%; + VCA: 6.04%; + all three + gate: 7.6%; worst: LPF+HPF+BPF 2x + all dynamics, reordering every 20 ms: 14.53%",
    "rows": [
     {
      "config": "v1.2 device, dynamics off",
-     "ns_per_frame": 1085.5,
-     "pct_of_one_core_48k": 5.21
+     "ns_per_frame": 1088.8,
+     "pct_of_one_core_48k": 5.23
     },
     {
      "config": "+ TUBE",
-     "ns_per_frame": 1276.3,
-     "pct_of_one_core_48k": 6.13
+     "ns_per_frame": 1316.6,
+     "pct_of_one_core_48k": 6.32
     },
     {
      "config": "+ OPTO",
-     "ns_per_frame": 1310.8,
-     "pct_of_one_core_48k": 6.29
+     "ns_per_frame": 1293.4,
+     "pct_of_one_core_48k": 6.21
     },
     {
      "config": "+ VCA",
-     "ns_per_frame": 1264.1,
-     "pct_of_one_core_48k": 6.07
+     "ns_per_frame": 1258.2,
+     "pct_of_one_core_48k": 6.04
     },
     {
      "config": "+ all three + gate",
-     "ns_per_frame": 1576.0,
-     "pct_of_one_core_48k": 7.56
+     "ns_per_frame": 1582.9,
+     "pct_of_one_core_48k": 7.6
     },
     {
      "config": "worst: LPF+HPF+BPF 2x + all dynamics, reordering every 20 ms",
-     "ns_per_frame": 2987.8,
-     "pct_of_one_core_48k": 14.34
+     "ns_per_frame": 3027.8,
+     "pct_of_one_core_48k": 14.53
     }
    ]
   },
@@ -5151,7 +5151,7 @@
   {
    "name": "CPU by routing mode (LPF + HPF + BPF on)",
    "passed": true,
-   "detail": "LPF + HPF + BPF, SERIES: 6.1%; LPF + HPF + BPF, PARALLEL: 6.16%; LPF + HPF + BPF, HYBRID: 6.22%",
+   "detail": "LPF + HPF + BPF, SERIES: 6.1%; LPF + HPF + BPF, PARALLEL: 5.99%; LPF + HPF + BPF, HYBRID: 6.2%",
    "rows": [
     {
      "config": "LPF + HPF + BPF, SERIES",
@@ -5159,11 +5159,11 @@
     },
     {
      "config": "LPF + HPF + BPF, PARALLEL",
-     "pct_of_one_core_48k": 6.16
+     "pct_of_one_core_48k": 5.99
     },
     {
      "config": "LPF + HPF + BPF, HYBRID",
-     "pct_of_one_core_48k": 6.22
+     "pct_of_one_core_48k": 6.2
     }
    ]
   },
@@ -5176,6 +5176,6 @@
  "summary": {
   "total": 95,
   "passed": 95,
-  "seconds": 245.0
+  "seconds": 248.6
  }
 }
