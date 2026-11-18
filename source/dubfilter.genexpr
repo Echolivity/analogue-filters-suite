@@ -1404,18 +1404,21 @@ f_k35lp(x, s1, s2, s3, yp, g, K0, L) {
 	return y, fixdenorm(n1), fixdenorm(n2), fixdenorm(n3), y;
 }
 
+// v1.6: the MS-20 high-pass as built (Stinchcombe 2006, section 7): the low-pass input is grounded and the
+// signal drives the lifted end of stage 2's capacitor, so  y = x + LP2(u - x),  u = HP1(K * y).
+// Transfer function s(s + 1) / (s^2 + (2 - K)s + 1): a 12 dB high-pass plus a band-pass term, so the
+// slope below cutoff is 6 dB/oct (v1.5 used s^2/(...), 12 dB/oct). s1 is unused.
 f_k35hp(x, s1, s2, s3, yp, g, K0, L) {
 	G = g / (1 + g);
 	ig = 1 / (1 + g);
 	K = K0 * f_tg(K0 * yp / L);
-	l1, n1 = f_op(x, s1, G);
-	y1 = x - l1;
-	u = (y1 + ig * (s3 - G * K * s2)) / (1 - K * G * ig);
+	y = ig * (x - G * s3 + s2) / (1 - K * G * ig);
+	u = ig * (K * y - s3);
 	u = 0.85 * tanh(u * 1.17647058824);
-	l2, n2 = f_op(u, s2, G);
-	y = u - l2;
+	l2, n2 = f_op(u - x, s2, G);
+	y = x + l2;
 	l3, n3 = f_op(K * y, s3, G);
-	return y, fixdenorm(n1), fixdenorm(n2), fixdenorm(n3), y;
+	return y, fixdenorm(s1), fixdenorm(n2), fixdenorm(n3), y;
 }
 
 // ================= MODEL 03: Moog transistor ladder-inspired =================

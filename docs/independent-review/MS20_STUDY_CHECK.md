@@ -58,7 +58,15 @@ In each case this is a 12 dB/oct high-pass plus a band-pass term. Below cutoff t
 
 The review's R9 assumed the opposite (that the current model is Mk1 and Mk2 was missing). This check reverses it: **Mk1 is the one that is missing.**
 
-## Options (need the user's decision; no engine change yet)
+## Decisions (user, 2026-11-18) and status
+
+- **High-pass: changed in place. Done.**
+  - The K35 high-pass now implements the OTA circuit's s(s + 1)/den: y = x + LP₂(u − x), with u = HP₁(K·y).
+  - Measured: within 0.11 dB of that function (60 Hz–3 kHz) at resonance 0, 50 and 80; 5.6–5.7 dB/oct below cutoff.
+  - The Reference aliasing check is still ≤ −80 dBc at 2x.
+- **Low-pass:** relabel the current model as Mk2 (OTA). Add Korg35 (Mk1) as an appended "K35 Circuit" option, defaulting to Mk2 so existing Sets don't change. In progress.
+
+## Options as presented
 
 - **Labelling.** Relabel the current model as "MS-20 Mk2 (LM13600 OTA)-inspired". The sound is unchanged.
 - **Mk1.** Add the Korg35 (Mk1) circuit as an **appended parameter** (e.g. "K35 Circuit: OTA / KORG-35"), not a new value on LPF/HPF Model. Extending those lists would break `compat.py`, which requires every earlier parameter box and gen~ range to stay identical. The Mk1 circuit would have:
