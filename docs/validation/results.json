@@ -1,0 +1,2928 @@
+{
+ "tests": [
+  {
+   "name": "Circuit reference: small-signal response matches each circuit's analogue transfer function (99th-pct error < 0.5 dB)",
+   "passed": true,
+   "detail": "worst SEM HP 0.045 dB",
+   "rows": [
+    {
+     "reference": "Ladder LP 24 \u2014 Stilson & Smith / Stinchcombe 1/((1+s)^4+k), res 0%",
+     "max_err_db_p99": 0.024,
+     "median_err_db": 0.0038
+    },
+    {
+     "reference": "Ladder HP ALT \u2014 pole-mix s^4/((1+s)^4+k), res 0%",
+     "max_err_db_p99": 0.028,
+     "median_err_db": 0.0011
+    },
+    {
+     "reference": "Korg 35 LP \u2014 1/(s^2+(2-K)s+1), res 0%",
+     "max_err_db_p99": 0.009,
+     "median_err_db": 0.0014
+    },
+    {
+     "reference": "Korg 35 HP \u2014 s^2/(s^2+(2-K)s+1), res 0%",
+     "max_err_db_p99": 0.019,
+     "median_err_db": 0.0011
+    },
+    {
+     "reference": "Steiner-Parker LP \u2014 Sallen-Key K/(s^2+(3-K)s+1), res 0%",
+     "max_err_db_p99": 0.009,
+     "median_err_db": 0.0014
+    },
+    {
+     "reference": "Steiner-Parker HP injection \u2014 K s(s+2)/(s^2+(3-K)s+1), res 0%",
+     "max_err_db_p99": 0.008,
+     "median_err_db": 0.0011
+    },
+    {
+     "reference": "SEM LP \u2014 SVF 1/(s^2+2Rs+1), res 0%",
+     "max_err_db_p99": 0.009,
+     "median_err_db": 0.0014
+    },
+    {
+     "reference": "SEM HP \u2014 SVF s^2/(s^2+2Rs+1), res 0%",
+     "max_err_db_p99": 0.019,
+     "median_err_db": 0.0011
+    },
+    {
+     "reference": "TB-303 \u2014 Stinchcombe 303 ladder (bottom C/2) + feedback HPF, res 0%",
+     "max_err_db_p99": 0.006,
+     "median_err_db": 0.0014
+    },
+    {
+     "reference": "Ladder LP 24 \u2014 Stilson & Smith / Stinchcombe 1/((1+s)^4+k), res 60%",
+     "max_err_db_p99": 0.03,
+     "median_err_db": 0.0039
+    },
+    {
+     "reference": "Ladder HP ALT \u2014 pole-mix s^4/((1+s)^4+k), res 60%",
+     "max_err_db_p99": 0.022,
+     "median_err_db": 0.0011
+    },
+    {
+     "reference": "Korg 35 LP \u2014 1/(s^2+(2-K)s+1), res 60%",
+     "max_err_db_p99": 0.011,
+     "median_err_db": 0.0014
+    },
+    {
+     "reference": "Korg 35 HP \u2014 s^2/(s^2+(2-K)s+1), res 60%",
+     "max_err_db_p99": 0.025,
+     "median_err_db": 0.0011
+    },
+    {
+     "reference": "Steiner-Parker LP \u2014 Sallen-Key K/(s^2+(3-K)s+1), res 60%",
+     "max_err_db_p99": 0.01,
+     "median_err_db": 0.0014
+    },
+    {
+     "reference": "Steiner-Parker HP injection \u2014 K s(s+2)/(s^2+(3-K)s+1), res 60%",
+     "max_err_db_p99": 0.017,
+     "median_err_db": 0.0011
+    },
+    {
+     "reference": "SEM LP \u2014 SVF 1/(s^2+2Rs+1), res 60%",
+     "max_err_db_p99": 0.017,
+     "median_err_db": 0.0014
+    },
+    {
+     "reference": "SEM HP \u2014 SVF s^2/(s^2+2Rs+1), res 60%",
+     "max_err_db_p99": 0.045,
+     "median_err_db": 0.0011
+    },
+    {
+     "reference": "TB-303 \u2014 Stinchcombe 303 ladder (bottom C/2) + feedback HPF, res 60%",
+     "max_err_db_p99": 0.025,
+     "median_err_db": 0.0031
+    }
+   ]
+  },
+  {
+   "name": "Passband integrity (bass for LPF @40 Hz, treble for HPF @15 kHz, res 0\u201370%, Comp 100%)",
+   "passed": true,
+   "detail": "all within \u00b11 dB"
+  },
+  {
+   "name": "Slope selector: measured slope (4\u20138\u00d7 fc) within \u00b14 dB/oct of effective slope (diode & Steiner HP: native + 12 per extension)",
+   "passed": true,
+   "detail": "ok",
+   "rows": [
+    {
+     "stage": "l",
+     "model": "Sherman",
+     "selected": 12,
+     "measured": 12.3
+    },
+    {
+     "stage": "l",
+     "model": "Sherman",
+     "selected": 24,
+     "measured": 24.2
+    },
+    {
+     "stage": "l",
+     "model": "Sherman",
+     "selected": 36,
+     "measured": 36.6
+    },
+    {
+     "stage": "l",
+     "model": "Sherman",
+     "selected": 48,
+     "measured": 48.8
+    },
+    {
+     "stage": "l",
+     "model": "K35/MS-20",
+     "selected": 12,
+     "measured": 12.0
+    },
+    {
+     "stage": "l",
+     "model": "K35/MS-20",
+     "selected": 24,
+     "measured": 24.4
+    },
+    {
+     "stage": "l",
+     "model": "K35/MS-20",
+     "selected": 36,
+     "measured": 36.7
+    },
+    {
+     "stage": "l",
+     "model": "K35/MS-20",
+     "selected": 48,
+     "measured": 48.9
+    },
+    {
+     "stage": "l",
+     "model": "Ladder",
+     "selected": 12,
+     "measured": 12.0
+    },
+    {
+     "stage": "l",
+     "model": "Ladder",
+     "selected": 24,
+     "measured": 24.0
+    },
+    {
+     "stage": "l",
+     "model": "Ladder",
+     "selected": 36,
+     "measured": 36.3
+    },
+    {
+     "stage": "l",
+     "model": "Ladder",
+     "selected": 48,
+     "measured": 48.4
+    },
+    {
+     "stage": "l",
+     "model": "Steiner-Parker",
+     "selected": 12,
+     "measured": 12.0
+    },
+    {
+     "stage": "l",
+     "model": "Steiner-Parker",
+     "selected": 24,
+     "measured": 24.3
+    },
+    {
+     "stage": "l",
+     "model": "Steiner-Parker",
+     "selected": 36,
+     "measured": 36.7
+    },
+    {
+     "stage": "l",
+     "model": "Steiner-Parker",
+     "selected": 48,
+     "measured": 49.0
+    },
+    {
+     "stage": "l",
+     "model": "SEM",
+     "selected": 12,
+     "measured": 12.0
+    },
+    {
+     "stage": "l",
+     "model": "SEM",
+     "selected": 24,
+     "measured": 24.3
+    },
+    {
+     "stage": "l",
+     "model": "SEM",
+     "selected": 36,
+     "measured": 36.7
+    },
+    {
+     "stage": "l",
+     "model": "SEM",
+     "selected": 48,
+     "measured": 49.0
+    },
+    {
+     "stage": "l",
+     "model": "Diode/303",
+     "selected": 12,
+     "measured": 8.9,
+     "note": "native diode slope measured near fc; extensions add 12 dB/oct each"
+    },
+    {
+     "stage": "l",
+     "model": "Diode/303",
+     "selected": 24,
+     "measured": 8.9,
+     "note": "native diode slope measured near fc; extensions add 12 dB/oct each"
+    },
+    {
+     "stage": "l",
+     "model": "Diode/303",
+     "selected": 36,
+     "measured": 21.3,
+     "note": "native diode slope measured near fc; extensions add 12 dB/oct each"
+    },
+    {
+     "stage": "l",
+     "model": "Diode/303",
+     "selected": 48,
+     "measured": 33.7,
+     "note": "native diode slope measured near fc; extensions add 12 dB/oct each"
+    },
+    {
+     "stage": "h",
+     "model": "Sherman",
+     "selected": 12,
+     "measured": 11.7
+    },
+    {
+     "stage": "h",
+     "model": "Sherman",
+     "selected": 24,
+     "measured": 23.1
+    },
+    {
+     "stage": "h",
+     "model": "Sherman",
+     "selected": 36,
+     "measured": 34.8
+    },
+    {
+     "stage": "h",
+     "model": "Sherman",
+     "selected": 48,
+     "measured": 45.8
+    },
+    {
+     "stage": "h",
+     "model": "K35/MS-20",
+     "selected": 12,
+     "measured": 11.4
+    },
+    {
+     "stage": "h",
+     "model": "K35/MS-20",
+     "selected": 24,
+     "measured": 23.2
+    },
+    {
+     "stage": "h",
+     "model": "K35/MS-20",
+     "selected": 36,
+     "measured": 35.0
+    },
+    {
+     "stage": "h",
+     "model": "K35/MS-20",
+     "selected": 48,
+     "measured": 46.7
+    },
+    {
+     "stage": "h",
+     "model": "Ladder HP (ALT)",
+     "selected": 12,
+     "measured": 11.4
+    },
+    {
+     "stage": "h",
+     "model": "Ladder HP (ALT)",
+     "selected": 24,
+     "measured": 22.8
+    },
+    {
+     "stage": "h",
+     "model": "Ladder HP (ALT)",
+     "selected": 36,
+     "measured": 34.6
+    },
+    {
+     "stage": "h",
+     "model": "Ladder HP (ALT)",
+     "selected": 48,
+     "measured": 46.9
+    },
+    {
+     "stage": "h",
+     "model": "Steiner-Parker",
+     "selected": 12,
+     "measured": 5.6,
+     "note": "Steiner HP injection skirt (6 dB/oct) + 12 dB/oct per extension"
+    },
+    {
+     "stage": "h",
+     "model": "Steiner-Parker",
+     "selected": 24,
+     "measured": 17.3,
+     "note": "Steiner HP injection skirt (6 dB/oct) + 12 dB/oct per extension"
+    },
+    {
+     "stage": "h",
+     "model": "Steiner-Parker",
+     "selected": 36,
+     "measured": 29.1,
+     "note": "Steiner HP injection skirt (6 dB/oct) + 12 dB/oct per extension"
+    },
+    {
+     "stage": "h",
+     "model": "Steiner-Parker",
+     "selected": 48,
+     "measured": 40.8,
+     "note": "Steiner HP injection skirt (6 dB/oct) + 12 dB/oct per extension"
+    },
+    {
+     "stage": "h",
+     "model": "SEM",
+     "selected": 12,
+     "measured": 11.4
+    },
+    {
+     "stage": "h",
+     "model": "SEM",
+     "selected": 24,
+     "measured": 23.2
+    },
+    {
+     "stage": "h",
+     "model": "SEM",
+     "selected": 36,
+     "measured": 35.0
+    },
+    {
+     "stage": "h",
+     "model": "SEM",
+     "selected": 48,
+     "measured": 46.9
+    }
+   ]
+  },
+  {
+   "name": "Cutoff tracking: resonant peak within \u00b1100 cents of the set cutoff (res 85%)",
+   "passed": true,
+   "detail": "ok",
+   "rows": [
+    {
+     "os": 1,
+     "stage": "l",
+     "model": "Sherman",
+     "fc": 100,
+     "peak": 99.6,
+     "cents": -7.0
+    },
+    {
+     "os": 1,
+     "stage": "l",
+     "model": "Sherman",
+     "fc": 300,
+     "peak": 298.8,
+     "cents": -7.0
+    },
+    {
+     "os": 1,
+     "stage": "l",
+     "model": "Sherman",
+     "fc": 1000,
+     "peak": 1002.0,
+     "cents": 3.0
+    },
+    {
+     "os": 1,
+     "stage": "l",
+     "model": "Sherman",
+     "fc": 3000,
+     "peak": 3000.0,
+     "cents": 0.0
+    },
+    {
+     "os": 1,
+     "stage": "l",
+     "model": "Sherman",
+     "fc": 8000,
+     "peak": 7998.0,
+     "cents": -0.0
+    },
+    {
+     "os": 1,
+     "stage": "l",
+     "model": "K35/MS-20",
+     "fc": 100,
+     "peak": 99.6,
+     "cents": -7.0
+    },
+    {
+     "os": 1,
+     "stage": "l",
+     "model": "K35/MS-20",
+     "fc": 300,
+     "peak": 298.8,
+     "cents": -7.0
+    },
+    {
+     "os": 1,
+     "stage": "l",
+     "model": "K35/MS-20",
+     "fc": 1000,
+     "peak": 984.4,
+     "cents": -27.0
+    },
+    {
+     "os": 1,
+     "stage": "l",
+     "model": "K35/MS-20",
+     "fc": 3000,
+     "peak": 2947.3,
+     "cents": -31.0
+    },
+    {
+     "os": 1,
+     "stage": "l",
+     "model": "K35/MS-20",
+     "fc": 8000,
+     "peak": 7916.0,
+     "cents": -18.0
+    },
+    {
+     "os": 1,
+     "stage": "l",
+     "model": "Ladder",
+     "fc": 100,
+     "peak": 99.6,
+     "cents": -7.0
+    },
+    {
+     "os": 1,
+     "stage": "l",
+     "model": "Ladder",
+     "fc": 300,
+     "peak": 287.1,
+     "cents": -76.0
+    },
+    {
+     "os": 1,
+     "stage": "l",
+     "model": "Ladder",
+     "fc": 1000,
+     "peak": 966.8,
+     "cents": -58.0
+    },
+    {
+     "os": 1,
+     "stage": "l",
+     "model": "Ladder",
+     "fc": 3000,
+     "peak": 2894.5,
+     "cents": -62.0
+    },
+    {
+     "os": 1,
+     "stage": "l",
+     "model": "Ladder",
+     "fc": 8000,
+     "peak": 7763.7,
+     "cents": -52.0
+    },
+    {
+     "os": 1,
+     "stage": "l",
+     "model": "Steiner-Parker",
+     "fc": 100,
+     "peak": 99.6,
+     "cents": -7.0
+    },
+    {
+     "os": 1,
+     "stage": "l",
+     "model": "Steiner-Parker",
+     "fc": 300,
+     "peak": 298.8,
+     "cents": -7.0
+    },
+    {
+     "os": 1,
+     "stage": "l",
+     "model": "Steiner-Parker",
+     "fc": 1000,
+     "peak": 978.5,
+     "cents": -38.0
+    },
+    {
+     "os": 1,
+     "stage": "l",
+     "model": "Steiner-Parker",
+     "fc": 3000,
+     "peak": 2929.7,
+     "cents": -41.0
+    },
+    {
+     "os": 1,
+     "stage": "l",
+     "model": "Steiner-Parker",
+     "fc": 8000,
+     "peak": 7845.7,
+     "cents": -34.0
+    },
+    {
+     "os": 1,
+     "stage": "l",
+     "model": "SEM",
+     "fc": 100,
+     "peak": 99.6,
+     "cents": -7.0
+    },
+    {
+     "os": 1,
+     "stage": "l",
+     "model": "SEM",
+     "fc": 300,
+     "peak": 298.8,
+     "cents": -7.0
+    },
+    {
+     "os": 1,
+     "stage": "l",
+     "model": "SEM",
+     "fc": 1000,
+     "peak": 990.2,
+     "cents": -17.0
+    },
+    {
+     "os": 1,
+     "stage": "l",
+     "model": "SEM",
+     "fc": 3000,
+     "peak": 2970.7,
+     "cents": -17.0
+    },
+    {
+     "os": 1,
+     "stage": "l",
+     "model": "SEM",
+     "fc": 8000,
+     "peak": 7957.0,
+     "cents": -9.0
+    },
+    {
+     "os": 1,
+     "stage": "l",
+     "model": "Diode/303",
+     "fc": 100,
+     "peak": 105.5,
+     "cents": 92.0
+    },
+    {
+     "os": 1,
+     "stage": "l",
+     "model": "Diode/303",
+     "fc": 300,
+     "peak": 304.7,
+     "cents": 27.0
+    },
+    {
+     "os": 1,
+     "stage": "l",
+     "model": "Diode/303",
+     "fc": 1000,
+     "peak": 1013.7,
+     "cents": 24.0
+    },
+    {
+     "os": 1,
+     "stage": "l",
+     "model": "Diode/303",
+     "fc": 3000,
+     "peak": 3035.2,
+     "cents": 20.0
+    },
+    {
+     "os": 1,
+     "stage": "l",
+     "model": "Diode/303",
+     "fc": 8000,
+     "peak": 8085.9,
+     "cents": 18.0
+    },
+    {
+     "os": 1,
+     "stage": "h",
+     "model": "Sherman",
+     "fc": 40,
+     "peak": 41.0,
+     "cents": 43.0
+    },
+    {
+     "os": 1,
+     "stage": "h",
+     "model": "Sherman",
+     "fc": 100,
+     "peak": 99.6,
+     "cents": -7.0
+    },
+    {
+     "os": 1,
+     "stage": "h",
+     "model": "Sherman",
+     "fc": 300,
+     "peak": 298.8,
+     "cents": -7.0
+    },
+    {
+     "os": 1,
+     "stage": "h",
+     "model": "Sherman",
+     "fc": 1000,
+     "peak": 1002.0,
+     "cents": 3.0
+    },
+    {
+     "os": 1,
+     "stage": "h",
+     "model": "K35/MS-20",
+     "fc": 40,
+     "peak": 41.0,
+     "cents": 43.0
+    },
+    {
+     "os": 1,
+     "stage": "h",
+     "model": "K35/MS-20",
+     "fc": 100,
+     "peak": 105.5,
+     "cents": 92.0
+    },
+    {
+     "os": 1,
+     "stage": "h",
+     "model": "K35/MS-20",
+     "fc": 300,
+     "peak": 304.7,
+     "cents": 27.0
+    },
+    {
+     "os": 1,
+     "stage": "h",
+     "model": "K35/MS-20",
+     "fc": 1000,
+     "peak": 1013.7,
+     "cents": 24.0
+    },
+    {
+     "os": 1,
+     "stage": "h",
+     "model": "Ladder HP (ALT)",
+     "fc": 40,
+     "peak": 41.0,
+     "cents": 43.0
+    },
+    {
+     "os": 1,
+     "stage": "h",
+     "model": "Ladder HP (ALT)",
+     "fc": 100,
+     "peak": 99.6,
+     "cents": -7.0
+    },
+    {
+     "os": 1,
+     "stage": "h",
+     "model": "Ladder HP (ALT)",
+     "fc": 300,
+     "peak": 287.1,
+     "cents": -76.0
+    },
+    {
+     "os": 1,
+     "stage": "h",
+     "model": "Ladder HP (ALT)",
+     "fc": 1000,
+     "peak": 966.8,
+     "cents": -58.0
+    },
+    {
+     "os": 1,
+     "stage": "h",
+     "model": "Steiner-Parker",
+     "fc": 40,
+     "peak": 41.0,
+     "cents": 43.0
+    },
+    {
+     "os": 1,
+     "stage": "h",
+     "model": "Steiner-Parker",
+     "fc": 100,
+     "peak": 99.6,
+     "cents": -7.0
+    },
+    {
+     "os": 1,
+     "stage": "h",
+     "model": "Steiner-Parker",
+     "fc": 300,
+     "peak": 304.7,
+     "cents": 27.0
+    },
+    {
+     "os": 1,
+     "stage": "h",
+     "model": "Steiner-Parker",
+     "fc": 1000,
+     "peak": 1007.8,
+     "cents": 13.0
+    },
+    {
+     "os": 1,
+     "stage": "h",
+     "model": "SEM",
+     "fc": 40,
+     "peak": 41.0,
+     "cents": 43.0
+    },
+    {
+     "os": 1,
+     "stage": "h",
+     "model": "SEM",
+     "fc": 100,
+     "peak": 99.6,
+     "cents": -7.0
+    },
+    {
+     "os": 1,
+     "stage": "h",
+     "model": "SEM",
+     "fc": 300,
+     "peak": 304.7,
+     "cents": 27.0
+    },
+    {
+     "os": 1,
+     "stage": "h",
+     "model": "SEM",
+     "fc": 1000,
+     "peak": 1007.8,
+     "cents": 13.0
+    },
+    {
+     "os": 2,
+     "stage": "l",
+     "model": "Sherman",
+     "fc": 100,
+     "peak": 99.6,
+     "cents": -7.0
+    },
+    {
+     "os": 2,
+     "stage": "l",
+     "model": "Sherman",
+     "fc": 300,
+     "peak": 298.8,
+     "cents": -7.0
+    },
+    {
+     "os": 2,
+     "stage": "l",
+     "model": "Sherman",
+     "fc": 1000,
+     "peak": 1002.0,
+     "cents": 3.0
+    },
+    {
+     "os": 2,
+     "stage": "l",
+     "model": "Sherman",
+     "fc": 3000,
+     "peak": 3000.0,
+     "cents": 0.0
+    },
+    {
+     "os": 2,
+     "stage": "l",
+     "model": "Sherman",
+     "fc": 8000,
+     "peak": 7998.0,
+     "cents": -0.0
+    },
+    {
+     "os": 2,
+     "stage": "l",
+     "model": "K35/MS-20",
+     "fc": 100,
+     "peak": 99.6,
+     "cents": -7.0
+    },
+    {
+     "os": 2,
+     "stage": "l",
+     "model": "K35/MS-20",
+     "fc": 300,
+     "peak": 298.8,
+     "cents": -7.0
+    },
+    {
+     "os": 2,
+     "stage": "l",
+     "model": "K35/MS-20",
+     "fc": 1000,
+     "peak": 984.4,
+     "cents": -27.0
+    },
+    {
+     "os": 2,
+     "stage": "l",
+     "model": "K35/MS-20",
+     "fc": 3000,
+     "peak": 2935.5,
+     "cents": -38.0
+    },
+    {
+     "os": 2,
+     "stage": "l",
+     "model": "K35/MS-20",
+     "fc": 8000,
+     "peak": 7845.7,
+     "cents": -34.0
+    },
+    {
+     "os": 2,
+     "stage": "l",
+     "model": "Ladder",
+     "fc": 100,
+     "peak": 99.6,
+     "cents": -7.0
+    },
+    {
+     "os": 2,
+     "stage": "l",
+     "model": "Ladder",
+     "fc": 300,
+     "peak": 287.1,
+     "cents": -76.0
+    },
+    {
+     "os": 2,
+     "stage": "l",
+     "model": "Ladder",
+     "fc": 1000,
+     "peak": 966.8,
+     "cents": -58.0
+    },
+    {
+     "os": 2,
+     "stage": "l",
+     "model": "Ladder",
+     "fc": 3000,
+     "peak": 2894.5,
+     "cents": -62.0
+    },
+    {
+     "os": 2,
+     "stage": "l",
+     "model": "Ladder",
+     "fc": 8000,
+     "peak": 7746.1,
+     "cents": -56.0
+    },
+    {
+     "os": 2,
+     "stage": "l",
+     "model": "Steiner-Parker",
+     "fc": 100,
+     "peak": 99.6,
+     "cents": -7.0
+    },
+    {
+     "os": 2,
+     "stage": "l",
+     "model": "Steiner-Parker",
+     "fc": 300,
+     "peak": 298.8,
+     "cents": -7.0
+    },
+    {
+     "os": 2,
+     "stage": "l",
+     "model": "Steiner-Parker",
+     "fc": 1000,
+     "peak": 978.5,
+     "cents": -38.0
+    },
+    {
+     "os": 2,
+     "stage": "l",
+     "model": "Steiner-Parker",
+     "fc": 3000,
+     "peak": 2929.7,
+     "cents": -41.0
+    },
+    {
+     "os": 2,
+     "stage": "l",
+     "model": "Steiner-Parker",
+     "fc": 8000,
+     "peak": 7845.7,
+     "cents": -34.0
+    },
+    {
+     "os": 2,
+     "stage": "l",
+     "model": "SEM",
+     "fc": 100,
+     "peak": 99.6,
+     "cents": -7.0
+    },
+    {
+     "os": 2,
+     "stage": "l",
+     "model": "SEM",
+     "fc": 300,
+     "peak": 298.8,
+     "cents": -7.0
+    },
+    {
+     "os": 2,
+     "stage": "l",
+     "model": "SEM",
+     "fc": 1000,
+     "peak": 990.2,
+     "cents": -17.0
+    },
+    {
+     "os": 2,
+     "stage": "l",
+     "model": "SEM",
+     "fc": 3000,
+     "peak": 2970.7,
+     "cents": -17.0
+    },
+    {
+     "os": 2,
+     "stage": "l",
+     "model": "SEM",
+     "fc": 8000,
+     "peak": 7957.0,
+     "cents": -9.0
+    },
+    {
+     "os": 2,
+     "stage": "l",
+     "model": "Diode/303",
+     "fc": 100,
+     "peak": 105.5,
+     "cents": 92.0
+    },
+    {
+     "os": 2,
+     "stage": "l",
+     "model": "Diode/303",
+     "fc": 300,
+     "peak": 304.7,
+     "cents": 27.0
+    },
+    {
+     "os": 2,
+     "stage": "l",
+     "model": "Diode/303",
+     "fc": 1000,
+     "peak": 1013.7,
+     "cents": 24.0
+    },
+    {
+     "os": 2,
+     "stage": "l",
+     "model": "Diode/303",
+     "fc": 3000,
+     "peak": 3035.2,
+     "cents": 20.0
+    },
+    {
+     "os": 2,
+     "stage": "l",
+     "model": "Diode/303",
+     "fc": 8000,
+     "peak": 8085.9,
+     "cents": 18.0
+    },
+    {
+     "os": 2,
+     "stage": "h",
+     "model": "Sherman",
+     "fc": 40,
+     "peak": 41.0,
+     "cents": 43.0
+    },
+    {
+     "os": 2,
+     "stage": "h",
+     "model": "Sherman",
+     "fc": 100,
+     "peak": 99.6,
+     "cents": -7.0
+    },
+    {
+     "os": 2,
+     "stage": "h",
+     "model": "Sherman",
+     "fc": 300,
+     "peak": 298.8,
+     "cents": -7.0
+    },
+    {
+     "os": 2,
+     "stage": "h",
+     "model": "Sherman",
+     "fc": 1000,
+     "peak": 1002.0,
+     "cents": 3.0
+    },
+    {
+     "os": 2,
+     "stage": "h",
+     "model": "K35/MS-20",
+     "fc": 40,
+     "peak": 41.0,
+     "cents": 43.0
+    },
+    {
+     "os": 2,
+     "stage": "h",
+     "model": "K35/MS-20",
+     "fc": 100,
+     "peak": 105.5,
+     "cents": 92.0
+    },
+    {
+     "os": 2,
+     "stage": "h",
+     "model": "K35/MS-20",
+     "fc": 300,
+     "peak": 304.7,
+     "cents": 27.0
+    },
+    {
+     "os": 2,
+     "stage": "h",
+     "model": "K35/MS-20",
+     "fc": 1000,
+     "peak": 1013.7,
+     "cents": 24.0
+    },
+    {
+     "os": 2,
+     "stage": "h",
+     "model": "Ladder HP (ALT)",
+     "fc": 40,
+     "peak": 41.0,
+     "cents": 43.0
+    },
+    {
+     "os": 2,
+     "stage": "h",
+     "model": "Ladder HP (ALT)",
+     "fc": 100,
+     "peak": 99.6,
+     "cents": -7.0
+    },
+    {
+     "os": 2,
+     "stage": "h",
+     "model": "Ladder HP (ALT)",
+     "fc": 300,
+     "peak": 287.1,
+     "cents": -76.0
+    },
+    {
+     "os": 2,
+     "stage": "h",
+     "model": "Ladder HP (ALT)",
+     "fc": 1000,
+     "peak": 966.8,
+     "cents": -58.0
+    },
+    {
+     "os": 2,
+     "stage": "h",
+     "model": "Steiner-Parker",
+     "fc": 40,
+     "peak": 41.0,
+     "cents": 43.0
+    },
+    {
+     "os": 2,
+     "stage": "h",
+     "model": "Steiner-Parker",
+     "fc": 100,
+     "peak": 99.6,
+     "cents": -7.0
+    },
+    {
+     "os": 2,
+     "stage": "h",
+     "model": "Steiner-Parker",
+     "fc": 300,
+     "peak": 304.7,
+     "cents": 27.0
+    },
+    {
+     "os": 2,
+     "stage": "h",
+     "model": "Steiner-Parker",
+     "fc": 1000,
+     "peak": 1007.8,
+     "cents": 13.0
+    },
+    {
+     "os": 2,
+     "stage": "h",
+     "model": "SEM",
+     "fc": 40,
+     "peak": 41.0,
+     "cents": 43.0
+    },
+    {
+     "os": 2,
+     "stage": "h",
+     "model": "SEM",
+     "fc": 100,
+     "peak": 99.6,
+     "cents": -7.0
+    },
+    {
+     "os": 2,
+     "stage": "h",
+     "model": "SEM",
+     "fc": 300,
+     "peak": 304.7,
+     "cents": 27.0
+    },
+    {
+     "os": 2,
+     "stage": "h",
+     "model": "SEM",
+     "fc": 1000,
+     "peak": 1007.8,
+     "cents": 13.0
+    }
+   ]
+  },
+  {
+   "name": "Impulse decay and step settling (LPF passes DC, HPF removes it)",
+   "passed": true,
+   "detail": "ok"
+  },
+  {
+   "name": "Self-oscillation: stable, bounded (<+2 dBFS), on pitch (\u00b1100 c); SEM does not self-oscillate (by design)",
+   "passed": true,
+   "detail": "ok",
+   "rows": [
+    {
+     "os": 1,
+     "stage": "l",
+     "model": "Sherman",
+     "fc": 100,
+     "oscillates": true,
+     "peak_dbfs": -0.5,
+     "freq": 100.0,
+     "cents": 0
+    },
+    {
+     "os": 1,
+     "stage": "l",
+     "model": "Sherman",
+     "fc": 1000,
+     "oscillates": true,
+     "peak_dbfs": -0.5,
+     "freq": 1005.0,
+     "cents": 9
+    },
+    {
+     "os": 1,
+     "stage": "l",
+     "model": "Sherman",
+     "fc": 5000,
+     "oscillates": true,
+     "peak_dbfs": 0.7,
+     "freq": 5159.0,
+     "cents": 54
+    },
+    {
+     "os": 1,
+     "stage": "l",
+     "model": "K35/MS-20",
+     "fc": 100,
+     "oscillates": true,
+     "peak_dbfs": -1.0,
+     "freq": 100.0,
+     "cents": 0
+    },
+    {
+     "os": 1,
+     "stage": "l",
+     "model": "K35/MS-20",
+     "fc": 1000,
+     "oscillates": true,
+     "peak_dbfs": -0.6,
+     "freq": 1000.0,
+     "cents": 0
+    },
+    {
+     "os": 1,
+     "stage": "l",
+     "model": "K35/MS-20",
+     "fc": 5000,
+     "oscillates": true,
+     "peak_dbfs": 0.9,
+     "freq": 5007.0,
+     "cents": 2
+    },
+    {
+     "os": 1,
+     "stage": "l",
+     "model": "Ladder",
+     "fc": 100,
+     "oscillates": true,
+     "peak_dbfs": -2.5,
+     "freq": 98.0,
+     "cents": -35
+    },
+    {
+     "os": 1,
+     "stage": "l",
+     "model": "Ladder",
+     "fc": 1000,
+     "oscillates": true,
+     "peak_dbfs": -3.0,
+     "freq": 990.0,
+     "cents": -17
+    },
+    {
+     "os": 1,
+     "stage": "l",
+     "model": "Ladder",
+     "fc": 5000,
+     "oscillates": true,
+     "peak_dbfs": -3.7,
+     "freq": 5015.0,
+     "cents": 5
+    },
+    {
+     "os": 1,
+     "stage": "l",
+     "model": "Steiner-Parker",
+     "fc": 100,
+     "oscillates": true,
+     "peak_dbfs": -5.4,
+     "freq": 100.0,
+     "cents": 0
+    },
+    {
+     "os": 1,
+     "stage": "l",
+     "model": "Steiner-Parker",
+     "fc": 1000,
+     "oscillates": true,
+     "peak_dbfs": -5.3,
+     "freq": 1000.0,
+     "cents": 0
+    },
+    {
+     "os": 1,
+     "stage": "l",
+     "model": "Steiner-Parker",
+     "fc": 5000,
+     "oscillates": true,
+     "peak_dbfs": -4.0,
+     "freq": 5080.0,
+     "cents": 27
+    },
+    {
+     "os": 1,
+     "stage": "l",
+     "model": "SEM",
+     "fc": 100,
+     "oscillates": false,
+     "peak_dbfs": -240.0,
+     "freq": 0.0,
+     "cents": null
+    },
+    {
+     "os": 1,
+     "stage": "l",
+     "model": "SEM",
+     "fc": 1000,
+     "oscillates": false,
+     "peak_dbfs": -240.0,
+     "freq": 0.0,
+     "cents": null
+    },
+    {
+     "os": 1,
+     "stage": "l",
+     "model": "SEM",
+     "fc": 5000,
+     "oscillates": false,
+     "peak_dbfs": -240.0,
+     "freq": 0.0,
+     "cents": null
+    },
+    {
+     "os": 1,
+     "stage": "l",
+     "model": "Diode/303",
+     "fc": 100,
+     "oscillates": true,
+     "peak_dbfs": -17.0,
+     "freq": 103.0,
+     "cents": 51
+    },
+    {
+     "os": 1,
+     "stage": "l",
+     "model": "Diode/303",
+     "fc": 1000,
+     "oscillates": true,
+     "peak_dbfs": -9.8,
+     "freq": 966.0,
+     "cents": -60
+    },
+    {
+     "os": 1,
+     "stage": "l",
+     "model": "Diode/303",
+     "fc": 5000,
+     "oscillates": true,
+     "peak_dbfs": -10.0,
+     "freq": 4850.0,
+     "cents": -53
+    },
+    {
+     "os": 1,
+     "stage": "h",
+     "model": "Sherman",
+     "fc": 60,
+     "oscillates": true,
+     "peak_dbfs": -0.4,
+     "freq": 60.0,
+     "cents": 0
+    },
+    {
+     "os": 1,
+     "stage": "h",
+     "model": "Sherman",
+     "fc": 300,
+     "oscillates": true,
+     "peak_dbfs": -0.4,
+     "freq": 300.0,
+     "cents": 0
+    },
+    {
+     "os": 1,
+     "stage": "h",
+     "model": "Sherman",
+     "fc": 1500,
+     "oscillates": true,
+     "peak_dbfs": -0.4,
+     "freq": 1513.0,
+     "cents": 15
+    },
+    {
+     "os": 1,
+     "stage": "h",
+     "model": "K35/MS-20",
+     "fc": 60,
+     "oscillates": true,
+     "peak_dbfs": -0.8,
+     "freq": 60.0,
+     "cents": 0
+    },
+    {
+     "os": 1,
+     "stage": "h",
+     "model": "K35/MS-20",
+     "fc": 300,
+     "oscillates": true,
+     "peak_dbfs": -0.7,
+     "freq": 300.0,
+     "cents": 0
+    },
+    {
+     "os": 1,
+     "stage": "h",
+     "model": "K35/MS-20",
+     "fc": 1500,
+     "oscillates": true,
+     "peak_dbfs": -0.1,
+     "freq": 1500.0,
+     "cents": 0
+    },
+    {
+     "os": 1,
+     "stage": "h",
+     "model": "Ladder HP (ALT)",
+     "fc": 60,
+     "oscillates": true,
+     "peak_dbfs": -1.7,
+     "freq": 59.0,
+     "cents": -29
+    },
+    {
+     "os": 1,
+     "stage": "h",
+     "model": "Ladder HP (ALT)",
+     "fc": 300,
+     "oscillates": true,
+     "peak_dbfs": -1.9,
+     "freq": 296.0,
+     "cents": -23
+    },
+    {
+     "os": 1,
+     "stage": "h",
+     "model": "Ladder HP (ALT)",
+     "fc": 1500,
+     "oscillates": true,
+     "peak_dbfs": -2.6,
+     "freq": 1489.0,
+     "cents": -13
+    },
+    {
+     "os": 1,
+     "stage": "h",
+     "model": "Steiner-Parker",
+     "fc": 60,
+     "oscillates": true,
+     "peak_dbfs": -5.4,
+     "freq": 60.0,
+     "cents": 0
+    },
+    {
+     "os": 1,
+     "stage": "h",
+     "model": "Steiner-Parker",
+     "fc": 300,
+     "oscillates": true,
+     "peak_dbfs": -5.4,
+     "freq": 299.0,
+     "cents": -6
+    },
+    {
+     "os": 1,
+     "stage": "h",
+     "model": "Steiner-Parker",
+     "fc": 1500,
+     "oscillates": true,
+     "peak_dbfs": -5.3,
+     "freq": 1503.0,
+     "cents": 3
+    },
+    {
+     "os": 1,
+     "stage": "h",
+     "model": "SEM",
+     "fc": 60,
+     "oscillates": false,
+     "peak_dbfs": -240.0,
+     "freq": 0.0,
+     "cents": null
+    },
+    {
+     "os": 1,
+     "stage": "h",
+     "model": "SEM",
+     "fc": 300,
+     "oscillates": false,
+     "peak_dbfs": -240.0,
+     "freq": 0.0,
+     "cents": null
+    },
+    {
+     "os": 1,
+     "stage": "h",
+     "model": "SEM",
+     "fc": 1500,
+     "oscillates": false,
+     "peak_dbfs": -240.0,
+     "freq": 0.0,
+     "cents": null
+    },
+    {
+     "os": 2,
+     "stage": "l",
+     "model": "Sherman",
+     "fc": 100,
+     "oscillates": true,
+     "peak_dbfs": -0.5,
+     "freq": 100.0,
+     "cents": 0
+    },
+    {
+     "os": 2,
+     "stage": "l",
+     "model": "Sherman",
+     "fc": 1000,
+     "oscillates": true,
+     "peak_dbfs": -0.5,
+     "freq": 1002.0,
+     "cents": 3
+    },
+    {
+     "os": 2,
+     "stage": "l",
+     "model": "Sherman",
+     "fc": 5000,
+     "oscillates": true,
+     "peak_dbfs": -0.4,
+     "freq": 5080.0,
+     "cents": 27
+    },
+    {
+     "os": 2,
+     "stage": "l",
+     "model": "K35/MS-20",
+     "fc": 100,
+     "oscillates": true,
+     "peak_dbfs": -1.0,
+     "freq": 100.0,
+     "cents": 0
+    },
+    {
+     "os": 2,
+     "stage": "l",
+     "model": "K35/MS-20",
+     "fc": 1000,
+     "oscillates": true,
+     "peak_dbfs": -0.8,
+     "freq": 1000.0,
+     "cents": 0
+    },
+    {
+     "os": 2,
+     "stage": "l",
+     "model": "K35/MS-20",
+     "fc": 5000,
+     "oscillates": true,
+     "peak_dbfs": 0.0,
+     "freq": 5003.0,
+     "cents": 1
+    },
+    {
+     "os": 2,
+     "stage": "l",
+     "model": "Ladder",
+     "fc": 100,
+     "oscillates": true,
+     "peak_dbfs": -2.4,
+     "freq": 98.0,
+     "cents": -35
+    },
+    {
+     "os": 2,
+     "stage": "l",
+     "model": "Ladder",
+     "fc": 1000,
+     "oscillates": true,
+     "peak_dbfs": -2.7,
+     "freq": 987.0,
+     "cents": -23
+    },
+    {
+     "os": 2,
+     "stage": "l",
+     "model": "Ladder",
+     "fc": 5000,
+     "oscillates": true,
+     "peak_dbfs": -3.6,
+     "freq": 4983.0,
+     "cents": -6
+    },
+    {
+     "os": 2,
+     "stage": "l",
+     "model": "Steiner-Parker",
+     "fc": 100,
+     "oscillates": true,
+     "peak_dbfs": -5.4,
+     "freq": 100.0,
+     "cents": 0
+    },
+    {
+     "os": 2,
+     "stage": "l",
+     "model": "Steiner-Parker",
+     "fc": 1000,
+     "oscillates": true,
+     "peak_dbfs": -5.4,
+     "freq": 998.0,
+     "cents": -3
+    },
+    {
+     "os": 2,
+     "stage": "l",
+     "model": "Steiner-Parker",
+     "fc": 5000,
+     "oscillates": true,
+     "peak_dbfs": -5.0,
+     "freq": 5033.0,
+     "cents": 11
+    },
+    {
+     "os": 2,
+     "stage": "l",
+     "model": "SEM",
+     "fc": 100,
+     "oscillates": false,
+     "peak_dbfs": -240.0,
+     "freq": 0.0,
+     "cents": null
+    },
+    {
+     "os": 2,
+     "stage": "l",
+     "model": "SEM",
+     "fc": 1000,
+     "oscillates": false,
+     "peak_dbfs": -240.0,
+     "freq": 0.0,
+     "cents": null
+    },
+    {
+     "os": 2,
+     "stage": "l",
+     "model": "SEM",
+     "fc": 5000,
+     "oscillates": false,
+     "peak_dbfs": -240.0,
+     "freq": 0.0,
+     "cents": null
+    },
+    {
+     "os": 2,
+     "stage": "l",
+     "model": "Diode/303",
+     "fc": 100,
+     "oscillates": true,
+     "peak_dbfs": -16.9,
+     "freq": 103.0,
+     "cents": 51
+    },
+    {
+     "os": 2,
+     "stage": "l",
+     "model": "Diode/303",
+     "fc": 1000,
+     "oscillates": true,
+     "peak_dbfs": -9.7,
+     "freq": 965.0,
+     "cents": -62
+    },
+    {
+     "os": 2,
+     "stage": "l",
+     "model": "Diode/303",
+     "fc": 5000,
+     "oscillates": true,
+     "peak_dbfs": -9.7,
+     "freq": 4819.0,
+     "cents": -64
+    },
+    {
+     "os": 2,
+     "stage": "h",
+     "model": "Sherman",
+     "fc": 60,
+     "oscillates": true,
+     "peak_dbfs": -0.4,
+     "freq": 60.0,
+     "cents": 0
+    },
+    {
+     "os": 2,
+     "stage": "h",
+     "model": "Sherman",
+     "fc": 300,
+     "oscillates": true,
+     "peak_dbfs": -0.4,
+     "freq": 300.0,
+     "cents": 0
+    },
+    {
+     "os": 2,
+     "stage": "h",
+     "model": "Sherman",
+     "fc": 1500,
+     "oscillates": true,
+     "peak_dbfs": -0.4,
+     "freq": 1506.0,
+     "cents": 7
+    },
+    {
+     "os": 2,
+     "stage": "h",
+     "model": "K35/MS-20",
+     "fc": 60,
+     "oscillates": true,
+     "peak_dbfs": -0.8,
+     "freq": 60.0,
+     "cents": 0
+    },
+    {
+     "os": 2,
+     "stage": "h",
+     "model": "K35/MS-20",
+     "fc": 300,
+     "oscillates": true,
+     "peak_dbfs": -0.8,
+     "freq": 300.0,
+     "cents": 0
+    },
+    {
+     "os": 2,
+     "stage": "h",
+     "model": "K35/MS-20",
+     "fc": 1500,
+     "oscillates": true,
+     "peak_dbfs": -0.5,
+     "freq": 1500.0,
+     "cents": 0
+    },
+    {
+     "os": 2,
+     "stage": "h",
+     "model": "Ladder HP (ALT)",
+     "fc": 60,
+     "oscillates": true,
+     "peak_dbfs": -1.7,
+     "freq": 59.0,
+     "cents": -29
+    },
+    {
+     "os": 2,
+     "stage": "h",
+     "model": "Ladder HP (ALT)",
+     "fc": 300,
+     "oscillates": true,
+     "peak_dbfs": -1.8,
+     "freq": 295.0,
+     "cents": -29
+    },
+    {
+     "os": 2,
+     "stage": "h",
+     "model": "Ladder HP (ALT)",
+     "fc": 1500,
+     "oscillates": true,
+     "peak_dbfs": -2.2,
+     "freq": 1483.0,
+     "cents": -20
+    },
+    {
+     "os": 2,
+     "stage": "h",
+     "model": "Steiner-Parker",
+     "fc": 60,
+     "oscillates": true,
+     "peak_dbfs": -5.4,
+     "freq": 60.0,
+     "cents": 0
+    },
+    {
+     "os": 2,
+     "stage": "h",
+     "model": "Steiner-Parker",
+     "fc": 300,
+     "oscillates": true,
+     "peak_dbfs": -5.4,
+     "freq": 299.0,
+     "cents": -6
+    },
+    {
+     "os": 2,
+     "stage": "h",
+     "model": "Steiner-Parker",
+     "fc": 1500,
+     "oscillates": true,
+     "peak_dbfs": -5.4,
+     "freq": 1499.0,
+     "cents": -1
+    },
+    {
+     "os": 2,
+     "stage": "h",
+     "model": "SEM",
+     "fc": 60,
+     "oscillates": false,
+     "peak_dbfs": -240.0,
+     "freq": 0.0,
+     "cents": null
+    },
+    {
+     "os": 2,
+     "stage": "h",
+     "model": "SEM",
+     "fc": 300,
+     "oscillates": false,
+     "peak_dbfs": -240.0,
+     "freq": 0.0,
+     "cents": null
+    },
+    {
+     "os": 2,
+     "stage": "h",
+     "model": "SEM",
+     "fc": 1500,
+     "oscillates": false,
+     "peak_dbfs": -240.0,
+     "freq": 0.0,
+     "cents": null
+    }
+   ]
+  },
+  {
+   "name": "Nonlinearity: harmonic content rises with drive, output bounded (<+6 dBFS)",
+   "passed": true,
+   "detail": "THD monotonic in drive, bounded",
+   "rows": [
+    {
+     "model": "Sherman",
+     "drive": 0,
+     "thd_pct": 3.337,
+     "even_db": -29.6,
+     "peak": 0.513
+    },
+    {
+     "model": "Sherman",
+     "drive": 50,
+     "thd_pct": 14.362,
+     "even_db": -17.8,
+     "peak": 1.029
+    },
+    {
+     "model": "Sherman",
+     "drive": 100,
+     "thd_pct": 37.305,
+     "even_db": -20.7,
+     "peak": 0.526
+    },
+    {
+     "model": "K35/MS-20",
+     "drive": 0,
+     "thd_pct": 0.171,
+     "even_db": -184.8,
+     "peak": 0.497
+    },
+    {
+     "model": "K35/MS-20",
+     "drive": 50,
+     "thd_pct": 4.823,
+     "even_db": -180.6,
+     "peak": 0.981
+    },
+    {
+     "model": "K35/MS-20",
+     "drive": 100,
+     "thd_pct": 32.604,
+     "even_db": -178.8,
+     "peak": 0.609
+    },
+    {
+     "model": "Ladder",
+     "drive": 0,
+     "thd_pct": 0.024,
+     "even_db": -178.9,
+     "peak": 0.503
+    },
+    {
+     "model": "Ladder",
+     "drive": 50,
+     "thd_pct": 1.613,
+     "even_db": -181.1,
+     "peak": 1.216
+    },
+    {
+     "model": "Ladder",
+     "drive": 100,
+     "thd_pct": 31.567,
+     "even_db": -179.7,
+     "peak": 1.148
+    },
+    {
+     "model": "Steiner-Parker",
+     "drive": 0,
+     "thd_pct": 0.21,
+     "even_db": -182.0,
+     "peak": 0.496
+    },
+    {
+     "model": "Steiner-Parker",
+     "drive": 50,
+     "thd_pct": 5.259,
+     "even_db": -181.0,
+     "peak": 0.966
+    },
+    {
+     "model": "Steiner-Parker",
+     "drive": 100,
+     "thd_pct": 29.208,
+     "even_db": -177.9,
+     "peak": 0.686
+    },
+    {
+     "model": "SEM",
+     "drive": 0,
+     "thd_pct": 0.033,
+     "even_db": -180.7,
+     "peak": 0.5
+    },
+    {
+     "model": "SEM",
+     "drive": 50,
+     "thd_pct": 1.024,
+     "even_db": -179.5,
+     "peak": 1.144
+    },
+    {
+     "model": "SEM",
+     "drive": 100,
+     "thd_pct": 17.601,
+     "even_db": -180.1,
+     "peak": 1.365
+    },
+    {
+     "model": "Diode/303",
+     "drive": 0,
+     "thd_pct": 0.129,
+     "even_db": -178.8,
+     "peak": 0.495
+    },
+    {
+     "model": "Diode/303",
+     "drive": 50,
+     "thd_pct": 3.687,
+     "even_db": -179.9,
+     "peak": 1.02
+    },
+    {
+     "model": "Diode/303",
+     "drive": 100,
+     "thd_pct": 29.711,
+     "even_db": -178.3,
+     "peak": 0.71
+    }
+   ]
+  },
+  {
+   "name": "Oversampling: 2x reduces aliasing for every model (7 kHz sine, drive 100%)",
+   "passed": true,
+   "detail": "Sherman -10.5\u2192-22.8 dB, K35/MS-20 -12.3\u2192-26.2 dB, Ladder 3.7\u2192-15.1 dB, Steiner-Parker -10.2\u2192-38.0 dB, SEM -19.8\u2192-49.5 dB, Diode/303 -13.4\u2192-26.7 dB",
+   "rows": [
+    {
+     "model": "Sherman",
+     "alias_db_1x": -10.5,
+     "alias_db_2x": -22.8
+    },
+    {
+     "model": "K35/MS-20",
+     "alias_db_1x": -12.3,
+     "alias_db_2x": -26.2
+    },
+    {
+     "model": "Ladder",
+     "alias_db_1x": 3.7,
+     "alias_db_2x": -15.1
+    },
+    {
+     "model": "Steiner-Parker",
+     "alias_db_1x": -10.2,
+     "alias_db_2x": -38.0
+    },
+    {
+     "model": "SEM",
+     "alias_db_1x": -19.8,
+     "alias_db_2x": -49.5
+    },
+    {
+     "model": "Diode/303",
+     "alias_db_1x": -13.4,
+     "alias_db_2x": -26.7
+    }
+   ]
+  },
+  {
+   "name": "Stereo: identical L/R in \u2192 bit-identical out; zero crosstalk; channels independent (all models, 1x & 2x)",
+   "passed": true,
+   "detail": "ok"
+  },
+  {
+   "name": "Click/zipper: >8 kHz burst after every abrupt change below \u221260 dBFS on a \u22126 dBFS sine (hard discontinuity = -30.1 dBFS)",
+   "passed": true,
+   "detail": "71 cases, worst -70.4 dBFS",
+   "rows": [
+    {
+     "case": "LPF Sherman: cutoff 20 kHz\u2192200 Hz",
+     "hf_abs_dbfs": -112.2,
+     "hf_rel_db": 46.2,
+     "finite": true
+    },
+    {
+     "case": "LPF Sherman: cutoff 200 Hz\u219220 kHz",
+     "hf_abs_dbfs": -106.0,
+     "hf_rel_db": 49.0,
+     "finite": true
+    },
+    {
+     "case": "LPF Sherman: resonance 0\u2192100%",
+     "hf_abs_dbfs": -143.2,
+     "hf_rel_db": 15.4,
+     "finite": true
+    },
+    {
+     "case": "LPF Sherman: slope 12\u219248",
+     "hf_abs_dbfs": -112.4,
+     "hf_rel_db": 45.9,
+     "finite": true
+    },
+    {
+     "case": "LPF Sherman: drive 0\u2192100%",
+     "hf_abs_dbfs": -111.2,
+     "hf_rel_db": 47.1,
+     "finite": true
+    },
+    {
+     "case": "LPF Sherman: character 0\u2192100%",
+     "hf_abs_dbfs": -150.6,
+     "hf_rel_db": 7.6,
+     "finite": true
+    },
+    {
+     "case": "LPF Sherman: stage off",
+     "hf_abs_dbfs": -114.6,
+     "hf_rel_db": 42.3,
+     "finite": true
+    },
+    {
+     "case": "LPF model switch Sherman\u2192K35/MS-20",
+     "hf_abs_dbfs": -123.9,
+     "hf_rel_db": 34.0,
+     "finite": true
+    },
+    {
+     "case": "LPF K35/MS-20: cutoff 20 kHz\u2192200 Hz",
+     "hf_abs_dbfs": -110.5,
+     "hf_rel_db": 47.8,
+     "finite": true
+    },
+    {
+     "case": "LPF K35/MS-20: cutoff 200 Hz\u219220 kHz",
+     "hf_abs_dbfs": -115.1,
+     "hf_rel_db": 42.4,
+     "finite": true
+    },
+    {
+     "case": "LPF K35/MS-20: resonance 0\u2192100%",
+     "hf_abs_dbfs": -128.5,
+     "hf_rel_db": 31.2,
+     "finite": true
+    },
+    {
+     "case": "LPF K35/MS-20: slope 12\u219248",
+     "hf_abs_dbfs": -107.0,
+     "hf_rel_db": 52.6,
+     "finite": true
+    },
+    {
+     "case": "LPF K35/MS-20: drive 0\u2192100%",
+     "hf_abs_dbfs": -105.7,
+     "hf_rel_db": 53.9,
+     "finite": true
+    },
+    {
+     "case": "LPF K35/MS-20: character 0\u2192100%",
+     "hf_abs_dbfs": -160.2,
+     "hf_rel_db": -0.7,
+     "finite": true
+    },
+    {
+     "case": "LPF K35/MS-20: stage off",
+     "hf_abs_dbfs": -104.5,
+     "hf_rel_db": 53.7,
+     "finite": true
+    },
+    {
+     "case": "LPF model switch K35/MS-20\u2192Ladder",
+     "hf_abs_dbfs": -115.6,
+     "hf_rel_db": 43.2,
+     "finite": true
+    },
+    {
+     "case": "LPF Ladder: cutoff 20 kHz\u2192200 Hz",
+     "hf_abs_dbfs": -114.8,
+     "hf_rel_db": 43.5,
+     "finite": true
+    },
+    {
+     "case": "LPF Ladder: cutoff 200 Hz\u219220 kHz",
+     "hf_abs_dbfs": -103.3,
+     "hf_rel_db": 47.1,
+     "finite": true
+    },
+    {
+     "case": "LPF Ladder: resonance 0\u2192100%",
+     "hf_abs_dbfs": -144.0,
+     "hf_rel_db": 15.7,
+     "finite": true
+    },
+    {
+     "case": "LPF Ladder: slope 12\u219248",
+     "hf_abs_dbfs": -102.8,
+     "hf_rel_db": 55.6,
+     "finite": true
+    },
+    {
+     "case": "LPF Ladder: drive 0\u2192100%",
+     "hf_abs_dbfs": -121.3,
+     "hf_rel_db": 37.1,
+     "finite": true
+    },
+    {
+     "case": "LPF Ladder: character 0\u2192100%",
+     "hf_abs_dbfs": -158.8,
+     "hf_rel_db": -0.4,
+     "finite": true
+    },
+    {
+     "case": "LPF Ladder: stage off",
+     "hf_abs_dbfs": -105.0,
+     "hf_rel_db": 47.8,
+     "finite": true
+    },
+    {
+     "case": "LPF model switch Ladder\u2192Steiner-Parker",
+     "hf_abs_dbfs": -118.1,
+     "hf_rel_db": 39.5,
+     "finite": true
+    },
+    {
+     "case": "LPF Steiner-Parker: cutoff 20 kHz\u2192200 Hz",
+     "hf_abs_dbfs": -109.3,
+     "hf_rel_db": 49.0,
+     "finite": true
+    },
+    {
+     "case": "LPF Steiner-Parker: cutoff 200 Hz\u219220 kHz",
+     "hf_abs_dbfs": -116.4,
+     "hf_rel_db": 41.4,
+     "finite": true
+    },
+    {
+     "case": "LPF Steiner-Parker: resonance 0\u2192100%",
+     "hf_abs_dbfs": -138.6,
+     "hf_rel_db": 21.2,
+     "finite": true
+    },
+    {
+     "case": "LPF Steiner-Parker: slope 12\u219248",
+     "hf_abs_dbfs": -106.1,
+     "hf_rel_db": 53.4,
+     "finite": true
+    },
+    {
+     "case": "LPF Steiner-Parker: drive 0\u2192100%",
+     "hf_abs_dbfs": -104.8,
+     "hf_rel_db": 54.6,
+     "finite": true
+    },
+    {
+     "case": "LPF Steiner-Parker: character 0\u2192100%",
+     "hf_abs_dbfs": -145.9,
+     "hf_rel_db": 13.5,
+     "finite": true
+    },
+    {
+     "case": "LPF Steiner-Parker: stage off",
+     "hf_abs_dbfs": -103.1,
+     "hf_rel_db": 53.6,
+     "finite": true
+    },
+    {
+     "case": "LPF model switch Steiner-Parker\u2192SEM",
+     "hf_abs_dbfs": -114.4,
+     "hf_rel_db": 43.9,
+     "finite": true
+    },
+    {
+     "case": "LPF SEM: cutoff 20 kHz\u2192200 Hz",
+     "hf_abs_dbfs": -117.0,
+     "hf_rel_db": 41.3,
+     "finite": true
+    },
+    {
+     "case": "LPF SEM: cutoff 200 Hz\u219220 kHz",
+     "hf_abs_dbfs": -108.7,
+     "hf_rel_db": 47.5,
+     "finite": true
+    },
+    {
+     "case": "LPF SEM: resonance 0\u2192100%",
+     "hf_abs_dbfs": -138.6,
+     "hf_rel_db": 21.2,
+     "finite": true
+    },
+    {
+     "case": "LPF SEM: slope 12\u219248",
+     "hf_abs_dbfs": -112.0,
+     "hf_rel_db": 47.0,
+     "finite": true
+    },
+    {
+     "case": "LPF SEM: drive 0\u2192100%",
+     "hf_abs_dbfs": -110.7,
+     "hf_rel_db": 48.3,
+     "finite": true
+    },
+    {
+     "case": "LPF SEM: character 0\u2192100%",
+     "hf_abs_dbfs": -149.5,
+     "hf_rel_db": 9.5,
+     "finite": true
+    },
+    {
+     "case": "LPF SEM: stage off",
+     "hf_abs_dbfs": -111.6,
+     "hf_rel_db": 46.4,
+     "finite": true
+    },
+    {
+     "case": "LPF model switch SEM\u2192Diode/303",
+     "hf_abs_dbfs": -121.8,
+     "hf_rel_db": 36.8,
+     "finite": true
+    },
+    {
+     "case": "LPF Diode/303: cutoff 20 kHz\u2192200 Hz",
+     "hf_abs_dbfs": -110.0,
+     "hf_rel_db": 48.4,
+     "finite": true
+    },
+    {
+     "case": "LPF Diode/303: cutoff 200 Hz\u219220 kHz",
+     "hf_abs_dbfs": -114.2,
+     "hf_rel_db": 43.1,
+     "finite": true
+    },
+    {
+     "case": "LPF Diode/303: resonance 0\u2192100%",
+     "hf_abs_dbfs": -110.4,
+     "hf_rel_db": 49.4,
+     "finite": true
+    },
+    {
+     "case": "LPF Diode/303: slope 12\u219248",
+     "hf_abs_dbfs": -106.8,
+     "hf_rel_db": 52.9,
+     "finite": true
+    },
+    {
+     "case": "LPF Diode/303: drive 0\u2192100%",
+     "hf_abs_dbfs": -105.5,
+     "hf_rel_db": 54.1,
+     "finite": true
+    },
+    {
+     "case": "LPF Diode/303: character 0\u2192100%",
+     "hf_abs_dbfs": -160.4,
+     "hf_rel_db": -0.7,
+     "finite": true
+    },
+    {
+     "case": "LPF Diode/303: stage off",
+     "hf_abs_dbfs": -103.6,
+     "hf_rel_db": 54.9,
+     "finite": true
+    },
+    {
+     "case": "LPF model switch Diode/303\u2192Sherman",
+     "hf_abs_dbfs": -114.7,
+     "hf_rel_db": 44.4,
+     "finite": true
+    },
+    {
+     "case": "HPF Sherman: cutoff 20 Hz\u21921 kHz",
+     "hf_abs_dbfs": -79.6,
+     "hf_rel_db": 78.8,
+     "finite": true
+    },
+    {
+     "case": "HPF Sherman: cutoff 1 kHz\u219220 Hz",
+     "hf_abs_dbfs": -115.0,
+     "hf_rel_db": 49.4,
+     "finite": true
+    },
+    {
+     "case": "HPF model switch Sherman\u2192K35/MS-20",
+     "hf_abs_dbfs": -101.3,
+     "hf_rel_db": 48.9,
+     "finite": true
+    },
+    {
+     "case": "HPF Sherman: stage on",
+     "hf_abs_dbfs": -152.9,
+     "hf_rel_db": 5.4,
+     "finite": true
+    },
+    {
+     "case": "HPF K35/MS-20: cutoff 20 Hz\u21921 kHz",
+     "hf_abs_dbfs": -75.2,
+     "hf_rel_db": 83.2,
+     "finite": true
+    },
+    {
+     "case": "HPF K35/MS-20: cutoff 1 kHz\u219220 Hz",
+     "hf_abs_dbfs": -115.2,
+     "hf_rel_db": 49.2,
+     "finite": true
+    },
+    {
+     "case": "HPF model switch K35/MS-20\u2192Ladder HP (ALT)",
+     "hf_abs_dbfs": -99.9,
+     "hf_rel_db": 55.4,
+     "finite": true
+    },
+    {
+     "case": "HPF K35/MS-20: stage on",
+     "hf_abs_dbfs": -152.8,
+     "hf_rel_db": 5.5,
+     "finite": true
+    },
+    {
+     "case": "HPF Ladder HP (ALT): cutoff 20 Hz\u21921 kHz",
+     "hf_abs_dbfs": -70.4,
+     "hf_rel_db": 88.0,
+     "finite": true
+    },
+    {
+     "case": "HPF Ladder HP (ALT): cutoff 1 kHz\u219220 Hz",
+     "hf_abs_dbfs": -115.6,
+     "hf_rel_db": 48.8,
+     "finite": true
+    },
+    {
+     "case": "HPF model switch Ladder HP (ALT)\u2192Steiner-Parker",
+     "hf_abs_dbfs": -103.1,
+     "hf_rel_db": 56.1,
+     "finite": true
+    },
+    {
+     "case": "HPF Ladder HP (ALT): stage on",
+     "hf_abs_dbfs": -147.2,
+     "hf_rel_db": 11.2,
+     "finite": true
+    },
+    {
+     "case": "HPF Steiner-Parker: cutoff 20 Hz\u21921 kHz",
+     "hf_abs_dbfs": -78.1,
+     "hf_rel_db": 80.3,
+     "finite": true
+    },
+    {
+     "case": "HPF Steiner-Parker: cutoff 1 kHz\u219220 Hz",
+     "hf_abs_dbfs": -115.0,
+     "hf_rel_db": 48.7,
+     "finite": true
+    },
+    {
+     "case": "HPF model switch Steiner-Parker\u2192SEM",
+     "hf_abs_dbfs": -130.2,
+     "hf_rel_db": 19.5,
+     "finite": true
+    },
+    {
+     "case": "HPF Steiner-Parker: stage on",
+     "hf_abs_dbfs": -150.6,
+     "hf_rel_db": 7.7,
+     "finite": true
+    },
+    {
+     "case": "HPF SEM: cutoff 20 Hz\u21921 kHz",
+     "hf_abs_dbfs": -81.6,
+     "hf_rel_db": 76.8,
+     "finite": true
+    },
+    {
+     "case": "HPF SEM: cutoff 1 kHz\u219220 Hz",
+     "hf_abs_dbfs": -115.1,
+     "hf_rel_db": 49.3,
+     "finite": true
+    },
+    {
+     "case": "HPF model switch SEM\u2192Sherman",
+     "hf_abs_dbfs": -101.7,
+     "hf_rel_db": 51.9,
+     "finite": true
+    },
+    {
+     "case": "HPF SEM: stage on",
+     "hf_abs_dbfs": -153.7,
+     "hf_rel_db": 4.7,
+     "finite": true
+    },
+    {
+     "case": "Stage order LP\u2192HP to HP\u2192LP",
+     "hf_abs_dbfs": -75.2,
+     "hf_rel_db": 47.4,
+     "finite": true
+    },
+    {
+     "case": "Oversampling 1x\u21922x",
+     "hf_abs_dbfs": -74.7,
+     "hf_rel_db": 47.9,
+     "finite": true
+    },
+    {
+     "case": "Output level \u221224\u2192+6 dB",
+     "hf_abs_dbfs": -86.7,
+     "hf_rel_db": 35.9,
+     "finite": true
+    }
+   ],
+   "reference_dbfs": -30.1
+  },
+  {
+   "name": "1. LPF fully open + HPF fully closed: magnitude flat 20 Hz\u201320 kHz within \u00b10.1 dB",
+   "passed": true,
+   "detail": "max deviation 0.029 dB"
+  },
+  {
+   "name": "2. LPF sweep 20 kHz\u2192200 Hz (3 s, 10 ms automation steps)",
+   "passed": true,
+   "detail": "peak -5.4 dBFS"
+  },
+  {
+   "name": "3. LPF at maximum resonance with program input, all models (soft clip OFF)",
+   "passed": true,
+   "detail": "Sherman 2.4, K35/MS-20 1.7, Ladder 1.0, Steiner-Parker -2.8, SEM -7.8, Diode/303 -3.3 dBFS peak"
+  },
+  {
+   "name": "4. HPF sweep 20 Hz\u21921 kHz",
+   "passed": true,
+   "detail": "peak -6.7 dBFS"
+  },
+  {
+   "name": "5. Sudden HPF cutoff changes (20 Hz\u2194600 Hz every 250 ms)",
+   "passed": true,
+   "detail": "worst >8 kHz burst -79.0 dBFS"
+  },
+  {
+   "name": "6. Both filters active and sweeping toward each other",
+   "passed": true,
+   "detail": "peak -1.3 dBFS"
+  },
+  {
+   "name": "7. Stereo input with different L/R content",
+   "passed": true,
+   "detail": "left output independent of right input"
+  },
+  {
+   "name": "8. Rapid manual movement (random LPF jumps every 5 ms, 3 s)",
+   "passed": true,
+   "detail": "peak -7.7 dBFS, no NaN/Inf"
+  },
+  {
+   "name": "9. Automation at Live's block rate (64-sample steps) vs sample-accurate ramp",
+   "passed": true,
+   "detail": "difference -37.7 dB; >8 kHz energy +0.00 dB vs sample-accurate (no zipper)"
+  },
+  {
+   "name": "10. MIDI CC (7-bit) stepping of cutoff, one step per 8 ms",
+   "passed": true,
+   "detail": "worst >8 kHz burst -140.9 dBFS (no zipper)"
+  },
+  {
+   "name": "Sample-rate independence 44.1\u2013192 kHz: tuning and stability",
+   "passed": true,
+   "detail": "ok",
+   "rows": [
+    {
+     "sr": 44100,
+     "model": "Ladder",
+     "stage": "l",
+     "fc": 1000,
+     "peak_cents": -64,
+     "selfosc_peak_dbfs": -3.1
+    },
+    {
+     "sr": 44100,
+     "model": "Ladder",
+     "stage": "l",
+     "fc": 10000,
+     "peak_cents": -42,
+     "selfosc_peak_dbfs": 0.6
+    },
+    {
+     "sr": 44100,
+     "model": "Diode/303",
+     "stage": "l",
+     "fc": 1000,
+     "peak_cents": 30,
+     "selfosc_peak_dbfs": -9.8
+    },
+    {
+     "sr": 44100,
+     "model": "Diode/303",
+     "stage": "l",
+     "fc": 10000,
+     "peak_cents": 15,
+     "selfosc_peak_dbfs": -10.8
+    },
+    {
+     "sr": 44100,
+     "model": "Steiner-Parker",
+     "stage": "l",
+     "fc": 1000,
+     "peak_cents": -64,
+     "selfosc_peak_dbfs": -5.3
+    },
+    {
+     "sr": 44100,
+     "model": "Steiner-Parker",
+     "stage": "l",
+     "fc": 10000,
+     "peak_cents": -25,
+     "selfosc_peak_dbfs": -0.4
+    },
+    {
+     "sr": 44100,
+     "model": "K35/MS-20",
+     "stage": "h",
+     "fc": 100,
+     "peak_cents": 39,
+     "selfosc_peak_dbfs": -0.8
+    },
+    {
+     "sr": 44100,
+     "model": "K35/MS-20",
+     "stage": "h",
+     "fc": 1000,
+     "peak_cents": 30,
+     "selfosc_peak_dbfs": -0.3
+    },
+    {
+     "sr": 48000,
+     "model": "Ladder",
+     "stage": "l",
+     "fc": 1000,
+     "peak_cents": -58,
+     "selfosc_peak_dbfs": -3.0
+    },
+    {
+     "sr": 48000,
+     "model": "Ladder",
+     "stage": "l",
+     "fc": 10000,
+     "peak_cents": -46,
+     "selfosc_peak_dbfs": -0.5
+    },
+    {
+     "sr": 48000,
+     "model": "Diode/303",
+     "stage": "l",
+     "fc": 1000,
+     "peak_cents": 24,
+     "selfosc_peak_dbfs": -9.8
+    },
+    {
+     "sr": 48000,
+     "model": "Diode/303",
+     "stage": "l",
+     "fc": 10000,
+     "peak_cents": 14,
+     "selfosc_peak_dbfs": -10.6
+    },
+    {
+     "sr": 48000,
+     "model": "Steiner-Parker",
+     "stage": "l",
+     "fc": 1000,
+     "peak_cents": -38,
+     "selfosc_peak_dbfs": -5.3
+    },
+    {
+     "sr": 48000,
+     "model": "Steiner-Parker",
+     "stage": "l",
+     "fc": 10000,
+     "peak_cents": -27,
+     "selfosc_peak_dbfs": -1.0
+    },
+    {
+     "sr": 48000,
+     "model": "K35/MS-20",
+     "stage": "h",
+     "fc": 100,
+     "peak_cents": 92,
+     "selfosc_peak_dbfs": -0.8
+    },
+    {
+     "sr": 48000,
+     "model": "K35/MS-20",
+     "stage": "h",
+     "fc": 1000,
+     "peak_cents": 24,
+     "selfosc_peak_dbfs": -0.4
+    },
+    {
+     "sr": 88200,
+     "model": "Ladder",
+     "stage": "l",
+     "fc": 1000,
+     "peak_cents": -55,
+     "selfosc_peak_dbfs": -2.8
+    },
+    {
+     "sr": 88200,
+     "model": "Ladder",
+     "stage": "l",
+     "fc": 10000,
+     "peak_cents": -55,
+     "selfosc_peak_dbfs": -3.7
+    },
+    {
+     "sr": 88200,
+     "model": "Diode/303",
+     "stage": "l",
+     "fc": 1000,
+     "peak_cents": 21,
+     "selfosc_peak_dbfs": -9.7
+    },
+    {
+     "sr": 88200,
+     "model": "Diode/303",
+     "stage": "l",
+     "fc": 10000,
+     "peak_cents": 19,
+     "selfosc_peak_dbfs": -10.0
+    },
+    {
+     "sr": 88200,
+     "model": "Steiner-Parker",
+     "stage": "l",
+     "fc": 1000,
+     "peak_cents": -16,
+     "selfosc_peak_dbfs": -5.4
+    },
+    {
+     "sr": 88200,
+     "model": "Steiner-Parker",
+     "stage": "l",
+     "fc": 10000,
+     "peak_cents": -33,
+     "selfosc_peak_dbfs": -3.8
+    },
+    {
+     "sr": 88200,
+     "model": "K35/MS-20",
+     "stage": "h",
+     "fc": 100,
+     "peak_cents": 128,
+     "selfosc_peak_dbfs": -0.8
+    },
+    {
+     "sr": 88200,
+     "model": "K35/MS-20",
+     "stage": "h",
+     "fc": 1000,
+     "peak_cents": 39,
+     "selfosc_peak_dbfs": -0.6
+    },
+    {
+     "sr": 96000,
+     "model": "Ladder",
+     "stage": "l",
+     "fc": 1000,
+     "peak_cents": -48,
+     "selfosc_peak_dbfs": -2.7
+    },
+    {
+     "sr": 96000,
+     "model": "Ladder",
+     "stage": "l",
+     "fc": 10000,
+     "peak_cents": -54,
+     "selfosc_peak_dbfs": -3.7
+    },
+    {
+     "sr": 96000,
+     "model": "Diode/303",
+     "stage": "l",
+     "fc": 1000,
+     "peak_cents": 13,
+     "selfosc_peak_dbfs": -9.7
+    },
+    {
+     "sr": 96000,
+     "model": "Diode/303",
+     "stage": "l",
+     "fc": 10000,
+     "peak_cents": 22,
+     "selfosc_peak_dbfs": -10.0
+    },
+    {
+     "sr": 96000,
+     "model": "Steiner-Parker",
+     "stage": "l",
+     "fc": 1000,
+     "peak_cents": -27,
+     "selfosc_peak_dbfs": -5.4
+    },
+    {
+     "sr": 96000,
+     "model": "Steiner-Parker",
+     "stage": "l",
+     "fc": 10000,
+     "peak_cents": -38,
+     "selfosc_peak_dbfs": -4.0
+    },
+    {
+     "sr": 96000,
+     "model": "K35/MS-20",
+     "stage": "h",
+     "fc": 100,
+     "peak_cents": 92,
+     "selfosc_peak_dbfs": -0.8
+    },
+    {
+     "sr": 96000,
+     "model": "K35/MS-20",
+     "stage": "h",
+     "fc": 1000,
+     "peak_cents": 33,
+     "selfosc_peak_dbfs": -0.6
+    },
+    {
+     "sr": 192000,
+     "model": "Ladder",
+     "stage": "l",
+     "fc": 1000,
+     "peak_cents": -69,
+     "selfosc_peak_dbfs": -2.6
+    },
+    {
+     "sr": 192000,
+     "model": "Ladder",
+     "stage": "l",
+     "fc": 10000,
+     "peak_cents": -61,
+     "selfosc_peak_dbfs": -3.6
+    },
+    {
+     "sr": 192000,
+     "model": "Diode/303",
+     "stage": "l",
+     "fc": 1000,
+     "peak_cents": 13,
+     "selfosc_peak_dbfs": -9.7
+    },
+    {
+     "sr": 192000,
+     "model": "Diode/303",
+     "stage": "l",
+     "fc": 10000,
+     "peak_cents": 17,
+     "selfosc_peak_dbfs": -9.6
+    },
+    {
+     "sr": 192000,
+     "model": "Steiner-Parker",
+     "stage": "l",
+     "fc": 1000,
+     "peak_cents": -27,
+     "selfosc_peak_dbfs": -5.4
+    },
+    {
+     "sr": 192000,
+     "model": "Steiner-Parker",
+     "stage": "l",
+     "fc": 10000,
+     "peak_cents": -31,
+     "selfosc_peak_dbfs": -5.1
+    },
+    {
+     "sr": 192000,
+     "model": "K35/MS-20",
+     "stage": "h",
+     "fc": 100,
+     "peak_cents": 275,
+     "selfosc_peak_dbfs": -0.8
+    },
+    {
+     "sr": 192000,
+     "model": "K35/MS-20",
+     "stage": "h",
+     "fc": 1000,
+     "peak_cents": 13,
+     "selfosc_peak_dbfs": -0.7
+    }
+   ]
+  },
+  {
+   "name": "CPU benchmark (transpiled C, gcc -O2, this machine)",
+   "passed": true,
+   "detail": "Both stages off (pass-through): 1.34%; Default device (Ladder LPF 24 dB + K35 HPF), 1x: 2.19%; Diode LPF 48 dB + Sherman HPF 48 dB, 1x: 3.46%; Default device, 2x oversampling: 3.07%; Worst case: Diode+Sherman 48 dB, 2x, both mid-crossfade: 6.64%",
+   "rows": [
+    {
+     "config": "Both stages off (pass-through)",
+     "ns_per_frame": 279.9,
+     "pct_of_one_core_48k": 1.34
+    },
+    {
+     "config": "Default device (Ladder LPF 24 dB + K35 HPF), 1x",
+     "ns_per_frame": 455.4,
+     "pct_of_one_core_48k": 2.19
+    },
+    {
+     "config": "Diode LPF 48 dB + Sherman HPF 48 dB, 1x",
+     "ns_per_frame": 721.2,
+     "pct_of_one_core_48k": 3.46
+    },
+    {
+     "config": "Default device, 2x oversampling",
+     "ns_per_frame": 640.1,
+     "pct_of_one_core_48k": 3.07
+    },
+    {
+     "config": "Worst case: Diode+Sherman 48 dB, 2x, both mid-crossfade",
+     "ns_per_frame": 1383.4,
+     "pct_of_one_core_48k": 6.64
+    }
+   ]
+  },
+  {
+   "name": "Denormals: decay tails flush to zero; silence costs no more than signal",
+   "passed": true,
+   "detail": "silence/signal CPU ratio 0.58"
+  },
+  {
+   "name": "DC offset at output with asymmetric saturation (drive 100%, hot input)",
+   "passed": true,
+   "detail": "worst residual DC -186.7 dBFS",
+   "rows": [
+    {
+     "model": "Sherman",
+     "dc_dbfs": -186.7
+    },
+    {
+     "model": "K35/MS-20",
+     "dc_dbfs": -240.0
+    },
+    {
+     "model": "Ladder",
+     "dc_dbfs": -240.0
+    },
+    {
+     "model": "Steiner-Parker",
+     "dc_dbfs": -240.0
+    },
+    {
+     "model": "SEM",
+     "dc_dbfs": -240.0
+    },
+    {
+     "model": "Diode/303",
+     "dc_dbfs": -197.1
+    }
+   ]
+  },
+  {
+   "name": "30 s stress run: random changes to every parameter, hot input, soft clip ON",
+   "passed": true,
+   "detail": "peak -0.00 dBFS, finite=True"
+  }
+ ],
+ "summary": {
+  "total": 25,
+  "passed": 25,
+  "seconds": 53.9
+ }
+}
