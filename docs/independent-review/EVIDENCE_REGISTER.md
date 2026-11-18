@@ -57,3 +57,17 @@
 | E32 | Other secant models (K35, Ladder, SEM, 303, BPF) have the same lagged pattern; none diverged on the map, but they have not been swept at 1-cent resolution around fs/4 | H | :124, :157–161, :226–227, :247–250; bpf.py:57–58, 84–95 | (planned: T0) | — | — |
 | E33 | ADAA could replace 8× for the static TUBE shaper at lower cost | H | dyn.py:66–72 | (planned: P0-4 evaluation) | — | ADAA literature (Parker et al., antiderivative anti-aliasing) — not opened in this review |
 | E34 | Hardware fidelity of any model | none | — | — | — | **No hardware evidence exists**; no claim is made |
+
+## Added 2026-11-18: LA-2A operating manual [P]
+
+See [LA2A_MANUAL_CHECK.md](LA2A_MANUAL_CHECK.md). `tests/review/la2a_manual.py` makes the measurements.
+
+| ID | Finding | Class | Verdict |
+|---|---|---|---|
+| E35 | LIMIT: output rises 2.1 dB over the top 20 dB. The manual says < 1 dB. | P vs M | Deviates |
+| E36 | COMP local ratio 1.7 → 2.8:1. The manual says about 3:1 (100 % → 30 %, about 2.6:1). | P vs M | Conforms |
+| E37 | Emphasis at maximum: +8.2 to +8.9 dB more GR at 15 kHz (LIMIT). The manual says about +10 dB. | P vs M | Slightly short |
+| E38 | THD at ≥ 30 dB GR: 0.018 % at 1 kHz, 1.8 % at 100 Hz. The manual says < 0.5 %, frequency not stated. | P vs M | Conforms at 1 kHz |
+| E39 | Side-chain: the manual's text says input-fed. OPTO is output-fed (feedback). | P vs code | Deviates (schematic needed) |
+| E40 | Attack: the manual says 10 µs, undefined. OPTO measures 2.35–8.1 ms t63. | P vs M | Conflicts; not used |
+
