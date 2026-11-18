@@ -12,6 +12,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 from dsp import run, base
 GOLD = os.path.join(HERE, "baseline", "lpf_hpf_golden.json")
+GOLD_BPF = os.path.join(HERE, "baseline", "bpf_golden_v1.2.json")
 SR = 48000
 
 def signal(n, seed=3):
@@ -50,8 +51,25 @@ def battery():
     cases.append(("open zones", base(l_on=1, h_on=1, l_cut=19000, h_cut=22, l_res=50, h_res=50), [(E, "l_cut", 20000), (E, "h_cut", 20)]))
     return cases, signal(n)
 
-def render_all(extra=None):
-    cases, x = battery()
+def battery_bpf():
+    """v1.2 BPF scenarios (captured with the v1.2 engine before v1.3 work)."""
+    n = SR * 2 // 5
+    E = n // 2
+    cases = []
+    for m in range(5):
+        for a in range(3):
+            cases.append((f"BPF m{m} a{a}", base(b_on=1, b_model=m, b_arch=a, b_freq=700, b_bw=1.5, b_q=2, b_res=80, b_drive=40), []))
+            cases.append((f"BPF m{m} a{a} selfosc", base(b_on=1, b_model=m, b_arch=a, b_freq=400, b_res=100, b_comp=40), []))
+    for pos in (0, 1):
+        cases.append((f"all three pos{pos}", base(l_on=1, h_on=1, b_on=1, l_cut=3000, h_cut=80, b_freq=900, b_arch=1, b_res=60,
+                                                 b_mix=70, b_pos=pos, ovs_sel=1, softclip=1), []))
+    cases.append(("BPF sweep", base(b_on=1, b_res=70), [(i * 400, "b_freq", 100 * 50 ** (i / 48)) for i in range(48)]))
+    cases.append(("BPF switches", base(b_on=1, b_res=60, b_freq=500), [(E // 2, "b_model", 3), (E, "b_arch", 2), (3 * E // 2, "b_pos", 1)]))
+    cases.append(("BPF on/off/mix", base(l_on=1, b_freq=600), [(E // 3, "b_on", 1), (E, "b_mix", 30), (3 * E // 2, "b_on", 0)]))
+    return cases, signal(n)
+
+def render_all(extra=None, bpf=False):
+    cases, x = battery_bpf() if bpf else battery()
     out = {}
     for name, p, ev in cases:
         p = dict(p); p.update(extra or {})
@@ -66,6 +84,16 @@ if __name__ == "__main__":
         os.makedirs(os.path.dirname(GOLD), exist_ok=True)
         json.dump(h, open(GOLD, "w"), indent=1)
         print(f"captured {len(h)} golden renders")
+    elif mode == "capture-bpf":
+        h = render_all(bpf=True)
+        json.dump(h, open(GOLD_BPF, "w"), indent=1)
+        print(f"captured {len(h)} BPF golden renders")
+    elif mode == "check-bpf":
+        gold = json.load(open(GOLD_BPF))
+        h = render_all(bpf=True)
+        bad = [k for k in gold if h.get(k) != gold[k]]
+        print(f"{len(gold) - len(bad)}/{len(gold)} bit-identical" + (" — MISMATCH: " + ", ".join(bad) if bad else ""))
+        sys.exit(1 if bad else 0)
     else:
         extra = json.loads(sys.argv[2]) if len(sys.argv) > 2 else None
         gold = json.load(open(GOLD))
