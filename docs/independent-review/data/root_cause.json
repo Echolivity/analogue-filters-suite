@@ -1,0 +1,3200 @@
+{
+ "replica_validation_sherman": {
+  "case": "Sherman LP fc 1 kHz res 80 % 48 kHz, 64-sample 0.05 pulse at 0.5 s",
+  "max_abs_err": 0.001010804004175754,
+  "peak": 0.1103680357336998
+ },
+ "replica_validation_steiner": {
+  "case": "Steiner LP fc 1 kHz res 80 % 48 kHz",
+  "max_abs_err": 0.0023082629803500097,
+  "peak": 0.1921524554491043
+ },
+ "stability_map_engine": [
+  {
+   "model": "Sherman",
+   "sr": 44100,
+   "ovs": "1x",
+   "fc": 6000,
+   "res": 90,
+   "peak_dbfs": -115.4,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 44100,
+   "ovs": "1x",
+   "fc": 6000,
+   "res": 95,
+   "peak_dbfs": -5.8,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 44100,
+   "ovs": "1x",
+   "fc": 6000,
+   "res": 100,
+   "peak_dbfs": 1.7,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 44100,
+   "ovs": "1x",
+   "fc": 8000,
+   "res": 90,
+   "peak_dbfs": -115.4,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 44100,
+   "ovs": "1x",
+   "fc": 8000,
+   "res": 95,
+   "peak_dbfs": -4.4,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 44100,
+   "ovs": "1x",
+   "fc": 8000,
+   "res": 100,
+   "peak_dbfs": 3.0,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 44100,
+   "ovs": "1x",
+   "fc": 10000,
+   "res": 90,
+   "peak_dbfs": -115.4,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 44100,
+   "ovs": "1x",
+   "fc": 10000,
+   "res": 95,
+   "peak_dbfs": -3.3,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 44100,
+   "ovs": "1x",
+   "fc": 10000,
+   "res": 100,
+   "peak_dbfs": 4.4,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 44100,
+   "ovs": "1x",
+   "fc": 11000,
+   "res": 90,
+   "peak_dbfs": -115.4,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 44100,
+   "ovs": "1x",
+   "fc": 11000,
+   "res": 95,
+   "peak_dbfs": 39.6,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 44100,
+   "ovs": "1x",
+   "fc": 11000,
+   "res": 100,
+   "peak_dbfs": 47.1,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 44100,
+   "ovs": "1x",
+   "fc": 12000,
+   "res": 90,
+   "peak_dbfs": -115.4,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 44100,
+   "ovs": "1x",
+   "fc": 12000,
+   "res": 95,
+   "peak_dbfs": -3.2,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 44100,
+   "ovs": "1x",
+   "fc": 12000,
+   "res": 100,
+   "peak_dbfs": 5.6,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 44100,
+   "ovs": "1x",
+   "fc": 13000,
+   "res": 90,
+   "peak_dbfs": -115.4,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 44100,
+   "ovs": "1x",
+   "fc": 13000,
+   "res": 95,
+   "peak_dbfs": -3.7,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 44100,
+   "ovs": "1x",
+   "fc": 13000,
+   "res": 100,
+   "peak_dbfs": 4.3,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 44100,
+   "ovs": "1x",
+   "fc": 14000,
+   "res": 90,
+   "peak_dbfs": -115.4,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 44100,
+   "ovs": "1x",
+   "fc": 14000,
+   "res": 95,
+   "peak_dbfs": -4.3,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 44100,
+   "ovs": "1x",
+   "fc": 14000,
+   "res": 100,
+   "peak_dbfs": 3.5,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 44100,
+   "ovs": "1x",
+   "fc": 16000,
+   "res": 90,
+   "peak_dbfs": -115.4,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 44100,
+   "ovs": "1x",
+   "fc": 16000,
+   "res": 95,
+   "peak_dbfs": -5.8,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 44100,
+   "ovs": "1x",
+   "fc": 16000,
+   "res": 100,
+   "peak_dbfs": 1.8,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 44100,
+   "ovs": "1x",
+   "fc": 18000,
+   "res": 90,
+   "peak_dbfs": -115.3,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 44100,
+   "ovs": "1x",
+   "fc": 18000,
+   "res": 95,
+   "peak_dbfs": -13.0,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 44100,
+   "ovs": "1x",
+   "fc": 18000,
+   "res": 100,
+   "peak_dbfs": -5.6,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 44100,
+   "ovs": "2x",
+   "fc": 6000,
+   "res": 90,
+   "peak_dbfs": -115.4,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 44100,
+   "ovs": "2x",
+   "fc": 6000,
+   "res": 95,
+   "peak_dbfs": -7.4,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 44100,
+   "ovs": "2x",
+   "fc": 6000,
+   "res": 100,
+   "peak_dbfs": -0.1,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 44100,
+   "ovs": "2x",
+   "fc": 8000,
+   "res": 90,
+   "peak_dbfs": -115.4,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 44100,
+   "ovs": "2x",
+   "fc": 8000,
+   "res": 95,
+   "peak_dbfs": -7.0,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 44100,
+   "ovs": "2x",
+   "fc": 8000,
+   "res": 100,
+   "peak_dbfs": 0.3,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 44100,
+   "ovs": "2x",
+   "fc": 10000,
+   "res": 90,
+   "peak_dbfs": -115.4,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 44100,
+   "ovs": "2x",
+   "fc": 10000,
+   "res": 95,
+   "peak_dbfs": -6.4,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 44100,
+   "ovs": "2x",
+   "fc": 10000,
+   "res": 100,
+   "peak_dbfs": 0.9,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 44100,
+   "ovs": "2x",
+   "fc": 11000,
+   "res": 90,
+   "peak_dbfs": -115.4,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 44100,
+   "ovs": "2x",
+   "fc": 11000,
+   "res": 95,
+   "peak_dbfs": -6.1,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 44100,
+   "ovs": "2x",
+   "fc": 11000,
+   "res": 100,
+   "peak_dbfs": 1.3,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 44100,
+   "ovs": "2x",
+   "fc": 12000,
+   "res": 90,
+   "peak_dbfs": -115.4,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 44100,
+   "ovs": "2x",
+   "fc": 12000,
+   "res": 95,
+   "peak_dbfs": -5.8,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 44100,
+   "ovs": "2x",
+   "fc": 12000,
+   "res": 100,
+   "peak_dbfs": 1.7,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 44100,
+   "ovs": "2x",
+   "fc": 13000,
+   "res": 90,
+   "peak_dbfs": -115.4,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 44100,
+   "ovs": "2x",
+   "fc": 13000,
+   "res": 95,
+   "peak_dbfs": -5.4,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 44100,
+   "ovs": "2x",
+   "fc": 13000,
+   "res": 100,
+   "peak_dbfs": 2.0,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 44100,
+   "ovs": "2x",
+   "fc": 14000,
+   "res": 90,
+   "peak_dbfs": -115.4,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 44100,
+   "ovs": "2x",
+   "fc": 14000,
+   "res": 95,
+   "peak_dbfs": -5.1,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 44100,
+   "ovs": "2x",
+   "fc": 14000,
+   "res": 100,
+   "peak_dbfs": 2.6,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 44100,
+   "ovs": "2x",
+   "fc": 16000,
+   "res": 90,
+   "peak_dbfs": -115.4,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 44100,
+   "ovs": "2x",
+   "fc": 16000,
+   "res": 95,
+   "peak_dbfs": -4.4,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 44100,
+   "ovs": "2x",
+   "fc": 16000,
+   "res": 100,
+   "peak_dbfs": 3.1,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 44100,
+   "ovs": "2x",
+   "fc": 18000,
+   "res": 90,
+   "peak_dbfs": -115.3,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 44100,
+   "ovs": "2x",
+   "fc": 18000,
+   "res": 95,
+   "peak_dbfs": -9.8,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 44100,
+   "ovs": "2x",
+   "fc": 18000,
+   "res": 100,
+   "peak_dbfs": -2.5,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 48000,
+   "ovs": "1x",
+   "fc": 6000,
+   "res": 90,
+   "peak_dbfs": -116.1,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 48000,
+   "ovs": "1x",
+   "fc": 6000,
+   "res": 95,
+   "peak_dbfs": -6.1,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 48000,
+   "ovs": "1x",
+   "fc": 6000,
+   "res": 100,
+   "peak_dbfs": 1.3,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 48000,
+   "ovs": "1x",
+   "fc": 8000,
+   "res": 90,
+   "peak_dbfs": -116.1,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 48000,
+   "ovs": "1x",
+   "fc": 8000,
+   "res": 95,
+   "peak_dbfs": -4.8,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 48000,
+   "ovs": "1x",
+   "fc": 8000,
+   "res": 100,
+   "peak_dbfs": 2.6,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 48000,
+   "ovs": "1x",
+   "fc": 10000,
+   "res": 90,
+   "peak_dbfs": -116.1,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 48000,
+   "ovs": "1x",
+   "fc": 10000,
+   "res": 95,
+   "peak_dbfs": -3.7,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 48000,
+   "ovs": "1x",
+   "fc": 10000,
+   "res": 100,
+   "peak_dbfs": 3.6,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 48000,
+   "ovs": "1x",
+   "fc": 11000,
+   "res": 90,
+   "peak_dbfs": -116.1,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 48000,
+   "ovs": "1x",
+   "fc": 11000,
+   "res": 95,
+   "peak_dbfs": -3.3,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 48000,
+   "ovs": "1x",
+   "fc": 11000,
+   "res": 100,
+   "peak_dbfs": 4.6,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 48000,
+   "ovs": "1x",
+   "fc": 12000,
+   "res": 90,
+   "peak_dbfs": -116.1,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 48000,
+   "ovs": "1x",
+   "fc": 12000,
+   "res": 95,
+   "peak_dbfs": 242.0,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 48000,
+   "ovs": "1x",
+   "fc": 12000,
+   "res": 100,
+   "peak_dbfs": 249.4,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 48000,
+   "ovs": "1x",
+   "fc": 13000,
+   "res": 90,
+   "peak_dbfs": -116.1,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 48000,
+   "ovs": "1x",
+   "fc": 13000,
+   "res": 95,
+   "peak_dbfs": -3.2,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 48000,
+   "ovs": "1x",
+   "fc": 13000,
+   "res": 100,
+   "peak_dbfs": 5.8,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 48000,
+   "ovs": "1x",
+   "fc": 14000,
+   "res": 90,
+   "peak_dbfs": -116.1,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 48000,
+   "ovs": "1x",
+   "fc": 14000,
+   "res": 95,
+   "peak_dbfs": -3.6,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 48000,
+   "ovs": "1x",
+   "fc": 14000,
+   "res": 100,
+   "peak_dbfs": 4.4,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 48000,
+   "ovs": "1x",
+   "fc": 16000,
+   "res": 90,
+   "peak_dbfs": -116.1,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 48000,
+   "ovs": "1x",
+   "fc": 16000,
+   "res": 95,
+   "peak_dbfs": -4.8,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 48000,
+   "ovs": "1x",
+   "fc": 16000,
+   "res": 100,
+   "peak_dbfs": 2.8,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 48000,
+   "ovs": "1x",
+   "fc": 18000,
+   "res": 90,
+   "peak_dbfs": -116.1,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 48000,
+   "ovs": "1x",
+   "fc": 18000,
+   "res": 95,
+   "peak_dbfs": -12.1,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 48000,
+   "ovs": "1x",
+   "fc": 18000,
+   "res": 100,
+   "peak_dbfs": -4.7,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 48000,
+   "ovs": "2x",
+   "fc": 6000,
+   "res": 90,
+   "peak_dbfs": -116.1,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 48000,
+   "ovs": "2x",
+   "fc": 6000,
+   "res": 95,
+   "peak_dbfs": -7.5,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 48000,
+   "ovs": "2x",
+   "fc": 6000,
+   "res": 100,
+   "peak_dbfs": -0.2,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 48000,
+   "ovs": "2x",
+   "fc": 8000,
+   "res": 90,
+   "peak_dbfs": -116.1,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 48000,
+   "ovs": "2x",
+   "fc": 8000,
+   "res": 95,
+   "peak_dbfs": -7.1,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 48000,
+   "ovs": "2x",
+   "fc": 8000,
+   "res": 100,
+   "peak_dbfs": 0.2,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 48000,
+   "ovs": "2x",
+   "fc": 10000,
+   "res": 90,
+   "peak_dbfs": -116.1,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 48000,
+   "ovs": "2x",
+   "fc": 10000,
+   "res": 95,
+   "peak_dbfs": -6.7,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 48000,
+   "ovs": "2x",
+   "fc": 10000,
+   "res": 100,
+   "peak_dbfs": 0.7,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 48000,
+   "ovs": "2x",
+   "fc": 11000,
+   "res": 90,
+   "peak_dbfs": -116.1,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 48000,
+   "ovs": "2x",
+   "fc": 11000,
+   "res": 95,
+   "peak_dbfs": -6.4,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 48000,
+   "ovs": "2x",
+   "fc": 11000,
+   "res": 100,
+   "peak_dbfs": 1.0,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 48000,
+   "ovs": "2x",
+   "fc": 12000,
+   "res": 90,
+   "peak_dbfs": -116.1,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 48000,
+   "ovs": "2x",
+   "fc": 12000,
+   "res": 95,
+   "peak_dbfs": -6.1,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 48000,
+   "ovs": "2x",
+   "fc": 12000,
+   "res": 100,
+   "peak_dbfs": 1.3,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 48000,
+   "ovs": "2x",
+   "fc": 13000,
+   "res": 90,
+   "peak_dbfs": -116.1,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 48000,
+   "ovs": "2x",
+   "fc": 13000,
+   "res": 95,
+   "peak_dbfs": -5.8,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 48000,
+   "ovs": "2x",
+   "fc": 13000,
+   "res": 100,
+   "peak_dbfs": 1.7,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 48000,
+   "ovs": "2x",
+   "fc": 14000,
+   "res": 90,
+   "peak_dbfs": -116.1,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 48000,
+   "ovs": "2x",
+   "fc": 14000,
+   "res": 95,
+   "peak_dbfs": -5.5,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 48000,
+   "ovs": "2x",
+   "fc": 14000,
+   "res": 100,
+   "peak_dbfs": 2.0,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 48000,
+   "ovs": "2x",
+   "fc": 16000,
+   "res": 90,
+   "peak_dbfs": -116.1,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 48000,
+   "ovs": "2x",
+   "fc": 16000,
+   "res": 95,
+   "peak_dbfs": -4.8,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 48000,
+   "ovs": "2x",
+   "fc": 16000,
+   "res": 100,
+   "peak_dbfs": 2.5,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 48000,
+   "ovs": "2x",
+   "fc": 18000,
+   "res": 90,
+   "peak_dbfs": -116.1,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 48000,
+   "ovs": "2x",
+   "fc": 18000,
+   "res": 95,
+   "peak_dbfs": -10.2,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 48000,
+   "ovs": "2x",
+   "fc": 18000,
+   "res": 100,
+   "peak_dbfs": -2.7,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 96000,
+   "ovs": "1x",
+   "fc": 6000,
+   "res": 90,
+   "peak_dbfs": -122.2,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 96000,
+   "ovs": "1x",
+   "fc": 6000,
+   "res": 95,
+   "peak_dbfs": -7.5,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 96000,
+   "ovs": "1x",
+   "fc": 6000,
+   "res": 100,
+   "peak_dbfs": -0.2,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 96000,
+   "ovs": "1x",
+   "fc": 8000,
+   "res": 90,
+   "peak_dbfs": -122.2,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 96000,
+   "ovs": "1x",
+   "fc": 8000,
+   "res": 95,
+   "peak_dbfs": -7.1,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 96000,
+   "ovs": "1x",
+   "fc": 8000,
+   "res": 100,
+   "peak_dbfs": 0.1,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 96000,
+   "ovs": "1x",
+   "fc": 10000,
+   "res": 90,
+   "peak_dbfs": -122.2,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 96000,
+   "ovs": "1x",
+   "fc": 10000,
+   "res": 95,
+   "peak_dbfs": -6.7,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 96000,
+   "ovs": "1x",
+   "fc": 10000,
+   "res": 100,
+   "peak_dbfs": 0.7,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 96000,
+   "ovs": "1x",
+   "fc": 11000,
+   "res": 90,
+   "peak_dbfs": -122.2,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 96000,
+   "ovs": "1x",
+   "fc": 11000,
+   "res": 95,
+   "peak_dbfs": -6.4,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 96000,
+   "ovs": "1x",
+   "fc": 11000,
+   "res": 100,
+   "peak_dbfs": 1.0,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 96000,
+   "ovs": "1x",
+   "fc": 12000,
+   "res": 90,
+   "peak_dbfs": -122.2,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 96000,
+   "ovs": "1x",
+   "fc": 12000,
+   "res": 95,
+   "peak_dbfs": -6.1,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 96000,
+   "ovs": "1x",
+   "fc": 12000,
+   "res": 100,
+   "peak_dbfs": 1.3,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 96000,
+   "ovs": "1x",
+   "fc": 13000,
+   "res": 90,
+   "peak_dbfs": -122.2,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 96000,
+   "ovs": "1x",
+   "fc": 13000,
+   "res": 95,
+   "peak_dbfs": -5.8,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 96000,
+   "ovs": "1x",
+   "fc": 13000,
+   "res": 100,
+   "peak_dbfs": 1.6,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 96000,
+   "ovs": "1x",
+   "fc": 14000,
+   "res": 90,
+   "peak_dbfs": -122.2,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 96000,
+   "ovs": "1x",
+   "fc": 14000,
+   "res": 95,
+   "peak_dbfs": -5.5,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 96000,
+   "ovs": "1x",
+   "fc": 14000,
+   "res": 100,
+   "peak_dbfs": 2.0,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 96000,
+   "ovs": "1x",
+   "fc": 16000,
+   "res": 90,
+   "peak_dbfs": -122.2,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 96000,
+   "ovs": "1x",
+   "fc": 16000,
+   "res": 95,
+   "peak_dbfs": -4.8,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 96000,
+   "ovs": "1x",
+   "fc": 16000,
+   "res": 100,
+   "peak_dbfs": 2.6,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 96000,
+   "ovs": "1x",
+   "fc": 18000,
+   "res": 90,
+   "peak_dbfs": -122.1,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 96000,
+   "ovs": "1x",
+   "fc": 18000,
+   "res": 95,
+   "peak_dbfs": -10.2,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 96000,
+   "ovs": "1x",
+   "fc": 18000,
+   "res": 100,
+   "peak_dbfs": -2.9,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 96000,
+   "ovs": "2x",
+   "fc": 6000,
+   "res": 90,
+   "peak_dbfs": -122.2,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 96000,
+   "ovs": "2x",
+   "fc": 6000,
+   "res": 95,
+   "peak_dbfs": -7.8,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 96000,
+   "ovs": "2x",
+   "fc": 6000,
+   "res": 100,
+   "peak_dbfs": -0.5,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 96000,
+   "ovs": "2x",
+   "fc": 8000,
+   "res": 90,
+   "peak_dbfs": -122.2,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 96000,
+   "ovs": "2x",
+   "fc": 8000,
+   "res": 95,
+   "peak_dbfs": -7.7,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 96000,
+   "ovs": "2x",
+   "fc": 8000,
+   "res": 100,
+   "peak_dbfs": -0.4,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 96000,
+   "ovs": "2x",
+   "fc": 10000,
+   "res": 90,
+   "peak_dbfs": -122.2,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 96000,
+   "ovs": "2x",
+   "fc": 10000,
+   "res": 95,
+   "peak_dbfs": -7.6,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 96000,
+   "ovs": "2x",
+   "fc": 10000,
+   "res": 100,
+   "peak_dbfs": -0.4,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 96000,
+   "ovs": "2x",
+   "fc": 11000,
+   "res": 90,
+   "peak_dbfs": -122.2,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 96000,
+   "ovs": "2x",
+   "fc": 11000,
+   "res": 95,
+   "peak_dbfs": -7.5,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 96000,
+   "ovs": "2x",
+   "fc": 11000,
+   "res": 100,
+   "peak_dbfs": -0.3,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 96000,
+   "ovs": "2x",
+   "fc": 12000,
+   "res": 90,
+   "peak_dbfs": -122.2,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 96000,
+   "ovs": "2x",
+   "fc": 12000,
+   "res": 95,
+   "peak_dbfs": -7.5,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 96000,
+   "ovs": "2x",
+   "fc": 12000,
+   "res": 100,
+   "peak_dbfs": -0.2,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 96000,
+   "ovs": "2x",
+   "fc": 13000,
+   "res": 90,
+   "peak_dbfs": -122.2,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 96000,
+   "ovs": "2x",
+   "fc": 13000,
+   "res": 95,
+   "peak_dbfs": -7.4,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 96000,
+   "ovs": "2x",
+   "fc": 13000,
+   "res": 100,
+   "peak_dbfs": -0.1,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 96000,
+   "ovs": "2x",
+   "fc": 14000,
+   "res": 90,
+   "peak_dbfs": -122.2,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 96000,
+   "ovs": "2x",
+   "fc": 14000,
+   "res": 95,
+   "peak_dbfs": -7.3,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 96000,
+   "ovs": "2x",
+   "fc": 14000,
+   "res": 100,
+   "peak_dbfs": 0.0,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 96000,
+   "ovs": "2x",
+   "fc": 16000,
+   "res": 90,
+   "peak_dbfs": -122.2,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 96000,
+   "ovs": "2x",
+   "fc": 16000,
+   "res": 95,
+   "peak_dbfs": -7.1,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 96000,
+   "ovs": "2x",
+   "fc": 16000,
+   "res": 100,
+   "peak_dbfs": 0.2,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 96000,
+   "ovs": "2x",
+   "fc": 18000,
+   "res": 90,
+   "peak_dbfs": -122.1,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 96000,
+   "ovs": "2x",
+   "fc": 18000,
+   "res": 95,
+   "peak_dbfs": -12.9,
+   "finite": true
+  },
+  {
+   "model": "Sherman",
+   "sr": 96000,
+   "ovs": "2x",
+   "fc": 18000,
+   "res": 100,
+   "peak_dbfs": -5.6,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 44100,
+   "ovs": "1x",
+   "fc": 6000,
+   "res": 90,
+   "peak_dbfs": -106.3,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 44100,
+   "ovs": "1x",
+   "fc": 6000,
+   "res": 95,
+   "peak_dbfs": -105.9,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 44100,
+   "ovs": "1x",
+   "fc": 6000,
+   "res": 100,
+   "peak_dbfs": 6.7,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 44100,
+   "ovs": "1x",
+   "fc": 8000,
+   "res": 90,
+   "peak_dbfs": -106.3,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 44100,
+   "ovs": "1x",
+   "fc": 8000,
+   "res": 95,
+   "peak_dbfs": -105.9,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 44100,
+   "ovs": "1x",
+   "fc": 8000,
+   "res": 100,
+   "peak_dbfs": 8.2,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 44100,
+   "ovs": "1x",
+   "fc": 10000,
+   "res": 90,
+   "peak_dbfs": -106.3,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 44100,
+   "ovs": "1x",
+   "fc": 10000,
+   "res": 95,
+   "peak_dbfs": -105.9,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 44100,
+   "ovs": "1x",
+   "fc": 10000,
+   "res": 100,
+   "peak_dbfs": 9.4,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 44100,
+   "ovs": "1x",
+   "fc": 11000,
+   "res": 90,
+   "peak_dbfs": -106.3,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 44100,
+   "ovs": "1x",
+   "fc": 11000,
+   "res": 95,
+   "peak_dbfs": -105.9,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 44100,
+   "ovs": "1x",
+   "fc": 11000,
+   "res": 100,
+   "peak_dbfs": 30.1,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 44100,
+   "ovs": "1x",
+   "fc": 12000,
+   "res": 90,
+   "peak_dbfs": -106.3,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 44100,
+   "ovs": "1x",
+   "fc": 12000,
+   "res": 95,
+   "peak_dbfs": -105.9,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 44100,
+   "ovs": "1x",
+   "fc": 12000,
+   "res": 100,
+   "peak_dbfs": 9.7,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 44100,
+   "ovs": "1x",
+   "fc": 13000,
+   "res": 90,
+   "peak_dbfs": -106.3,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 44100,
+   "ovs": "1x",
+   "fc": 13000,
+   "res": 95,
+   "peak_dbfs": -105.9,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 44100,
+   "ovs": "1x",
+   "fc": 13000,
+   "res": 100,
+   "peak_dbfs": 9.1,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 44100,
+   "ovs": "1x",
+   "fc": 14000,
+   "res": 90,
+   "peak_dbfs": -106.3,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 44100,
+   "ovs": "1x",
+   "fc": 14000,
+   "res": 95,
+   "peak_dbfs": -105.9,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 44100,
+   "ovs": "1x",
+   "fc": 14000,
+   "res": 100,
+   "peak_dbfs": 8.6,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 44100,
+   "ovs": "1x",
+   "fc": 16000,
+   "res": 90,
+   "peak_dbfs": -106.3,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 44100,
+   "ovs": "1x",
+   "fc": 16000,
+   "res": 95,
+   "peak_dbfs": -105.9,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 44100,
+   "ovs": "1x",
+   "fc": 16000,
+   "res": 100,
+   "peak_dbfs": 7.1,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 44100,
+   "ovs": "1x",
+   "fc": 18000,
+   "res": 90,
+   "peak_dbfs": -109.7,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 44100,
+   "ovs": "1x",
+   "fc": 18000,
+   "res": 95,
+   "peak_dbfs": -109.4,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 44100,
+   "ovs": "1x",
+   "fc": 18000,
+   "res": 100,
+   "peak_dbfs": -0.3,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 44100,
+   "ovs": "2x",
+   "fc": 6000,
+   "res": 90,
+   "peak_dbfs": -106.3,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 44100,
+   "ovs": "2x",
+   "fc": 6000,
+   "res": 95,
+   "peak_dbfs": -105.9,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 44100,
+   "ovs": "2x",
+   "fc": 6000,
+   "res": 100,
+   "peak_dbfs": 5.1,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 44100,
+   "ovs": "2x",
+   "fc": 8000,
+   "res": 90,
+   "peak_dbfs": -106.3,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 44100,
+   "ovs": "2x",
+   "fc": 8000,
+   "res": 95,
+   "peak_dbfs": -105.9,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 44100,
+   "ovs": "2x",
+   "fc": 8000,
+   "res": 100,
+   "peak_dbfs": 5.4,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 44100,
+   "ovs": "2x",
+   "fc": 10000,
+   "res": 90,
+   "peak_dbfs": -106.3,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 44100,
+   "ovs": "2x",
+   "fc": 10000,
+   "res": 95,
+   "peak_dbfs": -105.9,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 44100,
+   "ovs": "2x",
+   "fc": 10000,
+   "res": 100,
+   "peak_dbfs": 6.0,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 44100,
+   "ovs": "2x",
+   "fc": 11000,
+   "res": 90,
+   "peak_dbfs": -106.3,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 44100,
+   "ovs": "2x",
+   "fc": 11000,
+   "res": 95,
+   "peak_dbfs": -105.9,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 44100,
+   "ovs": "2x",
+   "fc": 11000,
+   "res": 100,
+   "peak_dbfs": 6.3,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 44100,
+   "ovs": "2x",
+   "fc": 12000,
+   "res": 90,
+   "peak_dbfs": -106.3,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 44100,
+   "ovs": "2x",
+   "fc": 12000,
+   "res": 95,
+   "peak_dbfs": -105.9,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 44100,
+   "ovs": "2x",
+   "fc": 12000,
+   "res": 100,
+   "peak_dbfs": 6.6,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 44100,
+   "ovs": "2x",
+   "fc": 13000,
+   "res": 90,
+   "peak_dbfs": -106.3,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 44100,
+   "ovs": "2x",
+   "fc": 13000,
+   "res": 95,
+   "peak_dbfs": -105.9,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 44100,
+   "ovs": "2x",
+   "fc": 13000,
+   "res": 100,
+   "peak_dbfs": 7.0,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 44100,
+   "ovs": "2x",
+   "fc": 14000,
+   "res": 90,
+   "peak_dbfs": -106.3,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 44100,
+   "ovs": "2x",
+   "fc": 14000,
+   "res": 95,
+   "peak_dbfs": -105.9,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 44100,
+   "ovs": "2x",
+   "fc": 14000,
+   "res": 100,
+   "peak_dbfs": 7.3,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 44100,
+   "ovs": "2x",
+   "fc": 16000,
+   "res": 90,
+   "peak_dbfs": -106.3,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 44100,
+   "ovs": "2x",
+   "fc": 16000,
+   "res": 95,
+   "peak_dbfs": -105.9,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 44100,
+   "ovs": "2x",
+   "fc": 16000,
+   "res": 100,
+   "peak_dbfs": 8.0,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 44100,
+   "ovs": "2x",
+   "fc": 18000,
+   "res": 90,
+   "peak_dbfs": -109.7,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 44100,
+   "ovs": "2x",
+   "fc": 18000,
+   "res": 95,
+   "peak_dbfs": -109.4,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 44100,
+   "ovs": "2x",
+   "fc": 18000,
+   "res": 100,
+   "peak_dbfs": 2.6,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 48000,
+   "ovs": "1x",
+   "fc": 6000,
+   "res": 90,
+   "peak_dbfs": -107.0,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 48000,
+   "ovs": "1x",
+   "fc": 6000,
+   "res": 95,
+   "peak_dbfs": -106.6,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 48000,
+   "ovs": "1x",
+   "fc": 6000,
+   "res": 100,
+   "peak_dbfs": 6.4,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 48000,
+   "ovs": "1x",
+   "fc": 8000,
+   "res": 90,
+   "peak_dbfs": -107.0,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 48000,
+   "ovs": "1x",
+   "fc": 8000,
+   "res": 95,
+   "peak_dbfs": -106.6,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 48000,
+   "ovs": "1x",
+   "fc": 8000,
+   "res": 100,
+   "peak_dbfs": 7.8,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 48000,
+   "ovs": "1x",
+   "fc": 10000,
+   "res": 90,
+   "peak_dbfs": -107.0,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 48000,
+   "ovs": "1x",
+   "fc": 10000,
+   "res": 95,
+   "peak_dbfs": -106.6,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 48000,
+   "ovs": "1x",
+   "fc": 10000,
+   "res": 100,
+   "peak_dbfs": 8.8,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 48000,
+   "ovs": "1x",
+   "fc": 11000,
+   "res": 90,
+   "peak_dbfs": -107.0,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 48000,
+   "ovs": "1x",
+   "fc": 11000,
+   "res": 95,
+   "peak_dbfs": -106.6,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 48000,
+   "ovs": "1x",
+   "fc": 11000,
+   "res": 100,
+   "peak_dbfs": 9.5,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 48000,
+   "ovs": "1x",
+   "fc": 12000,
+   "res": 90,
+   "peak_dbfs": -107.0,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 48000,
+   "ovs": "1x",
+   "fc": 12000,
+   "res": 95,
+   "peak_dbfs": -106.6,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 48000,
+   "ovs": "1x",
+   "fc": 12000,
+   "res": 100,
+   "peak_dbfs": 30.4,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 48000,
+   "ovs": "1x",
+   "fc": 13000,
+   "res": 90,
+   "peak_dbfs": -107.0,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 48000,
+   "ovs": "1x",
+   "fc": 13000,
+   "res": 95,
+   "peak_dbfs": -106.6,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 48000,
+   "ovs": "1x",
+   "fc": 13000,
+   "res": 100,
+   "peak_dbfs": 9.8,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 48000,
+   "ovs": "1x",
+   "fc": 14000,
+   "res": 90,
+   "peak_dbfs": -107.0,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 48000,
+   "ovs": "1x",
+   "fc": 14000,
+   "res": 95,
+   "peak_dbfs": -106.6,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 48000,
+   "ovs": "1x",
+   "fc": 14000,
+   "res": 100,
+   "peak_dbfs": 9.1,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 48000,
+   "ovs": "1x",
+   "fc": 16000,
+   "res": 90,
+   "peak_dbfs": -107.0,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 48000,
+   "ovs": "1x",
+   "fc": 16000,
+   "res": 95,
+   "peak_dbfs": -106.6,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 48000,
+   "ovs": "1x",
+   "fc": 16000,
+   "res": 100,
+   "peak_dbfs": 8.2,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 48000,
+   "ovs": "1x",
+   "fc": 18000,
+   "res": 90,
+   "peak_dbfs": -110.4,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 48000,
+   "ovs": "1x",
+   "fc": 18000,
+   "res": 95,
+   "peak_dbfs": -110.1,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 48000,
+   "ovs": "1x",
+   "fc": 18000,
+   "res": 100,
+   "peak_dbfs": 0.7,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 48000,
+   "ovs": "2x",
+   "fc": 6000,
+   "res": 90,
+   "peak_dbfs": -107.0,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 48000,
+   "ovs": "2x",
+   "fc": 6000,
+   "res": 95,
+   "peak_dbfs": -106.6,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 48000,
+   "ovs": "2x",
+   "fc": 6000,
+   "res": 100,
+   "peak_dbfs": 5.0,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 48000,
+   "ovs": "2x",
+   "fc": 8000,
+   "res": 90,
+   "peak_dbfs": -107.0,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 48000,
+   "ovs": "2x",
+   "fc": 8000,
+   "res": 95,
+   "peak_dbfs": -106.6,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 48000,
+   "ovs": "2x",
+   "fc": 8000,
+   "res": 100,
+   "peak_dbfs": 5.2,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 48000,
+   "ovs": "2x",
+   "fc": 10000,
+   "res": 90,
+   "peak_dbfs": -107.0,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 48000,
+   "ovs": "2x",
+   "fc": 10000,
+   "res": 95,
+   "peak_dbfs": -106.6,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 48000,
+   "ovs": "2x",
+   "fc": 10000,
+   "res": 100,
+   "peak_dbfs": 5.7,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 48000,
+   "ovs": "2x",
+   "fc": 11000,
+   "res": 90,
+   "peak_dbfs": -107.0,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 48000,
+   "ovs": "2x",
+   "fc": 11000,
+   "res": 95,
+   "peak_dbfs": -106.6,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 48000,
+   "ovs": "2x",
+   "fc": 11000,
+   "res": 100,
+   "peak_dbfs": 6.0,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 48000,
+   "ovs": "2x",
+   "fc": 12000,
+   "res": 90,
+   "peak_dbfs": -107.0,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 48000,
+   "ovs": "2x",
+   "fc": 12000,
+   "res": 95,
+   "peak_dbfs": -106.6,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 48000,
+   "ovs": "2x",
+   "fc": 12000,
+   "res": 100,
+   "peak_dbfs": 6.3,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 48000,
+   "ovs": "2x",
+   "fc": 13000,
+   "res": 90,
+   "peak_dbfs": -107.0,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 48000,
+   "ovs": "2x",
+   "fc": 13000,
+   "res": 95,
+   "peak_dbfs": -106.6,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 48000,
+   "ovs": "2x",
+   "fc": 13000,
+   "res": 100,
+   "peak_dbfs": 6.6,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 48000,
+   "ovs": "2x",
+   "fc": 14000,
+   "res": 90,
+   "peak_dbfs": -107.0,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 48000,
+   "ovs": "2x",
+   "fc": 14000,
+   "res": 95,
+   "peak_dbfs": -106.6,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 48000,
+   "ovs": "2x",
+   "fc": 14000,
+   "res": 100,
+   "peak_dbfs": 6.9,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 48000,
+   "ovs": "2x",
+   "fc": 16000,
+   "res": 90,
+   "peak_dbfs": -107.0,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 48000,
+   "ovs": "2x",
+   "fc": 16000,
+   "res": 95,
+   "peak_dbfs": -106.6,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 48000,
+   "ovs": "2x",
+   "fc": 16000,
+   "res": 100,
+   "peak_dbfs": 7.7,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 48000,
+   "ovs": "2x",
+   "fc": 18000,
+   "res": 90,
+   "peak_dbfs": -110.4,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 48000,
+   "ovs": "2x",
+   "fc": 18000,
+   "res": 95,
+   "peak_dbfs": -110.1,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 48000,
+   "ovs": "2x",
+   "fc": 18000,
+   "res": 100,
+   "peak_dbfs": 2.2,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 96000,
+   "ovs": "1x",
+   "fc": 6000,
+   "res": 90,
+   "peak_dbfs": -113.1,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 96000,
+   "ovs": "1x",
+   "fc": 6000,
+   "res": 95,
+   "peak_dbfs": -112.7,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 96000,
+   "ovs": "1x",
+   "fc": 6000,
+   "res": 100,
+   "peak_dbfs": 4.9,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 96000,
+   "ovs": "1x",
+   "fc": 8000,
+   "res": 90,
+   "peak_dbfs": -113.1,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 96000,
+   "ovs": "1x",
+   "fc": 8000,
+   "res": 95,
+   "peak_dbfs": -112.7,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 96000,
+   "ovs": "1x",
+   "fc": 8000,
+   "res": 100,
+   "peak_dbfs": 5.3,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 96000,
+   "ovs": "1x",
+   "fc": 10000,
+   "res": 90,
+   "peak_dbfs": -113.1,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 96000,
+   "ovs": "1x",
+   "fc": 10000,
+   "res": 95,
+   "peak_dbfs": -112.7,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 96000,
+   "ovs": "1x",
+   "fc": 10000,
+   "res": 100,
+   "peak_dbfs": 5.8,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 96000,
+   "ovs": "1x",
+   "fc": 11000,
+   "res": 90,
+   "peak_dbfs": -113.1,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 96000,
+   "ovs": "1x",
+   "fc": 11000,
+   "res": 95,
+   "peak_dbfs": -112.7,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 96000,
+   "ovs": "1x",
+   "fc": 11000,
+   "res": 100,
+   "peak_dbfs": 6.1,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 96000,
+   "ovs": "1x",
+   "fc": 12000,
+   "res": 90,
+   "peak_dbfs": -113.1,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 96000,
+   "ovs": "1x",
+   "fc": 12000,
+   "res": 95,
+   "peak_dbfs": -112.7,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 96000,
+   "ovs": "1x",
+   "fc": 12000,
+   "res": 100,
+   "peak_dbfs": 6.4,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 96000,
+   "ovs": "1x",
+   "fc": 13000,
+   "res": 90,
+   "peak_dbfs": -113.1,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 96000,
+   "ovs": "1x",
+   "fc": 13000,
+   "res": 95,
+   "peak_dbfs": -112.7,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 96000,
+   "ovs": "1x",
+   "fc": 13000,
+   "res": 100,
+   "peak_dbfs": 6.7,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 96000,
+   "ovs": "1x",
+   "fc": 14000,
+   "res": 90,
+   "peak_dbfs": -113.1,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 96000,
+   "ovs": "1x",
+   "fc": 14000,
+   "res": 95,
+   "peak_dbfs": -112.7,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 96000,
+   "ovs": "1x",
+   "fc": 14000,
+   "res": 100,
+   "peak_dbfs": 7.0,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 96000,
+   "ovs": "1x",
+   "fc": 16000,
+   "res": 90,
+   "peak_dbfs": -113.1,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 96000,
+   "ovs": "1x",
+   "fc": 16000,
+   "res": 95,
+   "peak_dbfs": -112.7,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 96000,
+   "ovs": "1x",
+   "fc": 16000,
+   "res": 100,
+   "peak_dbfs": 7.8,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 96000,
+   "ovs": "1x",
+   "fc": 18000,
+   "res": 90,
+   "peak_dbfs": -116.5,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 96000,
+   "ovs": "1x",
+   "fc": 18000,
+   "res": 95,
+   "peak_dbfs": -116.2,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 96000,
+   "ovs": "1x",
+   "fc": 18000,
+   "res": 100,
+   "peak_dbfs": 2.3,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 96000,
+   "ovs": "2x",
+   "fc": 6000,
+   "res": 90,
+   "peak_dbfs": -113.1,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 96000,
+   "ovs": "2x",
+   "fc": 6000,
+   "res": 95,
+   "peak_dbfs": -112.7,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 96000,
+   "ovs": "2x",
+   "fc": 6000,
+   "res": 100,
+   "peak_dbfs": 4.6,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 96000,
+   "ovs": "2x",
+   "fc": 8000,
+   "res": 90,
+   "peak_dbfs": -113.1,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 96000,
+   "ovs": "2x",
+   "fc": 8000,
+   "res": 95,
+   "peak_dbfs": -112.7,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 96000,
+   "ovs": "2x",
+   "fc": 8000,
+   "res": 100,
+   "peak_dbfs": 4.7,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 96000,
+   "ovs": "2x",
+   "fc": 10000,
+   "res": 90,
+   "peak_dbfs": -113.1,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 96000,
+   "ovs": "2x",
+   "fc": 10000,
+   "res": 95,
+   "peak_dbfs": -112.7,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 96000,
+   "ovs": "2x",
+   "fc": 10000,
+   "res": 100,
+   "peak_dbfs": 4.9,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 96000,
+   "ovs": "2x",
+   "fc": 11000,
+   "res": 90,
+   "peak_dbfs": -113.1,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 96000,
+   "ovs": "2x",
+   "fc": 11000,
+   "res": 95,
+   "peak_dbfs": -112.7,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 96000,
+   "ovs": "2x",
+   "fc": 11000,
+   "res": 100,
+   "peak_dbfs": 5.0,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 96000,
+   "ovs": "2x",
+   "fc": 12000,
+   "res": 90,
+   "peak_dbfs": -113.1,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 96000,
+   "ovs": "2x",
+   "fc": 12000,
+   "res": 95,
+   "peak_dbfs": -112.7,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 96000,
+   "ovs": "2x",
+   "fc": 12000,
+   "res": 100,
+   "peak_dbfs": 5.0,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 96000,
+   "ovs": "2x",
+   "fc": 13000,
+   "res": 90,
+   "peak_dbfs": -113.1,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 96000,
+   "ovs": "2x",
+   "fc": 13000,
+   "res": 95,
+   "peak_dbfs": -112.7,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 96000,
+   "ovs": "2x",
+   "fc": 13000,
+   "res": 100,
+   "peak_dbfs": 5.1,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 96000,
+   "ovs": "2x",
+   "fc": 14000,
+   "res": 90,
+   "peak_dbfs": -113.1,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 96000,
+   "ovs": "2x",
+   "fc": 14000,
+   "res": 95,
+   "peak_dbfs": -112.7,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 96000,
+   "ovs": "2x",
+   "fc": 14000,
+   "res": 100,
+   "peak_dbfs": 5.0,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 96000,
+   "ovs": "2x",
+   "fc": 16000,
+   "res": 90,
+   "peak_dbfs": -113.1,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 96000,
+   "ovs": "2x",
+   "fc": 16000,
+   "res": 95,
+   "peak_dbfs": -112.7,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 96000,
+   "ovs": "2x",
+   "fc": 16000,
+   "res": 100,
+   "peak_dbfs": 5.2,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 96000,
+   "ovs": "2x",
+   "fc": 18000,
+   "res": 90,
+   "peak_dbfs": -116.5,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 96000,
+   "ovs": "2x",
+   "fc": 18000,
+   "res": 95,
+   "peak_dbfs": -116.2,
+   "finite": true
+  },
+  {
+   "model": "Steiner",
+   "sr": 96000,
+   "ovs": "2x",
+   "fc": 18000,
+   "res": 100,
+   "peak_dbfs": -0.5,
+   "finite": true
+  }
+ ],
+ "hypotheses_replica_fc12k_res100": [
+  {
+   "model": "Sherman",
+   "fs": 48000,
+   "g": 1.0,
+   "solver": "lagged secant (production)",
+   "peak_dbfs": 314.3,
+   "diverged_at_sample": null
+  },
+  {
+   "model": "Sherman",
+   "fs": 48000,
+   "g": 1.0,
+   "solver": "fixed-point x1",
+   "peak_dbfs": -1.8,
+   "diverged_at_sample": null
+  },
+  {
+   "model": "Sherman",
+   "fs": 48000,
+   "g": 1.0,
+   "solver": "fixed-point x3",
+   "peak_dbfs": -1.8,
+   "diverged_at_sample": null
+  },
+  {
+   "model": "Sherman",
+   "fs": 48000,
+   "g": 1.0,
+   "solver": "fixed-point x8",
+   "peak_dbfs": -1.8,
+   "diverged_at_sample": null
+  },
+  {
+   "model": "Sherman",
+   "fs": 48000,
+   "g": 1.0,
+   "solver": "lagged secant, tanh damping law instead of algebraic",
+   "peak_dbfs": 314.2,
+   "diverged_at_sample": null
+  },
+  {
+   "model": "Steiner",
+   "fs": 48000,
+   "g": 1.0,
+   "solver": "lagged secant (production)",
+   "peak_dbfs": 30.4,
+   "diverged_at_sample": null
+  },
+  {
+   "model": "Steiner",
+   "fs": 48000,
+   "g": 1.0,
+   "solver": "fixed-point x1",
+   "peak_dbfs": 3.8,
+   "diverged_at_sample": null
+  },
+  {
+   "model": "Steiner",
+   "fs": 48000,
+   "g": 1.0,
+   "solver": "fixed-point x3",
+   "peak_dbfs": 3.9,
+   "diverged_at_sample": null
+  },
+  {
+   "model": "Steiner",
+   "fs": 48000,
+   "g": 1.0,
+   "solver": "fixed-point x8",
+   "peak_dbfs": 3.9,
+   "diverged_at_sample": null
+  },
+  {
+   "model": "Sherman",
+   "fs": 96000,
+   "g": 0.4142,
+   "solver": "lagged secant (production)",
+   "peak_dbfs": 1.3,
+   "diverged_at_sample": null
+  },
+  {
+   "model": "Sherman",
+   "fs": 96000,
+   "g": 0.4142,
+   "solver": "fixed-point x1",
+   "peak_dbfs": -0.7,
+   "diverged_at_sample": null
+  },
+  {
+   "model": "Sherman",
+   "fs": 96000,
+   "g": 0.4142,
+   "solver": "fixed-point x3",
+   "peak_dbfs": -0.5,
+   "diverged_at_sample": null
+  },
+  {
+   "model": "Sherman",
+   "fs": 96000,
+   "g": 0.4142,
+   "solver": "fixed-point x8",
+   "peak_dbfs": -0.5,
+   "diverged_at_sample": null
+  },
+  {
+   "model": "Sherman",
+   "fs": 96000,
+   "g": 0.4142,
+   "solver": "lagged secant, tanh damping law instead of algebraic",
+   "peak_dbfs": 2.9,
+   "diverged_at_sample": null
+  },
+  {
+   "model": "Steiner",
+   "fs": 96000,
+   "g": 0.4142,
+   "solver": "lagged secant (production)",
+   "peak_dbfs": 6.4,
+   "diverged_at_sample": null
+  },
+  {
+   "model": "Steiner",
+   "fs": 96000,
+   "g": 0.4142,
+   "solver": "fixed-point x1",
+   "peak_dbfs": 4.3,
+   "diverged_at_sample": null
+  },
+  {
+   "model": "Steiner",
+   "fs": 96000,
+   "g": 0.4142,
+   "solver": "fixed-point x3",
+   "peak_dbfs": 4.4,
+   "diverged_at_sample": null
+  },
+  {
+   "model": "Steiner",
+   "fs": 96000,
+   "g": 0.4142,
+   "solver": "fixed-point x8",
+   "peak_dbfs": 4.5,
+   "diverged_at_sample": null
+  },
+  {
+   "model": "Sherman",
+   "fs": 192000,
+   "g": 0.1989,
+   "solver": "lagged secant (production)",
+   "peak_dbfs": -0.2,
+   "diverged_at_sample": null
+  },
+  {
+   "model": "Sherman",
+   "fs": 192000,
+   "g": 0.1989,
+   "solver": "fixed-point x1",
+   "peak_dbfs": -0.5,
+   "diverged_at_sample": null
+  },
+  {
+   "model": "Sherman",
+   "fs": 192000,
+   "g": 0.1989,
+   "solver": "fixed-point x3",
+   "peak_dbfs": -0.4,
+   "diverged_at_sample": null
+  },
+  {
+   "model": "Sherman",
+   "fs": 192000,
+   "g": 0.1989,
+   "solver": "fixed-point x8",
+   "peak_dbfs": -0.4,
+   "diverged_at_sample": null
+  },
+  {
+   "model": "Sherman",
+   "fs": 192000,
+   "g": 0.1989,
+   "solver": "lagged secant, tanh damping law instead of algebraic",
+   "peak_dbfs": 1.4,
+   "diverged_at_sample": null
+  },
+  {
+   "model": "Steiner",
+   "fs": 192000,
+   "g": 0.1989,
+   "solver": "lagged secant (production)",
+   "peak_dbfs": 4.9,
+   "diverged_at_sample": null
+  },
+  {
+   "model": "Steiner",
+   "fs": 192000,
+   "g": 0.1989,
+   "solver": "fixed-point x1",
+   "peak_dbfs": 4.4,
+   "diverged_at_sample": null
+  },
+  {
+   "model": "Steiner",
+   "fs": 192000,
+   "g": 0.1989,
+   "solver": "fixed-point x3",
+   "peak_dbfs": 4.5,
+   "diverged_at_sample": null
+  },
+  {
+   "model": "Steiner",
+   "fs": 192000,
+   "g": 0.1989,
+   "solver": "fixed-point x8",
+   "peak_dbfs": 4.5,
+   "diverged_at_sample": null
+  }
+ ],
+ "sherman_trace": {
+  "g": 0.9999999999999999,
+  "Rt_small_signal": -0.08,
+  "samples_until_abs_y_gt_10": 96,
+  "samples_until_1e12": 413,
+  "Rb_last_16": [
+   -0.08,
+   1.0,
+   -0.08,
+   1.0,
+   -0.08,
+   1.0,
+   -0.08,
+   1.0,
+   -0.08,
+   1.0,
+   -0.08,
+   1.0,
+   -0.08,
+   1.0,
+   -0.08,
+   1.0
+  ],
+  "y_last_8": [
+   51070000000.0,
+   689400000000.0,
+   -59950000000.0,
+   -809300000000.0,
+   70380000000.0,
+   950100000000.0,
+   -82620000000.0,
+   -1115000000000.0
+  ],
+  "fraction_of_last_200_samples_with_negative_damping": 0.5
+ },
+ "svf_frozen_pole_radius_g1": {
+  "-0.08": 1.0835,
+  "-0.04": 1.0408,
+  "0.0": 1.0,
+  "0.1": 0.9045,
+  "1.0": 0.0
+ },
+ "persistence_device_defaults": {
+  "note": "Sherman LP, 1x, 48 kHz, fc 12 kHz, res 100 %, soft clip ON; at 2 s res -> 0 and fc -> 1 kHz; a 220 Hz tone from 3 s",
+  "peak_1_to_2s_dbfs": 0.0,
+  "rms_3_5_to_4s_dbfs": -4.72,
+  "expected_rms_if_recovered_dbfs": -23.01
+ },
+ "persistence_device_defaults_steiner": {
+  "peak_1_to_2s_dbfs": 0.0,
+  "rms_3_5_to_4s_dbfs": -23.42
+ }
+}

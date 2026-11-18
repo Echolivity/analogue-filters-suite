@@ -1,0 +1,88 @@
+{
+ "softclip_1": [
+  {
+   "second": 1,
+   "rms_dbfs": 0.0,
+   "mean": -0.001917
+  },
+  {
+   "second": 2,
+   "rms_dbfs": 0.0,
+   "mean": 0.9999
+  },
+  {
+   "second": 3,
+   "rms_dbfs": -1.7,
+   "mean": 0.7074
+  },
+  {
+   "second": 4,
+   "rms_dbfs": -23.5,
+   "mean": 0.0007618
+  },
+  {
+   "second": 5,
+   "rms_dbfs": -23.5,
+   "mean": 2.685e-09
+  },
+  {
+   "second": 6,
+   "rms_dbfs": -23.5,
+   "mean": 4.705e-11
+  },
+  {
+   "second": 7,
+   "rms_dbfs": -23.5,
+   "mean": 4.702e-11
+  }
+ ],
+ "softclip_0": [
+  {
+   "second": 1,
+   "rms_dbfs": 246.3,
+   "mean": -79820.0
+  },
+  {
+   "second": 2,
+   "rms_dbfs": 203.6,
+   "mean": -30490000.0
+  },
+  {
+   "second": 3,
+   "rms_dbfs": 54.8,
+   "mean": 218.8
+  },
+  {
+   "second": 4,
+   "rms_dbfs": -23.5,
+   "mean": 0.0007618
+  },
+  {
+   "second": 5,
+   "rms_dbfs": -23.5,
+   "mean": 2.685e-09
+  },
+  {
+   "second": 6,
+   "rms_dbfs": -23.5,
+   "mean": 4.705e-11
+  },
+  {
+   "second": 7,
+   "rms_dbfs": -23.5,
+   "mean": 4.702e-11
+  }
+ ],
+ "expected_rms_dbfs_when_recovered": -23.0,
+ "replica_agreement": {
+  "first_5_abs_err": [
+   1.9e-14,
+   2.27e-10,
+   2.24e-09,
+   1.13e-08,
+   3.91e-08
+  ],
+  "correlation": 0.99965,
+  "amplitude_ratio": 0.99884
+ }
+}
