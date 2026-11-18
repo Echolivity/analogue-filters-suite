@@ -99,3 +99,14 @@ See [STEINER_1974_CHECK.md](STEINER_1974_CHECK.md).
 | E53 | The article's plots fit passband = K/48 and Q = 1/(3 − K) within about 1 dB | P | Conforms |
 | E54 | The diode string is one forward-biased string fed in mirror from both ends; net law i = 2I·sinh(v/V′); even orders cancel | P + derivation | Model uses tanh: wrong direction (cutoff falls with level instead of rising) |
 
+## Added 2026-11-19: Oberheim SEM-1A schematic and manual [P]
+
+See [SEM_SCHEMATIC_CHECK.md](SEM_SCHEMATIC_CHECK.md).
+
+| ID | Finding | Class | Verdict |
+|---|---|---|---|
+| E55 | SVF with CA3080 integrators; HP↔LP notch crossfade; BP on a switch | P | Conforms |
+| E56 | Linear damping via the RES pot and 33k: 2ζ ≈ 3.03·w (Q 0.33 → unbounded) | P | The model's 20^(−res) law (Q 0.5–10) differs |
+| E57 | Diode limiter (47k/10k, D11/D12, 100k) adds damping above about 2.6 V BP | P | Missing in the model |
+| E58 | Input path is a linear op-amp summer (gain 0.45) | P | The model's 2·tanh(x/2) has no origin |
+
