@@ -25,7 +25,7 @@
 
 ## What this changes in the review
 
-*Written before the schematic arrived; superseded where noted.*
+*Written before the schematic arrived; superseded where noted. The exponent table and before/after numbers are in V1.6_ENGINE.md §4b.*
 
 - **R4 (OPTO calibration):** the static curve (items 3, 4) and R37 (item 5) now have a [P] source.
 - **Item 8 (topology): superseded.** The schematic shows feedback detection from the R6/R7 node, not an input tap. Feed-forward is **not** needed.
@@ -58,49 +58,26 @@
   | V3 source impedance | 25–50 kΩ | < 1 dB |
   | Trimmer | 50–380 pF | < 0.5 dB |
 
-**Implemented in v1.6.** Measured with `tests/review/la2a_manual.py`, `tests/dyn_tests.py` and the engine harness.
+**More evidence from the UREI manual:**
+- **Addendum (11-66):** Figure 1 is the curve for *limiter* operation, and COMP is about 3:1.
+- **UREI notice (1992):** the "10 µs" attack "should have been in milliseconds".
+- **Lawrence (JSMPTE, Aug 1964):**
+  - same curve as Figure 1, for the LA-2;
+  - release: full in about 2 s after 5–6 dB of reduction, 5–10 s after 20–30 dB, 50 % in under 1 s;
+  - attack figures of 10 µs, or 50–100 µs from rest;
+  - no photocell transfer data.
 
-| Item | Before | After |
-|---|---|---|
-| COMP | — | Unchanged (golden renders bit-identical) |
-| LIMIT | Own (4c)⁹ law; ratio 4.2 → 9.9:1; never flat (≥ 2 dB per 20 dB); hunted on programme | COMP law + the R7 sense term (R7 = 1.8 kΩ assumed, mid-range) + a 40 dB cell floor. See the before/after table below. |
-| Emphasis | 2.5 kHz high-frequency shelf | The R37 network (3rd-order bilinear; matches the analog response within 0.1 dB). Flat: 15 kHz vs 500 Hz within 0.25 dB. Maximum: +9 to +12 dB more reduction at 15 kHz. |
-| THD at 100 Hz, ≥ 25 dB GR (LIMIT) | 1.8 % | 0.37 % (manual < 0.5 %) |
-
-**LIMIT, before vs after on identical metrics** (1 kHz tone, 48 kHz; output rise in dB measured from the breakaway point; `tests/review/la2a_before_after.py`):
-
-| | +5 dB | +10 dB | +15 dB | +30 dB | Rise over −20…0 dBFS | Best 20 dB window |
-|---|---|---|---|---|---|---|
-| Manual Figure 1 (1966, before the switch existed) | 3.4 | 5.1 | 5.6 | 5.7 | — | < 1 dB |
-| Before, PR 80 | 1.2 | 1.8 | 2.5 | 4.0 | 2.10 | 2.01 |
-| Before, PR 100 | 0.7 | 1.2 | 1.8 | 3.3 | 2.03 | 2.00 |
-| After, PR 80 | 3.4 | 5.3 | 7.6 | 11.3 | **4.92** | 0.93 (from +28 dB) |
-| After, PR 100 | 2.5 | 3.9 | 5.7 | 7.5 | 0.78 | 0.93 (from +20 dB) |
-
-What the table shows:
-- **Near the knee, the new LIMIT is closer to Figure 1.** The old law compressed too hard just past breakaway.
-- **At heavy input it is not.** At PR 80 it is *worse* on the original "top 20 dB" metric (4.9 dB vs 2.1 dB), because it only flattens at deep reduction.
-- **Neither version matches Figure 1 over its whole range.**
-
-**Dynamics** (PR 100, LIMIT; GR meter on a 5 ms grid):
-- Programme material: GR direction reversals 577 → 62; maximum GR 77 dB → 30 dB. The old steep law hunted.
-- 1 kHz bursts: clean (3 → 1 reversals).
-- COMP: identical before and after.
-
-**Cell-exponent trade-off.** The schematic fixes the wiring, but not the T4 cell's response curve (its exponent). The static solve gives:
-
-| Exponent | LIMIT rise at +5/10/15/30 dB (Figure 1: 3.4/5.1/5.6/5.7) | COMP ratio at 6/12/18 dB GR (addendum ≈ 3:1, "100 % → 30 %" ≈ 2.6:1) |
-|---|---|---|
-| 2 | 3.6/6.5/8.9/13.7 | 2.2/2.6/2.8 |
-| 3 | 3.0/5.1/6.6/8.0 | 2.8/3.4/3.7 |
-| 3.5 | 2.8/4.7/5.9/6.0 | 3.2/3.8/4.2 |
-
-You chose **2**, so COMP stays bit-identical and matches the addendum, which describes the switch-era units this schematic shows. Figure 1 predates the switch, and the schematic allows a T4A or a T4B cell.
+**Implemented in v1.6** (internal detector). See [V1.6_ENGINE.md §4b](../V1.6_ENGINE.md) for every number.
+- **COMP:** exponent 2, unchanged.
+- **LIMIT:** exponent 3.5 plus the R7 sense term and the 40 dB floor. It fits Figure 1 at PR 80: 2.7/4.0/5.3/5.5 against 3.4/5.1/5.6/5.7.
+- **Emphasis:** the R37 network.
+- **CHAIN/EXT keys:** unchanged. The R7 term latches without feedback.
 
 **Remaining gaps:**
-- LIMIT flattens later than the manual's Figure 1. That figure describes the pre-switch unit, and the gain-law exponent is not measured from a T4 cell.
-- Attack.
-- The audio path (R5).
+- **One cell, two exponents.** No single cell fits both published curves. This follows both documents rather than the physics (the user's decision).
+- **LIMIT THD at 100 Hz** is 0.66 % at ≥ 30 dB GR. It is below 0.5 % at 400 Hz and 1 kHz.
+- **Attack** is uncalibrated.
+- **The audio path (R5).**
 
 ## Still needed
 

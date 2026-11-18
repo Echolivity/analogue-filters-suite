@@ -2849,39 +2849,39 @@
   {
    "name": "CPU benchmark (transpiled C, gcc -O2, this machine)",
    "passed": true,
-   "detail": "Both stages off (pass-through): 4.2%; Default device (Ladder LPF 24 dB + K35 HPF), 1x: 5.01%; Diode LPF 48 dB + Sherman HPF 48 dB, 1x: 6.55%; Default device, 2x oversampling: 6.18%; Worst case: Diode+Sherman 48 dB, 2x, both mid-crossfade: 10.01%",
+   "detail": "Both stages off (pass-through): 4.26%; Default device (Ladder LPF 24 dB + K35 HPF), 1x: 5.13%; Diode LPF 48 dB + Sherman HPF 48 dB, 1x: 6.55%; Default device, 2x oversampling: 5.94%; Worst case: Diode+Sherman 48 dB, 2x, both mid-crossfade: 10.29%",
    "rows": [
     {
      "config": "Both stages off (pass-through)",
-     "ns_per_frame": 874.5,
-     "pct_of_one_core_48k": 4.2
+     "ns_per_frame": 888.5,
+     "pct_of_one_core_48k": 4.26
     },
     {
      "config": "Default device (Ladder LPF 24 dB + K35 HPF), 1x",
-     "ns_per_frame": 1044.2,
-     "pct_of_one_core_48k": 5.01
+     "ns_per_frame": 1068.8,
+     "pct_of_one_core_48k": 5.13
     },
     {
      "config": "Diode LPF 48 dB + Sherman HPF 48 dB, 1x",
-     "ns_per_frame": 1364.0,
+     "ns_per_frame": 1364.4,
      "pct_of_one_core_48k": 6.55
     },
     {
      "config": "Default device, 2x oversampling",
-     "ns_per_frame": 1288.4,
-     "pct_of_one_core_48k": 6.18
+     "ns_per_frame": 1237.1,
+     "pct_of_one_core_48k": 5.94
     },
     {
      "config": "Worst case: Diode+Sherman 48 dB, 2x, both mid-crossfade",
-     "ns_per_frame": 2085.4,
-     "pct_of_one_core_48k": 10.01
+     "ns_per_frame": 2142.9,
+     "pct_of_one_core_48k": 10.29
     }
    ]
   },
   {
    "name": "Denormals: decay tails flush to zero; silence costs no more than signal",
    "passed": true,
-   "detail": "silence/signal CPU ratio 0.73"
+   "detail": "silence/signal CPU ratio 0.75"
   },
   {
    "name": "DC offset at output with asymmetric saturation (drive 100%, hot input)",
@@ -4221,32 +4221,32 @@
   {
    "name": "CPU with BPF (transpiled C, gcc -O2, this machine)",
    "passed": true,
-   "detail": "v1.1 default device (LPF+HPF), BPF off: 5.31%; + BPF SVF: 5.84%; + BPF CASCADE: 5.86%; + BPF MULTIMODE (ARP): 6.3%; worst: all three, 48 dB slopes, 2x, BPF mid-crossfade: 12.04%",
+   "detail": "v1.1 default device (LPF+HPF), BPF off: 5.3%; + BPF SVF: 5.82%; + BPF CASCADE: 5.85%; + BPF MULTIMODE (ARP): 6.61%; worst: all three, 48 dB slopes, 2x, BPF mid-crossfade: 12.36%",
    "rows": [
     {
      "config": "v1.1 default device (LPF+HPF), BPF off",
-     "ns_per_frame": 1105.6,
-     "pct_of_one_core_48k": 5.31
+     "ns_per_frame": 1103.5,
+     "pct_of_one_core_48k": 5.3
     },
     {
      "config": "+ BPF SVF",
-     "ns_per_frame": 1216.9,
-     "pct_of_one_core_48k": 5.84
+     "ns_per_frame": 1212.1,
+     "pct_of_one_core_48k": 5.82
     },
     {
      "config": "+ BPF CASCADE",
-     "ns_per_frame": 1221.2,
-     "pct_of_one_core_48k": 5.86
+     "ns_per_frame": 1218.0,
+     "pct_of_one_core_48k": 5.85
     },
     {
      "config": "+ BPF MULTIMODE (ARP)",
-     "ns_per_frame": 1313.0,
-     "pct_of_one_core_48k": 6.3
+     "ns_per_frame": 1376.8,
+     "pct_of_one_core_48k": 6.61
     },
     {
      "config": "worst: all three, 48 dB slopes, 2x, BPF mid-crossfade",
-     "ns_per_frame": 2508.8,
-     "pct_of_one_core_48k": 12.04
+     "ns_per_frame": 2575.2,
+     "pct_of_one_core_48k": 12.36
     }
    ]
   },
@@ -4613,7 +4613,7 @@
   {
    "name": "OPTO: static curve \u2014 COMP \u22482\u20134:1 (manual: about 3:1); LIMIT steeper than COMP and rising < 1 dB over 20 dB of input in its limiting region (manual: < 1 dB output rise for 20 dB more input)",
    "passed": true,
-   "detail": "COMP PR50: 2.2:1; COMP PR75: 2.6:1; LIMIT PR50: 2.4:1; LIMIT PR75: 3.8:1; LIMIT PR100: best 20 dB window starts +24 dB above breakaway (manual: about +10), output rise 0.74 dB",
+   "detail": "COMP PR50: 2.2:1; COMP PR75: 2.6:1; LIMIT PR50: 3.9:1; LIMIT PR75: 141.0:1; LIMIT PR100: best 20 dB window starts +20 dB above breakaway (manual: about +10), output rise 0.01 dB",
    "rows": [
     {
      "mode": "COMP",
@@ -4641,23 +4641,23 @@
      "mode": "LIMIT",
      "peak_reduction": 50,
      "out_dbfs": [
-      -30.2,
-      -21.5,
-      -15.4,
-      -11.2
+      -30.0,
+      -20.7,
+      -15.2,
+      -12.6
      ],
-     "ratio_top": 2.4
+     "ratio_top": 3.9
     },
     {
      "mode": "LIMIT",
      "peak_reduction": 75,
      "out_dbfs": [
-      -32.3,
-      -26.7,
-      -22.8,
-      -20.2
+      -31.3,
+      -26.9,
+      -24.7,
+      -24.7
      ],
-     "ratio_top": 3.8
+     "ratio_top": 141.0
     }
    ]
   },
@@ -4685,7 +4685,7 @@
   {
    "name": "OPTO: Emphasis (R37) \u2014 flat gives equal reduction at 500 Hz and 15 kHz (within 0.5 dB); maximum gives \u2265 6 dB more reduction at 15 kHz",
    "passed": true,
-   "detail": "GR(15 kHz) \u2212 GR(500 Hz): flat -0.22 dB, max +9.1 dB"
+   "detail": "GR(15 kHz) \u2212 GR(500 Hz): flat -0.33 dB, max +12.5 dB"
   },
   {
    "name": "VCA: static ratios 1.5:1 \u2026 \u221e:1 within \u00b10.5 dB (hard knee, threshold \u221224 dBFS, input 20 dB over)",
@@ -4801,7 +4801,7 @@
   {
    "name": "SIDECHAIN: external key (plugin~ 3/4) drives VCA and OPTO gain reduction; internal detection ignores the key",
    "passed": true,
-   "detail": "VCA ext: GR 19.3 dB during key vs 11.3 dB between; VCA int: 3.9 vs 4.0 dB; OPTO ext max GR 40.0 dB"
+   "detail": "VCA ext: GR 19.3 dB during key vs 11.3 dB between; VCA int: 3.9 vs 4.0 dB; OPTO ext max GR 46.5 dB"
   },
   {
    "name": "SIDECHAIN: detector sourcing \u2014 CHAIN source gives identical VCA gain reduction in all six orders; INT source follows the module's position",
@@ -4916,37 +4916,37 @@
   {
    "name": "CPU with the dynamics chain (transpiled C, gcc -O2, this machine)",
    "passed": true,
-   "detail": "v1.2 device, dynamics off: 4.98%; + TUBE: 6.18%; + OPTO: 6.01%; + VCA: 5.91%; + all three + gate: 7.09%; worst: LPF+HPF+BPF 2x + all dynamics, reordering every 20 ms: 13.81%",
+   "detail": "v1.2 device, dynamics off: 5.33%; + TUBE: 6.48%; + OPTO: 6.07%; + VCA: 5.77%; + all three + gate: 7.61%; worst: LPF+HPF+BPF 2x + all dynamics, reordering every 20 ms: 14.55%",
    "rows": [
     {
      "config": "v1.2 device, dynamics off",
-     "ns_per_frame": 1036.6,
-     "pct_of_one_core_48k": 4.98
+     "ns_per_frame": 1110.7,
+     "pct_of_one_core_48k": 5.33
     },
     {
      "config": "+ TUBE",
-     "ns_per_frame": 1286.9,
-     "pct_of_one_core_48k": 6.18
+     "ns_per_frame": 1349.4,
+     "pct_of_one_core_48k": 6.48
     },
     {
      "config": "+ OPTO",
-     "ns_per_frame": 1253.0,
-     "pct_of_one_core_48k": 6.01
+     "ns_per_frame": 1263.7,
+     "pct_of_one_core_48k": 6.07
     },
     {
      "config": "+ VCA",
-     "ns_per_frame": 1231.6,
-     "pct_of_one_core_48k": 5.91
+     "ns_per_frame": 1203.0,
+     "pct_of_one_core_48k": 5.77
     },
     {
      "config": "+ all three + gate",
-     "ns_per_frame": 1477.8,
-     "pct_of_one_core_48k": 7.09
+     "ns_per_frame": 1585.8,
+     "pct_of_one_core_48k": 7.61
     },
     {
      "config": "worst: LPF+HPF+BPF 2x + all dynamics, reordering every 20 ms",
-     "ns_per_frame": 2877.5,
-     "pct_of_one_core_48k": 13.81
+     "ns_per_frame": 3030.9,
+     "pct_of_one_core_48k": 14.55
     }
    ]
   },
@@ -5147,19 +5147,19 @@
   {
    "name": "CPU by routing mode (LPF + HPF + BPF on)",
    "passed": true,
-   "detail": "LPF + HPF + BPF, SERIES: 6.15%; LPF + HPF + BPF, PARALLEL: 6.07%; LPF + HPF + BPF, HYBRID: 6.26%",
+   "detail": "LPF + HPF + BPF, SERIES: 6.0%; LPF + HPF + BPF, PARALLEL: 5.91%; LPF + HPF + BPF, HYBRID: 6.25%",
    "rows": [
     {
      "config": "LPF + HPF + BPF, SERIES",
-     "pct_of_one_core_48k": 6.15
+     "pct_of_one_core_48k": 6.0
     },
     {
      "config": "LPF + HPF + BPF, PARALLEL",
-     "pct_of_one_core_48k": 6.07
+     "pct_of_one_core_48k": 5.91
     },
     {
      "config": "LPF + HPF + BPF, HYBRID",
-     "pct_of_one_core_48k": 6.26
+     "pct_of_one_core_48k": 6.25
     }
    ]
   },
@@ -5172,6 +5172,6 @@
  "summary": {
   "total": 95,
   "passed": 95,
-  "seconds": 245.7
+  "seconds": 243.3
  }
 }

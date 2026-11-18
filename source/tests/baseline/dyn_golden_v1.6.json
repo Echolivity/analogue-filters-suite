@@ -15,7 +15,7 @@
   "reorders": "4124293f4fe07eabd6043edb77601b16f202e44d9d10d9ca125adc80d458846e",
   "bypass toggles": "532c8bf8a2785635db5733b61003e8d7f11109d55c6b306a8584b58449c1d87a",
   "vca old/feedback soft knee": "6780ca470b48c0c971b2ff1a842ed2f1bf8d1579a7d8b58d600f72a1c63cbb4d",
-  "opto limit emph": "cbc2f58b9b4e993b33689c50370cb12b4348c14f7eddc329a6bd0125748ad1c8",
+  "opto limit emph": "35ea09c897d337cd360a3ee24463670c2b15b7866878a7566d4353835da4b450",
   "tube hot": "61460e04d1583e235bed40984bf491d2c0e0b0d10fb97bfc9a8143f05626d9bc",
   "gate": "0052d3be0d71403b0901dd1825eede0d6c5abb74a448a3b5b9f4a113cf963903",
   "key listen": "ed1ced61e8dff1d82c1ef1281ad3d293306a431b8fa87c1c85ca67c61e297cf0",
@@ -25,5 +25,5 @@
  "changed_vs_legacy": [
   "opto limit emph"
  ],
- "note": "v1.6 solver fix (Sherman, Steiner, BPF SVF limiter) and Reference-mode power-on default; legacy tests run in Creative mode (tests/dsp.py base). OPTO from the Teletronix schematic C-10953 rev C: LIMIT senses above R7 with the COMP gain law, and Emphasis is the R37/C12 side-chain network. COMP renders are unchanged."
+ "note": "v1.6 solver fix (Sherman, Steiner, BPF SVF limiter) and Reference-mode power-on default; legacy tests run in Creative mode (tests/dsp.py base). OPTO from the Teletronix schematic C-10953 rev C (internal detector): LIMIT senses above R7 with cell exponent 3.5 (fits manual Figure 1); Emphasis is the R37/C12 network. COMP and CHAIN/EXT detector renders are unchanged."
 }

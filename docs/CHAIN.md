@@ -46,17 +46,14 @@ From the schematic:
 - **COMP/LIMIT (SW3).** The switch shorts R7. In COMP the detector sees the attenuator output. In LIMIT it sees that output × (1 + R7/R_cell), which stiffens the loop as the cell resistance falls.
 - **R37 "LIM RESP".** R37 ∥ C12 (1 nF) sits in series between the V3 control amplifier (via C9) and the 1 MΩ balance pot, which is loaded by C6 + R30. Raising R37 cuts the side-chain below about 2 kHz.
 
-How the model implements this:
-- **Timing (unchanged since v1.3).** An EL-panel light state, an LDR with fast (40 ms) and slow (program-dependent 0.5–5 s) components, and a memory that lengthens the slow release after long compression.
-- **Gain.** G = 1/(1 + q), q = (K·c)², for both modes. That is the attenuator divider law with exponent 2, which gives the manual's ~3:1 in COMP. q is floored at 40 dB of reduction (manual: "up to 40 dB").
-- **LIMIT.** It adds the R7 sense term, Vy·(1 + 0.0444·q). 0.0444 = R7 1.8 kΩ / (R6 ∥ R2 = 40.5 kΩ).
-- **Emphasis.** The R37 network, bilinear-transformed (3rd order), with R37 = 0–1 MΩ.
+How the model implements this (internal detector; CHAIN/EXT keys keep their earlier law):
+- **Timing (unchanged since v1.3).** An EL-panel light state, an LDR with fast and slow components, and a memory that lengthens the release.
+- **Gain.** G = 1/(1 + (1.6·c)^p), floored at 40 dB of reduction.
+  - COMP: p = 2 (the addendum's ~3:1).
+  - LIMIT: p = 3.5, plus the R7 sense term (1 + 0.0444·q). This fits Figure 1, the manual's limiter curve.
+- **Emphasis.** The R37 network, 3rd order.
 
-Measured:
-- **COMP:** 1.7 → 2.8:1. Unchanged; COMP renders are bit-identical to v1.3.
-- **LIMIT:** tracks COMP to about 15 dB of reduction, then flattens. At PR 100: 0.78 dB rise over the top 20 dB, and a 0.93 dB rise over a 20 dB window starting 20 dB above breakaway. The manual's Figure 1 (pre-switch units) flattens earlier, about 10–15 dB above breakaway; see V1.6_ENGINE.md §4b for the exponent trade-off.
-- **Emphasis at 100 %:** 15 kHz is 12 dB more sensitive than 500 Hz and 8 dB more than 1 kHz. The manual says about 10 dB more than below 1 kHz.
-- **Distortion at 100 Hz** with ≥ 25 dB of reduction: 0.37 %. The manual says < 0.5 %; v1.6 before the change measured 1.8 %.
+Details and measurements: V1.6_ENGINE.md §4b.
 
 Controls: PEAK RED (sidechain gain), GAIN (= Output), COMP/LIMIT, EMPHASIS (R37), SC HPF (20–500 Hz), LINK (0–100 %), SC source.
 

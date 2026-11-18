@@ -75,5 +75,6 @@ See [LA2A_MANUAL_CHECK.md](LA2A_MANUAL_CHECK.md). `tests/review/la2a_manual.py` 
 | E43 | Figure 1 (3-66 manual, pre-switch): output +3.4/+5.1/+5.6/+5.7 dB at 5/10/15/30 dB above breakaway | P | v1.6 LIMIT: 2.5/3.9/5.7/7.5 (PR 100). Partial match. |
 | E44 | UREI 1992 notice: the "10 µs" attack "should have been in milliseconds" | P | Supports OPTO's ms attack; supersedes E40's conflict |
 | E45 | R37 position: 3-66 text says ahead of R2; drawing rev C shows it after V3 | P vs P | The model follows the drawing; the two agree above 500 Hz |
-| E46 | Cell exponent: 2 fits the addendum's COMP; 3.5 fits Figure 1's LIMIT; no single value fits both | M (static solve) | The user chose 2 (COMP unchanged) |
+| E46 | Cell exponent: 2 fits the addendum's COMP; 3.5 fits Figure 1, which the addendum gives as the LIMIT curve; no single value fits both | M (static solve) | The user chose per-mode exponents: COMP 2, LIMIT 3.5 |
+| E47 | Lawrence 1964: release about 2 s after 5–6 dB, 5–10 s after 20–30 dB, 50 % < 1 s; no cell transfer data | P | Consistent with E21 |
 

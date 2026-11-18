@@ -60,7 +60,7 @@ DESC = {
     "o_link": "Stereo link of the opto detector. 100 % = fully linked.",
     "o_mix": "Dry/wet (parallel) mix of the opto compressor.",
     "o_out": "Make-up gain after the opto compressor.",
-    "o_mode": "COMP is about 3:1. LIMIT follows COMP at light reduction and flattens at heavy reduction (the LA-2A's R7 side-chain point).",
+    "o_mode": "COMP is about 3:1. LIMIT follows the LA-2A's limiter curve: it rounds into a flat top about 10-15 dB past the threshold.",
     "o_src": "Opto sidechain source: INT (its own input), CHAIN (the chain input) or EXT (external key).",
     "v_in": "Level into the VCA compressor.",
     "v_thr": "VCA compressor threshold.",

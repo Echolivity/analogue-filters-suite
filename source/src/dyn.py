@@ -161,10 +161,15 @@ def emit_controls(w, G):
     # signal after R6 (68k) and R7 (1k-2.7k); G = 1/(1 + q), q ~ R_th/R_cell with exponent 2, which gives COMP's ~3:1
     # (manual addendum). SW3 shorts R7 in COMP; in LIMIT the side-chain node sits above R7, so it senses
     # Vy * (1 + R7/R_cell) = Vy * (1 + o_a * q) and stiffens as reduction deepens. q is floored at 40 dB GR (manual: "up to 40 dB").
-    w("o_K = 1.6;")
-    w("o_p = 2;")
-    w("o_a = o_lim > 0.5 ? 0.0444 : 0;")                    # R7 1.8k / (R6 68k || R2 100k = 40.5k)
-    w("o_qmax = 99;")
+    # The schematic model applies to the internal (feedback) detector only. With CHAIN or EXT keys there is no
+    # feedback, the R7 term would latch, and those sources keep their pre-v1.6 behaviour exactly (no floor).
+    w("o_int = o_src < 0.5 ? 1 : 0;")
+    w("o_K = (o_lim > 0.5 && o_int < 0.5) ? 4 : 1.6;")
+    # Cell exponent: COMP 2 (addendum ~3:1); LIMIT 3.5 (fits the manual's Figure 1, which the addendum gives as the
+    # limiter curve). One physical cell cannot do both; this follows both published curves (user's decision).
+    w("o_p = o_lim > 0.5 ? (o_int > 0.5 ? 3.5 : 9) : 2;")
+    w("o_a = (o_lim > 0.5 && o_int > 0.5) ? 0.0444 : 0;")   # R7 1.8k / (R6 68k || R2 100k = 40.5k)
+    w("o_qmax = o_int > 0.5 ? 99 : 1e30;")
     w("o_aatt = 1 - exp(-1 / (0.0045 * fs));")               # cell attack (≈10 ms overall in the feedback loop)
     w("o_aela = 1 - exp(-1 / (0.002 * fs));")                # EL panel rise
     w("o_ael = 1 - exp(-1 / (0.004 * fs));")                 # EL panel decay
@@ -381,7 +386,9 @@ def emit_opto(w, G, ln, xin, xout, meter):
     G.ind += 1
     for ch in CH:
         w(f"ou_{ch} = {xin[ch]} * dz_o_gi;")
-        w(f"osc_{ch} = {_src('o_src', s(ch, 'yp') + ' * (1 + o_a * ' + s(ch, 'q') + ')', ch)};")
+        # LIMIT's R7 sense term scales whatever feeds the detector (internal, chain or external key), so the
+        # COMP/LIMIT switch acts with every detector source.
+        w(f"osc_{ch} = {_src('o_src', s(ch, 'yp'), ch)} * (1 + o_a * {s(ch, 'q')});")
         w(f"ohl, {s(ch, 'hp')} = f_op(osc_{ch}, {s(ch, 'hp')}, o_Ghp);")
         w(f"osc_{ch} = osc_{ch} - ohl;")
         w(f"{s(ch, 'hp')} = fixdenorm({s(ch, 'hp')});")

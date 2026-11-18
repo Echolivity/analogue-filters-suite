@@ -6017,10 +6017,11 @@ dz_o_emz = H_dz_o_emz + a_par * (clamp(o_emph, 0, 100) * 0.01 - H_dz_o_emz);
 dz_o_lkz = H_dz_o_lkz + a_par * (clamp(o_link, 0, 100) * 0.01 - H_dz_o_lkz);
 o_prg = exp(0.11512925465 * (50 * dz_o_prz - 12));
 o_lim = o_mode > 0.5 ? 1 : 0;
-o_K = 1.6;
-o_p = 2;
-o_a = o_lim > 0.5 ? 0.0444 : 0;
-o_qmax = 99;
+o_int = o_src < 0.5 ? 1 : 0;
+o_K = (o_lim > 0.5 && o_int < 0.5) ? 4 : 1.6;
+o_p = o_lim > 0.5 ? (o_int > 0.5 ? 3.5 : 9) : 2;
+o_a = (o_lim > 0.5 && o_int > 0.5) ? 0.0444 : 0;
+o_qmax = o_int > 0.5 ? 99 : 1e30;
 o_aatt = 1 - exp(-1 / (0.0045 * fs));
 o_aela = 1 - exp(-1 / (0.002 * fs));
 o_ael = 1 - exp(-1 / (0.004 * fs));
@@ -8110,7 +8111,7 @@ if (d_any > 0.5 || dz_d_fade < 1) {
 		if (dP_m0 == 1) {
 			if (dz_o_w > 0) {
 				ou_L = q0_L * dz_o_gi;
-				osc_L = (o_src < 0.5 ? dP_O_L_yp * (1 + o_a * dP_O_L_q) : (o_src < 1.5 ? cin_L : key_L));
+				osc_L = (o_src < 0.5 ? dP_O_L_yp : (o_src < 1.5 ? cin_L : key_L)) * (1 + o_a * dP_O_L_q);
 				ohl, dP_O_L_hp = f_op(osc_L, dP_O_L_hp, o_Ghp);
 				osc_L = osc_L - ohl;
 				dP_O_L_hp = fixdenorm(dP_O_L_hp);
@@ -8123,7 +8124,7 @@ if (d_any > 0.5 || dz_d_fade < 1) {
 				}
 				olv_L = abs(osc_L);
 				ou_R = q0_R * dz_o_gi;
-				osc_R = (o_src < 0.5 ? dP_O_R_yp * (1 + o_a * dP_O_R_q) : (o_src < 1.5 ? cin_R : key_R));
+				osc_R = (o_src < 0.5 ? dP_O_R_yp : (o_src < 1.5 ? cin_R : key_R)) * (1 + o_a * dP_O_R_q);
 				ohl, dP_O_R_hp = f_op(osc_R, dP_O_R_hp, o_Ghp);
 				osc_R = osc_R - ohl;
 				dP_O_R_hp = fixdenorm(dP_O_R_hp);
@@ -8819,7 +8820,7 @@ if (d_any > 0.5 || dz_d_fade < 1) {
 		if (dP_m1 == 1) {
 			if (dz_o_w > 0) {
 				ou_L = q1_L * dz_o_gi;
-				osc_L = (o_src < 0.5 ? dP_O_L_yp * (1 + o_a * dP_O_L_q) : (o_src < 1.5 ? cin_L : key_L));
+				osc_L = (o_src < 0.5 ? dP_O_L_yp : (o_src < 1.5 ? cin_L : key_L)) * (1 + o_a * dP_O_L_q);
 				ohl, dP_O_L_hp = f_op(osc_L, dP_O_L_hp, o_Ghp);
 				osc_L = osc_L - ohl;
 				dP_O_L_hp = fixdenorm(dP_O_L_hp);
@@ -8832,7 +8833,7 @@ if (d_any > 0.5 || dz_d_fade < 1) {
 				}
 				olv_L = abs(osc_L);
 				ou_R = q1_R * dz_o_gi;
-				osc_R = (o_src < 0.5 ? dP_O_R_yp * (1 + o_a * dP_O_R_q) : (o_src < 1.5 ? cin_R : key_R));
+				osc_R = (o_src < 0.5 ? dP_O_R_yp : (o_src < 1.5 ? cin_R : key_R)) * (1 + o_a * dP_O_R_q);
 				ohl, dP_O_R_hp = f_op(osc_R, dP_O_R_hp, o_Ghp);
 				osc_R = osc_R - ohl;
 				dP_O_R_hp = fixdenorm(dP_O_R_hp);
@@ -9528,7 +9529,7 @@ if (d_any > 0.5 || dz_d_fade < 1) {
 		if (dP_m2 == 1) {
 			if (dz_o_w > 0) {
 				ou_L = q2_L * dz_o_gi;
-				osc_L = (o_src < 0.5 ? dP_O_L_yp * (1 + o_a * dP_O_L_q) : (o_src < 1.5 ? cin_L : key_L));
+				osc_L = (o_src < 0.5 ? dP_O_L_yp : (o_src < 1.5 ? cin_L : key_L)) * (1 + o_a * dP_O_L_q);
 				ohl, dP_O_L_hp = f_op(osc_L, dP_O_L_hp, o_Ghp);
 				osc_L = osc_L - ohl;
 				dP_O_L_hp = fixdenorm(dP_O_L_hp);
@@ -9541,7 +9542,7 @@ if (d_any > 0.5 || dz_d_fade < 1) {
 				}
 				olv_L = abs(osc_L);
 				ou_R = q2_R * dz_o_gi;
-				osc_R = (o_src < 0.5 ? dP_O_R_yp * (1 + o_a * dP_O_R_q) : (o_src < 1.5 ? cin_R : key_R));
+				osc_R = (o_src < 0.5 ? dP_O_R_yp : (o_src < 1.5 ? cin_R : key_R)) * (1 + o_a * dP_O_R_q);
 				ohl, dP_O_R_hp = f_op(osc_R, dP_O_R_hp, o_Ghp);
 				osc_R = osc_R - ohl;
 				dP_O_R_hp = fixdenorm(dP_O_R_hp);
@@ -10243,7 +10244,7 @@ if (d_any > 0.5 || dz_d_fade < 1) {
 		if (dQ_m0 == 1) {
 			if (dz_o_w > 0) {
 				ou_L = q0_L * dz_o_gi;
-				osc_L = (o_src < 0.5 ? dQ_O_L_yp * (1 + o_a * dQ_O_L_q) : (o_src < 1.5 ? cin_L : key_L));
+				osc_L = (o_src < 0.5 ? dQ_O_L_yp : (o_src < 1.5 ? cin_L : key_L)) * (1 + o_a * dQ_O_L_q);
 				ohl, dQ_O_L_hp = f_op(osc_L, dQ_O_L_hp, o_Ghp);
 				osc_L = osc_L - ohl;
 				dQ_O_L_hp = fixdenorm(dQ_O_L_hp);
@@ -10256,7 +10257,7 @@ if (d_any > 0.5 || dz_d_fade < 1) {
 				}
 				olv_L = abs(osc_L);
 				ou_R = q0_R * dz_o_gi;
-				osc_R = (o_src < 0.5 ? dQ_O_R_yp * (1 + o_a * dQ_O_R_q) : (o_src < 1.5 ? cin_R : key_R));
+				osc_R = (o_src < 0.5 ? dQ_O_R_yp : (o_src < 1.5 ? cin_R : key_R)) * (1 + o_a * dQ_O_R_q);
 				ohl, dQ_O_R_hp = f_op(osc_R, dQ_O_R_hp, o_Ghp);
 				osc_R = osc_R - ohl;
 				dQ_O_R_hp = fixdenorm(dQ_O_R_hp);
@@ -10952,7 +10953,7 @@ if (d_any > 0.5 || dz_d_fade < 1) {
 		if (dQ_m1 == 1) {
 			if (dz_o_w > 0) {
 				ou_L = q1_L * dz_o_gi;
-				osc_L = (o_src < 0.5 ? dQ_O_L_yp * (1 + o_a * dQ_O_L_q) : (o_src < 1.5 ? cin_L : key_L));
+				osc_L = (o_src < 0.5 ? dQ_O_L_yp : (o_src < 1.5 ? cin_L : key_L)) * (1 + o_a * dQ_O_L_q);
 				ohl, dQ_O_L_hp = f_op(osc_L, dQ_O_L_hp, o_Ghp);
 				osc_L = osc_L - ohl;
 				dQ_O_L_hp = fixdenorm(dQ_O_L_hp);
@@ -10965,7 +10966,7 @@ if (d_any > 0.5 || dz_d_fade < 1) {
 				}
 				olv_L = abs(osc_L);
 				ou_R = q1_R * dz_o_gi;
-				osc_R = (o_src < 0.5 ? dQ_O_R_yp * (1 + o_a * dQ_O_R_q) : (o_src < 1.5 ? cin_R : key_R));
+				osc_R = (o_src < 0.5 ? dQ_O_R_yp : (o_src < 1.5 ? cin_R : key_R)) * (1 + o_a * dQ_O_R_q);
 				ohl, dQ_O_R_hp = f_op(osc_R, dQ_O_R_hp, o_Ghp);
 				osc_R = osc_R - ohl;
 				dQ_O_R_hp = fixdenorm(dQ_O_R_hp);
@@ -11661,7 +11662,7 @@ if (d_any > 0.5 || dz_d_fade < 1) {
 		if (dQ_m2 == 1) {
 			if (dz_o_w > 0) {
 				ou_L = q2_L * dz_o_gi;
-				osc_L = (o_src < 0.5 ? dQ_O_L_yp * (1 + o_a * dQ_O_L_q) : (o_src < 1.5 ? cin_L : key_L));
+				osc_L = (o_src < 0.5 ? dQ_O_L_yp : (o_src < 1.5 ? cin_L : key_L)) * (1 + o_a * dQ_O_L_q);
 				ohl, dQ_O_L_hp = f_op(osc_L, dQ_O_L_hp, o_Ghp);
 				osc_L = osc_L - ohl;
 				dQ_O_L_hp = fixdenorm(dQ_O_L_hp);
@@ -11674,7 +11675,7 @@ if (d_any > 0.5 || dz_d_fade < 1) {
 				}
 				olv_L = abs(osc_L);
 				ou_R = q2_R * dz_o_gi;
-				osc_R = (o_src < 0.5 ? dQ_O_R_yp * (1 + o_a * dQ_O_R_q) : (o_src < 1.5 ? cin_R : key_R));
+				osc_R = (o_src < 0.5 ? dQ_O_R_yp : (o_src < 1.5 ? cin_R : key_R)) * (1 + o_a * dQ_O_R_q);
 				ohl, dQ_O_R_hp = f_op(osc_R, dQ_O_R_hp, o_Ghp);
 				osc_R = osc_R - ohl;
 				dQ_O_R_hp = fixdenorm(dQ_O_R_hp);

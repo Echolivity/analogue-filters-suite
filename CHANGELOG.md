@@ -8,15 +8,14 @@ Details and before/after measurements: [docs/V1.6_ENGINE.md](docs/V1.6_ENGINE.md
 - **New:** fault containment. A stage whose output becomes non-finite or absurd resets itself and passes dry. It never activated in normal-use tests.
 - **New:** High Oversampling OFF / 4x / 8x / 16x for the filters and TUBE, using cascaded half-band stages. 2x is bit-identical to v1.5.
 - **New:** Engine Mode REFERENCE (default) / CREATIVE. REFERENCE runs each active model at least at its measured minimum factor (≤ −80 dBc aliasing at a bright test point; TUBE 8x). CREATIVE runs exactly your setting.
-- **Changed: OPTO LIMIT and Emphasis**, rebuilt from the Teletronix schematic C-10953 rev C (in the UREI manual you supplied):
-  - **LIMIT is now softer at normal settings.** It uses the COMP law plus the hardware's R7 side-chain point, floored at 40 dB. It tracks COMP (about 2.4–3.8:1 at PR 50–75) and flattens only at heavy reduction.
-    - At PR 100, 0.78 dB rise over the top 20 dB (v1.5: 2.0 dB).
-    - At PR 80 it is *less* firm over that range (4.9 dB vs 2.1 dB).
-    - It no longer hunts on programme material (GR reversals 577 → 62).
-    - Sets using LIMIT may need more Peak Reduction.
-  - **Emphasis now cuts the lows going to the detector** (up to about −15 dB near 200 Hz) instead of boosting the highs. 15 kHz is levelled about 10–12 dB more than 500 Hz.
-  - Distortion at 100 Hz under heavy limiting: 1.8 % → 0.37 %.
-  - COMP is unchanged (bit-identical).
+- **Changed: OPTO LIMIT and Emphasis** (internal detector), rebuilt from the Teletronix schematic C-10953 rev C and the LA-2A manuals you supplied:
+  - **LIMIT has a softer knee and a flat top.** It uses the hardware's R7 side-chain point, with the cell exponent fitted to the manual's Figure 1, which the addendum gives as the limiter curve.
+    - PR 80: +2.7/4.0/5.3/5.5 dB above breakaway (Figure 1: 3.4/5.1/5.6/5.7).
+    - About 1 dB of over-compression at extreme settings.
+    - No more hunting (GR reversals on programme material 577 → 110).
+  - **Emphasis now cuts the lows going to the detector** (up to about −15 dB near 200 Hz) instead of boosting the highs.
+  - LIMIT distortion at ≥ 30 dB of reduction: 1 kHz 0.007 %, 400 Hz 0.04 %, 100 Hz 0.66 % (was 1.8 %).
+  - **Unchanged:** COMP (bit-identical below 40 dB of reduction) and CHAIN/EXT detector sources (bit-identical in both modes).
 - **New UI:** an ENGINE strip at the right edge showing the mode, the high-oversampling choice, and the factors actually running. Two new Live parameters, appended; all 79 earlier ones are unchanged.
 - **Compatibility:**
   - Earlier Sets open in REFERENCE. Choose CREATIVE to get v1.5's oversampling factor back.
