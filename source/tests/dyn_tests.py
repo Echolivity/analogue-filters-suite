@@ -41,7 +41,7 @@ def run_all(record, plt, OUT, SEQ, CAT, GRID, sig):
         r = subprocess.run([sys.executable, os.path.join(HERE, "golden.py")] + args, capture_output=True, text=True)
         record(name, r.returncode == 0, r.stdout.strip())
     for b in ("DubFilter_v1.1.maxpat", "DubFilter_v1.2.maxpat"):
-        r = subprocess.run([sys.executable, os.path.join(HERE, "compat.py"), f"--base={b}"], capture_output=True, text=True)
+        r = subprocess.run([sys.executable, os.path.join(HERE, "compat.py"), "--ui", f"--base={b}"], capture_output=True, text=True)
         lines = r.stdout.strip().splitlines()
         record(f"REGRESSION v1.3: presets/automation/MIDI of {b[10:14]} devices intact (objects, connections, parameters, gen~ Params)",
                r.returncode == 0, lines[-1] + " — " + lines[0])

@@ -18,7 +18,7 @@
   "openrect": [
    0,
    0,
-   1948,
+   2132,
    169
   ],
   "bglocked": 0,
@@ -44,7 +44,7 @@
   "boxanimatetime": 500,
   "enablehscroll": 1,
   "enablevscroll": 1,
-  "devicewidth": 1948.0,
+  "devicewidth": 2132.0,
   "description": "Dub Filter - multi-model analogue-inspired LPF/HPF/BPF (series/parallel) + dynamics chain",
   "digest": "",
   "tags": "",
@@ -727,9 +727,9 @@
       169
      ],
      "bgcolor": [
-      0.086,
-      0.082,
-      0.078,
+      0.0784,
+      0.0745,
+      0.0706,
       1.0
      ],
      "rounded": 0,
@@ -756,9 +756,9 @@
       161
      ],
      "bgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.1294,
+      0.1216,
+      0.1137,
       1.0
      ],
      "rounded": 4,
@@ -767,10 +767,10 @@
      "background": 1,
      "border": 1,
      "bordercolor": [
-      0.5285500000000001,
-      0.34485000000000005,
-      0.11000000000000001,
-      1
+      0.3098,
+      0.2824,
+      0.2549,
+      1.0
      ]
     }
    },
@@ -786,15 +786,15 @@
      ],
      "presentation": 1,
      "presentation_rect": [
-      10,
+      5,
       22,
-      286,
-      2
+      296,
+      1
      ],
      "bgcolor": [
-      0.961,
-      0.627,
-      0.2,
+      0.4863,
+      0.4471,
+      0.4,
       1.0
      ],
      "rounded": 0,
@@ -807,26 +807,26 @@
      "id": "obj-9",
      "maxclass": "comment",
      "patching_rect": [
-      10,
-      305,
-      160,
-      16
+      12,
+      306,
+      150,
+      14
      ],
      "presentation": 1,
      "presentation_rect": [
-      10,
-      5,
-      160,
-      16
+      12,
+      6,
+      150,
+      14
      ],
      "text": "LOW-PASS",
      "textcolor": [
-      0.961,
-      0.627,
-      0.2,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
-     "fontsize": 11.0,
+     "fontsize": 10.5,
      "fontface": 1,
      "numinlets": 1,
      "numoutlets": 0,
@@ -840,14 +840,14 @@
      "patching_rect": [
       150,
       560,
-      40,
+      36,
       14
      ],
      "presentation": 1,
      "presentation_rect": [
-      256,
+      260,
       6,
-      40,
+      36,
       14
      ],
      "numinlets": 1,
@@ -861,54 +861,66 @@
      "mode": 0,
      "text": "ON",
      "texton": "ON",
-     "fontsize": 9.0,
+     "fontsize": 8.0,
      "fontface": 1,
+     "activetextcolor": [
+      0.6392,
+      0.6039,
+      0.549,
+      1.0
+     ],
+     "activetextoncolor": [
+      0.102,
+      0.0784,
+      0.0627,
+      1.0
+     ],
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "textoncolor": [
-      0.086,
-      0.082,
-      0.078,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "bgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.0902,
+      0.0863,
+      0.0824,
       1.0
      ],
      "bgoncolor": [
-      0.961,
-      0.627,
-      0.2,
+      0.4196,
+      0.2902,
+      0.1412,
       1.0
      ],
      "activebgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.2039,
+      0.1922,
+      0.1765,
       1.0
      ],
      "activebgoncolor": [
-      0.961,
-      0.627,
-      0.2,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "bordercolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.3098,
+      0.2824,
+      0.2549,
       1.0
      ],
      "focusbordercolor": [
-      0.961,
-      0.627,
-      0.2,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "saved_attribute_attributes": {
@@ -928,7 +940,10 @@
         "on"
        ]
       }
-     }
+     },
+     "annotation_name": "LPF On",
+     "annotation": "Switches the low-pass stage in or out. Off = clean bypass, no colouration. Options: off, on. Default: on.",
+     "hint": "LPF On: Switches the low-pass stage in or out. Off = clean bypass, no colouration."
     }
    },
    {
@@ -962,7 +977,7 @@
      "presentation": 1,
      "presentation_rect": [
       10,
-      28,
+      27,
       286,
       16
      ],
@@ -976,30 +991,30 @@
      "parameter_enable": 1,
      "varname": "l_model",
      "textcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
      "bgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.0902,
+      0.0863,
+      0.0824,
       1.0
      ],
      "activebgcolor": [
-      0.11,
-      0.104,
-      0.098,
+      0.0902,
+      0.0863,
+      0.0824,
       1.0
      ],
      "tricolor": [
-      0.961,
-      0.627,
-      0.2,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
-     "fontsize": 10.0,
+     "fontsize": 9.0,
      "saved_attribute_attributes": {
       "valueof": {
        "parameter_longname": "LPF Model",
@@ -1021,7 +1036,10 @@
         "06 TB-303 Diode Ladder"
        ]
       }
-     }
+     },
+     "annotation_name": "LPF Model",
+     "annotation": "Circuit model for the low-pass stage. Each model runs its own engine; nothing is substituted. Options: 01 Sherman Filterbank, 02 Korg 35 / MS-20, 03 Moog-style Ladder, 04 Steiner-Parker, 05 Oberheim SEM, 06 TB-303 Diode Ladder. Default: 03 Moog-style Ladder.",
+     "hint": "LPF Model: Circuit model for the low-pass stage. Each model runs its own engine; nothing is substituted."
     }
    },
    {
@@ -1070,37 +1088,43 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.961,
-      0.627,
-      0.2,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "activeneedlecolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
      "dialcolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.2902,
+      0.2667,
+      0.2392,
       1.0
      ],
      "needlecolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "textcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
      "fontsize": 10.0,
      "fontface": 1,
+     "focusbordercolor": [
+      0.949,
+      0.6275,
+      0.2275,
+      1.0
+     ],
      "saved_attribute_attributes": {
       "valueof": {
        "parameter_longname": "LPF Cutoff",
@@ -1116,7 +1140,10 @@
        "parameter_exponent": 5.0
       }
      },
-     "appearance": 0
+     "appearance": 0,
+     "annotation_name": "LPF Cutoff",
+     "annotation": "Low-pass cutoff frequency. Fully open (20 kHz) is transparent. Range 20 to 20000 Hz. Default 20000 Hz.",
+     "hint": "LPF Cutoff: Low-pass cutoff frequency. Fully open (20 kHz) is transparent."
     }
    },
    {
@@ -1142,26 +1169,26 @@
      "id": "obj-16",
      "maxclass": "comment",
      "patching_rect": [
-      10,
-      448,
-      106,
-      12
+      8,
+      450,
+      108,
+      11
      ],
      "presentation": 1,
      "presentation_rect": [
-      10,
-      148,
-      106,
-      12
+      8,
+      150,
+      108,
+      11
      ],
      "text": "20 Hz  \u00b7  OPEN 20k",
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
-     "fontsize": 8.0,
+     "fontsize": 7.5,
      "fontface": 0,
      "numinlets": 1,
      "numoutlets": 0,
@@ -1196,37 +1223,43 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.961,
-      0.627,
-      0.2,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "activeneedlecolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
      "dialcolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.2902,
+      0.2667,
+      0.2392,
       1.0
      ],
      "needlecolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "textcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
-     "fontsize": 9.0,
+     "fontsize": 8.5,
      "fontface": 0,
+     "focusbordercolor": [
+      0.949,
+      0.6275,
+      0.2275,
+      1.0
+     ],
      "saved_attribute_attributes": {
       "valueof": {
        "parameter_longname": "LPF Resonance",
@@ -1240,7 +1273,10 @@
        ],
        "parameter_unitstyle": 5
       }
-     }
+     },
+     "annotation_name": "LPF Resonance",
+     "annotation": "Resonance / feedback. High settings self-oscillate on models that do so in hardware. Range 0 to 100 %. Default 0 %.",
+     "hint": "LPF Resonance: Resonance / feedback. High settings self-oscillate on models that do so in hardware."
     }
    },
    {
@@ -1289,37 +1325,43 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.961,
-      0.627,
-      0.2,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "activeneedlecolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
      "dialcolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.2902,
+      0.2667,
+      0.2392,
       1.0
      ],
      "needlecolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "textcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
-     "fontsize": 9.0,
+     "fontsize": 8.5,
      "fontface": 0,
+     "focusbordercolor": [
+      0.949,
+      0.6275,
+      0.2275,
+      1.0
+     ],
      "saved_attribute_attributes": {
       "valueof": {
        "parameter_longname": "LPF Drive",
@@ -1333,7 +1375,10 @@
        ],
        "parameter_unitstyle": 5
       }
-     }
+     },
+     "annotation_name": "LPF Drive",
+     "annotation": "Input level into the model's nonlinear stages: more drive, more saturation. Range 0 to 100 %. Default 0 %.",
+     "hint": "LPF Drive: Input level into the model's nonlinear stages: more drive, more saturation."
     }
    },
    {
@@ -1382,37 +1427,43 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.961,
-      0.627,
-      0.2,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "activeneedlecolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
      "dialcolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.2902,
+      0.2667,
+      0.2392,
       1.0
      ],
      "needlecolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "textcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
-     "fontsize": 9.0,
+     "fontsize": 8.5,
      "fontface": 0,
+     "focusbordercolor": [
+      0.949,
+      0.6275,
+      0.2275,
+      1.0
+     ],
      "saved_attribute_attributes": {
       "valueof": {
        "parameter_longname": "LPF Compensation",
@@ -1426,7 +1477,10 @@
        ],
        "parameter_unitstyle": 5
       }
-     }
+     },
+     "annotation_name": "LPF Compensation",
+     "annotation": "Level compensation for resonance-related passband loss. 100 % = full compensation. Range 0 to 100 %. Default 100 %.",
+     "hint": "LPF Compensation: Level compensation for resonance-related passband loss. 100 % = full compensation."
     }
    },
    {
@@ -1475,37 +1529,43 @@
      "showname": 0,
      "shownumber": 1,
      "activedialcolor": [
-      0.961,
-      0.627,
-      0.2,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "activeneedlecolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
      "dialcolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.2902,
+      0.2667,
+      0.2392,
       1.0
      ],
      "needlecolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "textcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
-     "fontsize": 9.0,
+     "fontsize": 8.5,
      "fontface": 0,
+     "focusbordercolor": [
+      0.949,
+      0.6275,
+      0.2275,
+      1.0
+     ],
      "saved_attribute_attributes": {
       "valueof": {
        "parameter_longname": "LPF Character",
@@ -1519,7 +1579,10 @@
        ],
        "parameter_unitstyle": 5
       }
-     }
+     },
+     "annotation_name": "LPF Character",
+     "annotation": "Model-specific control; its name (below the knob) changes with the model. Range 0 to 100 %. Default 0 %.",
+     "hint": "LPF Character: Model-specific control; its name (below the knob) changes with the model."
     }
    },
    {
@@ -1546,25 +1609,25 @@
      "maxclass": "comment",
      "patching_rect": [
       116,
-      448,
+      449,
       66,
       12
      ],
      "presentation": 1,
      "presentation_rect": [
       116,
-      148,
+      149,
       66,
       12
      ],
      "text": "STAGE SAT",
      "textcolor": [
-      0.961,
-      0.627,
-      0.2,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
-     "fontsize": 8.0,
+     "fontsize": 7.5,
      "fontface": 1,
      "numinlets": 1,
      "numoutlets": 0,
@@ -1590,12 +1653,12 @@
      ],
      "text": "SLOPE  dB/OCT",
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
-     "fontsize": 8.0,
+     "fontsize": 7.5,
      "fontface": 0,
      "numinlets": 1,
      "numoutlets": 0,
@@ -1630,53 +1693,66 @@
      "varname": "l_slope",
      "num_lines_patching": 1,
      "num_lines_presentation": 1,
-     "fontsize": 9.0,
+     "fontsize": 8.0,
+     "fontface": 1,
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
      "textoncolor": [
-      0.086,
-      0.082,
-      0.078,
+      0.102,
+      0.0784,
+      0.0627,
+      1.0
+     ],
+     "inactivetextoffcolor": [
+      0.3686,
+      0.3451,
+      0.3137,
+      1.0
+     ],
+     "inactivetextoncolor": [
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "bgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.0902,
+      0.0863,
+      0.0824,
       1.0
      ],
      "bgoncolor": [
-      0.961,
-      0.627,
-      0.2,
+      0.4196,
+      0.2902,
+      0.1412,
       1.0
      ],
      "activebgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.2039,
+      0.1922,
+      0.1765,
       1.0
      ],
      "activebgoncolor": [
-      0.961,
-      0.627,
-      0.2,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "bordercolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.3098,
+      0.2824,
+      0.2549,
       1.0
      ],
      "focusbordercolor": [
-      0.961,
-      0.627,
-      0.2,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "saved_attribute_attributes": {
@@ -1698,7 +1774,10 @@
         "48"
        ]
       }
-     }
+     },
+     "annotation_name": "LPF Slope",
+     "annotation": "Filter slope in dB/oct. Slopes beyond the model's native order add extension stages. Options: 12, 24, 36, 48. Default: 24.",
+     "hint": "LPF Slope: Filter slope in dB/oct. Slopes beyond the model's native order add extension stages."
     }
    },
    {
@@ -1738,12 +1817,12 @@
      ],
      "text": "NATIVE 12 TAP + 24 | 36-48 EXT",
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
-     "fontsize": 7.5,
+     "fontsize": 7.0,
      "fontface": 0,
      "numinlets": 1,
      "numoutlets": 0,
@@ -2008,9 +2087,9 @@
       161
      ],
      "bgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.1294,
+      0.1216,
+      0.1137,
       1.0
      ],
      "rounded": 4,
@@ -2019,10 +2098,10 @@
      "background": 1,
      "border": 1,
      "bordercolor": [
-      0.4983000000000001,
-      0.22000000000000003,
-      0.0968,
-      1
+      0.3098,
+      0.2824,
+      0.2549,
+      1.0
      ]
     }
    },
@@ -2038,15 +2117,15 @@
      ],
      "presentation": 1,
      "presentation_rect": [
-      404,
+      399,
       22,
-      286,
-      2
+      296,
+      1
      ],
      "bgcolor": [
-      0.906,
+      0.4863,
+      0.4471,
       0.4,
-      0.176,
       1.0
      ],
      "rounded": 0,
@@ -2059,26 +2138,26 @@
      "id": "obj-45",
      "maxclass": "comment",
      "patching_rect": [
-      404,
-      305,
-      160,
-      16
+      406,
+      306,
+      150,
+      14
      ],
      "presentation": 1,
      "presentation_rect": [
-      404,
-      5,
-      160,
-      16
+      406,
+      6,
+      150,
+      14
      ],
      "text": "HIGH-PASS",
      "textcolor": [
-      0.906,
-      0.4,
-      0.176,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
-     "fontsize": 11.0,
+     "fontsize": 10.5,
      "fontface": 1,
      "numinlets": 1,
      "numoutlets": 0,
@@ -2092,14 +2171,14 @@
      "patching_rect": [
       1110,
       560,
-      40,
+      36,
       14
      ],
      "presentation": 1,
      "presentation_rect": [
-      650,
+      654,
       6,
-      40,
+      36,
       14
      ],
      "numinlets": 1,
@@ -2113,54 +2192,66 @@
      "mode": 0,
      "text": "ON",
      "texton": "ON",
-     "fontsize": 9.0,
+     "fontsize": 8.0,
      "fontface": 1,
+     "activetextcolor": [
+      0.6392,
+      0.6039,
+      0.549,
+      1.0
+     ],
+     "activetextoncolor": [
+      0.102,
+      0.0784,
+      0.0627,
+      1.0
+     ],
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "textoncolor": [
-      0.086,
-      0.082,
-      0.078,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "bgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.0902,
+      0.0863,
+      0.0824,
       1.0
      ],
      "bgoncolor": [
-      0.906,
-      0.4,
-      0.176,
+      0.4196,
+      0.2902,
+      0.1412,
       1.0
      ],
      "activebgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.2039,
+      0.1922,
+      0.1765,
       1.0
      ],
      "activebgoncolor": [
-      0.906,
-      0.4,
-      0.176,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "bordercolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.3098,
+      0.2824,
+      0.2549,
       1.0
      ],
      "focusbordercolor": [
-      0.906,
-      0.4,
-      0.176,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "saved_attribute_attributes": {
@@ -2180,7 +2271,10 @@
         "on"
        ]
       }
-     }
+     },
+     "annotation_name": "HPF On",
+     "annotation": "Switches the high-pass stage in or out. Off = clean bypass, no colouration. Options: off, on. Default: on.",
+     "hint": "HPF On: Switches the high-pass stage in or out. Off = clean bypass, no colouration."
     }
    },
    {
@@ -2214,7 +2308,7 @@
      "presentation": 1,
      "presentation_rect": [
       404,
-      28,
+      27,
       286,
       16
      ],
@@ -2228,30 +2322,30 @@
      "parameter_enable": 1,
      "varname": "h_model",
      "textcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
      "bgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.0902,
+      0.0863,
+      0.0824,
       1.0
      ],
      "activebgcolor": [
-      0.11,
-      0.104,
-      0.098,
+      0.0902,
+      0.0863,
+      0.0824,
       1.0
      ],
      "tricolor": [
-      0.906,
-      0.4,
-      0.176,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
-     "fontsize": 10.0,
+     "fontsize": 9.0,
      "saved_attribute_attributes": {
       "valueof": {
        "parameter_longname": "HPF Model",
@@ -2272,7 +2366,10 @@
         "05 Oberheim SEM"
        ]
       }
-     }
+     },
+     "annotation_name": "HPF Model",
+     "annotation": "Circuit model for the high-pass stage. Each model runs its own engine; nothing is substituted. Options: 01 Sherman Filterbank, 02 Korg 35 / MS-20, 03 Ladder HP - ALT pole-mix, 04 Steiner-Parker, 05 Oberheim SEM. Default: 02 Korg 35 / MS-20.",
+     "hint": "HPF Model: Circuit model for the high-pass stage. Each model runs its own engine; nothing is substituted."
     }
    },
    {
@@ -2321,37 +2418,43 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.906,
-      0.4,
-      0.176,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "activeneedlecolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
      "dialcolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.2902,
+      0.2667,
+      0.2392,
       1.0
      ],
      "needlecolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "textcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
      "fontsize": 10.0,
      "fontface": 1,
+     "focusbordercolor": [
+      0.949,
+      0.6275,
+      0.2275,
+      1.0
+     ],
      "saved_attribute_attributes": {
       "valueof": {
        "parameter_longname": "HPF Cutoff",
@@ -2367,7 +2470,10 @@
        "parameter_exponent": 3.46
       }
      },
-     "appearance": 0
+     "appearance": 0,
+     "annotation_name": "HPF Cutoff",
+     "annotation": "High-pass cutoff frequency. Fully down (20 Hz) is transparent. Range 20 to 2000 Hz. Default 20 Hz.",
+     "hint": "HPF Cutoff: High-pass cutoff frequency. Fully down (20 Hz) is transparent."
     }
    },
    {
@@ -2393,26 +2499,26 @@
      "id": "obj-52",
      "maxclass": "comment",
      "patching_rect": [
-      404,
-      448,
-      106,
-      12
+      402,
+      450,
+      108,
+      11
      ],
      "presentation": 1,
      "presentation_rect": [
-      404,
-      148,
-      106,
-      12
+      402,
+      150,
+      108,
+      11
      ],
      "text": "OPEN 20 Hz  \u00b7  2k",
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
-     "fontsize": 8.0,
+     "fontsize": 7.5,
      "fontface": 0,
      "numinlets": 1,
      "numoutlets": 0,
@@ -2447,37 +2553,43 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.906,
-      0.4,
-      0.176,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "activeneedlecolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
      "dialcolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.2902,
+      0.2667,
+      0.2392,
       1.0
      ],
      "needlecolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "textcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
-     "fontsize": 9.0,
+     "fontsize": 8.5,
      "fontface": 0,
+     "focusbordercolor": [
+      0.949,
+      0.6275,
+      0.2275,
+      1.0
+     ],
      "saved_attribute_attributes": {
       "valueof": {
        "parameter_longname": "HPF Resonance",
@@ -2491,7 +2603,10 @@
        ],
        "parameter_unitstyle": 5
       }
-     }
+     },
+     "annotation_name": "HPF Resonance",
+     "annotation": "Resonance / feedback of the high-pass stage. Range 0 to 100 %. Default 0 %.",
+     "hint": "HPF Resonance: Resonance / feedback of the high-pass stage."
     }
    },
    {
@@ -2540,37 +2655,43 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.906,
-      0.4,
-      0.176,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "activeneedlecolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
      "dialcolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.2902,
+      0.2667,
+      0.2392,
       1.0
      ],
      "needlecolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "textcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
-     "fontsize": 9.0,
+     "fontsize": 8.5,
      "fontface": 0,
+     "focusbordercolor": [
+      0.949,
+      0.6275,
+      0.2275,
+      1.0
+     ],
      "saved_attribute_attributes": {
       "valueof": {
        "parameter_longname": "HPF Drive",
@@ -2584,7 +2705,10 @@
        ],
        "parameter_unitstyle": 5
       }
-     }
+     },
+     "annotation_name": "HPF Drive",
+     "annotation": "Input level into the high-pass model's nonlinear stages. Range 0 to 100 %. Default 0 %.",
+     "hint": "HPF Drive: Input level into the high-pass model's nonlinear stages."
     }
    },
    {
@@ -2633,37 +2757,43 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.906,
-      0.4,
-      0.176,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "activeneedlecolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
      "dialcolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.2902,
+      0.2667,
+      0.2392,
       1.0
      ],
      "needlecolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "textcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
-     "fontsize": 9.0,
+     "fontsize": 8.5,
      "fontface": 0,
+     "focusbordercolor": [
+      0.949,
+      0.6275,
+      0.2275,
+      1.0
+     ],
      "saved_attribute_attributes": {
       "valueof": {
        "parameter_longname": "HPF Compensation",
@@ -2677,7 +2807,10 @@
        ],
        "parameter_unitstyle": 5
       }
-     }
+     },
+     "annotation_name": "HPF Compensation",
+     "annotation": "Level compensation for resonance-related passband loss. Range 0 to 100 %. Default 100 %.",
+     "hint": "HPF Compensation: Level compensation for resonance-related passband loss."
     }
    },
    {
@@ -2726,37 +2859,43 @@
      "showname": 0,
      "shownumber": 1,
      "activedialcolor": [
-      0.906,
-      0.4,
-      0.176,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "activeneedlecolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
      "dialcolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.2902,
+      0.2667,
+      0.2392,
       1.0
      ],
      "needlecolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "textcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
-     "fontsize": 9.0,
+     "fontsize": 8.5,
      "fontface": 0,
+     "focusbordercolor": [
+      0.949,
+      0.6275,
+      0.2275,
+      1.0
+     ],
      "saved_attribute_attributes": {
       "valueof": {
        "parameter_longname": "HPF Character",
@@ -2770,7 +2909,10 @@
        ],
        "parameter_unitstyle": 5
       }
-     }
+     },
+     "annotation_name": "HPF Character",
+     "annotation": "Model-specific control; its name (below the knob) changes with the model. Range 0 to 100 %. Default 0 %.",
+     "hint": "HPF Character: Model-specific control; its name (below the knob) changes with the model."
     }
    },
    {
@@ -2797,25 +2939,25 @@
      "maxclass": "comment",
      "patching_rect": [
       510,
-      448,
+      449,
       66,
       12
      ],
      "presentation": 1,
      "presentation_rect": [
       510,
-      148,
+      149,
       66,
       12
      ],
      "text": "FB CLIP",
      "textcolor": [
-      0.906,
-      0.4,
-      0.176,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
-     "fontsize": 8.0,
+     "fontsize": 7.5,
      "fontface": 1,
      "numinlets": 1,
      "numoutlets": 0,
@@ -2841,12 +2983,12 @@
      ],
      "text": "SLOPE  dB/OCT",
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
-     "fontsize": 8.0,
+     "fontsize": 7.5,
      "fontface": 0,
      "numinlets": 1,
      "numoutlets": 0,
@@ -2881,53 +3023,66 @@
      "varname": "h_slope",
      "num_lines_patching": 1,
      "num_lines_presentation": 1,
-     "fontsize": 9.0,
+     "fontsize": 8.0,
+     "fontface": 1,
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
      "textoncolor": [
-      0.086,
-      0.082,
-      0.078,
+      0.102,
+      0.0784,
+      0.0627,
+      1.0
+     ],
+     "inactivetextoffcolor": [
+      0.3686,
+      0.3451,
+      0.3137,
+      1.0
+     ],
+     "inactivetextoncolor": [
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "bgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.0902,
+      0.0863,
+      0.0824,
       1.0
      ],
      "bgoncolor": [
-      0.906,
-      0.4,
-      0.176,
+      0.4196,
+      0.2902,
+      0.1412,
       1.0
      ],
      "activebgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.2039,
+      0.1922,
+      0.1765,
       1.0
      ],
      "activebgoncolor": [
-      0.906,
-      0.4,
-      0.176,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "bordercolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.3098,
+      0.2824,
+      0.2549,
       1.0
      ],
      "focusbordercolor": [
-      0.906,
-      0.4,
-      0.176,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "saved_attribute_attributes": {
@@ -2949,7 +3104,10 @@
         "48"
        ]
       }
-     }
+     },
+     "annotation_name": "HPF Slope",
+     "annotation": "Filter slope in dB/oct. Slopes beyond the model's native order add extension stages. Options: 12, 24, 36, 48. Default: 12.",
+     "hint": "HPF Slope: Filter slope in dB/oct. Slopes beyond the model's native order add extension stages."
     }
    },
    {
@@ -2989,12 +3147,12 @@
      ],
      "text": "NATIVE 12 | 24-48 ADD EXT",
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
-     "fontsize": 7.5,
+     "fontsize": 7.0,
      "fontface": 0,
      "numinlets": 1,
      "numoutlets": 0,
@@ -3222,9 +3380,9 @@
       161
      ],
      "bgcolor": [
-      0.11,
-      0.104,
-      0.098,
+      0.1294,
+      0.1216,
+      0.1137,
       1.0
      ],
      "rounded": 4,
@@ -3233,9 +3391,9 @@
      "background": 1,
      "border": 1,
      "bordercolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.3098,
+      0.2824,
+      0.2549,
       1.0
      ]
     }
@@ -3245,26 +3403,26 @@
      "id": "obj-78",
      "maxclass": "comment",
      "patching_rect": [
-      310,
-      304,
-      80,
-      16
+      308,
+      307,
+      84,
+      14
      ],
      "presentation": 1,
      "presentation_rect": [
-      310,
-      4,
-      80,
-      16
+      308,
+      7,
+      84,
+      14
      ],
-     "text": "DUB",
+     "text": "DUB FILTER",
      "textcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
-     "fontsize": 12.0,
+     "fontsize": 9.5,
      "fontface": 1,
      "numinlets": 1,
      "numoutlets": 0,
@@ -3276,26 +3434,26 @@
      "id": "obj-79",
      "maxclass": "comment",
      "patching_rect": [
-      310,
-      318,
-      80,
-      12
+      308,
+      326,
+      84,
+      10
      ],
      "presentation": 1,
      "presentation_rect": [
-      310,
-      18,
-      80,
-      12
+      308,
+      26,
+      84,
+      10
      ],
-     "text": "FILTER",
+     "text": "ROUTING",
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
-     "fontsize": 8.0,
+     "fontsize": 7.0,
      "fontface": 1,
      "numinlets": 1,
      "numoutlets": 0,
@@ -3307,26 +3465,26 @@
      "id": "obj-80",
      "maxclass": "comment",
      "patching_rect": [
-      310,
-      334,
-      80,
-      11
+      308,
+      335,
+      84,
+      10
      ],
      "presentation": 1,
      "presentation_rect": [
-      310,
-      34,
-      80,
-      11
+      308,
+      35,
+      84,
+      10
      ],
-     "text": "ORDER",
+     "text": "STAGE ORDER",
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
-     "fontsize": 8.0,
+     "fontsize": 7.0,
      "fontface": 0,
      "numinlets": 1,
      "numoutlets": 0,
@@ -3361,53 +3519,66 @@
      "varname": "order_sel",
      "num_lines_patching": 1,
      "num_lines_presentation": 1,
-     "fontsize": 9.0,
+     "fontsize": 8.0,
+     "fontface": 1,
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
      "textoncolor": [
-      0.086,
-      0.082,
-      0.078,
+      0.102,
+      0.0784,
+      0.0627,
+      1.0
+     ],
+     "inactivetextoffcolor": [
+      0.3686,
+      0.3451,
+      0.3137,
+      1.0
+     ],
+     "inactivetextoncolor": [
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "bgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.0902,
+      0.0863,
+      0.0824,
       1.0
      ],
      "bgoncolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.4196,
+      0.2902,
+      0.1412,
       1.0
      ],
      "activebgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.2039,
+      0.1922,
+      0.1765,
       1.0
      ],
      "activebgoncolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "bordercolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.3098,
+      0.2824,
+      0.2549,
       1.0
      ],
      "focusbordercolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "saved_attribute_attributes": {
@@ -3427,7 +3598,10 @@
         "HP>LP"
        ]
       }
-     }
+     },
+     "annotation_name": "Stage Order",
+     "annotation": "Series order of the low-pass and high-pass stages. Not used in PARALLEL routing. Options: LP>HP, HP>LP. Default: LP>HP.",
+     "hint": "Stage Order: Series order of the low-pass and high-pass stages. Not used in PARALLEL routing."
     }
    },
    {
@@ -3453,26 +3627,26 @@
      "id": "obj-83",
      "maxclass": "comment",
      "patching_rect": [
-      310,
-      364,
-      80,
-      11
+      308,
+      376,
+      84,
+      10
      ],
      "presentation": 1,
      "presentation_rect": [
-      310,
-      64,
-      80,
-      11
+      308,
+      76,
+      84,
+      10
      ],
      "text": "OVERSAMPLE",
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
-     "fontsize": 8.0,
+     "fontsize": 7.0,
      "fontface": 0,
      "numinlets": 1,
      "numoutlets": 0,
@@ -3487,14 +3661,14 @@
       2190,
       560,
       76,
-      15
+      14
      ],
      "presentation": 1,
      "presentation_rect": [
       312,
+      86,
       76,
-      76,
-      15
+      14
      ],
      "numinlets": 1,
      "numoutlets": 3,
@@ -3507,53 +3681,66 @@
      "varname": "ovs_sel",
      "num_lines_patching": 1,
      "num_lines_presentation": 1,
-     "fontsize": 9.0,
+     "fontsize": 8.0,
+     "fontface": 1,
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
      "textoncolor": [
-      0.086,
-      0.082,
-      0.078,
+      0.102,
+      0.0784,
+      0.0627,
+      1.0
+     ],
+     "inactivetextoffcolor": [
+      0.3686,
+      0.3451,
+      0.3137,
+      1.0
+     ],
+     "inactivetextoncolor": [
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "bgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.0902,
+      0.0863,
+      0.0824,
       1.0
      ],
      "bgoncolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.4196,
+      0.2902,
+      0.1412,
       1.0
      ],
      "activebgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.2039,
+      0.1922,
+      0.1765,
       1.0
      ],
      "activebgoncolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "bordercolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.3098,
+      0.2824,
+      0.2549,
       1.0
      ],
      "focusbordercolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "saved_attribute_attributes": {
@@ -3573,7 +3760,10 @@
         "2x"
        ]
       }
-     }
+     },
+     "annotation_name": "Oversampling",
+     "annotation": "Oversampling for the filter engines. 2x reduces aliasing from drive and resonance. Options: 1x, 2x. Default: 1x.",
+     "hint": "Oversampling: Oversampling for the filter engines. 2x reduces aliasing from drive and resonance."
     }
    },
    {
@@ -3602,14 +3792,14 @@
       2310,
       560,
       54,
-      50
+      47
      ],
      "presentation": 1,
      "presentation_rect": [
       323,
-      94,
+      101,
       54,
-      50
+      47
      ],
      "numinlets": 1,
      "numoutlets": 2,
@@ -3622,37 +3812,43 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "activeneedlecolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
      "dialcolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.2902,
+      0.2667,
+      0.2392,
       1.0
      ],
      "needlecolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "textcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
-     "fontsize": 9.0,
+     "fontsize": 8.5,
      "fontface": 0,
+     "focusbordercolor": [
+      0.949,
+      0.6275,
+      0.2275,
+      1.0
+     ],
      "saved_attribute_attributes": {
       "valueof": {
        "parameter_longname": "Output",
@@ -3666,7 +3862,10 @@
        ],
        "parameter_unitstyle": 4
       }
-     }
+     },
+     "annotation_name": "Output",
+     "annotation": "Device output level after all processing. Range -24 to 12 dB. Default 0 dB.",
+     "hint": "Output: Device output level after all processing."
     }
    },
    {
@@ -3700,7 +3899,7 @@
      "presentation": 1,
      "presentation_rect": [
       312,
-      147,
+      149,
       76,
       14
      ],
@@ -3715,54 +3914,66 @@
      "mode": 0,
      "text": "SOFT CLIP",
      "texton": "SOFT CLIP",
-     "fontsize": 9.0,
+     "fontsize": 8.0,
      "fontface": 1,
+     "activetextcolor": [
+      0.6392,
+      0.6039,
+      0.549,
+      1.0
+     ],
+     "activetextoncolor": [
+      0.102,
+      0.0784,
+      0.0627,
+      1.0
+     ],
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "textoncolor": [
-      0.086,
-      0.082,
-      0.078,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "bgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.0902,
+      0.0863,
+      0.0824,
       1.0
      ],
      "bgoncolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.4196,
+      0.2902,
+      0.1412,
       1.0
      ],
      "activebgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.2039,
+      0.1922,
+      0.1765,
       1.0
      ],
      "activebgoncolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "bordercolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.3098,
+      0.2824,
+      0.2549,
       1.0
      ],
      "focusbordercolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "saved_attribute_attributes": {
@@ -3782,7 +3993,10 @@
         "on"
        ]
       }
-     }
+     },
+     "annotation_name": "Soft Clip",
+     "annotation": "Gentle output soft clipper that catches peaks from resonance and drive. Options: off, on. Default: on.",
+     "hint": "Soft Clip: Gentle output soft clipper that catches peaks from resonance and drive."
     }
    },
    {
@@ -3810,20 +4024,20 @@
      "patching_rect": [
       700,
       900,
-      366,
+      424,
       169
      ],
      "presentation": 1,
      "presentation_rect": [
       700,
       0,
-      366,
+      424,
       169
      ],
      "bgcolor": [
-      0.086,
-      0.082,
-      0.078,
+      0.0784,
+      0.0745,
+      0.0706,
       1.0
      ],
      "rounded": 0,
@@ -3839,20 +4053,20 @@
      "patching_rect": [
       702,
       904,
-      360,
+      418,
       161
      ],
      "presentation": 1,
      "presentation_rect": [
       702,
       4,
-      360,
+      418,
       161
      ],
      "bgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.1294,
+      0.1216,
+      0.1137,
       1.0
      ],
      "rounded": 4,
@@ -3861,10 +4075,10 @@
      "background": 1,
      "border": 1,
      "bordercolor": [
-      0.46805,
-      0.40095000000000003,
-      0.18315000000000003,
-      1
+      0.3098,
+      0.2824,
+      0.2549,
+      1.0
      ]
     }
    },
@@ -3880,15 +4094,15 @@
      ],
      "presentation": 1,
      "presentation_rect": [
-      708,
+      703,
       22,
-      348,
-      2
+      416,
+      1
      ],
      "bgcolor": [
-      0.851,
-      0.729,
-      0.333,
+      0.4863,
+      0.4471,
+      0.4,
       1.0
      ],
      "rounded": 0,
@@ -3901,26 +4115,26 @@
      "id": "obj-93",
      "maxclass": "comment",
      "patching_rect": [
-      708,
-      305,
-      160,
-      16
+      710,
+      306,
+      150,
+      14
      ],
      "presentation": 1,
      "presentation_rect": [
-      708,
-      5,
-      160,
-      16
+      710,
+      6,
+      150,
+      14
      ],
      "text": "BAND-PASS",
      "textcolor": [
-      0.851,
-      0.729,
-      0.333,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
-     "fontsize": 11.0,
+     "fontsize": 10.5,
      "fontface": 1,
      "numinlets": 1,
      "numoutlets": 0,
@@ -3934,14 +4148,14 @@
      "patching_rect": [
       2550,
       560,
-      40,
+      36,
       14
      ],
      "presentation": 1,
      "presentation_rect": [
-      1016,
+      1078,
       6,
-      40,
+      36,
       14
      ],
      "numinlets": 1,
@@ -3955,54 +4169,66 @@
      "mode": 0,
      "text": "ON",
      "texton": "ON",
-     "fontsize": 9.0,
+     "fontsize": 8.0,
      "fontface": 1,
+     "activetextcolor": [
+      0.6392,
+      0.6039,
+      0.549,
+      1.0
+     ],
+     "activetextoncolor": [
+      0.102,
+      0.0784,
+      0.0627,
+      1.0
+     ],
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "textoncolor": [
-      0.086,
-      0.082,
-      0.078,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "bgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.0902,
+      0.0863,
+      0.0824,
       1.0
      ],
      "bgoncolor": [
-      0.851,
-      0.729,
-      0.333,
+      0.4196,
+      0.2902,
+      0.1412,
       1.0
      ],
      "activebgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.2039,
+      0.1922,
+      0.1765,
       1.0
      ],
      "activebgoncolor": [
-      0.851,
-      0.729,
-      0.333,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "bordercolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.3098,
+      0.2824,
+      0.2549,
       1.0
      ],
      "focusbordercolor": [
-      0.851,
-      0.729,
-      0.333,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "saved_attribute_attributes": {
@@ -4022,7 +4248,10 @@
         "on"
        ]
       }
-     }
+     },
+     "annotation_name": "BPF On",
+     "annotation": "Switches the band-pass engine in or out. Options: off, on. Default: off.",
+     "hint": "BPF On: Switches the band-pass engine in or out."
     }
    },
    {
@@ -4050,14 +4279,14 @@
      "patching_rect": [
       2670,
       560,
-      196,
+      200,
       16
      ],
      "presentation": 1,
      "presentation_rect": [
       708,
-      28,
-      196,
+      27,
+      200,
       16
      ],
      "numinlets": 1,
@@ -4070,30 +4299,30 @@
      "parameter_enable": 1,
      "varname": "b_model",
      "textcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
      "bgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.0902,
+      0.0863,
+      0.0824,
       1.0
      ],
      "activebgcolor": [
-      0.11,
-      0.104,
-      0.098,
+      0.0902,
+      0.0863,
+      0.0824,
       1.0
      ],
      "tricolor": [
-      0.851,
-      0.729,
-      0.333,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
-     "fontsize": 10.0,
+     "fontsize": 9.0,
      "saved_attribute_attributes": {
       "valueof": {
        "parameter_longname": "BPF Model",
@@ -4114,7 +4343,10 @@
         "05 EMS VCS3 - derived"
        ]
       }
-     }
+     },
+     "annotation_name": "BPF Model",
+     "annotation": "Circuit model for the band-pass engine. 'derived' models have no native BP mode in hardware. Options: 01 Oberheim SEM, 02 Steiner-Parker, 03 Korg 35 / MS-20, 04 ARP 2600 - derived, 05 EMS VCS3 - derived. Default: 01 Oberheim SEM.",
+     "hint": "BPF Model: Circuit model for the band-pass engine. 'derived' models have no native BP mode in hardware."
     }
    },
    {
@@ -4142,14 +4374,14 @@
      "patching_rect": [
       2790,
       560,
-      148,
+      136,
       16
      ],
      "presentation": 1,
      "presentation_rect": [
-      908,
-      28,
-      148,
+      912,
+      27,
+      136,
       16
      ],
      "numinlets": 1,
@@ -4163,53 +4395,66 @@
      "varname": "b_arch",
      "num_lines_patching": 1,
      "num_lines_presentation": 1,
-     "fontsize": 9.0,
+     "fontsize": 8.0,
+     "fontface": 1,
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
      "textoncolor": [
-      0.086,
-      0.082,
-      0.078,
+      0.102,
+      0.0784,
+      0.0627,
+      1.0
+     ],
+     "inactivetextoffcolor": [
+      0.3686,
+      0.3451,
+      0.3137,
+      1.0
+     ],
+     "inactivetextoncolor": [
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "bgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.0902,
+      0.0863,
+      0.0824,
       1.0
      ],
      "bgoncolor": [
-      0.851,
-      0.729,
-      0.333,
+      0.4196,
+      0.2902,
+      0.1412,
       1.0
      ],
      "activebgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.2039,
+      0.1922,
+      0.1765,
       1.0
      ],
      "activebgoncolor": [
-      0.851,
-      0.729,
-      0.333,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "bordercolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.3098,
+      0.2824,
+      0.2549,
       1.0
      ],
      "focusbordercolor": [
-      0.851,
-      0.729,
-      0.333,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "saved_attribute_attributes": {
@@ -4230,7 +4475,10 @@
         "MULTI"
        ]
       }
-     }
+     },
+     "annotation_name": "BPF Architecture",
+     "annotation": "Band-pass structure. SVF uses Q; CASC (HP into LP) uses Bandwidth and Q; MULTI (ladder pole mix) uses Bandwidth. Options: SVF, CASC, MULTI. Default: SVF.",
+     "hint": "BPF Architecture: Band-pass structure. SVF uses Q; CASC (HP into LP) uses Bandwidth and Q; MULTI (ladder pole mix) uses Bandwidth."
     }
    },
    {
@@ -4279,37 +4527,43 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.851,
-      0.729,
-      0.333,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "activeneedlecolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
      "dialcolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.2902,
+      0.2667,
+      0.2392,
       1.0
      ],
      "needlecolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "textcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
      "fontsize": 10.0,
      "fontface": 1,
+     "focusbordercolor": [
+      0.949,
+      0.6275,
+      0.2275,
+      1.0
+     ],
      "saved_attribute_attributes": {
       "valueof": {
        "parameter_longname": "BPF Centre",
@@ -4325,7 +4579,10 @@
        "parameter_exponent": 4.39
       }
      },
-     "appearance": 0
+     "appearance": 0,
+     "annotation_name": "BPF Centre",
+     "annotation": "Band-pass centre frequency. Range 30 to 12000 Hz. Default 1000 Hz.",
+     "hint": "BPF Centre: Band-pass centre frequency."
     }
    },
    {
@@ -4352,25 +4609,25 @@
      "maxclass": "comment",
      "patching_rect": [
       706,
-      448,
-      110,
-      12
+      450,
+      108,
+      11
      ],
      "presentation": 1,
      "presentation_rect": [
       706,
-      148,
-      110,
-      12
+      150,
+      108,
+      11
      ],
      "text": "30 Hz  \u00b7  CENTRE  \u00b7  12k",
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
-     "fontsize": 8.0,
+     "fontsize": 7.5,
      "fontface": 0,
      "numinlets": 1,
      "numoutlets": 0,
@@ -4405,37 +4662,43 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.851,
-      0.729,
-      0.333,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "activeneedlecolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
      "dialcolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.2902,
+      0.2667,
+      0.2392,
       1.0
      ],
      "needlecolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "textcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
-     "fontsize": 9.0,
+     "fontsize": 8.5,
      "fontface": 0,
+     "focusbordercolor": [
+      0.949,
+      0.6275,
+      0.2275,
+      1.0
+     ],
      "saved_attribute_attributes": {
       "valueof": {
        "parameter_longname": "BPF Bandwidth",
@@ -4450,7 +4713,10 @@
        "parameter_unitstyle": 9,
        "parameter_units": "%0.1f oct"
       }
-     }
+     },
+     "annotation_name": "BPF Bandwidth",
+     "annotation": "Band width in octaves. Used by CASC and MULTI; not used by SVF. Range 0.2 to 6 oct. Default 2 oct.",
+     "hint": "BPF Bandwidth: Band width in octaves. Used by CASC and MULTI; not used by SVF."
     }
    },
    {
@@ -4499,37 +4765,43 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.851,
-      0.729,
-      0.333,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "activeneedlecolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
      "dialcolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.2902,
+      0.2667,
+      0.2392,
       1.0
      ],
      "needlecolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "textcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
-     "fontsize": 9.0,
+     "fontsize": 8.5,
      "fontface": 0,
+     "focusbordercolor": [
+      0.949,
+      0.6275,
+      0.2275,
+      1.0
+     ],
      "saved_attribute_attributes": {
       "valueof": {
        "parameter_longname": "BPF Q",
@@ -4544,7 +4816,10 @@
        "parameter_unitstyle": 1,
        "parameter_exponent": 2.0
       }
-     }
+     },
+     "annotation_name": "BPF Q",
+     "annotation": "Resonant width of the SVF band, or edge Q of the CASC band. Not used by MULTI. Range 0.5 to 10. Default 0.707.",
+     "hint": "BPF Q: Resonant width of the SVF band, or edge Q of the CASC band. Not used by MULTI."
     }
    },
    {
@@ -4593,37 +4868,43 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.851,
-      0.729,
-      0.333,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "activeneedlecolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
      "dialcolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.2902,
+      0.2667,
+      0.2392,
       1.0
      ],
      "needlecolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "textcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
-     "fontsize": 9.0,
+     "fontsize": 8.5,
      "fontface": 0,
+     "focusbordercolor": [
+      0.949,
+      0.6275,
+      0.2275,
+      1.0
+     ],
      "saved_attribute_attributes": {
       "valueof": {
        "parameter_longname": "BPF Resonance",
@@ -4637,7 +4918,10 @@
        ],
        "parameter_unitstyle": 5
       }
-     }
+     },
+     "annotation_name": "BPF Resonance",
+     "annotation": "Band-pass resonance / feedback. Range 0 to 100 %. Default 0 %.",
+     "hint": "BPF Resonance: Band-pass resonance / feedback."
     }
    },
    {
@@ -4686,37 +4970,43 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.851,
-      0.729,
-      0.333,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "activeneedlecolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
      "dialcolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.2902,
+      0.2667,
+      0.2392,
       1.0
      ],
      "needlecolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "textcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
-     "fontsize": 9.0,
+     "fontsize": 8.5,
      "fontface": 0,
+     "focusbordercolor": [
+      0.949,
+      0.6275,
+      0.2275,
+      1.0
+     ],
      "saved_attribute_attributes": {
       "valueof": {
        "parameter_longname": "BPF Drive",
@@ -4730,7 +5020,10 @@
        ],
        "parameter_unitstyle": 5
       }
-     }
+     },
+     "annotation_name": "BPF Drive",
+     "annotation": "Input level into the band-pass model's nonlinear stages. Range 0 to 100 %. Default 0 %.",
+     "hint": "BPF Drive: Input level into the band-pass model's nonlinear stages."
     }
    },
    {
@@ -4779,37 +5072,43 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.851,
-      0.729,
-      0.333,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "activeneedlecolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
      "dialcolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.2902,
+      0.2667,
+      0.2392,
       1.0
      ],
      "needlecolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "textcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
-     "fontsize": 9.0,
+     "fontsize": 8.5,
      "fontface": 0,
+     "focusbordercolor": [
+      0.949,
+      0.6275,
+      0.2275,
+      1.0
+     ],
      "saved_attribute_attributes": {
       "valueof": {
        "parameter_longname": "BPF Compensation",
@@ -4823,7 +5122,10 @@
        ],
        "parameter_unitstyle": 5
       }
-     }
+     },
+     "annotation_name": "BPF Compensation",
+     "annotation": "Centre-gain compensation. Not used by MULTI, whose tap gain is already unity. Range 0 to 100 %. Default 100 %.",
+     "hint": "BPF Compensation: Centre-gain compensation. Not used by MULTI, whose tap gain is already unity."
     }
    },
    {
@@ -4872,37 +5174,43 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.851,
-      0.729,
-      0.333,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "activeneedlecolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
      "dialcolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.2902,
+      0.2667,
+      0.2392,
       1.0
      ],
      "needlecolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "textcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
-     "fontsize": 9.0,
+     "fontsize": 8.5,
      "fontface": 0,
+     "focusbordercolor": [
+      0.949,
+      0.6275,
+      0.2275,
+      1.0
+     ],
      "saved_attribute_attributes": {
       "valueof": {
        "parameter_longname": "BPF Mix",
@@ -4916,7 +5224,10 @@
        ],
        "parameter_unitstyle": 5
       }
-     }
+     },
+     "annotation_name": "BPF Mix",
+     "annotation": "Dry/wet mix of the band-pass engine. Range 0 to 100 %. Default 100 %.",
+     "hint": "BPF Mix: Dry/wet mix of the band-pass engine."
     }
    },
    {
@@ -4944,24 +5255,24 @@
      "patching_rect": [
       938,
       401,
-      118,
+      110,
       11
      ],
      "presentation": 1,
      "presentation_rect": [
       938,
       101,
-      118,
+      110,
       11
      ],
-     "text": "POSITION",
+     "text": "POSITION (SERIES)",
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
-     "fontsize": 8.0,
+     "fontsize": 7.5,
      "fontface": 0,
      "numinlets": 1,
      "numoutlets": 0,
@@ -4975,14 +5286,14 @@
      "patching_rect": [
       3750,
       560,
-      118,
+      110,
       15
      ],
      "presentation": 1,
      "presentation_rect": [
       938,
       113,
-      118,
+      110,
       15
      ],
      "numinlets": 1,
@@ -4996,53 +5307,66 @@
      "varname": "b_pos",
      "num_lines_patching": 1,
      "num_lines_presentation": 1,
-     "fontsize": 9.0,
+     "fontsize": 8.0,
+     "fontface": 1,
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
      "textoncolor": [
-      0.086,
-      0.082,
-      0.078,
+      0.102,
+      0.0784,
+      0.0627,
+      1.0
+     ],
+     "inactivetextoffcolor": [
+      0.3686,
+      0.3451,
+      0.3137,
+      1.0
+     ],
+     "inactivetextoncolor": [
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "bgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.0902,
+      0.0863,
+      0.0824,
       1.0
      ],
      "bgoncolor": [
-      0.851,
-      0.729,
-      0.333,
+      0.4196,
+      0.2902,
+      0.1412,
       1.0
      ],
      "activebgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.2039,
+      0.1922,
+      0.1765,
       1.0
      ],
      "activebgoncolor": [
-      0.851,
-      0.729,
-      0.333,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "bordercolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.3098,
+      0.2824,
+      0.2549,
       1.0
      ],
      "focusbordercolor": [
-      0.851,
-      0.729,
-      0.333,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "saved_attribute_attributes": {
@@ -5062,7 +5386,10 @@
         "PRE"
        ]
       }
-     }
+     },
+     "annotation_name": "BPF Position",
+     "annotation": "Where the band-pass sits in SERIES routing: before (PRE) or after (POST) LP/HP. Ignored in PARALLEL and HYBRID. Options: POST, PRE. Default: POST.",
+     "hint": "BPF Position: Where the band-pass sits in SERIES routing: before (PRE) or after (POST) LP/HP. Ignored in PARALLEL and HYBRID."
     }
    },
    {
@@ -5090,24 +5417,24 @@
      "patching_rect": [
       938,
       431,
-      120,
+      112,
       30
      ],
      "presentation": 1,
      "presentation_rect": [
       938,
       131,
-      120,
+      112,
       30
      ],
      "text": "NATIVE: SEM BP MODE | Q = WIDTH",
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
-     "fontsize": 7.5,
+     "fontsize": 7.0,
      "fontface": 0,
      "numinlets": 1,
      "numoutlets": 0,
@@ -5477,22 +5804,22 @@
      "id": "obj-138",
      "maxclass": "panel",
      "patching_rect": [
-      1064,
+      1122,
       900,
-      710,
+      806,
       169
      ],
      "presentation": 1,
      "presentation_rect": [
-      1064,
+      1122,
       0,
-      710,
+      806,
       169
      ],
      "bgcolor": [
-      0.086,
-      0.082,
-      0.078,
+      0.0784,
+      0.0745,
+      0.0706,
       1.0
      ],
      "rounded": 0,
@@ -5506,22 +5833,22 @@
      "id": "obj-139",
      "maxclass": "panel",
      "patching_rect": [
-      1066,
+      1124,
       904,
-      704,
+      800,
       161
      ],
      "presentation": 1,
      "presentation_rect": [
-      1066,
+      1124,
       4,
-      704,
+      800,
       161
      ],
      "bgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.1294,
+      0.1216,
+      0.1137,
       1.0
      ],
      "rounded": 4,
@@ -5530,10 +5857,10 @@
      "background": 1,
      "border": 1,
      "bordercolor": [
-      0.45,
-      0.42,
-      0.38,
-      1
+      0.3098,
+      0.2824,
+      0.2549,
+      1.0
      ]
     }
    },
@@ -5542,26 +5869,26 @@
      "id": "obj-140",
      "maxclass": "comment",
      "patching_rect": [
-      1072,
-      305,
-      150,
-      16
+      1132,
+      306,
+      122,
+      14
      ],
      "presentation": 1,
      "presentation_rect": [
-      1072,
-      5,
-      150,
-      16
+      1132,
+      6,
+      122,
+      14
      ],
      "text": "PROCESSING CHAIN",
      "textcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
-     "fontsize": 11.0,
+     "fontsize": 10.5,
      "fontface": 1,
      "numinlets": 1,
      "numoutlets": 0,
@@ -5573,22 +5900,22 @@
      "id": "obj-141",
      "maxclass": "panel",
      "patching_rect": [
-      1066,
+      1124,
       1200,
       692,
       2
      ],
      "presentation": 1,
      "presentation_rect": [
-      1072,
+      1125,
       22,
-      692,
+      798,
       1
      ],
      "bgcolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.4863,
+      0.4471,
+      0.4,
       1.0
      ],
      "rounded": 0,
@@ -5622,14 +5949,14 @@
      "patching_rect": [
       3870,
       560,
-      150,
+      140,
       15
      ],
      "presentation": 1,
      "presentation_rect": [
-      1226,
+      1256,
       5,
-      150,
+      140,
       15
      ],
      "numinlets": 1,
@@ -5642,30 +5969,30 @@
      "parameter_enable": 1,
      "varname": "c_order",
      "textcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
      "bgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.0902,
+      0.0863,
+      0.0824,
       1.0
      ],
      "activebgcolor": [
-      0.11,
-      0.104,
-      0.098,
+      0.0902,
+      0.0863,
+      0.0824,
       1.0
      ],
      "tricolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
-     "fontsize": 10.0,
+     "fontsize": 9.0,
      "saved_attribute_attributes": {
       "valueof": {
        "parameter_longname": "Chain Order",
@@ -5687,7 +6014,10 @@
         "VCA > OPTO > TUBE"
        ]
       }
-     }
+     },
+     "annotation_name": "Chain Order",
+     "annotation": "Order of TUBE, OPTO and VCA. Also set by dragging a block's grip or by the three suggested orders. Options: TUBE > OPTO > VCA, TUBE > VCA > OPTO, OPTO > TUBE > VCA, OPTO > VCA > TUBE, VCA > TUBE > OPTO, VCA > OPTO > TUBE. Default: TUBE > OPTO > VCA.",
+     "hint": "Chain Order: Order of TUBE, OPTO and VCA. Also set by dragging a block's grip or by the three suggested orders."
     }
    },
    {
@@ -5713,14 +6043,14 @@
      "id": "obj-145",
      "maxclass": "live.text",
      "patching_rect": [
-      1382,
+      1404,
       1250,
       58,
       15
      ],
      "presentation": 1,
      "presentation_rect": [
-      1382,
+      1404,
       5,
       58,
       15
@@ -5738,48 +6068,49 @@
      "fontsize": 8.0,
      "fontface": 1,
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
      "textoncolor": [
-      0.086,
-      0.082,
-      0.078,
+      0.0784,
+      0.0745,
+      0.0706,
       1.0
      ],
      "bgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.1294,
+      0.1216,
+      0.1137,
       1.0
      ],
      "bgoncolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
      "activebgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.1294,
+      0.1216,
+      0.1137,
       1.0
      ],
      "activebgoncolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
      "bordercolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.3098,
+      0.2824,
+      0.2549,
       1.0
      ],
-     "varname": "preset_0"
+     "varname": "preset_0",
+     "hidden": 1
     }
    },
    {
@@ -5787,7 +6118,7 @@
      "id": "obj-146",
      "maxclass": "message",
      "patching_rect": [
-      1382,
+      1404,
       1280,
       40,
       22
@@ -5805,7 +6136,7 @@
      "id": "obj-147",
      "maxclass": "newobj",
      "patching_rect": [
-      1382,
+      1404,
       1270,
       40,
       22
@@ -5824,14 +6155,14 @@
      "id": "obj-148",
      "maxclass": "live.text",
      "patching_rect": [
-      1444,
+      1466,
       1250,
       82,
       15
      ],
      "presentation": 1,
      "presentation_rect": [
-      1444,
+      1466,
       5,
       82,
       15
@@ -5849,48 +6180,49 @@
      "fontsize": 8.0,
      "fontface": 1,
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
      "textoncolor": [
-      0.086,
-      0.082,
-      0.078,
+      0.0784,
+      0.0745,
+      0.0706,
       1.0
      ],
      "bgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.1294,
+      0.1216,
+      0.1137,
       1.0
      ],
      "bgoncolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
      "activebgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.1294,
+      0.1216,
+      0.1137,
       1.0
      ],
      "activebgoncolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
      "bordercolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.3098,
+      0.2824,
+      0.2549,
       1.0
      ],
-     "varname": "preset_4"
+     "varname": "preset_4",
+     "hidden": 1
     }
    },
    {
@@ -5898,7 +6230,7 @@
      "id": "obj-149",
      "maxclass": "message",
      "patching_rect": [
-      1444,
+      1466,
       1280,
       40,
       22
@@ -5916,7 +6248,7 @@
      "id": "obj-150",
      "maxclass": "newobj",
      "patching_rect": [
-      1444,
+      1466,
       1270,
       40,
       22
@@ -5935,14 +6267,14 @@
      "id": "obj-151",
      "maxclass": "live.text",
      "patching_rect": [
-      1530,
+      1552,
       1250,
       58,
       15
      ],
      "presentation": 1,
      "presentation_rect": [
-      1530,
+      1552,
       5,
       58,
       15
@@ -5960,48 +6292,49 @@
      "fontsize": 8.0,
      "fontface": 1,
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
      "textoncolor": [
-      0.086,
-      0.082,
-      0.078,
+      0.0784,
+      0.0745,
+      0.0706,
       1.0
      ],
      "bgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.1294,
+      0.1216,
+      0.1137,
       1.0
      ],
      "bgoncolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
      "activebgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.1294,
+      0.1216,
+      0.1137,
       1.0
      ],
      "activebgoncolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
      "bordercolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.3098,
+      0.2824,
+      0.2549,
       1.0
      ],
-     "varname": "preset_3"
+     "varname": "preset_3",
+     "hidden": 1
     }
    },
    {
@@ -6009,7 +6342,7 @@
      "id": "obj-152",
      "maxclass": "message",
      "patching_rect": [
-      1530,
+      1552,
       1280,
       40,
       22
@@ -6027,7 +6360,7 @@
      "id": "obj-153",
      "maxclass": "newobj",
      "patching_rect": [
-      1530,
+      1552,
       1270,
       40,
       22
@@ -6046,27 +6379,27 @@
      "id": "obj-154",
      "maxclass": "comment",
      "patching_rect": [
-      1606,
-      304,
-      70,
-      9
+      1666,
+      308,
+      52,
+      10
      ],
      "presentation": 1,
      "presentation_rect": [
-      1606,
-      4,
-      70,
-      9
+      1666,
+      8,
+      52,
+      10
      ],
      "text": "KEY LISTEN",
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
      "fontsize": 7.0,
-     "fontface": 0,
+     "fontface": 1,
      "numinlets": 1,
      "numoutlets": 0,
      "textjustification": 0
@@ -6079,15 +6412,15 @@
      "patching_rect": [
       3990,
       560,
-      160,
-      10
+      198,
+      15
      ],
      "presentation": 1,
      "presentation_rect": [
-      1606,
-      12,
-      160,
-      10
+      1720,
+      5,
+      198,
+      15
      ],
      "numinlets": 1,
      "numoutlets": 3,
@@ -6100,53 +6433,66 @@
      "varname": "key_listen",
      "num_lines_patching": 1,
      "num_lines_presentation": 1,
-     "fontsize": 9.0,
+     "fontsize": 8.0,
+     "fontface": 1,
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
      "textoncolor": [
-      0.086,
-      0.082,
-      0.078,
+      0.102,
+      0.0784,
+      0.0627,
+      1.0
+     ],
+     "inactivetextoffcolor": [
+      0.3686,
+      0.3451,
+      0.3137,
+      1.0
+     ],
+     "inactivetextoncolor": [
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "bgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.0902,
+      0.0863,
+      0.0824,
       1.0
      ],
      "bgoncolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.4196,
+      0.2902,
+      0.1412,
       1.0
      ],
      "activebgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.2039,
+      0.1922,
+      0.1765,
       1.0
      ],
      "activebgoncolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "bordercolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.3098,
+      0.2824,
+      0.2549,
       1.0
      ],
      "focusbordercolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "saved_attribute_attributes": {
@@ -6168,7 +6514,10 @@
         "GATE"
        ]
       }
-     }
+     },
+     "annotation_name": "Key Listen",
+     "annotation": "Solo the sidechain key of the opto, VCA or gate so you can hear what the detector hears. Options: OFF, OPTO, VCA, GATE. Default: OFF.",
+     "hint": "Key Listen: Solo the sidechain key of the opto, VCA or gate so you can hear what the detector hears."
     }
    },
    {
@@ -6201,9 +6550,9 @@
      ],
      "presentation": 1,
      "presentation_rect": [
-      1670,
-      118,
-      96,
+      1764,
+      120,
+      152,
       34
      ],
      "numinlets": 1,
@@ -6214,9 +6563,9 @@
      "varname": "key_routing",
      "fontsize": 8.0,
      "textcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ]
     }
@@ -6226,27 +6575,27 @@
      "id": "obj-158",
      "maxclass": "comment",
      "patching_rect": [
-      1670,
-      406,
-      100,
+      1764,
+      407,
+      152,
       10
      ],
      "presentation": 1,
      "presentation_rect": [
-      1670,
-      106,
-      100,
+      1764,
+      107,
+      152,
       10
      ],
      "text": "EXTERNAL KEY (SIDECHAIN)",
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
-     "fontsize": 6.5,
-     "fontface": 0,
+     "fontsize": 7.0,
+     "fontface": 1,
      "numinlets": 1,
      "numoutlets": 0,
      "textjustification": 0
@@ -6257,23 +6606,23 @@
      "id": "obj-159",
      "maxclass": "comment",
      "patching_rect": [
-      1072,
-      347,
+      1129,
+      350,
       18,
       12
      ],
      "presentation": 1,
      "presentation_rect": [
-      1072,
-      47,
+      1129,
+      50,
       18,
       12
      ],
      "text": "IN",
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
      "fontsize": 8.0,
@@ -6288,23 +6637,23 @@
      "id": "obj-160",
      "maxclass": "comment",
      "patching_rect": [
-      1265,
-      347,
-      14,
+      1322,
+      349,
+      12,
       12
      ],
      "presentation": 1,
      "presentation_rect": [
-      1265,
-      47,
-      14,
+      1322,
+      49,
+      12,
       12
      ],
-     "text": ">",
+     "text": "\u25b8",
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "fontsize": 9.0,
@@ -6319,23 +6668,23 @@
      "id": "obj-161",
      "maxclass": "comment",
      "patching_rect": [
-      1453,
-      347,
-      14,
+      1512,
+      349,
+      12,
       12
      ],
      "presentation": 1,
      "presentation_rect": [
-      1453,
-      47,
-      14,
+      1512,
+      49,
+      12,
       12
      ],
-     "text": ">",
+     "text": "\u25b8",
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "fontsize": 9.0,
@@ -6350,23 +6699,23 @@
      "id": "obj-162",
      "maxclass": "comment",
      "patching_rect": [
-      1641,
-      347,
-      14,
+      1702,
+      349,
+      12,
       12
      ],
      "presentation": 1,
      "presentation_rect": [
-      1641,
-      47,
-      14,
+      1702,
+      49,
+      12,
       12
      ],
-     "text": ">",
+     "text": "\u25b8",
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "fontsize": 9.0,
@@ -6381,22 +6730,22 @@
      "id": "obj-163",
      "maxclass": "panel",
      "patching_rect": [
-      1092,
-      927,
-      170,
-      58
+      1146,
+      926,
+      172,
+      60
      ],
      "presentation": 1,
      "presentation_rect": [
-      1092,
-      27,
-      170,
-      58
+      1146,
+      26,
+      172,
+      60
      ],
      "bgcolor": [
-      0.11,
-      0.104,
-      0.098,
+      0.0902,
+      0.0863,
+      0.0824,
       1.0
      ],
      "rounded": 4,
@@ -6405,9 +6754,9 @@
      "background": 1,
      "border": 1,
      "bordercolor": [
-      0.902,
-      0.42,
-      0.22,
+      0.3098,
+      0.2824,
+      0.2549,
       1.0
      ],
      "varname": "blk_T_bg"
@@ -6418,23 +6767,23 @@
      "id": "obj-164",
      "maxclass": "comment",
      "patching_rect": [
-      1096,
-      329,
-      112,
+      1152,
+      328,
+      120,
       12
      ],
      "presentation": 1,
      "presentation_rect": [
-      1096,
-      29,
-      112,
+      1152,
+      28,
+      120,
       12
      ],
      "text": "TUBE",
      "textcolor": [
-      0.902,
-      0.42,
-      0.22,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
      "fontsize": 8.5,
@@ -6452,14 +6801,14 @@
      "patching_rect": [
       4110,
       560,
-      40,
+      36,
       13
      ],
      "presentation": 1,
      "presentation_rect": [
-      1218,
-      29,
-      40,
+      1278,
+      28,
+      36,
       13
      ],
      "numinlets": 1,
@@ -6473,54 +6822,66 @@
      "mode": 0,
      "text": "ON",
      "texton": "ON",
-     "fontsize": 9.0,
+     "fontsize": 8.0,
      "fontface": 1,
+     "activetextcolor": [
+      0.6392,
+      0.6039,
+      0.549,
+      1.0
+     ],
+     "activetextoncolor": [
+      0.102,
+      0.0784,
+      0.0627,
+      1.0
+     ],
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "textoncolor": [
-      0.086,
-      0.082,
-      0.078,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "bgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.0902,
+      0.0863,
+      0.0824,
       1.0
      ],
      "bgoncolor": [
-      0.902,
-      0.42,
-      0.22,
+      0.4196,
+      0.2902,
+      0.1412,
       1.0
      ],
      "activebgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.2039,
+      0.1922,
+      0.1765,
       1.0
      ],
      "activebgoncolor": [
-      0.902,
-      0.42,
-      0.22,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "bordercolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.3098,
+      0.2824,
+      0.2549,
       1.0
      ],
      "focusbordercolor": [
-      0.902,
-      0.42,
-      0.22,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "saved_attribute_attributes": {
@@ -6540,7 +6901,10 @@
         "on"
        ]
       }
-     }
+     },
+     "annotation_name": "Tube On",
+     "annotation": "Switches the tube stage in or out. Options: off, on. Default: off.",
+     "hint": "Tube On: Switches the tube stage in or out."
     }
    },
    {
@@ -6566,23 +6930,23 @@
      "id": "obj-167",
      "maxclass": "comment",
      "patching_rect": [
-      1096,
-      343,
+      1152,
+      344,
       24,
       9
      ],
      "presentation": 1,
      "presentation_rect": [
-      1096,
-      43,
+      1152,
+      44,
       24,
       9
      ],
      "text": "IN",
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
      "fontsize": 7.0,
@@ -6605,9 +6969,9 @@
      ],
      "presentation": 1,
      "presentation_rect": [
-      1120,
-      45,
-      138,
+      1176,
+      46,
+      136,
       5
      ],
      "numinlets": 1,
@@ -6617,28 +6981,28 @@
      ],
      "orientation": 1,
      "coldcolor": [
-      0.902,
-      0.42,
-      0.22,
+      0.7882,
+      0.6314,
+      0.3529,
       1.0
      ],
      "warmcolor": [
-      0.902,
-      0.42,
-      0.22,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "hotcolor": [
-      0.902,
-      0.42,
-      0.22,
+      0.9098,
+      0.4078,
+      0.1647,
       1.0
      ],
      "overloadcolor": [
-      0.9,
-      0.2,
-      0.15,
-      1
+      0.8471,
+      0.2706,
+      0.1647,
+      1.0
      ],
      "varname": "blk_T_m0"
     }
@@ -6648,23 +7012,23 @@
      "id": "obj-169",
      "maxclass": "comment",
      "patching_rect": [
-      1096,
-      352,
+      1152,
+      353,
       24,
       9
      ],
      "presentation": 1,
      "presentation_rect": [
-      1096,
-      52,
+      1152,
+      53,
       24,
       9
      ],
      "text": "OUT",
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
      "fontsize": 7.0,
@@ -6687,9 +7051,9 @@
      ],
      "presentation": 1,
      "presentation_rect": [
-      1120,
-      54,
-      138,
+      1176,
+      55,
+      136,
       5
      ],
      "numinlets": 1,
@@ -6699,28 +7063,28 @@
      ],
      "orientation": 1,
      "coldcolor": [
-      0.902,
-      0.42,
-      0.22,
+      0.7882,
+      0.6314,
+      0.3529,
       1.0
      ],
      "warmcolor": [
-      0.902,
-      0.42,
-      0.22,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "hotcolor": [
-      0.902,
-      0.42,
-      0.22,
+      0.9098,
+      0.4078,
+      0.1647,
       1.0
      ],
      "overloadcolor": [
-      0.9,
-      0.2,
-      0.15,
-      1
+      0.8471,
+      0.2706,
+      0.1647,
+      1.0
      ],
      "varname": "blk_T_m1"
     }
@@ -6737,10 +7101,10 @@
      ],
      "presentation": 1,
      "presentation_rect": [
-      1096,
-      72,
-      162,
-      11
+      1152,
+      74,
+      160,
+      9
      ],
      "numinlets": 1,
      "numoutlets": 2,
@@ -6755,27 +7119,27 @@
      "showname": 0,
      "shownumber": 0,
      "slidercolor": [
-      0.902,
-      0.42,
-      0.22,
+      0.2039,
+      0.1922,
+      0.1765,
       1.0
      ],
      "trioncolor": [
-      0.902,
-      0.42,
-      0.22,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "tribordercolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.3098,
+      0.2824,
+      0.2549,
       1.0
      ],
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
      "varname": "blk_T_grip"
@@ -6786,22 +7150,22 @@
      "id": "obj-172",
      "maxclass": "panel",
      "patching_rect": [
-      1280,
-      927,
-      170,
-      58
+      1336,
+      926,
+      172,
+      60
      ],
      "presentation": 1,
      "presentation_rect": [
-      1280,
-      27,
-      170,
-      58
+      1336,
+      26,
+      172,
+      60
      ],
      "bgcolor": [
-      0.11,
-      0.104,
-      0.098,
+      0.0902,
+      0.0863,
+      0.0824,
       1.0
      ],
      "rounded": 4,
@@ -6810,9 +7174,9 @@
      "background": 1,
      "border": 1,
      "bordercolor": [
-      0.922,
-      0.78,
-      0.42,
+      0.3098,
+      0.2824,
+      0.2549,
       1.0
      ],
      "varname": "blk_O_bg"
@@ -6823,23 +7187,23 @@
      "id": "obj-173",
      "maxclass": "comment",
      "patching_rect": [
-      1284,
-      329,
-      112,
+      1342,
+      328,
+      120,
       12
      ],
      "presentation": 1,
      "presentation_rect": [
-      1284,
-      29,
-      112,
+      1342,
+      28,
+      120,
       12
      ],
      "text": "OPTO (LA-2A)",
      "textcolor": [
-      0.922,
-      0.78,
-      0.42,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
      "fontsize": 8.5,
@@ -6857,14 +7221,14 @@
      "patching_rect": [
       4230,
       560,
-      40,
+      36,
       13
      ],
      "presentation": 1,
      "presentation_rect": [
-      1406,
-      29,
-      40,
+      1468,
+      28,
+      36,
       13
      ],
      "numinlets": 1,
@@ -6878,54 +7242,66 @@
      "mode": 0,
      "text": "ON",
      "texton": "ON",
-     "fontsize": 9.0,
+     "fontsize": 8.0,
      "fontface": 1,
+     "activetextcolor": [
+      0.6392,
+      0.6039,
+      0.549,
+      1.0
+     ],
+     "activetextoncolor": [
+      0.102,
+      0.0784,
+      0.0627,
+      1.0
+     ],
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "textoncolor": [
-      0.086,
-      0.082,
-      0.078,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "bgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.0902,
+      0.0863,
+      0.0824,
       1.0
      ],
      "bgoncolor": [
-      0.922,
-      0.78,
-      0.42,
+      0.4196,
+      0.2902,
+      0.1412,
       1.0
      ],
      "activebgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.2039,
+      0.1922,
+      0.1765,
       1.0
      ],
      "activebgoncolor": [
-      0.922,
-      0.78,
-      0.42,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "bordercolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.3098,
+      0.2824,
+      0.2549,
       1.0
      ],
      "focusbordercolor": [
-      0.922,
-      0.78,
-      0.42,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "saved_attribute_attributes": {
@@ -6945,7 +7321,10 @@
         "on"
        ]
       }
-     }
+     },
+     "annotation_name": "Opto On",
+     "annotation": "Switches the opto compressor in or out. Options: off, on. Default: off.",
+     "hint": "Opto On: Switches the opto compressor in or out."
     }
    },
    {
@@ -6971,23 +7350,23 @@
      "id": "obj-176",
      "maxclass": "comment",
      "patching_rect": [
-      1284,
-      343,
+      1342,
+      344,
       24,
       9
      ],
      "presentation": 1,
      "presentation_rect": [
-      1284,
-      43,
+      1342,
+      44,
       24,
       9
      ],
      "text": "IN",
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
      "fontsize": 7.0,
@@ -7010,9 +7389,9 @@
      ],
      "presentation": 1,
      "presentation_rect": [
-      1308,
-      45,
-      138,
+      1366,
+      46,
+      136,
       5
      ],
      "numinlets": 1,
@@ -7022,28 +7401,28 @@
      ],
      "orientation": 1,
      "coldcolor": [
-      0.922,
-      0.78,
-      0.42,
+      0.7882,
+      0.6314,
+      0.3529,
       1.0
      ],
      "warmcolor": [
-      0.922,
-      0.78,
-      0.42,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "hotcolor": [
-      0.902,
-      0.42,
-      0.22,
+      0.9098,
+      0.4078,
+      0.1647,
       1.0
      ],
      "overloadcolor": [
-      0.9,
-      0.2,
-      0.15,
-      1
+      0.8471,
+      0.2706,
+      0.1647,
+      1.0
      ],
      "varname": "blk_O_m0"
     }
@@ -7053,23 +7432,23 @@
      "id": "obj-178",
      "maxclass": "comment",
      "patching_rect": [
-      1284,
-      352,
+      1342,
+      353,
       24,
       9
      ],
      "presentation": 1,
      "presentation_rect": [
-      1284,
-      52,
+      1342,
+      53,
       24,
       9
      ],
      "text": "OUT",
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
      "fontsize": 7.0,
@@ -7092,9 +7471,9 @@
      ],
      "presentation": 1,
      "presentation_rect": [
-      1308,
-      54,
-      138,
+      1366,
+      55,
+      136,
       5
      ],
      "numinlets": 1,
@@ -7104,28 +7483,28 @@
      ],
      "orientation": 1,
      "coldcolor": [
-      0.922,
-      0.78,
-      0.42,
+      0.7882,
+      0.6314,
+      0.3529,
       1.0
      ],
      "warmcolor": [
-      0.922,
-      0.78,
-      0.42,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "hotcolor": [
-      0.902,
-      0.42,
-      0.22,
+      0.9098,
+      0.4078,
+      0.1647,
       1.0
      ],
      "overloadcolor": [
-      0.9,
-      0.2,
-      0.15,
-      1
+      0.8471,
+      0.2706,
+      0.1647,
+      1.0
      ],
      "varname": "blk_O_m1"
     }
@@ -7135,23 +7514,23 @@
      "id": "obj-180",
      "maxclass": "comment",
      "patching_rect": [
-      1284,
-      361,
-      34,
+      1342,
+      363,
+      20,
       9
      ],
      "presentation": 1,
      "presentation_rect": [
-      1284,
-      61,
-      34,
+      1342,
+      63,
+      20,
       9
      ],
      "text": "GR",
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
      "fontsize": 7.0,
@@ -7210,9 +7589,9 @@
      ],
      "presentation": 1,
      "presentation_rect": [
-      1320,
-      60,
-      44,
+      1364,
+      62,
+      40,
       11
      ],
      "numinlets": 1,
@@ -7224,15 +7603,15 @@
      "parameter_enable": 0,
      "fontsize": 7.5,
      "textcolor": [
-      0.922,
-      0.78,
-      0.42,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "activeslidercolor": [
-      0.922,
-      0.78,
-      0.42,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "appearance": 0,
@@ -7244,23 +7623,23 @@
      "id": "obj-184",
      "maxclass": "comment",
      "patching_rect": [
-      1366,
-      361,
+      1404,
+      363,
       20,
       9
      ],
      "presentation": 1,
      "presentation_rect": [
-      1366,
-      61,
+      1404,
+      63,
       20,
       9
      ],
      "text": "dB",
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
      "fontsize": 7.0,
@@ -7283,10 +7662,10 @@
      ],
      "presentation": 1,
      "presentation_rect": [
-      1284,
-      72,
-      162,
-      11
+      1342,
+      74,
+      160,
+      9
      ],
      "numinlets": 1,
      "numoutlets": 2,
@@ -7301,27 +7680,27 @@
      "showname": 0,
      "shownumber": 0,
      "slidercolor": [
-      0.922,
-      0.78,
-      0.42,
+      0.2039,
+      0.1922,
+      0.1765,
       1.0
      ],
      "trioncolor": [
-      0.922,
-      0.78,
-      0.42,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "tribordercolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.3098,
+      0.2824,
+      0.2549,
       1.0
      ],
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
      "varname": "blk_O_grip"
@@ -7332,22 +7711,22 @@
      "id": "obj-186",
      "maxclass": "panel",
      "patching_rect": [
-      1468,
-      927,
-      170,
-      58
+      1526,
+      926,
+      172,
+      60
      ],
      "presentation": 1,
      "presentation_rect": [
-      1468,
-      27,
-      170,
-      58
+      1526,
+      26,
+      172,
+      60
      ],
      "bgcolor": [
-      0.11,
-      0.104,
-      0.098,
+      0.0902,
+      0.0863,
+      0.0824,
       1.0
      ],
      "rounded": 4,
@@ -7356,9 +7735,9 @@
      "background": 1,
      "border": 1,
      "bordercolor": [
-      0.8,
-      0.76,
-      0.68,
+      0.3098,
+      0.2824,
+      0.2549,
       1.0
      ],
      "varname": "blk_V_bg"
@@ -7369,23 +7748,23 @@
      "id": "obj-187",
      "maxclass": "comment",
      "patching_rect": [
-      1472,
-      329,
-      112,
+      1532,
+      328,
+      120,
       12
      ],
      "presentation": 1,
      "presentation_rect": [
-      1472,
-      29,
-      112,
+      1532,
+      28,
+      120,
       12
      ],
      "text": "VCA (API 2500)",
      "textcolor": [
-      0.8,
-      0.76,
-      0.68,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
      "fontsize": 8.5,
@@ -7403,14 +7782,14 @@
      "patching_rect": [
       4350,
       560,
-      40,
+      36,
       13
      ],
      "presentation": 1,
      "presentation_rect": [
-      1594,
-      29,
-      40,
+      1658,
+      28,
+      36,
       13
      ],
      "numinlets": 1,
@@ -7424,54 +7803,66 @@
      "mode": 0,
      "text": "ON",
      "texton": "ON",
-     "fontsize": 9.0,
+     "fontsize": 8.0,
      "fontface": 1,
+     "activetextcolor": [
+      0.6392,
+      0.6039,
+      0.549,
+      1.0
+     ],
+     "activetextoncolor": [
+      0.102,
+      0.0784,
+      0.0627,
+      1.0
+     ],
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "textoncolor": [
-      0.086,
-      0.082,
-      0.078,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "bgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.0902,
+      0.0863,
+      0.0824,
       1.0
      ],
      "bgoncolor": [
-      0.8,
-      0.76,
-      0.68,
+      0.4196,
+      0.2902,
+      0.1412,
       1.0
      ],
      "activebgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.2039,
+      0.1922,
+      0.1765,
       1.0
      ],
      "activebgoncolor": [
-      0.8,
-      0.76,
-      0.68,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "bordercolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.3098,
+      0.2824,
+      0.2549,
       1.0
      ],
      "focusbordercolor": [
-      0.8,
-      0.76,
-      0.68,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "saved_attribute_attributes": {
@@ -7491,7 +7882,10 @@
         "on"
        ]
       }
-     }
+     },
+     "annotation_name": "VCA On",
+     "annotation": "Switches the VCA compressor in or out. Options: off, on. Default: off.",
+     "hint": "VCA On: Switches the VCA compressor in or out."
     }
    },
    {
@@ -7517,23 +7911,23 @@
      "id": "obj-190",
      "maxclass": "comment",
      "patching_rect": [
-      1472,
-      343,
+      1532,
+      344,
       24,
       9
      ],
      "presentation": 1,
      "presentation_rect": [
-      1472,
-      43,
+      1532,
+      44,
       24,
       9
      ],
      "text": "IN",
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
      "fontsize": 7.0,
@@ -7556,9 +7950,9 @@
      ],
      "presentation": 1,
      "presentation_rect": [
-      1496,
-      45,
-      138,
+      1556,
+      46,
+      136,
       5
      ],
      "numinlets": 1,
@@ -7568,28 +7962,28 @@
      ],
      "orientation": 1,
      "coldcolor": [
-      0.8,
-      0.76,
-      0.68,
+      0.7882,
+      0.6314,
+      0.3529,
       1.0
      ],
      "warmcolor": [
-      0.8,
-      0.76,
-      0.68,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "hotcolor": [
-      0.902,
-      0.42,
-      0.22,
+      0.9098,
+      0.4078,
+      0.1647,
       1.0
      ],
      "overloadcolor": [
-      0.9,
-      0.2,
-      0.15,
-      1
+      0.8471,
+      0.2706,
+      0.1647,
+      1.0
      ],
      "varname": "blk_V_m0"
     }
@@ -7599,23 +7993,23 @@
      "id": "obj-192",
      "maxclass": "comment",
      "patching_rect": [
-      1472,
-      352,
+      1532,
+      353,
       24,
       9
      ],
      "presentation": 1,
      "presentation_rect": [
-      1472,
-      52,
+      1532,
+      53,
       24,
       9
      ],
      "text": "OUT",
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
      "fontsize": 7.0,
@@ -7638,9 +8032,9 @@
      ],
      "presentation": 1,
      "presentation_rect": [
-      1496,
-      54,
-      138,
+      1556,
+      55,
+      136,
       5
      ],
      "numinlets": 1,
@@ -7650,28 +8044,28 @@
      ],
      "orientation": 1,
      "coldcolor": [
-      0.8,
-      0.76,
-      0.68,
+      0.7882,
+      0.6314,
+      0.3529,
       1.0
      ],
      "warmcolor": [
-      0.8,
-      0.76,
-      0.68,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "hotcolor": [
-      0.902,
-      0.42,
-      0.22,
+      0.9098,
+      0.4078,
+      0.1647,
       1.0
      ],
      "overloadcolor": [
-      0.9,
-      0.2,
-      0.15,
-      1
+      0.8471,
+      0.2706,
+      0.1647,
+      1.0
      ],
      "varname": "blk_V_m1"
     }
@@ -7681,23 +8075,23 @@
      "id": "obj-194",
      "maxclass": "comment",
      "patching_rect": [
-      1472,
-      361,
-      34,
+      1532,
+      363,
+      20,
       9
      ],
      "presentation": 1,
      "presentation_rect": [
-      1472,
-      61,
-      34,
+      1532,
+      63,
+      20,
       9
      ],
      "text": "GR",
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
      "fontsize": 7.0,
@@ -7756,9 +8150,9 @@
      ],
      "presentation": 1,
      "presentation_rect": [
-      1508,
-      60,
-      44,
+      1554,
+      62,
+      40,
       11
      ],
      "numinlets": 1,
@@ -7770,15 +8164,15 @@
      "parameter_enable": 0,
      "fontsize": 7.5,
      "textcolor": [
-      0.8,
-      0.76,
-      0.68,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "activeslidercolor": [
-      0.8,
-      0.76,
-      0.68,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "appearance": 0,
@@ -7790,23 +8184,23 @@
      "id": "obj-198",
      "maxclass": "comment",
      "patching_rect": [
-      1554,
-      361,
+      1594,
+      363,
       20,
       9
      ],
      "presentation": 1,
      "presentation_rect": [
-      1554,
-      61,
+      1594,
+      63,
       20,
       9
      ],
      "text": "dB",
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
      "fontsize": 7.0,
@@ -7829,10 +8223,10 @@
      ],
      "presentation": 1,
      "presentation_rect": [
-      1472,
-      72,
-      162,
-      11
+      1532,
+      74,
+      160,
+      9
      ],
      "numinlets": 1,
      "numoutlets": 2,
@@ -7847,27 +8241,27 @@
      "showname": 0,
      "shownumber": 0,
      "slidercolor": [
-      0.8,
-      0.76,
-      0.68,
+      0.2039,
+      0.1922,
+      0.1765,
       1.0
      ],
      "trioncolor": [
-      0.8,
-      0.76,
-      0.68,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "tribordercolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.3098,
+      0.2824,
+      0.2549,
       1.0
      ],
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
      "varname": "blk_V_grip"
@@ -7878,23 +8272,23 @@
      "id": "obj-200",
      "maxclass": "comment",
      "patching_rect": [
-      1656,
-      329,
-      40,
+      1722,
+      328,
+      60,
       12
      ],
      "presentation": 1,
      "presentation_rect": [
-      1656,
-      29,
-      40,
+      1722,
+      28,
+      60,
       12
      ],
      "text": "GATE",
      "textcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
      "fontsize": 8.5,
@@ -7911,14 +8305,14 @@
      "patching_rect": [
       4470,
       560,
-      40,
+      36,
       13
      ],
      "presentation": 1,
      "presentation_rect": [
-      1706,
-      29,
-      40,
+      1848,
+      28,
+      36,
       13
      ],
      "numinlets": 1,
@@ -7932,54 +8326,66 @@
      "mode": 0,
      "text": "ON",
      "texton": "ON",
-     "fontsize": 9.0,
+     "fontsize": 8.0,
      "fontface": 1,
+     "activetextcolor": [
+      0.6392,
+      0.6039,
+      0.549,
+      1.0
+     ],
+     "activetextoncolor": [
+      0.102,
+      0.0784,
+      0.0627,
+      1.0
+     ],
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "textoncolor": [
-      0.086,
-      0.082,
-      0.078,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "bgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.0902,
+      0.0863,
+      0.0824,
       1.0
      ],
      "bgoncolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.4196,
+      0.2902,
+      0.1412,
       1.0
      ],
      "activebgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.2039,
+      0.1922,
+      0.1765,
       1.0
      ],
      "activebgoncolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "bordercolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.3098,
+      0.2824,
+      0.2549,
       1.0
      ],
      "focusbordercolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "saved_attribute_attributes": {
@@ -7999,7 +8405,10 @@
         "on"
        ]
       }
-     }
+     },
+     "annotation_name": "Gate On",
+     "annotation": "Switches the gate in or out. Options: off, on. Default: off.",
+     "hint": "Gate On: Switches the gate in or out."
     }
    },
    {
@@ -8032,9 +8441,9 @@
      ],
      "presentation": 1,
      "presentation_rect": [
-      1656,
-      45,
-      90,
+      1746,
+      46,
+      136,
       5
      ],
      "numinlets": 1,
@@ -8044,21 +8453,21 @@
      ],
      "orientation": 1,
      "coldcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "warmcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "hotcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "varname": "gate_meter"
@@ -8069,23 +8478,23 @@
      "id": "obj-204",
      "maxclass": "comment",
      "patching_rect": [
-      1656,
-      351,
-      40,
+      1722,
+      344,
+      24,
       9
      ],
      "presentation": 1,
      "presentation_rect": [
-      1656,
-      51,
-      40,
+      1722,
+      44,
+      24,
       9
      ],
      "text": "OPEN",
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
      "fontsize": 7.0,
@@ -8107,9 +8516,9 @@
      ],
      "presentation": 1,
      "presentation_rect": [
-      1656,
-      63,
-      90,
+      1746,
+      55,
+      136,
       5
      ],
      "numinlets": 1,
@@ -8119,21 +8528,21 @@
      ],
      "orientation": 1,
      "coldcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.7882,
+      0.6314,
+      0.3529,
       1.0
      ],
      "warmcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.7882,
+      0.6314,
+      0.3529,
       1.0
      ],
      "hotcolor": [
-      0.902,
-      0.42,
-      0.22,
+      0.9098,
+      0.4078,
+      0.1647,
       1.0
      ],
      "varname": "key_meter"
@@ -8144,23 +8553,23 @@
      "id": "obj-206",
      "maxclass": "comment",
      "patching_rect": [
-      1656,
-      369,
-      50,
+      1722,
+      353,
+      24,
       9
      ],
      "presentation": 1,
      "presentation_rect": [
-      1656,
-      69,
-      50,
+      1722,
+      53,
+      24,
       9
      ],
-     "text": "EXT KEY",
+     "text": "KEY",
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
      "fontsize": 7.0,
@@ -8175,23 +8584,23 @@
      "id": "obj-207",
      "maxclass": "comment",
      "patching_rect": [
-      1712,
-      371,
-      40,
+      1891,
+      350,
+      26,
       12
      ],
      "presentation": 1,
      "presentation_rect": [
-      1712,
-      71,
-      40,
+      1891,
+      50,
+      26,
       12
      ],
-     "text": "> OUT",
+     "text": "OUT",
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
      "fontsize": 8.0,
@@ -8235,7 +8644,7 @@
       200,
       22
      ],
-     "text": "script sendbox blk_T_bg presentation_rect 1092 27 170 58, script sendbox blk_T_name presentation_rect 1096 29 112 12, script sendbox t_on presentation_rect 1218 29 40 13, script sendbox blk_T_l0 presentation_rect 1096 43 24 9, script sendbox blk_T_m0 presentation_rect 1120 45 138 5, script sendbox blk_T_l1 presentation_rect 1096 52 24 9, script sendbox blk_T_m1 presentation_rect 1120 54 138 5, script sendbox blk_T_grip presentation_rect 1096 72 162 11, script sendbox blk_O_bg presentation_rect 1280 27 170 58, script sendbox blk_O_name presentation_rect 1284 29 112 12, script sendbox o_on presentation_rect 1406 29 40 13, script sendbox blk_O_l0 presentation_rect 1284 43 24 9, script sendbox blk_O_m0 presentation_rect 1308 45 138 5, script sendbox blk_O_l1 presentation_rect 1284 52 24 9, script sendbox blk_O_m1 presentation_rect 1308 54 138 5, script sendbox blk_O_l2 presentation_rect 1284 61 34 9, script sendbox blk_O_gr presentation_rect 1320 60 44 11, script sendbox blk_O_db presentation_rect 1366 61 20 9, script sendbox blk_O_grip presentation_rect 1284 72 162 11, script sendbox blk_V_bg presentation_rect 1468 27 170 58, script sendbox blk_V_name presentation_rect 1472 29 112 12, script sendbox v_on presentation_rect 1594 29 40 13, script sendbox blk_V_l0 presentation_rect 1472 43 24 9, script sendbox blk_V_m0 presentation_rect 1496 45 138 5, script sendbox blk_V_l1 presentation_rect 1472 52 24 9, script sendbox blk_V_m1 presentation_rect 1496 54 138 5, script sendbox blk_V_l2 presentation_rect 1472 61 34 9, script sendbox blk_V_gr presentation_rect 1508 60 44 11, script sendbox blk_V_db presentation_rect 1554 61 20 9, script sendbox blk_V_grip presentation_rect 1472 72 162 11",
+     "text": "script sendbox blk_T_bg presentation_rect 1146 26 172 60, script sendbox blk_T_hdr presentation_rect 1147 27 170 15, script sendbox blk_T_name presentation_rect 1152 28 120 12, script sendbox t_on presentation_rect 1278 28 36 13, script sendbox blk_T_l0 presentation_rect 1152 44 24 9, script sendbox blk_T_m0 presentation_rect 1176 46 136 5, script sendbox blk_T_l1 presentation_rect 1152 53 24 9, script sendbox blk_T_m1 presentation_rect 1176 55 136 5, script sendbox blk_T_cap presentation_rect 1236 63 78 9, script sendbox blk_T_grip presentation_rect 1152 74 160 9, script sendbox blk_O_bg presentation_rect 1336 26 172 60, script sendbox blk_O_hdr presentation_rect 1337 27 170 15, script sendbox blk_O_name presentation_rect 1342 28 120 12, script sendbox o_on presentation_rect 1468 28 36 13, script sendbox blk_O_l0 presentation_rect 1342 44 24 9, script sendbox blk_O_m0 presentation_rect 1366 46 136 5, script sendbox blk_O_l1 presentation_rect 1342 53 24 9, script sendbox blk_O_m1 presentation_rect 1366 55 136 5, script sendbox blk_O_l2 presentation_rect 1342 63 20 9, script sendbox blk_O_gr presentation_rect 1364 62 40 11, script sendbox blk_O_db presentation_rect 1404 63 20 9, script sendbox blk_O_cap presentation_rect 1426 63 78 9, script sendbox blk_O_grip presentation_rect 1342 74 160 9, script sendbox blk_V_bg presentation_rect 1526 26 172 60, script sendbox blk_V_hdr presentation_rect 1527 27 170 15, script sendbox blk_V_name presentation_rect 1532 28 120 12, script sendbox v_on presentation_rect 1658 28 36 13, script sendbox blk_V_l0 presentation_rect 1532 44 24 9, script sendbox blk_V_m0 presentation_rect 1556 46 136 5, script sendbox blk_V_l1 presentation_rect 1532 53 24 9, script sendbox blk_V_m1 presentation_rect 1556 55 136 5, script sendbox blk_V_l2 presentation_rect 1532 63 20 9, script sendbox blk_V_gr presentation_rect 1554 62 40 11, script sendbox blk_V_db presentation_rect 1594 63 20 9, script sendbox blk_V_cap presentation_rect 1616 63 78 9, script sendbox blk_V_grip presentation_rect 1532 74 160 9",
      "numinlets": 2,
      "numoutlets": 1,
      "outlettype": [
@@ -8253,7 +8662,7 @@
       200,
       22
      ],
-     "text": "script sendbox blk_T_bg presentation_rect 1092 27 170 58, script sendbox blk_T_name presentation_rect 1096 29 112 12, script sendbox t_on presentation_rect 1218 29 40 13, script sendbox blk_T_l0 presentation_rect 1096 43 24 9, script sendbox blk_T_m0 presentation_rect 1120 45 138 5, script sendbox blk_T_l1 presentation_rect 1096 52 24 9, script sendbox blk_T_m1 presentation_rect 1120 54 138 5, script sendbox blk_T_grip presentation_rect 1096 72 162 11, script sendbox blk_V_bg presentation_rect 1280 27 170 58, script sendbox blk_V_name presentation_rect 1284 29 112 12, script sendbox v_on presentation_rect 1406 29 40 13, script sendbox blk_V_l0 presentation_rect 1284 43 24 9, script sendbox blk_V_m0 presentation_rect 1308 45 138 5, script sendbox blk_V_l1 presentation_rect 1284 52 24 9, script sendbox blk_V_m1 presentation_rect 1308 54 138 5, script sendbox blk_V_l2 presentation_rect 1284 61 34 9, script sendbox blk_V_gr presentation_rect 1320 60 44 11, script sendbox blk_V_db presentation_rect 1366 61 20 9, script sendbox blk_V_grip presentation_rect 1284 72 162 11, script sendbox blk_O_bg presentation_rect 1468 27 170 58, script sendbox blk_O_name presentation_rect 1472 29 112 12, script sendbox o_on presentation_rect 1594 29 40 13, script sendbox blk_O_l0 presentation_rect 1472 43 24 9, script sendbox blk_O_m0 presentation_rect 1496 45 138 5, script sendbox blk_O_l1 presentation_rect 1472 52 24 9, script sendbox blk_O_m1 presentation_rect 1496 54 138 5, script sendbox blk_O_l2 presentation_rect 1472 61 34 9, script sendbox blk_O_gr presentation_rect 1508 60 44 11, script sendbox blk_O_db presentation_rect 1554 61 20 9, script sendbox blk_O_grip presentation_rect 1472 72 162 11",
+     "text": "script sendbox blk_T_bg presentation_rect 1146 26 172 60, script sendbox blk_T_hdr presentation_rect 1147 27 170 15, script sendbox blk_T_name presentation_rect 1152 28 120 12, script sendbox t_on presentation_rect 1278 28 36 13, script sendbox blk_T_l0 presentation_rect 1152 44 24 9, script sendbox blk_T_m0 presentation_rect 1176 46 136 5, script sendbox blk_T_l1 presentation_rect 1152 53 24 9, script sendbox blk_T_m1 presentation_rect 1176 55 136 5, script sendbox blk_T_cap presentation_rect 1236 63 78 9, script sendbox blk_T_grip presentation_rect 1152 74 160 9, script sendbox blk_V_bg presentation_rect 1336 26 172 60, script sendbox blk_V_hdr presentation_rect 1337 27 170 15, script sendbox blk_V_name presentation_rect 1342 28 120 12, script sendbox v_on presentation_rect 1468 28 36 13, script sendbox blk_V_l0 presentation_rect 1342 44 24 9, script sendbox blk_V_m0 presentation_rect 1366 46 136 5, script sendbox blk_V_l1 presentation_rect 1342 53 24 9, script sendbox blk_V_m1 presentation_rect 1366 55 136 5, script sendbox blk_V_l2 presentation_rect 1342 63 20 9, script sendbox blk_V_gr presentation_rect 1364 62 40 11, script sendbox blk_V_db presentation_rect 1404 63 20 9, script sendbox blk_V_cap presentation_rect 1426 63 78 9, script sendbox blk_V_grip presentation_rect 1342 74 160 9, script sendbox blk_O_bg presentation_rect 1526 26 172 60, script sendbox blk_O_hdr presentation_rect 1527 27 170 15, script sendbox blk_O_name presentation_rect 1532 28 120 12, script sendbox o_on presentation_rect 1658 28 36 13, script sendbox blk_O_l0 presentation_rect 1532 44 24 9, script sendbox blk_O_m0 presentation_rect 1556 46 136 5, script sendbox blk_O_l1 presentation_rect 1532 53 24 9, script sendbox blk_O_m1 presentation_rect 1556 55 136 5, script sendbox blk_O_l2 presentation_rect 1532 63 20 9, script sendbox blk_O_gr presentation_rect 1554 62 40 11, script sendbox blk_O_db presentation_rect 1594 63 20 9, script sendbox blk_O_cap presentation_rect 1616 63 78 9, script sendbox blk_O_grip presentation_rect 1532 74 160 9",
      "numinlets": 2,
      "numoutlets": 1,
      "outlettype": [
@@ -8271,7 +8680,7 @@
       200,
       22
      ],
-     "text": "script sendbox blk_O_bg presentation_rect 1092 27 170 58, script sendbox blk_O_name presentation_rect 1096 29 112 12, script sendbox o_on presentation_rect 1218 29 40 13, script sendbox blk_O_l0 presentation_rect 1096 43 24 9, script sendbox blk_O_m0 presentation_rect 1120 45 138 5, script sendbox blk_O_l1 presentation_rect 1096 52 24 9, script sendbox blk_O_m1 presentation_rect 1120 54 138 5, script sendbox blk_O_l2 presentation_rect 1096 61 34 9, script sendbox blk_O_gr presentation_rect 1132 60 44 11, script sendbox blk_O_db presentation_rect 1178 61 20 9, script sendbox blk_O_grip presentation_rect 1096 72 162 11, script sendbox blk_T_bg presentation_rect 1280 27 170 58, script sendbox blk_T_name presentation_rect 1284 29 112 12, script sendbox t_on presentation_rect 1406 29 40 13, script sendbox blk_T_l0 presentation_rect 1284 43 24 9, script sendbox blk_T_m0 presentation_rect 1308 45 138 5, script sendbox blk_T_l1 presentation_rect 1284 52 24 9, script sendbox blk_T_m1 presentation_rect 1308 54 138 5, script sendbox blk_T_grip presentation_rect 1284 72 162 11, script sendbox blk_V_bg presentation_rect 1468 27 170 58, script sendbox blk_V_name presentation_rect 1472 29 112 12, script sendbox v_on presentation_rect 1594 29 40 13, script sendbox blk_V_l0 presentation_rect 1472 43 24 9, script sendbox blk_V_m0 presentation_rect 1496 45 138 5, script sendbox blk_V_l1 presentation_rect 1472 52 24 9, script sendbox blk_V_m1 presentation_rect 1496 54 138 5, script sendbox blk_V_l2 presentation_rect 1472 61 34 9, script sendbox blk_V_gr presentation_rect 1508 60 44 11, script sendbox blk_V_db presentation_rect 1554 61 20 9, script sendbox blk_V_grip presentation_rect 1472 72 162 11",
+     "text": "script sendbox blk_O_bg presentation_rect 1146 26 172 60, script sendbox blk_O_hdr presentation_rect 1147 27 170 15, script sendbox blk_O_name presentation_rect 1152 28 120 12, script sendbox o_on presentation_rect 1278 28 36 13, script sendbox blk_O_l0 presentation_rect 1152 44 24 9, script sendbox blk_O_m0 presentation_rect 1176 46 136 5, script sendbox blk_O_l1 presentation_rect 1152 53 24 9, script sendbox blk_O_m1 presentation_rect 1176 55 136 5, script sendbox blk_O_l2 presentation_rect 1152 63 20 9, script sendbox blk_O_gr presentation_rect 1174 62 40 11, script sendbox blk_O_db presentation_rect 1214 63 20 9, script sendbox blk_O_cap presentation_rect 1236 63 78 9, script sendbox blk_O_grip presentation_rect 1152 74 160 9, script sendbox blk_T_bg presentation_rect 1336 26 172 60, script sendbox blk_T_hdr presentation_rect 1337 27 170 15, script sendbox blk_T_name presentation_rect 1342 28 120 12, script sendbox t_on presentation_rect 1468 28 36 13, script sendbox blk_T_l0 presentation_rect 1342 44 24 9, script sendbox blk_T_m0 presentation_rect 1366 46 136 5, script sendbox blk_T_l1 presentation_rect 1342 53 24 9, script sendbox blk_T_m1 presentation_rect 1366 55 136 5, script sendbox blk_T_cap presentation_rect 1426 63 78 9, script sendbox blk_T_grip presentation_rect 1342 74 160 9, script sendbox blk_V_bg presentation_rect 1526 26 172 60, script sendbox blk_V_hdr presentation_rect 1527 27 170 15, script sendbox blk_V_name presentation_rect 1532 28 120 12, script sendbox v_on presentation_rect 1658 28 36 13, script sendbox blk_V_l0 presentation_rect 1532 44 24 9, script sendbox blk_V_m0 presentation_rect 1556 46 136 5, script sendbox blk_V_l1 presentation_rect 1532 53 24 9, script sendbox blk_V_m1 presentation_rect 1556 55 136 5, script sendbox blk_V_l2 presentation_rect 1532 63 20 9, script sendbox blk_V_gr presentation_rect 1554 62 40 11, script sendbox blk_V_db presentation_rect 1594 63 20 9, script sendbox blk_V_cap presentation_rect 1616 63 78 9, script sendbox blk_V_grip presentation_rect 1532 74 160 9",
      "numinlets": 2,
      "numoutlets": 1,
      "outlettype": [
@@ -8289,7 +8698,7 @@
       200,
       22
      ],
-     "text": "script sendbox blk_O_bg presentation_rect 1092 27 170 58, script sendbox blk_O_name presentation_rect 1096 29 112 12, script sendbox o_on presentation_rect 1218 29 40 13, script sendbox blk_O_l0 presentation_rect 1096 43 24 9, script sendbox blk_O_m0 presentation_rect 1120 45 138 5, script sendbox blk_O_l1 presentation_rect 1096 52 24 9, script sendbox blk_O_m1 presentation_rect 1120 54 138 5, script sendbox blk_O_l2 presentation_rect 1096 61 34 9, script sendbox blk_O_gr presentation_rect 1132 60 44 11, script sendbox blk_O_db presentation_rect 1178 61 20 9, script sendbox blk_O_grip presentation_rect 1096 72 162 11, script sendbox blk_V_bg presentation_rect 1280 27 170 58, script sendbox blk_V_name presentation_rect 1284 29 112 12, script sendbox v_on presentation_rect 1406 29 40 13, script sendbox blk_V_l0 presentation_rect 1284 43 24 9, script sendbox blk_V_m0 presentation_rect 1308 45 138 5, script sendbox blk_V_l1 presentation_rect 1284 52 24 9, script sendbox blk_V_m1 presentation_rect 1308 54 138 5, script sendbox blk_V_l2 presentation_rect 1284 61 34 9, script sendbox blk_V_gr presentation_rect 1320 60 44 11, script sendbox blk_V_db presentation_rect 1366 61 20 9, script sendbox blk_V_grip presentation_rect 1284 72 162 11, script sendbox blk_T_bg presentation_rect 1468 27 170 58, script sendbox blk_T_name presentation_rect 1472 29 112 12, script sendbox t_on presentation_rect 1594 29 40 13, script sendbox blk_T_l0 presentation_rect 1472 43 24 9, script sendbox blk_T_m0 presentation_rect 1496 45 138 5, script sendbox blk_T_l1 presentation_rect 1472 52 24 9, script sendbox blk_T_m1 presentation_rect 1496 54 138 5, script sendbox blk_T_grip presentation_rect 1472 72 162 11",
+     "text": "script sendbox blk_O_bg presentation_rect 1146 26 172 60, script sendbox blk_O_hdr presentation_rect 1147 27 170 15, script sendbox blk_O_name presentation_rect 1152 28 120 12, script sendbox o_on presentation_rect 1278 28 36 13, script sendbox blk_O_l0 presentation_rect 1152 44 24 9, script sendbox blk_O_m0 presentation_rect 1176 46 136 5, script sendbox blk_O_l1 presentation_rect 1152 53 24 9, script sendbox blk_O_m1 presentation_rect 1176 55 136 5, script sendbox blk_O_l2 presentation_rect 1152 63 20 9, script sendbox blk_O_gr presentation_rect 1174 62 40 11, script sendbox blk_O_db presentation_rect 1214 63 20 9, script sendbox blk_O_cap presentation_rect 1236 63 78 9, script sendbox blk_O_grip presentation_rect 1152 74 160 9, script sendbox blk_V_bg presentation_rect 1336 26 172 60, script sendbox blk_V_hdr presentation_rect 1337 27 170 15, script sendbox blk_V_name presentation_rect 1342 28 120 12, script sendbox v_on presentation_rect 1468 28 36 13, script sendbox blk_V_l0 presentation_rect 1342 44 24 9, script sendbox blk_V_m0 presentation_rect 1366 46 136 5, script sendbox blk_V_l1 presentation_rect 1342 53 24 9, script sendbox blk_V_m1 presentation_rect 1366 55 136 5, script sendbox blk_V_l2 presentation_rect 1342 63 20 9, script sendbox blk_V_gr presentation_rect 1364 62 40 11, script sendbox blk_V_db presentation_rect 1404 63 20 9, script sendbox blk_V_cap presentation_rect 1426 63 78 9, script sendbox blk_V_grip presentation_rect 1342 74 160 9, script sendbox blk_T_bg presentation_rect 1526 26 172 60, script sendbox blk_T_hdr presentation_rect 1527 27 170 15, script sendbox blk_T_name presentation_rect 1532 28 120 12, script sendbox t_on presentation_rect 1658 28 36 13, script sendbox blk_T_l0 presentation_rect 1532 44 24 9, script sendbox blk_T_m0 presentation_rect 1556 46 136 5, script sendbox blk_T_l1 presentation_rect 1532 53 24 9, script sendbox blk_T_m1 presentation_rect 1556 55 136 5, script sendbox blk_T_cap presentation_rect 1616 63 78 9, script sendbox blk_T_grip presentation_rect 1532 74 160 9",
      "numinlets": 2,
      "numoutlets": 1,
      "outlettype": [
@@ -8307,7 +8716,7 @@
       200,
       22
      ],
-     "text": "script sendbox blk_V_bg presentation_rect 1092 27 170 58, script sendbox blk_V_name presentation_rect 1096 29 112 12, script sendbox v_on presentation_rect 1218 29 40 13, script sendbox blk_V_l0 presentation_rect 1096 43 24 9, script sendbox blk_V_m0 presentation_rect 1120 45 138 5, script sendbox blk_V_l1 presentation_rect 1096 52 24 9, script sendbox blk_V_m1 presentation_rect 1120 54 138 5, script sendbox blk_V_l2 presentation_rect 1096 61 34 9, script sendbox blk_V_gr presentation_rect 1132 60 44 11, script sendbox blk_V_db presentation_rect 1178 61 20 9, script sendbox blk_V_grip presentation_rect 1096 72 162 11, script sendbox blk_T_bg presentation_rect 1280 27 170 58, script sendbox blk_T_name presentation_rect 1284 29 112 12, script sendbox t_on presentation_rect 1406 29 40 13, script sendbox blk_T_l0 presentation_rect 1284 43 24 9, script sendbox blk_T_m0 presentation_rect 1308 45 138 5, script sendbox blk_T_l1 presentation_rect 1284 52 24 9, script sendbox blk_T_m1 presentation_rect 1308 54 138 5, script sendbox blk_T_grip presentation_rect 1284 72 162 11, script sendbox blk_O_bg presentation_rect 1468 27 170 58, script sendbox blk_O_name presentation_rect 1472 29 112 12, script sendbox o_on presentation_rect 1594 29 40 13, script sendbox blk_O_l0 presentation_rect 1472 43 24 9, script sendbox blk_O_m0 presentation_rect 1496 45 138 5, script sendbox blk_O_l1 presentation_rect 1472 52 24 9, script sendbox blk_O_m1 presentation_rect 1496 54 138 5, script sendbox blk_O_l2 presentation_rect 1472 61 34 9, script sendbox blk_O_gr presentation_rect 1508 60 44 11, script sendbox blk_O_db presentation_rect 1554 61 20 9, script sendbox blk_O_grip presentation_rect 1472 72 162 11",
+     "text": "script sendbox blk_V_bg presentation_rect 1146 26 172 60, script sendbox blk_V_hdr presentation_rect 1147 27 170 15, script sendbox blk_V_name presentation_rect 1152 28 120 12, script sendbox v_on presentation_rect 1278 28 36 13, script sendbox blk_V_l0 presentation_rect 1152 44 24 9, script sendbox blk_V_m0 presentation_rect 1176 46 136 5, script sendbox blk_V_l1 presentation_rect 1152 53 24 9, script sendbox blk_V_m1 presentation_rect 1176 55 136 5, script sendbox blk_V_l2 presentation_rect 1152 63 20 9, script sendbox blk_V_gr presentation_rect 1174 62 40 11, script sendbox blk_V_db presentation_rect 1214 63 20 9, script sendbox blk_V_cap presentation_rect 1236 63 78 9, script sendbox blk_V_grip presentation_rect 1152 74 160 9, script sendbox blk_T_bg presentation_rect 1336 26 172 60, script sendbox blk_T_hdr presentation_rect 1337 27 170 15, script sendbox blk_T_name presentation_rect 1342 28 120 12, script sendbox t_on presentation_rect 1468 28 36 13, script sendbox blk_T_l0 presentation_rect 1342 44 24 9, script sendbox blk_T_m0 presentation_rect 1366 46 136 5, script sendbox blk_T_l1 presentation_rect 1342 53 24 9, script sendbox blk_T_m1 presentation_rect 1366 55 136 5, script sendbox blk_T_cap presentation_rect 1426 63 78 9, script sendbox blk_T_grip presentation_rect 1342 74 160 9, script sendbox blk_O_bg presentation_rect 1526 26 172 60, script sendbox blk_O_hdr presentation_rect 1527 27 170 15, script sendbox blk_O_name presentation_rect 1532 28 120 12, script sendbox o_on presentation_rect 1658 28 36 13, script sendbox blk_O_l0 presentation_rect 1532 44 24 9, script sendbox blk_O_m0 presentation_rect 1556 46 136 5, script sendbox blk_O_l1 presentation_rect 1532 53 24 9, script sendbox blk_O_m1 presentation_rect 1556 55 136 5, script sendbox blk_O_l2 presentation_rect 1532 63 20 9, script sendbox blk_O_gr presentation_rect 1554 62 40 11, script sendbox blk_O_db presentation_rect 1594 63 20 9, script sendbox blk_O_cap presentation_rect 1616 63 78 9, script sendbox blk_O_grip presentation_rect 1532 74 160 9",
      "numinlets": 2,
      "numoutlets": 1,
      "outlettype": [
@@ -8325,7 +8734,7 @@
       200,
       22
      ],
-     "text": "script sendbox blk_V_bg presentation_rect 1092 27 170 58, script sendbox blk_V_name presentation_rect 1096 29 112 12, script sendbox v_on presentation_rect 1218 29 40 13, script sendbox blk_V_l0 presentation_rect 1096 43 24 9, script sendbox blk_V_m0 presentation_rect 1120 45 138 5, script sendbox blk_V_l1 presentation_rect 1096 52 24 9, script sendbox blk_V_m1 presentation_rect 1120 54 138 5, script sendbox blk_V_l2 presentation_rect 1096 61 34 9, script sendbox blk_V_gr presentation_rect 1132 60 44 11, script sendbox blk_V_db presentation_rect 1178 61 20 9, script sendbox blk_V_grip presentation_rect 1096 72 162 11, script sendbox blk_O_bg presentation_rect 1280 27 170 58, script sendbox blk_O_name presentation_rect 1284 29 112 12, script sendbox o_on presentation_rect 1406 29 40 13, script sendbox blk_O_l0 presentation_rect 1284 43 24 9, script sendbox blk_O_m0 presentation_rect 1308 45 138 5, script sendbox blk_O_l1 presentation_rect 1284 52 24 9, script sendbox blk_O_m1 presentation_rect 1308 54 138 5, script sendbox blk_O_l2 presentation_rect 1284 61 34 9, script sendbox blk_O_gr presentation_rect 1320 60 44 11, script sendbox blk_O_db presentation_rect 1366 61 20 9, script sendbox blk_O_grip presentation_rect 1284 72 162 11, script sendbox blk_T_bg presentation_rect 1468 27 170 58, script sendbox blk_T_name presentation_rect 1472 29 112 12, script sendbox t_on presentation_rect 1594 29 40 13, script sendbox blk_T_l0 presentation_rect 1472 43 24 9, script sendbox blk_T_m0 presentation_rect 1496 45 138 5, script sendbox blk_T_l1 presentation_rect 1472 52 24 9, script sendbox blk_T_m1 presentation_rect 1496 54 138 5, script sendbox blk_T_grip presentation_rect 1472 72 162 11",
+     "text": "script sendbox blk_V_bg presentation_rect 1146 26 172 60, script sendbox blk_V_hdr presentation_rect 1147 27 170 15, script sendbox blk_V_name presentation_rect 1152 28 120 12, script sendbox v_on presentation_rect 1278 28 36 13, script sendbox blk_V_l0 presentation_rect 1152 44 24 9, script sendbox blk_V_m0 presentation_rect 1176 46 136 5, script sendbox blk_V_l1 presentation_rect 1152 53 24 9, script sendbox blk_V_m1 presentation_rect 1176 55 136 5, script sendbox blk_V_l2 presentation_rect 1152 63 20 9, script sendbox blk_V_gr presentation_rect 1174 62 40 11, script sendbox blk_V_db presentation_rect 1214 63 20 9, script sendbox blk_V_cap presentation_rect 1236 63 78 9, script sendbox blk_V_grip presentation_rect 1152 74 160 9, script sendbox blk_O_bg presentation_rect 1336 26 172 60, script sendbox blk_O_hdr presentation_rect 1337 27 170 15, script sendbox blk_O_name presentation_rect 1342 28 120 12, script sendbox o_on presentation_rect 1468 28 36 13, script sendbox blk_O_l0 presentation_rect 1342 44 24 9, script sendbox blk_O_m0 presentation_rect 1366 46 136 5, script sendbox blk_O_l1 presentation_rect 1342 53 24 9, script sendbox blk_O_m1 presentation_rect 1366 55 136 5, script sendbox blk_O_l2 presentation_rect 1342 63 20 9, script sendbox blk_O_gr presentation_rect 1364 62 40 11, script sendbox blk_O_db presentation_rect 1404 63 20 9, script sendbox blk_O_cap presentation_rect 1426 63 78 9, script sendbox blk_O_grip presentation_rect 1342 74 160 9, script sendbox blk_T_bg presentation_rect 1526 26 172 60, script sendbox blk_T_hdr presentation_rect 1527 27 170 15, script sendbox blk_T_name presentation_rect 1532 28 120 12, script sendbox t_on presentation_rect 1658 28 36 13, script sendbox blk_T_l0 presentation_rect 1532 44 24 9, script sendbox blk_T_m0 presentation_rect 1556 46 136 5, script sendbox blk_T_l1 presentation_rect 1532 53 24 9, script sendbox blk_T_m1 presentation_rect 1556 55 136 5, script sendbox blk_T_cap presentation_rect 1616 63 78 9, script sendbox blk_T_grip presentation_rect 1532 74 160 9",
      "numinlets": 2,
      "numoutlets": 1,
      "outlettype": [
@@ -8734,10 +9143,10 @@
      ],
      "presentation": 1,
      "presentation_rect": [
-      1072,
-      90,
-      72,
-      70
+      1130,
+      93,
+      70,
+      68
      ],
      "numinlets": 1,
      "numoutlets": 3,
@@ -8750,46 +9159,65 @@
      "num_lines_patching": 4,
      "num_lines_presentation": 4,
      "fontsize": 8.0,
+     "fontface": 1,
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
      "textoncolor": [
-      0.086,
-      0.082,
-      0.078,
+      0.102,
+      0.0784,
+      0.0627,
+      1.0
+     ],
+     "inactivetextoffcolor": [
+      0.3686,
+      0.3451,
+      0.3137,
+      1.0
+     ],
+     "inactivetextoncolor": [
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "bgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.0902,
+      0.0863,
+      0.0824,
       1.0
      ],
      "bgoncolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.4196,
+      0.2902,
+      0.1412,
       1.0
      ],
      "activebgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.2039,
+      0.1922,
+      0.1765,
       1.0
      ],
      "activebgoncolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "bordercolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.3098,
+      0.2824,
+      0.2549,
+      1.0
+     ],
+     "focusbordercolor": [
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "varname": "edit_page",
@@ -8803,7 +9231,10 @@
        ],
        "parameter_mmax": 3
       }
-     }
+     },
+     "annotation_name": "Edit Page",
+     "annotation": "Shows the controls of TUBE, OPTO, VCA or GATE below the chain.",
+     "hint": "Edit Page: Shows the controls of TUBE, OPTO, VCA or GATE below the chain."
     }
    },
    {
@@ -8818,8 +9249,8 @@
      ],
      "presentation": 1,
      "presentation_rect": [
-      1150,
-      90,
+      1208,
+      93,
       48,
       46
      ],
@@ -8834,37 +9265,43 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.902,
-      0.42,
-      0.22,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "activeneedlecolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
      "dialcolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.2902,
+      0.2667,
+      0.2392,
       1.0
      ],
      "needlecolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "textcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
-     "fontsize": 9.0,
+     "fontsize": 8.5,
      "fontface": 0,
+     "focusbordercolor": [
+      0.949,
+      0.6275,
+      0.2275,
+      1.0
+     ],
      "saved_attribute_attributes": {
       "valueof": {
        "parameter_longname": "Tube Input",
@@ -8878,7 +9315,10 @@
        ],
        "parameter_unitstyle": 4
       }
-     }
+     },
+     "annotation_name": "Tube Input",
+     "annotation": "Level into the triode stage. Range -24 to 24 dB. Default 0 dB.",
+     "hint": "Tube Input: Level into the triode stage."
     }
    },
    {
@@ -8911,8 +9351,8 @@
      ],
      "presentation": 1,
      "presentation_rect": [
-      1200,
-      90,
+      1258,
+      93,
       48,
       46
      ],
@@ -8927,37 +9367,43 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.902,
-      0.42,
-      0.22,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "activeneedlecolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
      "dialcolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.2902,
+      0.2667,
+      0.2392,
       1.0
      ],
      "needlecolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "textcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
-     "fontsize": 9.0,
+     "fontsize": 8.5,
      "fontface": 0,
+     "focusbordercolor": [
+      0.949,
+      0.6275,
+      0.2275,
+      1.0
+     ],
      "saved_attribute_attributes": {
       "valueof": {
        "parameter_longname": "Tube Drive",
@@ -8971,7 +9417,10 @@
        ],
        "parameter_unitstyle": 5
       }
-     }
+     },
+     "annotation_name": "Tube Drive",
+     "annotation": "Triode drive: amount of saturation. Range 0 to 100 %. Default 30 %.",
+     "hint": "Tube Drive: Triode drive: amount of saturation."
     }
    },
    {
@@ -9004,8 +9453,8 @@
      ],
      "presentation": 1,
      "presentation_rect": [
-      1250,
-      90,
+      1308,
+      93,
       48,
       46
      ],
@@ -9020,37 +9469,43 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.902,
-      0.42,
-      0.22,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "activeneedlecolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
      "dialcolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.2902,
+      0.2667,
+      0.2392,
       1.0
      ],
      "needlecolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "textcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
-     "fontsize": 9.0,
+     "fontsize": 8.5,
      "fontface": 0,
+     "focusbordercolor": [
+      0.949,
+      0.6275,
+      0.2275,
+      1.0
+     ],
      "saved_attribute_attributes": {
       "valueof": {
        "parameter_longname": "Tube Bias",
@@ -9064,7 +9519,10 @@
        ],
        "parameter_unitstyle": 0
       }
-     }
+     },
+     "annotation_name": "Tube Bias",
+     "annotation": "Operating point of the triode; shifts even-order (asymmetric) harmonics. Range -100 to 100. Default 20.",
+     "hint": "Tube Bias: Operating point of the triode; shifts even-order (asymmetric) harmonics."
     }
    },
    {
@@ -9097,8 +9555,8 @@
      ],
      "presentation": 1,
      "presentation_rect": [
-      1300,
-      90,
+      1358,
+      93,
       48,
       46
      ],
@@ -9113,37 +9571,43 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.902,
-      0.42,
-      0.22,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "activeneedlecolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
      "dialcolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.2902,
+      0.2667,
+      0.2392,
       1.0
      ],
      "needlecolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "textcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
-     "fontsize": 9.0,
+     "fontsize": 8.5,
      "fontface": 0,
+     "focusbordercolor": [
+      0.949,
+      0.6275,
+      0.2275,
+      1.0
+     ],
      "saved_attribute_attributes": {
       "valueof": {
        "parameter_longname": "Tube Tone",
@@ -9158,7 +9622,10 @@
        "parameter_unitstyle": 3,
        "parameter_exponent": 2.0
       }
-     }
+     },
+     "annotation_name": "Tube Tone",
+     "annotation": "Low-pass tone control after the triode. Range 1000 to 20000 Hz. Default 12000 Hz.",
+     "hint": "Tube Tone: Low-pass tone control after the triode."
     }
    },
    {
@@ -9191,8 +9658,8 @@
      ],
      "presentation": 1,
      "presentation_rect": [
-      1350,
-      90,
+      1408,
+      93,
       48,
       46
      ],
@@ -9207,37 +9674,43 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.902,
-      0.42,
-      0.22,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "activeneedlecolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
      "dialcolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.2902,
+      0.2667,
+      0.2392,
       1.0
      ],
      "needlecolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "textcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
-     "fontsize": 9.0,
+     "fontsize": 8.5,
      "fontface": 0,
+     "focusbordercolor": [
+      0.949,
+      0.6275,
+      0.2275,
+      1.0
+     ],
      "saved_attribute_attributes": {
       "valueof": {
        "parameter_longname": "Tube Mix",
@@ -9251,7 +9724,10 @@
        ],
        "parameter_unitstyle": 5
       }
-     }
+     },
+     "annotation_name": "Tube Mix",
+     "annotation": "Dry/wet mix of the tube stage (the dry path is phase-matched). Range 0 to 100 %. Default 100 %.",
+     "hint": "Tube Mix: Dry/wet mix of the tube stage (the dry path is phase-matched)."
     }
    },
    {
@@ -9284,8 +9760,8 @@
      ],
      "presentation": 1,
      "presentation_rect": [
-      1400,
-      90,
+      1458,
+      93,
       48,
       46
      ],
@@ -9300,37 +9776,43 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.902,
-      0.42,
-      0.22,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "activeneedlecolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
      "dialcolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.2902,
+      0.2667,
+      0.2392,
       1.0
      ],
      "needlecolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "textcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
-     "fontsize": 9.0,
+     "fontsize": 8.5,
      "fontface": 0,
+     "focusbordercolor": [
+      0.949,
+      0.6275,
+      0.2275,
+      1.0
+     ],
      "saved_attribute_attributes": {
       "valueof": {
        "parameter_longname": "Tube Output",
@@ -9344,7 +9826,10 @@
        ],
        "parameter_unitstyle": 4
       }
-     }
+     },
+     "annotation_name": "Tube Output",
+     "annotation": "Level out of the tube stage. Range -24 to 24 dB. Default 0 dB.",
+     "hint": "Tube Output: Level out of the tube stage."
     }
    },
    {
@@ -9377,8 +9862,8 @@
      ],
      "presentation": 1,
      "presentation_rect": [
-      1454,
-      104,
+      1512,
+      107,
       70,
       15
      ],
@@ -9393,54 +9878,66 @@
      "mode": 0,
      "text": "AUTO GAIN",
      "texton": "AUTO GAIN",
-     "fontsize": 9.0,
+     "fontsize": 8.0,
      "fontface": 1,
+     "activetextcolor": [
+      0.6392,
+      0.6039,
+      0.549,
+      1.0
+     ],
+     "activetextoncolor": [
+      0.102,
+      0.0784,
+      0.0627,
+      1.0
+     ],
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "textoncolor": [
-      0.086,
-      0.082,
-      0.078,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "bgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.0902,
+      0.0863,
+      0.0824,
       1.0
      ],
      "bgoncolor": [
-      0.902,
-      0.42,
-      0.22,
+      0.4196,
+      0.2902,
+      0.1412,
       1.0
      ],
      "activebgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.2039,
+      0.1922,
+      0.1765,
       1.0
      ],
      "activebgoncolor": [
-      0.902,
-      0.42,
-      0.22,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "bordercolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.3098,
+      0.2824,
+      0.2549,
       1.0
      ],
      "focusbordercolor": [
-      0.902,
-      0.42,
-      0.22,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "saved_attribute_attributes": {
@@ -9460,7 +9957,10 @@
         "on"
        ]
       }
-     }
+     },
+     "annotation_name": "Tube Auto Gain",
+     "annotation": "Auto gain keeps the tube stage's level steady as Drive changes (-12 dBFS program reference). Options: off, on. Default: on.",
+     "hint": "Tube Auto Gain: Auto gain keeps the tube stage's level steady as Drive changes (-12 dBFS program reference)."
     }
    },
    {
@@ -9486,23 +9986,23 @@
      "id": "obj-251",
      "maxclass": "comment",
      "patching_rect": [
-      1150,
-      442,
+      1208,
+      445,
       520,
       11
      ],
      "presentation": 1,
      "presentation_rect": [
-      1150,
-      142,
+      1208,
+      145,
       520,
       11
      ],
      "text": "TRIODE STAGE  |  2x OVERSAMPLED  |  AUTO GAIN HOLDS -12 dBFS PROGRAM LEVEL",
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
      "fontsize": 7.5,
@@ -9525,8 +10025,8 @@
      ],
      "presentation": 1,
      "presentation_rect": [
-      1150,
-      90,
+      1208,
+      93,
       48,
       46
      ],
@@ -9541,37 +10041,43 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.922,
-      0.78,
-      0.42,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "activeneedlecolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
      "dialcolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.2902,
+      0.2667,
+      0.2392,
       1.0
      ],
      "needlecolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "textcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
-     "fontsize": 9.0,
+     "fontsize": 8.5,
      "fontface": 0,
+     "focusbordercolor": [
+      0.949,
+      0.6275,
+      0.2275,
+      1.0
+     ],
      "saved_attribute_attributes": {
       "valueof": {
        "parameter_longname": "Opto Input",
@@ -9586,7 +10092,10 @@
        "parameter_unitstyle": 4
       }
      },
-     "hidden": 1
+     "hidden": 1,
+     "annotation_name": "Opto Input",
+     "annotation": "Level into the opto compressor. Range -24 to 24 dB. Default 0 dB.",
+     "hint": "Opto Input: Level into the opto compressor."
     }
    },
    {
@@ -9619,8 +10128,8 @@
      ],
      "presentation": 1,
      "presentation_rect": [
-      1200,
-      90,
+      1258,
+      93,
       48,
       46
      ],
@@ -9635,37 +10144,43 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.922,
-      0.78,
-      0.42,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "activeneedlecolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
      "dialcolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.2902,
+      0.2667,
+      0.2392,
       1.0
      ],
      "needlecolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "textcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
-     "fontsize": 9.0,
+     "fontsize": 8.5,
      "fontface": 0,
+     "focusbordercolor": [
+      0.949,
+      0.6275,
+      0.2275,
+      1.0
+     ],
      "saved_attribute_attributes": {
       "valueof": {
        "parameter_longname": "Opto Peak Reduction",
@@ -9680,7 +10195,10 @@
        "parameter_unitstyle": 5
       }
      },
-     "hidden": 1
+     "hidden": 1,
+     "annotation_name": "Opto Peak Reduction",
+     "annotation": "Peak Reduction: how hard the optical cell is driven, as on the LA-2A. Range 0 to 100 %. Default 40 %.",
+     "hint": "Opto Peak Reduction: Peak Reduction: how hard the optical cell is driven, as on the LA-2A."
     }
    },
    {
@@ -9713,8 +10231,8 @@
      ],
      "presentation": 1,
      "presentation_rect": [
-      1250,
-      90,
+      1308,
+      93,
       48,
       46
      ],
@@ -9729,37 +10247,43 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.922,
-      0.78,
-      0.42,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "activeneedlecolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
      "dialcolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.2902,
+      0.2667,
+      0.2392,
       1.0
      ],
      "needlecolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "textcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
-     "fontsize": 9.0,
+     "fontsize": 8.5,
      "fontface": 0,
+     "focusbordercolor": [
+      0.949,
+      0.6275,
+      0.2275,
+      1.0
+     ],
      "saved_attribute_attributes": {
       "valueof": {
        "parameter_longname": "Opto HF Emphasis",
@@ -9774,7 +10298,10 @@
        "parameter_unitstyle": 5
       }
      },
-     "hidden": 1
+     "hidden": 1,
+     "annotation_name": "Opto HF Emphasis",
+     "annotation": "Makes the detector more sensitive to high frequencies. Range 0 to 100 %. Default 0 %.",
+     "hint": "Opto HF Emphasis: Makes the detector more sensitive to high frequencies."
     }
    },
    {
@@ -9807,8 +10334,8 @@
      ],
      "presentation": 1,
      "presentation_rect": [
-      1300,
-      90,
+      1358,
+      93,
       48,
       46
      ],
@@ -9823,37 +10350,43 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.922,
-      0.78,
-      0.42,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "activeneedlecolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
      "dialcolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.2902,
+      0.2667,
+      0.2392,
       1.0
      ],
      "needlecolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "textcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
-     "fontsize": 9.0,
+     "fontsize": 8.5,
      "fontface": 0,
+     "focusbordercolor": [
+      0.949,
+      0.6275,
+      0.2275,
+      1.0
+     ],
      "saved_attribute_attributes": {
       "valueof": {
        "parameter_longname": "Opto SC HPF",
@@ -9869,7 +10402,10 @@
        "parameter_exponent": 2.0
       }
      },
-     "hidden": 1
+     "hidden": 1,
+     "annotation_name": "Opto SC HPF",
+     "annotation": "High-pass filter on the opto's sidechain, so bass doesn't pump the compressor. Range 20 to 500 Hz. Default 20 Hz.",
+     "hint": "Opto SC HPF: High-pass filter on the opto's sidechain, so bass doesn't pump the compressor."
     }
    },
    {
@@ -9902,8 +10438,8 @@
      ],
      "presentation": 1,
      "presentation_rect": [
-      1350,
-      90,
+      1408,
+      93,
       48,
       46
      ],
@@ -9918,37 +10454,43 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.922,
-      0.78,
-      0.42,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "activeneedlecolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
      "dialcolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.2902,
+      0.2667,
+      0.2392,
       1.0
      ],
      "needlecolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "textcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
-     "fontsize": 9.0,
+     "fontsize": 8.5,
      "fontface": 0,
+     "focusbordercolor": [
+      0.949,
+      0.6275,
+      0.2275,
+      1.0
+     ],
      "saved_attribute_attributes": {
       "valueof": {
        "parameter_longname": "Opto Link",
@@ -9963,7 +10505,10 @@
        "parameter_unitstyle": 5
       }
      },
-     "hidden": 1
+     "hidden": 1,
+     "annotation_name": "Opto Link",
+     "annotation": "Stereo link of the opto detector. 100 % = fully linked. Range 0 to 100 %. Default 100 %.",
+     "hint": "Opto Link: Stereo link of the opto detector. 100 % = fully linked."
     }
    },
    {
@@ -9996,8 +10541,8 @@
      ],
      "presentation": 1,
      "presentation_rect": [
-      1400,
-      90,
+      1458,
+      93,
       48,
       46
      ],
@@ -10012,37 +10557,43 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.922,
-      0.78,
-      0.42,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "activeneedlecolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
      "dialcolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.2902,
+      0.2667,
+      0.2392,
       1.0
      ],
      "needlecolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "textcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
-     "fontsize": 9.0,
+     "fontsize": 8.5,
      "fontface": 0,
+     "focusbordercolor": [
+      0.949,
+      0.6275,
+      0.2275,
+      1.0
+     ],
      "saved_attribute_attributes": {
       "valueof": {
        "parameter_longname": "Opto Mix",
@@ -10057,7 +10608,10 @@
        "parameter_unitstyle": 5
       }
      },
-     "hidden": 1
+     "hidden": 1,
+     "annotation_name": "Opto Mix",
+     "annotation": "Dry/wet (parallel) mix of the opto compressor. Range 0 to 100 %. Default 100 %.",
+     "hint": "Opto Mix: Dry/wet (parallel) mix of the opto compressor."
     }
    },
    {
@@ -10090,8 +10644,8 @@
      ],
      "presentation": 1,
      "presentation_rect": [
-      1450,
-      90,
+      1508,
+      93,
       48,
       46
      ],
@@ -10106,37 +10660,43 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.922,
-      0.78,
-      0.42,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "activeneedlecolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
      "dialcolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.2902,
+      0.2667,
+      0.2392,
       1.0
      ],
      "needlecolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "textcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
-     "fontsize": 9.0,
+     "fontsize": 8.5,
      "fontface": 0,
+     "focusbordercolor": [
+      0.949,
+      0.6275,
+      0.2275,
+      1.0
+     ],
      "saved_attribute_attributes": {
       "valueof": {
        "parameter_longname": "Opto Gain",
@@ -10151,7 +10711,10 @@
        "parameter_unitstyle": 4
       }
      },
-     "hidden": 1
+     "hidden": 1,
+     "annotation_name": "Opto Gain",
+     "annotation": "Make-up gain after the opto compressor. Range -24 to 24 dB. Default 0 dB.",
+     "hint": "Opto Gain: Make-up gain after the opto compressor."
     }
    },
    {
@@ -10184,8 +10747,8 @@
      ],
      "presentation": 1,
      "presentation_rect": [
-      1504,
-      94,
+      1562,
+      97,
       90,
       14
      ],
@@ -10200,53 +10763,66 @@
      "varname": "o_mode",
      "num_lines_patching": 1,
      "num_lines_presentation": 1,
-     "fontsize": 9.0,
+     "fontsize": 8.0,
+     "fontface": 1,
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
      "textoncolor": [
-      0.086,
-      0.082,
-      0.078,
+      0.102,
+      0.0784,
+      0.0627,
+      1.0
+     ],
+     "inactivetextoffcolor": [
+      0.3686,
+      0.3451,
+      0.3137,
+      1.0
+     ],
+     "inactivetextoncolor": [
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "bgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.0902,
+      0.0863,
+      0.0824,
       1.0
      ],
      "bgoncolor": [
-      0.922,
-      0.78,
-      0.42,
+      0.4196,
+      0.2902,
+      0.1412,
       1.0
      ],
      "activebgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.2039,
+      0.1922,
+      0.1765,
       1.0
      ],
      "activebgoncolor": [
-      0.922,
-      0.78,
-      0.42,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "bordercolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.3098,
+      0.2824,
+      0.2549,
       1.0
      ],
      "focusbordercolor": [
-      0.922,
-      0.78,
-      0.42,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "saved_attribute_attributes": {
@@ -10267,7 +10843,10 @@
        ]
       }
      },
-     "hidden": 1
+     "hidden": 1,
+     "annotation_name": "Opto Mode",
+     "annotation": "COMP is about 3:1; LIMIT approaches a very high ratio. Options: COMP, LIMIT. Default: COMP.",
+     "hint": "Opto Mode: COMP is about 3:1; LIMIT approaches a very high ratio."
     }
    },
    {
@@ -10293,23 +10872,23 @@
      "id": "obj-268",
      "maxclass": "comment",
      "patching_rect": [
-      1504,
-      412,
+      1562,
+      415,
       90,
       9
      ],
      "presentation": 1,
      "presentation_rect": [
-      1504,
-      112,
+      1562,
+      115,
       90,
       9
      ],
      "text": "SIDECHAIN",
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
      "fontsize": 7.0,
@@ -10333,8 +10912,8 @@
      ],
      "presentation": 1,
      "presentation_rect": [
-      1504,
-      121,
+      1562,
+      124,
       120,
       14
      ],
@@ -10349,53 +10928,66 @@
      "varname": "o_src",
      "num_lines_patching": 1,
      "num_lines_presentation": 1,
-     "fontsize": 9.0,
+     "fontsize": 8.0,
+     "fontface": 1,
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
      "textoncolor": [
-      0.086,
-      0.082,
-      0.078,
+      0.102,
+      0.0784,
+      0.0627,
+      1.0
+     ],
+     "inactivetextoffcolor": [
+      0.3686,
+      0.3451,
+      0.3137,
+      1.0
+     ],
+     "inactivetextoncolor": [
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "bgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.0902,
+      0.0863,
+      0.0824,
       1.0
      ],
      "bgoncolor": [
-      0.922,
-      0.78,
-      0.42,
+      0.4196,
+      0.2902,
+      0.1412,
       1.0
      ],
      "activebgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.2039,
+      0.1922,
+      0.1765,
       1.0
      ],
      "activebgoncolor": [
-      0.922,
-      0.78,
-      0.42,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "bordercolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.3098,
+      0.2824,
+      0.2549,
       1.0
      ],
      "focusbordercolor": [
-      0.922,
-      0.78,
-      0.42,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "saved_attribute_attributes": {
@@ -10417,7 +11009,10 @@
        ]
       }
      },
-     "hidden": 1
+     "hidden": 1,
+     "annotation_name": "Opto SC Source",
+     "annotation": "Opto sidechain source: INT (its own input), CHAIN (the chain input) or EXT (external key). Options: INT, CHAIN, EXT. Default: INT.",
+     "hint": "Opto SC Source: Opto sidechain source: INT (its own input), CHAIN (the chain input) or EXT (external key)."
     }
    },
    {
@@ -10443,23 +11038,23 @@
      "id": "obj-271",
      "maxclass": "comment",
      "patching_rect": [
-      1150,
-      442,
+      1208,
+      445,
       520,
       11
      ],
      "presentation": 1,
      "presentation_rect": [
-      1150,
-      142,
+      1208,
+      145,
       520,
       11
      ],
      "text": "T4 OPTICAL CELL  |  FEEDBACK DETECTOR  |  ~10 ms ATTACK, 60 ms + 0.5-5 s RELEASE",
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
      "fontsize": 7.5,
@@ -10483,8 +11078,8 @@
      ],
      "presentation": 1,
      "presentation_rect": [
-      1150,
-      90,
+      1208,
+      93,
       48,
       46
      ],
@@ -10499,37 +11094,43 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.8,
-      0.76,
-      0.68,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "activeneedlecolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
      "dialcolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.2902,
+      0.2667,
+      0.2392,
       1.0
      ],
      "needlecolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "textcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
-     "fontsize": 9.0,
+     "fontsize": 8.5,
      "fontface": 0,
+     "focusbordercolor": [
+      0.949,
+      0.6275,
+      0.2275,
+      1.0
+     ],
      "saved_attribute_attributes": {
       "valueof": {
        "parameter_longname": "VCA Input",
@@ -10544,7 +11145,10 @@
        "parameter_unitstyle": 4
       }
      },
-     "hidden": 1
+     "hidden": 1,
+     "annotation_name": "VCA Input",
+     "annotation": "Level into the VCA compressor. Range -24 to 24 dB. Default 0 dB.",
+     "hint": "VCA Input: Level into the VCA compressor."
     }
    },
    {
@@ -10577,8 +11181,8 @@
      ],
      "presentation": 1,
      "presentation_rect": [
-      1200,
-      90,
+      1258,
+      93,
       48,
       46
      ],
@@ -10593,37 +11197,43 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.8,
-      0.76,
-      0.68,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "activeneedlecolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
      "dialcolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.2902,
+      0.2667,
+      0.2392,
       1.0
      ],
      "needlecolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "textcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
-     "fontsize": 9.0,
+     "fontsize": 8.5,
      "fontface": 0,
+     "focusbordercolor": [
+      0.949,
+      0.6275,
+      0.2275,
+      1.0
+     ],
      "saved_attribute_attributes": {
       "valueof": {
        "parameter_longname": "VCA Threshold",
@@ -10638,7 +11248,10 @@
        "parameter_unitstyle": 4
       }
      },
-     "hidden": 1
+     "hidden": 1,
+     "annotation_name": "VCA Threshold",
+     "annotation": "VCA compressor threshold. Range -50 to 0 dB. Default -20 dB.",
+     "hint": "VCA Threshold: VCA compressor threshold."
     }
    },
    {
@@ -10671,8 +11284,8 @@
      ],
      "presentation": 1,
      "presentation_rect": [
-      1250,
-      90,
+      1308,
+      93,
       48,
       46
      ],
@@ -10687,37 +11300,43 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.8,
-      0.76,
-      0.68,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "activeneedlecolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
      "dialcolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.2902,
+      0.2667,
+      0.2392,
       1.0
      ],
      "needlecolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "textcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
-     "fontsize": 9.0,
+     "fontsize": 8.5,
      "fontface": 0,
+     "focusbordercolor": [
+      0.949,
+      0.6275,
+      0.2275,
+      1.0
+     ],
      "saved_attribute_attributes": {
       "valueof": {
        "parameter_longname": "VCA Release",
@@ -10734,7 +11353,10 @@
        "parameter_units": "%0.2f s"
       }
      },
-     "hidden": 1
+     "hidden": 1,
+     "annotation_name": "VCA Release",
+     "annotation": "VCA compressor release time. Range 0.05 to 3 s. Default 0.3 s.",
+     "hint": "VCA Release: VCA compressor release time."
     }
    },
    {
@@ -10767,8 +11389,8 @@
      ],
      "presentation": 1,
      "presentation_rect": [
-      1300,
-      90,
+      1358,
+      93,
       48,
       46
      ],
@@ -10783,37 +11405,43 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.8,
-      0.76,
-      0.68,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "activeneedlecolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
      "dialcolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.2902,
+      0.2667,
+      0.2392,
       1.0
      ],
      "needlecolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "textcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
-     "fontsize": 9.0,
+     "fontsize": 8.5,
      "fontface": 0,
+     "focusbordercolor": [
+      0.949,
+      0.6275,
+      0.2275,
+      1.0
+     ],
      "saved_attribute_attributes": {
       "valueof": {
        "parameter_longname": "VCA SC HPF",
@@ -10829,7 +11457,10 @@
        "parameter_exponent": 2.0
       }
      },
-     "hidden": 1
+     "hidden": 1,
+     "annotation_name": "VCA SC HPF",
+     "annotation": "High-pass filter on the VCA's sidechain. Range 20 to 500 Hz. Default 20 Hz.",
+     "hint": "VCA SC HPF: High-pass filter on the VCA's sidechain."
     }
    },
    {
@@ -10862,8 +11493,8 @@
      ],
      "presentation": 1,
      "presentation_rect": [
-      1350,
-      90,
+      1408,
+      93,
       48,
       46
      ],
@@ -10878,37 +11509,43 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.8,
-      0.76,
-      0.68,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "activeneedlecolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
      "dialcolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.2902,
+      0.2667,
+      0.2392,
       1.0
      ],
      "needlecolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "textcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
-     "fontsize": 9.0,
+     "fontsize": 8.5,
      "fontface": 0,
+     "focusbordercolor": [
+      0.949,
+      0.6275,
+      0.2275,
+      1.0
+     ],
      "saved_attribute_attributes": {
       "valueof": {
        "parameter_longname": "VCA Link",
@@ -10923,7 +11560,10 @@
        "parameter_unitstyle": 5
       }
      },
-     "hidden": 1
+     "hidden": 1,
+     "annotation_name": "VCA Link",
+     "annotation": "Stereo link of the VCA detector. 100 % = fully linked. Range 0 to 100 %. Default 100 %.",
+     "hint": "VCA Link: Stereo link of the VCA detector. 100 % = fully linked."
     }
    },
    {
@@ -10956,8 +11596,8 @@
      ],
      "presentation": 1,
      "presentation_rect": [
-      1400,
-      90,
+      1458,
+      93,
       48,
       46
      ],
@@ -10972,37 +11612,43 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.8,
-      0.76,
-      0.68,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "activeneedlecolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
      "dialcolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.2902,
+      0.2667,
+      0.2392,
       1.0
      ],
      "needlecolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "textcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
-     "fontsize": 9.0,
+     "fontsize": 8.5,
      "fontface": 0,
+     "focusbordercolor": [
+      0.949,
+      0.6275,
+      0.2275,
+      1.0
+     ],
      "saved_attribute_attributes": {
       "valueof": {
        "parameter_longname": "VCA Mix",
@@ -11017,7 +11663,10 @@
        "parameter_unitstyle": 5
       }
      },
-     "hidden": 1
+     "hidden": 1,
+     "annotation_name": "VCA Mix",
+     "annotation": "Dry/wet (parallel) mix of the VCA compressor. Range 0 to 100 %. Default 100 %.",
+     "hint": "VCA Mix: Dry/wet (parallel) mix of the VCA compressor."
     }
    },
    {
@@ -11050,8 +11699,8 @@
      ],
      "presentation": 1,
      "presentation_rect": [
-      1450,
-      90,
+      1508,
+      93,
       48,
       46
      ],
@@ -11066,37 +11715,43 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.8,
-      0.76,
-      0.68,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "activeneedlecolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
      "dialcolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.2902,
+      0.2667,
+      0.2392,
       1.0
      ],
      "needlecolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "textcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
-     "fontsize": 9.0,
+     "fontsize": 8.5,
      "fontface": 0,
+     "focusbordercolor": [
+      0.949,
+      0.6275,
+      0.2275,
+      1.0
+     ],
      "saved_attribute_attributes": {
       "valueof": {
        "parameter_longname": "VCA Output",
@@ -11111,7 +11766,10 @@
        "parameter_unitstyle": 4
       }
      },
-     "hidden": 1
+     "hidden": 1,
+     "annotation_name": "VCA Output",
+     "annotation": "Level out of the VCA compressor. Range -24 to 24 dB. Default 0 dB.",
+     "hint": "VCA Output: Level out of the VCA compressor."
     }
    },
    {
@@ -11144,8 +11802,8 @@
      ],
      "presentation": 1,
      "presentation_rect": [
-      1504,
-      90,
+      1562,
+      93,
       56,
       14
      ],
@@ -11159,30 +11817,30 @@
      "parameter_enable": 1,
      "varname": "v_ratio",
      "textcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
      "bgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.0902,
+      0.0863,
+      0.0824,
       1.0
      ],
      "activebgcolor": [
-      0.11,
-      0.104,
-      0.098,
+      0.0902,
+      0.0863,
+      0.0824,
       1.0
      ],
      "tricolor": [
-      0.8,
-      0.76,
-      0.68,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
-     "fontsize": 10.0,
+     "fontsize": 9.0,
      "saved_attribute_attributes": {
       "valueof": {
        "parameter_longname": "VCA Ratio",
@@ -11206,7 +11864,10 @@
        ]
       }
      },
-     "hidden": 1
+     "hidden": 1,
+     "annotation_name": "VCA Ratio",
+     "annotation": "VCA compression ratio. Options: 1.5:1, 2:1, 3:1, 4:1, 6:1, 10:1, inf:1. Default: 4:1.",
+     "hint": "VCA Ratio: VCA compression ratio."
     }
    },
    {
@@ -11239,8 +11900,8 @@
      ],
      "presentation": 1,
      "presentation_rect": [
-      1564,
-      90,
+      1622,
+      93,
       56,
       14
      ],
@@ -11254,30 +11915,30 @@
      "parameter_enable": 1,
      "varname": "v_att",
      "textcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
      "bgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.0902,
+      0.0863,
+      0.0824,
       1.0
      ],
      "activebgcolor": [
-      0.11,
-      0.104,
-      0.098,
+      0.0902,
+      0.0863,
+      0.0824,
       1.0
      ],
      "tricolor": [
-      0.8,
-      0.76,
-      0.68,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
-     "fontsize": 10.0,
+     "fontsize": 9.0,
      "saved_attribute_attributes": {
       "valueof": {
        "parameter_longname": "VCA Attack",
@@ -11301,7 +11962,10 @@
        ]
       }
      },
-     "hidden": 1
+     "hidden": 1,
+     "annotation_name": "VCA Attack",
+     "annotation": "VCA attack time. Options: .03ms, .1ms, .3ms, 1ms, 3ms, 10ms, 30ms. Default: 1ms.",
+     "hint": "VCA Attack: VCA attack time."
     }
    },
    {
@@ -11334,8 +11998,8 @@
      ],
      "presentation": 1,
      "presentation_rect": [
-      1504,
-      106,
+      1562,
+      109,
       116,
       12
      ],
@@ -11350,53 +12014,66 @@
      "varname": "v_knee",
      "num_lines_patching": 1,
      "num_lines_presentation": 1,
-     "fontsize": 9.0,
+     "fontsize": 8.0,
+     "fontface": 1,
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
      "textoncolor": [
-      0.086,
-      0.082,
-      0.078,
+      0.102,
+      0.0784,
+      0.0627,
+      1.0
+     ],
+     "inactivetextoffcolor": [
+      0.3686,
+      0.3451,
+      0.3137,
+      1.0
+     ],
+     "inactivetextoncolor": [
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "bgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.0902,
+      0.0863,
+      0.0824,
       1.0
      ],
      "bgoncolor": [
-      0.8,
-      0.76,
-      0.68,
+      0.4196,
+      0.2902,
+      0.1412,
       1.0
      ],
      "activebgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.2039,
+      0.1922,
+      0.1765,
       1.0
      ],
      "activebgoncolor": [
-      0.8,
-      0.76,
-      0.68,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "bordercolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.3098,
+      0.2824,
+      0.2549,
       1.0
      ],
      "focusbordercolor": [
-      0.8,
-      0.76,
-      0.68,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "saved_attribute_attributes": {
@@ -11418,7 +12095,10 @@
        ]
       }
      },
-     "hidden": 1
+     "hidden": 1,
+     "annotation_name": "VCA Knee",
+     "annotation": "Knee shape: HARD, MED or SOFT. Options: HARD, MED, SOFT. Default: HARD.",
+     "hint": "VCA Knee: Knee shape: HARD, MED or SOFT."
     }
    },
    {
@@ -11451,8 +12131,8 @@
      ],
      "presentation": 1,
      "presentation_rect": [
-      1504,
-      120,
+      1562,
+      123,
       116,
       12
      ],
@@ -11467,53 +12147,66 @@
      "varname": "v_thrust",
      "num_lines_patching": 1,
      "num_lines_presentation": 1,
-     "fontsize": 9.0,
+     "fontsize": 8.0,
+     "fontface": 1,
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
      "textoncolor": [
-      0.086,
-      0.082,
-      0.078,
+      0.102,
+      0.0784,
+      0.0627,
+      1.0
+     ],
+     "inactivetextoffcolor": [
+      0.3686,
+      0.3451,
+      0.3137,
+      1.0
+     ],
+     "inactivetextoncolor": [
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "bgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.0902,
+      0.0863,
+      0.0824,
       1.0
      ],
      "bgoncolor": [
-      0.8,
-      0.76,
-      0.68,
+      0.4196,
+      0.2902,
+      0.1412,
       1.0
      ],
      "activebgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.2039,
+      0.1922,
+      0.1765,
       1.0
      ],
      "activebgoncolor": [
-      0.8,
-      0.76,
-      0.68,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "bordercolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.3098,
+      0.2824,
+      0.2549,
       1.0
      ],
      "focusbordercolor": [
-      0.8,
-      0.76,
-      0.68,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "saved_attribute_attributes": {
@@ -11535,7 +12228,10 @@
        ]
       }
      },
-     "hidden": 1
+     "hidden": 1,
+     "annotation_name": "VCA Thrust",
+     "annotation": "Sidechain Thrust: NORM is flat; MED and LOUD reduce the detector's bass sensitivity. Options: NORM, MED, LOUD. Default: NORM.",
+     "hint": "VCA Thrust: Sidechain Thrust: NORM is flat; MED and LOUD reduce the detector's bass sensitivity."
     }
    },
    {
@@ -11568,8 +12264,8 @@
      ],
      "presentation": 1,
      "presentation_rect": [
-      1504,
-      134,
+      1562,
+      137,
       56,
       12
      ],
@@ -11584,53 +12280,66 @@
      "varname": "v_type",
      "num_lines_patching": 1,
      "num_lines_presentation": 1,
-     "fontsize": 9.0,
+     "fontsize": 8.0,
+     "fontface": 1,
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
      "textoncolor": [
-      0.086,
-      0.082,
-      0.078,
+      0.102,
+      0.0784,
+      0.0627,
+      1.0
+     ],
+     "inactivetextoffcolor": [
+      0.3686,
+      0.3451,
+      0.3137,
+      1.0
+     ],
+     "inactivetextoncolor": [
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "bgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.0902,
+      0.0863,
+      0.0824,
       1.0
      ],
      "bgoncolor": [
-      0.8,
-      0.76,
-      0.68,
+      0.4196,
+      0.2902,
+      0.1412,
       1.0
      ],
      "activebgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.2039,
+      0.1922,
+      0.1765,
       1.0
      ],
      "activebgoncolor": [
-      0.8,
-      0.76,
-      0.68,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "bordercolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.3098,
+      0.2824,
+      0.2549,
       1.0
      ],
      "focusbordercolor": [
-      0.8,
-      0.76,
-      0.68,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "saved_attribute_attributes": {
@@ -11651,7 +12360,10 @@
        ]
       }
      },
-     "hidden": 1
+     "hidden": 1,
+     "annotation_name": "VCA Type",
+     "annotation": "Detector topology: NEW (feed-forward) or OLD (feedback). Options: NEW, OLD. Default: NEW.",
+     "hint": "VCA Type: Detector topology: NEW (feed-forward) or OLD (feedback)."
     }
    },
    {
@@ -11684,8 +12396,8 @@
      ],
      "presentation": 1,
      "presentation_rect": [
-      1564,
-      134,
+      1622,
+      137,
       56,
       12
      ],
@@ -11700,54 +12412,66 @@
      "mode": 0,
      "text": "AUTO",
      "texton": "AUTO",
-     "fontsize": 9.0,
+     "fontsize": 8.0,
      "fontface": 1,
+     "activetextcolor": [
+      0.6392,
+      0.6039,
+      0.549,
+      1.0
+     ],
+     "activetextoncolor": [
+      0.102,
+      0.0784,
+      0.0627,
+      1.0
+     ],
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "textoncolor": [
-      0.086,
-      0.082,
-      0.078,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "bgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.0902,
+      0.0863,
+      0.0824,
       1.0
      ],
      "bgoncolor": [
-      0.8,
-      0.76,
-      0.68,
+      0.4196,
+      0.2902,
+      0.1412,
       1.0
      ],
      "activebgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.2039,
+      0.1922,
+      0.1765,
       1.0
      ],
      "activebgoncolor": [
-      0.8,
-      0.76,
-      0.68,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "bordercolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.3098,
+      0.2824,
+      0.2549,
       1.0
      ],
      "focusbordercolor": [
-      0.8,
-      0.76,
-      0.68,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "saved_attribute_attributes": {
@@ -11768,7 +12492,10 @@
        ]
       }
      },
-     "hidden": 1
+     "hidden": 1,
+     "annotation_name": "VCA Auto Makeup",
+     "annotation": "Automatic make-up gain from the threshold and ratio. Options: off, on. Default: off.",
+     "hint": "VCA Auto Makeup: Automatic make-up gain from the threshold and ratio."
     }
    },
    {
@@ -11801,8 +12528,8 @@
      ],
      "presentation": 1,
      "presentation_rect": [
-      1504,
-      148,
+      1562,
+      151,
       116,
       12
      ],
@@ -11817,53 +12544,66 @@
      "varname": "v_src",
      "num_lines_patching": 1,
      "num_lines_presentation": 1,
-     "fontsize": 9.0,
+     "fontsize": 8.0,
+     "fontface": 1,
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
      "textoncolor": [
-      0.086,
-      0.082,
-      0.078,
+      0.102,
+      0.0784,
+      0.0627,
+      1.0
+     ],
+     "inactivetextoffcolor": [
+      0.3686,
+      0.3451,
+      0.3137,
+      1.0
+     ],
+     "inactivetextoncolor": [
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "bgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.0902,
+      0.0863,
+      0.0824,
       1.0
      ],
      "bgoncolor": [
-      0.8,
-      0.76,
-      0.68,
+      0.4196,
+      0.2902,
+      0.1412,
       1.0
      ],
      "activebgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.2039,
+      0.1922,
+      0.1765,
       1.0
      ],
      "activebgoncolor": [
-      0.8,
-      0.76,
-      0.68,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "bordercolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.3098,
+      0.2824,
+      0.2549,
       1.0
      ],
      "focusbordercolor": [
-      0.8,
-      0.76,
-      0.68,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "saved_attribute_attributes": {
@@ -11885,7 +12625,10 @@
        ]
       }
      },
-     "hidden": 1
+     "hidden": 1,
+     "annotation_name": "VCA SC Source",
+     "annotation": "VCA sidechain source: INT, CHAIN or EXT (external key). Options: INT, CHAIN, EXT. Default: INT.",
+     "hint": "VCA SC Source: VCA sidechain source: INT, CHAIN or EXT (external key)."
     }
    },
    {
@@ -11918,8 +12661,8 @@
      ],
      "presentation": 1,
      "presentation_rect": [
-      1150,
-      90,
+      1208,
+      93,
       48,
       46
      ],
@@ -11934,37 +12677,43 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "activeneedlecolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
      "dialcolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.2902,
+      0.2667,
+      0.2392,
       1.0
      ],
      "needlecolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "textcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
-     "fontsize": 9.0,
+     "fontsize": 8.5,
      "fontface": 0,
+     "focusbordercolor": [
+      0.949,
+      0.6275,
+      0.2275,
+      1.0
+     ],
      "saved_attribute_attributes": {
       "valueof": {
        "parameter_longname": "Gate Threshold",
@@ -11979,7 +12728,10 @@
        "parameter_unitstyle": 4
       }
      },
-     "hidden": 1
+     "hidden": 1,
+     "annotation_name": "Gate Threshold",
+     "annotation": "Gate opening threshold. It closes 4 dB below (hysteresis). Range -80 to 0 dB. Default -40 dB.",
+     "hint": "Gate Threshold: Gate opening threshold. It closes 4 dB below (hysteresis)."
     }
    },
    {
@@ -12012,8 +12764,8 @@
      ],
      "presentation": 1,
      "presentation_rect": [
-      1200,
-      90,
+      1258,
+      93,
       48,
       46
      ],
@@ -12028,37 +12780,43 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "activeneedlecolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
      "dialcolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.2902,
+      0.2667,
+      0.2392,
       1.0
      ],
      "needlecolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "textcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
-     "fontsize": 9.0,
+     "fontsize": 8.5,
      "fontface": 0,
+     "focusbordercolor": [
+      0.949,
+      0.6275,
+      0.2275,
+      1.0
+     ],
      "saved_attribute_attributes": {
       "valueof": {
        "parameter_longname": "Gate Attack",
@@ -12074,7 +12832,10 @@
        "parameter_exponent": 3.0
       }
      },
-     "hidden": 1
+     "hidden": 1,
+     "annotation_name": "Gate Attack",
+     "annotation": "Gate attack (opening) time. Range 0.1 to 50 ms. Default 1 ms.",
+     "hint": "Gate Attack: Gate attack (opening) time."
     }
    },
    {
@@ -12107,8 +12868,8 @@
      ],
      "presentation": 1,
      "presentation_rect": [
-      1250,
-      90,
+      1308,
+      93,
       48,
       46
      ],
@@ -12123,37 +12884,43 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "activeneedlecolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
      "dialcolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.2902,
+      0.2667,
+      0.2392,
       1.0
      ],
      "needlecolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "textcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
-     "fontsize": 9.0,
+     "fontsize": 8.5,
      "fontface": 0,
+     "focusbordercolor": [
+      0.949,
+      0.6275,
+      0.2275,
+      1.0
+     ],
      "saved_attribute_attributes": {
       "valueof": {
        "parameter_longname": "Gate Hold",
@@ -12169,7 +12936,10 @@
        "parameter_exponent": 2.0
       }
      },
-     "hidden": 1
+     "hidden": 1,
+     "annotation_name": "Gate Hold",
+     "annotation": "Time the gate stays open after the key falls below threshold. Range 0 to 500 ms. Default 20 ms.",
+     "hint": "Gate Hold: Time the gate stays open after the key falls below threshold."
     }
    },
    {
@@ -12202,8 +12972,8 @@
      ],
      "presentation": 1,
      "presentation_rect": [
-      1300,
-      90,
+      1358,
+      93,
       48,
       46
      ],
@@ -12218,37 +12988,43 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "activeneedlecolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
      "dialcolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.2902,
+      0.2667,
+      0.2392,
       1.0
      ],
      "needlecolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "textcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
-     "fontsize": 9.0,
+     "fontsize": 8.5,
      "fontface": 0,
+     "focusbordercolor": [
+      0.949,
+      0.6275,
+      0.2275,
+      1.0
+     ],
      "saved_attribute_attributes": {
       "valueof": {
        "parameter_longname": "Gate Release",
@@ -12264,7 +13040,10 @@
        "parameter_exponent": 3.0
       }
      },
-     "hidden": 1
+     "hidden": 1,
+     "annotation_name": "Gate Release",
+     "annotation": "Gate release (closing) time. Range 5 to 2000 ms. Default 150 ms.",
+     "hint": "Gate Release: Gate release (closing) time."
     }
    },
    {
@@ -12297,8 +13076,8 @@
      ],
      "presentation": 1,
      "presentation_rect": [
-      1350,
-      90,
+      1408,
+      93,
       48,
       46
      ],
@@ -12313,37 +13092,43 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "activeneedlecolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
      "dialcolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.2902,
+      0.2667,
+      0.2392,
       1.0
      ],
      "needlecolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "textcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
-     "fontsize": 9.0,
+     "fontsize": 8.5,
      "fontface": 0,
+     "focusbordercolor": [
+      0.949,
+      0.6275,
+      0.2275,
+      1.0
+     ],
      "saved_attribute_attributes": {
       "valueof": {
        "parameter_longname": "Gate Range",
@@ -12358,7 +13143,10 @@
        "parameter_unitstyle": 4
       }
      },
-     "hidden": 1
+     "hidden": 1,
+     "annotation_name": "Gate Range",
+     "annotation": "Attenuation when closed. -80 dB is fully closed. Range -80 to 0 dB. Default -80 dB.",
+     "hint": "Gate Range: Attenuation when closed. -80 dB is fully closed."
     }
    },
    {
@@ -12391,8 +13179,8 @@
      ],
      "presentation": 1,
      "presentation_rect": [
-      1400,
-      90,
+      1458,
+      93,
       48,
       46
      ],
@@ -12407,37 +13195,43 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "activeneedlecolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
      "dialcolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.2902,
+      0.2667,
+      0.2392,
       1.0
      ],
      "needlecolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "textcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
-     "fontsize": 9.0,
+     "fontsize": 8.5,
      "fontface": 0,
+     "focusbordercolor": [
+      0.949,
+      0.6275,
+      0.2275,
+      1.0
+     ],
      "saved_attribute_attributes": {
       "valueof": {
        "parameter_longname": "Gate Key HPF",
@@ -12453,7 +13247,10 @@
        "parameter_exponent": 3.0
       }
      },
-     "hidden": 1
+     "hidden": 1,
+     "annotation_name": "Gate Key HPF",
+     "annotation": "High-pass filter on the gate key. Range 20 to 2000 Hz. Default 20 Hz.",
+     "hint": "Gate Key HPF: High-pass filter on the gate key."
     }
    },
    {
@@ -12486,8 +13283,8 @@
      ],
      "presentation": 1,
      "presentation_rect": [
-      1450,
-      90,
+      1508,
+      93,
       48,
       46
      ],
@@ -12502,37 +13299,43 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "activeneedlecolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
      "dialcolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.2902,
+      0.2667,
+      0.2392,
       1.0
      ],
      "needlecolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "textcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
-     "fontsize": 9.0,
+     "fontsize": 8.5,
      "fontface": 0,
+     "focusbordercolor": [
+      0.949,
+      0.6275,
+      0.2275,
+      1.0
+     ],
      "saved_attribute_attributes": {
       "valueof": {
        "parameter_longname": "Gate Key LPF",
@@ -12548,7 +13351,10 @@
        "parameter_exponent": 3.0
       }
      },
-     "hidden": 1
+     "hidden": 1,
+     "annotation_name": "Gate Key LPF",
+     "annotation": "Low-pass filter on the gate key. Range 200 to 20000 Hz. Default 20000 Hz.",
+     "hint": "Gate Key LPF: Low-pass filter on the gate key."
     }
    },
    {
@@ -12574,23 +13380,23 @@
      "id": "obj-314",
      "maxclass": "comment",
      "patching_rect": [
-      1504,
-      394,
+      1562,
+      397,
       90,
       9
      ],
      "presentation": 1,
      "presentation_rect": [
-      1504,
-      94,
+      1562,
+      97,
       90,
       9
      ],
      "text": "KEY SOURCE",
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
      "fontsize": 7.0,
@@ -12614,8 +13420,8 @@
      ],
      "presentation": 1,
      "presentation_rect": [
-      1504,
-      103,
+      1562,
+      106,
       120,
       14
      ],
@@ -12630,53 +13436,66 @@
      "varname": "g_src",
      "num_lines_patching": 1,
      "num_lines_presentation": 1,
-     "fontsize": 9.0,
+     "fontsize": 8.0,
+     "fontface": 1,
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
      "textoncolor": [
-      0.086,
-      0.082,
-      0.078,
+      0.102,
+      0.0784,
+      0.0627,
+      1.0
+     ],
+     "inactivetextoffcolor": [
+      0.3686,
+      0.3451,
+      0.3137,
+      1.0
+     ],
+     "inactivetextoncolor": [
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "bgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.0902,
+      0.0863,
+      0.0824,
       1.0
      ],
      "bgoncolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.4196,
+      0.2902,
+      0.1412,
       1.0
      ],
      "activebgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.2039,
+      0.1922,
+      0.1765,
       1.0
      ],
      "activebgoncolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "bordercolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.3098,
+      0.2824,
+      0.2549,
       1.0
      ],
      "focusbordercolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "saved_attribute_attributes": {
@@ -12698,7 +13517,10 @@
        ]
       }
      },
-     "hidden": 1
+     "hidden": 1,
+     "annotation_name": "Gate Key Source",
+     "annotation": "Gate key source: INT, CHAIN or EXT (external key). Options: INT, CHAIN, EXT. Default: INT.",
+     "hint": "Gate Key Source: Gate key source: INT, CHAIN or EXT (external key)."
     }
    },
    {
@@ -12724,23 +13546,23 @@
      "id": "obj-317",
      "maxclass": "comment",
      "patching_rect": [
-      1150,
-      442,
+      1208,
+      445,
       520,
       11
      ],
      "presentation": 1,
      "presentation_rect": [
-      1150,
-      142,
+      1208,
+      145,
       520,
       11
      ],
      "text": "INDEPENDENT OF CHAIN ORDER  |  4 dB HYSTERESIS",
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
      "fontsize": 7.5,
@@ -12851,22 +13673,22 @@
      "id": "obj-323",
      "maxclass": "panel",
      "patching_rect": [
-      1772,
+      1926,
       900,
-      176,
+      206,
       169
      ],
      "presentation": 1,
      "presentation_rect": [
-      1772,
+      1926,
       0,
-      176,
+      206,
       169
      ],
      "bgcolor": [
-      0.086,
-      0.082,
-      0.078,
+      0.0784,
+      0.0745,
+      0.0706,
       1.0
      ],
      "rounded": 0,
@@ -12880,22 +13702,22 @@
      "id": "obj-324",
      "maxclass": "panel",
      "patching_rect": [
-      1774,
+      1928,
       904,
-      170,
+      200,
       161
      ],
      "presentation": 1,
      "presentation_rect": [
-      1774,
+      1928,
       4,
-      170,
+      200,
       161
      ],
      "bgcolor": [
-      0.11,
-      0.104,
-      0.098,
+      0.1294,
+      0.1216,
+      0.1137,
       1.0
      ],
      "rounded": 4,
@@ -12904,9 +13726,9 @@
      "background": 1,
      "border": 1,
      "bordercolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.3098,
+      0.2824,
+      0.2549,
       1.0
      ]
     }
@@ -12916,26 +13738,26 @@
      "id": "obj-325",
      "maxclass": "comment",
      "patching_rect": [
-      1780,
-      305,
-      160,
+      1936,
+      306,
+      120,
       14
      ],
      "presentation": 1,
      "presentation_rect": [
-      1780,
-      5,
-      160,
+      1936,
+      6,
+      120,
       14
      ],
      "text": "FILTER ROUTING",
      "textcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
-     "fontsize": 10.0,
+     "fontsize": 10.5,
      "fontface": 1,
      "numinlets": 1,
      "numoutlets": 0,
@@ -12947,26 +13769,26 @@
      "id": "obj-326",
      "maxclass": "comment",
      "patching_rect": [
-      1878,
-      306,
-      62,
-      12
+      2068,
+      308,
+      56,
+      10
      ],
      "presentation": 1,
      "presentation_rect": [
-      1878,
-      6,
-      62,
-      12
+      2068,
+      8,
+      56,
+      10
      ],
      "text": "LP \u00b7 HP \u00b7 BP",
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
-     "fontsize": 7.5,
+     "fontsize": 7.0,
      "fontface": 0,
      "numinlets": 1,
      "numoutlets": 0,
@@ -12985,10 +13807,10 @@
      ],
      "presentation": 1,
      "presentation_rect": [
-      1780,
-      24,
-      74,
-      48
+      1934,
+      26,
+      188,
+      15
      ],
      "numinlets": 1,
      "numoutlets": 3,
@@ -13000,54 +13822,67 @@
      "parameter_enable": 1,
      "varname": "flt_route",
      "num_lines_patching": 3,
-     "num_lines_presentation": 3,
+     "num_lines_presentation": 1,
      "fontsize": 8.0,
+     "fontface": 1,
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
      "textoncolor": [
-      0.086,
-      0.082,
-      0.078,
+      0.102,
+      0.0784,
+      0.0627,
+      1.0
+     ],
+     "inactivetextoffcolor": [
+      0.3686,
+      0.3451,
+      0.3137,
+      1.0
+     ],
+     "inactivetextoncolor": [
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "bgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.0902,
+      0.0863,
+      0.0824,
       1.0
      ],
      "bgoncolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.4196,
+      0.2902,
+      0.1412,
       1.0
      ],
      "activebgcolor": [
-      0.133,
-      0.125,
-      0.118,
+      0.2039,
+      0.1922,
+      0.1765,
       1.0
      ],
      "activebgoncolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "bordercolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.3098,
+      0.2824,
+      0.2549,
       1.0
      ],
      "focusbordercolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "saved_attribute_attributes": {
@@ -13068,7 +13903,10 @@
         "HYBRID"
        ]
       }
-     }
+     },
+     "annotation_name": "Filter Routing",
+     "annotation": "SERIES chains the filters; PARALLEL feeds LP, HP and BP from the input and sums them; HYBRID runs LP/HP in series and adds BP in parallel. Options: SERIES, PARALLEL, HYBRID. Default: SERIES.",
+     "hint": "Filter Routing: SERIES chains the filters; PARALLEL feeds LP, HP and BP from the input and sums them; HYBRID runs LP/HP in series and adds BP in parallel."
     }
    },
    {
@@ -13094,30 +13932,30 @@
      "id": "obj-329",
      "maxclass": "comment",
      "patching_rect": [
-      1858,
-      326,
-      82,
-      46
+      1934,
+      395,
+      188,
+      10
      ],
      "presentation": 1,
      "presentation_rect": [
-      1858,
-      26,
-      82,
-      46
+      1934,
+      95,
+      188,
+      10
      ],
      "text": "IN > LP > HP > BP > OUT",
      "textcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
-     "fontsize": 8.0,
+     "fontsize": 7.0,
      "fontface": 1,
      "numinlets": 1,
      "numoutlets": 0,
-     "textjustification": 0,
+     "textjustification": 1,
      "varname": "route_flow"
     }
    },
@@ -13313,30 +14151,30 @@
      "id": "obj-340",
      "maxclass": "comment",
      "patching_rect": [
-      1780,
-      376,
-      160,
-      10
+      1934,
+      406,
+      188,
+      9
      ],
      "presentation": 1,
      "presentation_rect": [
-      1780,
-      76,
-      160,
-      10
+      1934,
+      106,
+      188,
+      9
      ],
      "text": "PARALLEL LEVELS",
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
-     "fontsize": 7.5,
-     "fontface": 0,
+     "fontsize": 7.0,
+     "fontface": 1,
      "numinlets": 1,
      "numoutlets": 0,
-     "textjustification": 0
+     "textjustification": 1
     }
    },
    {
@@ -13346,14 +14184,14 @@
      "patching_rect": [
       9150,
       560,
-      52,
+      56,
       50
      ],
      "presentation": 1,
      "presentation_rect": [
-      1780,
-      88,
-      52,
+      1940,
+      114,
+      56,
       50
      ],
      "numinlets": 1,
@@ -13367,37 +14205,43 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.961,
-      0.627,
-      0.2,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "activeneedlecolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
      "dialcolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.2902,
+      0.2667,
+      0.2392,
       1.0
      ],
      "needlecolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "textcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
-     "fontsize": 9.0,
+     "fontsize": 8.5,
      "fontface": 0,
+     "focusbordercolor": [
+      0.949,
+      0.6275,
+      0.2275,
+      1.0
+     ],
      "saved_attribute_attributes": {
       "valueof": {
        "parameter_longname": "Parallel LPF Level",
@@ -13411,7 +14255,10 @@
        ],
        "parameter_unitstyle": 4
       }
-     }
+     },
+     "annotation_name": "Parallel LPF Level",
+     "annotation": "Low-pass level in the PARALLEL sum. Used only in PARALLEL. Range -40 to 6 dB. Default 0 dB.",
+     "hint": "Parallel LPF Level: Low-pass level in the PARALLEL sum. Used only in PARALLEL."
     }
    },
    {
@@ -13439,14 +14286,14 @@
      "patching_rect": [
       9270,
       560,
-      52,
+      56,
       50
      ],
      "presentation": 1,
      "presentation_rect": [
-      1834,
-      88,
-      52,
+      2000,
+      114,
+      56,
       50
      ],
      "numinlets": 1,
@@ -13460,37 +14307,43 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.906,
-      0.4,
-      0.176,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "activeneedlecolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
      "dialcolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.2902,
+      0.2667,
+      0.2392,
       1.0
      ],
      "needlecolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "textcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
-     "fontsize": 9.0,
+     "fontsize": 8.5,
      "fontface": 0,
+     "focusbordercolor": [
+      0.949,
+      0.6275,
+      0.2275,
+      1.0
+     ],
      "saved_attribute_attributes": {
       "valueof": {
        "parameter_longname": "Parallel HPF Level",
@@ -13504,7 +14357,10 @@
        ],
        "parameter_unitstyle": 4
       }
-     }
+     },
+     "annotation_name": "Parallel HPF Level",
+     "annotation": "High-pass level in the PARALLEL sum. Used only in PARALLEL. Range -40 to 6 dB. Default 0 dB.",
+     "hint": "Parallel HPF Level: High-pass level in the PARALLEL sum. Used only in PARALLEL."
     }
    },
    {
@@ -13532,14 +14388,14 @@
      "patching_rect": [
       9390,
       560,
-      52,
+      56,
       50
      ],
      "presentation": 1,
      "presentation_rect": [
-      1888,
-      88,
-      52,
+      2060,
+      114,
+      56,
       50
      ],
      "numinlets": 1,
@@ -13553,37 +14409,43 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.851,
-      0.729,
-      0.333,
+      0.949,
+      0.6275,
+      0.2275,
       1.0
      ],
      "activeneedlecolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.9255,
+      0.8941,
+      0.8314,
       1.0
      ],
      "dialcolor": [
-      0.24,
-      0.226,
-      0.212,
+      0.2902,
+      0.2667,
+      0.2392,
       1.0
      ],
      "needlecolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.3686,
+      0.3451,
+      0.3137,
       1.0
      ],
      "textcolor": [
-      0.925,
-      0.886,
-      0.8,
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
-     "fontsize": 9.0,
+     "fontsize": 8.5,
      "fontface": 0,
+     "focusbordercolor": [
+      0.949,
+      0.6275,
+      0.2275,
+      1.0
+     ],
      "saved_attribute_attributes": {
       "valueof": {
        "parameter_longname": "Parallel BPF Level",
@@ -13597,7 +14459,10 @@
        ],
        "parameter_unitstyle": 4
       }
-     }
+     },
+     "annotation_name": "Parallel BPF Level",
+     "annotation": "Band-pass level in the PARALLEL sum and in HYBRID. Range -40 to 6 dB. Default 0 dB.",
+     "hint": "Parallel BPF Level: Band-pass level in the PARALLEL sum and in HYBRID."
     }
    },
    {
@@ -13623,23 +14488,571 @@
      "id": "obj-347",
      "maxclass": "comment",
      "patching_rect": [
-      1780,
+      1934,
       446,
       162,
       12
      ],
      "presentation": 1,
      "presentation_rect": [
-      1780,
+      1934,
       146,
       162,
       12
      ],
      "text": "PARALLEL: ALL THREE | HYBRID: BP LVL",
      "textcolor": [
-      0.58,
-      0.553,
-      0.506,
+      0.6392,
+      0.6039,
+      0.549,
+      1.0
+     ],
+     "fontsize": 7.0,
+     "fontface": 0,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "textjustification": 0,
+     "hidden": 1
+    }
+   },
+   {
+    "box": {
+     "id": "obj-348",
+     "maxclass": "panel",
+     "patching_rect": [
+      2440,
+      1500,
+      296,
+      17
+     ],
+     "presentation": 1,
+     "presentation_rect": [
+      5,
+      5,
+      296,
+      17
+     ],
+     "bgcolor": [
+      0.1686,
+      0.1569,
+      0.1451,
+      1.0
+     ],
+     "rounded": 2,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "background": 1
+    }
+   },
+   {
+    "box": {
+     "id": "obj-349",
+     "maxclass": "panel",
+     "patching_rect": [
+      2480,
+      1500,
+      86,
+      17
+     ],
+     "presentation": 1,
+     "presentation_rect": [
+      307,
+      5,
+      86,
+      17
+     ],
+     "bgcolor": [
+      0.1686,
+      0.1569,
+      0.1451,
+      1.0
+     ],
+     "rounded": 2,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "background": 1
+    }
+   },
+   {
+    "box": {
+     "id": "obj-350",
+     "maxclass": "panel",
+     "patching_rect": [
+      2520,
+      1500,
+      296,
+      17
+     ],
+     "presentation": 1,
+     "presentation_rect": [
+      399,
+      5,
+      296,
+      17
+     ],
+     "bgcolor": [
+      0.1686,
+      0.1569,
+      0.1451,
+      1.0
+     ],
+     "rounded": 2,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "background": 1
+    }
+   },
+   {
+    "box": {
+     "id": "obj-351",
+     "maxclass": "panel",
+     "patching_rect": [
+      2560,
+      1500,
+      416,
+      17
+     ],
+     "presentation": 1,
+     "presentation_rect": [
+      703,
+      5,
+      416,
+      17
+     ],
+     "bgcolor": [
+      0.1686,
+      0.1569,
+      0.1451,
+      1.0
+     ],
+     "rounded": 2,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "background": 1
+    }
+   },
+   {
+    "box": {
+     "id": "obj-352",
+     "maxclass": "panel",
+     "patching_rect": [
+      2600,
+      1500,
+      798,
+      17
+     ],
+     "presentation": 1,
+     "presentation_rect": [
+      1125,
+      5,
+      798,
+      17
+     ],
+     "bgcolor": [
+      0.1686,
+      0.1569,
+      0.1451,
+      1.0
+     ],
+     "rounded": 2,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "background": 1
+    }
+   },
+   {
+    "box": {
+     "id": "obj-353",
+     "maxclass": "panel",
+     "patching_rect": [
+      2640,
+      1500,
+      198,
+      17
+     ],
+     "presentation": 1,
+     "presentation_rect": [
+      1929,
+      5,
+      198,
+      17
+     ],
+     "bgcolor": [
+      0.1686,
+      0.1569,
+      0.1451,
+      1.0
+     ],
+     "rounded": 2,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "background": 1
+    }
+   },
+   {
+    "box": {
+     "id": "obj-354",
+     "maxclass": "panel",
+     "patching_rect": [
+      2680,
+      1500,
+      80,
+      1
+     ],
+     "presentation": 1,
+     "presentation_rect": [
+      310,
+      64,
+      80,
+      1
+     ],
+     "bgcolor": [
+      0.4863,
+      0.4471,
+      0.4,
+      1.0
+     ],
+     "rounded": 2,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "background": 1
+    }
+   },
+   {
+    "box": {
+     "id": "obj-355",
+     "maxclass": "comment",
+     "patching_rect": [
+      308,
+      366,
+      84,
+      10
+     ],
+     "presentation": 1,
+     "presentation_rect": [
+      308,
+      66,
+      84,
+      10
+     ],
+     "text": "PROCESSING",
+     "textcolor": [
+      0.949,
+      0.6275,
+      0.2275,
+      1.0
+     ],
+     "fontsize": 7.0,
+     "fontface": 1,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "textjustification": 1
+    }
+   },
+   {
+    "box": {
+     "id": "obj-356",
+     "maxclass": "panel",
+     "patching_rect": [
+      2720,
+      1500,
+      788,
+      1
+     ],
+     "presentation": 1,
+     "presentation_rect": [
+      1130,
+      89,
+      788,
+      1
+     ],
+     "bgcolor": [
+      0.3098,
+      0.2824,
+      0.2549,
+      1.0
+     ],
+     "rounded": 2,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "background": 1
+    }
+   },
+   {
+    "box": {
+     "id": "obj-357",
+     "maxclass": "panel",
+     "patching_rect": [
+      2760,
+      1500,
+      170,
+      15
+     ],
+     "presentation": 1,
+     "presentation_rect": [
+      1147,
+      27,
+      170,
+      15
+     ],
+     "bgcolor": [
+      0.1686,
+      0.1569,
+      0.1451,
+      1.0
+     ],
+     "rounded": 2,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "background": 1,
+     "varname": "blk_T_hdr"
+    }
+   },
+   {
+    "box": {
+     "id": "obj-358",
+     "maxclass": "comment",
+     "patching_rect": [
+      1236,
+      363,
+      78,
+      9
+     ],
+     "presentation": 1,
+     "presentation_rect": [
+      1236,
+      63,
+      78,
+      9
+     ],
+     "text": "TRIODE \u00b7 2x OS",
+     "textcolor": [
+      0.6392,
+      0.6039,
+      0.549,
+      1.0
+     ],
+     "fontsize": 7.0,
+     "fontface": 0,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "textjustification": 2,
+     "varname": "blk_T_cap"
+    }
+   },
+   {
+    "box": {
+     "id": "obj-359",
+     "maxclass": "panel",
+     "patching_rect": [
+      2800,
+      1500,
+      170,
+      15
+     ],
+     "presentation": 1,
+     "presentation_rect": [
+      1337,
+      27,
+      170,
+      15
+     ],
+     "bgcolor": [
+      0.1686,
+      0.1569,
+      0.1451,
+      1.0
+     ],
+     "rounded": 2,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "background": 1,
+     "varname": "blk_O_hdr"
+    }
+   },
+   {
+    "box": {
+     "id": "obj-360",
+     "maxclass": "comment",
+     "patching_rect": [
+      1426,
+      363,
+      78,
+      9
+     ],
+     "presentation": 1,
+     "presentation_rect": [
+      1426,
+      63,
+      78,
+      9
+     ],
+     "text": "T4 OPTO CELL",
+     "textcolor": [
+      0.6392,
+      0.6039,
+      0.549,
+      1.0
+     ],
+     "fontsize": 7.0,
+     "fontface": 0,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "textjustification": 2,
+     "varname": "blk_O_cap"
+    }
+   },
+   {
+    "box": {
+     "id": "obj-361",
+     "maxclass": "panel",
+     "patching_rect": [
+      2840,
+      1500,
+      170,
+      15
+     ],
+     "presentation": 1,
+     "presentation_rect": [
+      1527,
+      27,
+      170,
+      15
+     ],
+     "bgcolor": [
+      0.1686,
+      0.1569,
+      0.1451,
+      1.0
+     ],
+     "rounded": 2,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "background": 1,
+     "varname": "blk_V_hdr"
+    }
+   },
+   {
+    "box": {
+     "id": "obj-362",
+     "maxclass": "comment",
+     "patching_rect": [
+      1616,
+      363,
+      78,
+      9
+     ],
+     "presentation": 1,
+     "presentation_rect": [
+      1616,
+      63,
+      78,
+      9
+     ],
+     "text": "RMS VCA",
+     "textcolor": [
+      0.6392,
+      0.6039,
+      0.549,
+      1.0
+     ],
+     "fontsize": 7.0,
+     "fontface": 0,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "textjustification": 2,
+     "varname": "blk_V_cap"
+    }
+   },
+   {
+    "box": {
+     "id": "obj-363",
+     "maxclass": "panel",
+     "patching_rect": [
+      2880,
+      1500,
+      172,
+      60
+     ],
+     "presentation": 1,
+     "presentation_rect": [
+      1716,
+      26,
+      172,
+      60
+     ],
+     "bgcolor": [
+      0.0902,
+      0.0863,
+      0.0824,
+      1.0
+     ],
+     "rounded": 2,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "background": 1,
+     "border": 1,
+     "bordercolor": [
+      0.3098,
+      0.2824,
+      0.2549,
+      1.0
+     ],
+     "varname": "blk_G_bg"
+    }
+   },
+   {
+    "box": {
+     "id": "obj-364",
+     "maxclass": "panel",
+     "patching_rect": [
+      2920,
+      1500,
+      170,
+      15
+     ],
+     "presentation": 1,
+     "presentation_rect": [
+      1717,
+      27,
+      170,
+      15
+     ],
+     "bgcolor": [
+      0.1686,
+      0.1569,
+      0.1451,
+      1.0
+     ],
+     "rounded": 2,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "background": 1,
+     "varname": "blk_G_hdr"
+    }
+   },
+   {
+    "box": {
+     "id": "obj-365",
+     "maxclass": "comment",
+     "patching_rect": [
+      1722,
+      363,
+      160,
+      9
+     ],
+     "presentation": 1,
+     "presentation_rect": [
+      1722,
+      63,
+      160,
+      9
+     ],
+     "text": "4 dB HYSTERESIS \u00b7 HOLD",
+     "textcolor": [
+      0.6392,
+      0.6039,
+      0.549,
       1.0
      ],
      "fontsize": 7.0,
@@ -13647,6 +15060,1725 @@
      "numinlets": 1,
      "numoutlets": 0,
      "textjustification": 0
+    }
+   },
+   {
+    "box": {
+     "id": "obj-366",
+     "maxclass": "comment",
+     "patching_rect": [
+      1722,
+      373,
+      160,
+      9
+     ],
+     "presentation": 1,
+     "presentation_rect": [
+      1722,
+      73,
+      160,
+      9
+     ],
+     "text": "FIXED \u00b7 AFTER CHAIN",
+     "textcolor": [
+      0.3686,
+      0.3451,
+      0.3137,
+      1.0
+     ],
+     "fontsize": 7.0,
+     "fontface": 0,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "textjustification": 0
+    }
+   },
+   {
+    "box": {
+     "id": "obj-367",
+     "maxclass": "jsui",
+     "patching_rect": [
+      2960,
+      1600,
+      70,
+      15
+     ],
+     "presentation": 1,
+     "presentation_rect": [
+      1404,
+      5,
+      70,
+      15
+     ],
+     "filename": "df_button.js",
+     "jsarguments": [
+      "WARM_DUB",
+      0,
+      "select"
+     ],
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ],
+     "parameter_enable": 0,
+     "border": 0,
+     "varname": "presetbtn_0",
+     "annotation_name": "WARM DUB",
+     "annotation": "Sets Chain Order to TUBE > OPTO > VCA: saturation first, then smooth opto levelling, then VCA control. Changes only the order.",
+     "hint": "WARM DUB: Sets Chain Order to TUBE > OPTO > VCA: saturation first, then smooth opto levelling, then VCA control. Changes only the order."
+    }
+   },
+   {
+    "box": {
+     "id": "obj-368",
+     "maxclass": "jsui",
+     "patching_rect": [
+      3000,
+      1600,
+      96,
+      15
+     ],
+     "presentation": 1,
+     "presentation_rect": [
+      1478,
+      5,
+      96,
+      15
+     ],
+     "filename": "df_button.js",
+     "jsarguments": [
+      "PUNCH_&_COLOUR",
+      4,
+      "select"
+     ],
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ],
+     "parameter_enable": 0,
+     "border": 0,
+     "varname": "presetbtn_4",
+     "annotation_name": "PUNCH & COLOUR",
+     "annotation": "Sets Chain Order to VCA > TUBE > OPTO: VCA punch first, tube colour after, opto glue last. Changes only the order.",
+     "hint": "PUNCH & COLOUR: Sets Chain Order to VCA > TUBE > OPTO: VCA punch first, tube colour after, opto glue last. Changes only the order."
+    }
+   },
+   {
+    "box": {
+     "id": "obj-369",
+     "maxclass": "jsui",
+     "patching_rect": [
+      3040,
+      1600,
+      82,
+      15
+     ],
+     "presentation": 1,
+     "presentation_rect": [
+      1578,
+      5,
+      82,
+      15
+     ],
+     "filename": "df_button.js",
+     "jsarguments": [
+      "FINAL_COLOUR",
+      3,
+      "select"
+     ],
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ],
+     "parameter_enable": 0,
+     "border": 0,
+     "varname": "presetbtn_3",
+     "annotation_name": "FINAL COLOUR",
+     "annotation": "Sets Chain Order to OPTO > VCA > TUBE: compression first, tube colour last. Changes only the order.",
+     "hint": "FINAL COLOUR: Sets Chain Order to OPTO > VCA > TUBE: compression first, tube colour last. Changes only the order."
+    }
+   },
+   {
+    "box": {
+     "id": "obj-370",
+     "maxclass": "jsui",
+     "patching_rect": [
+      3080,
+      1600,
+      188,
+      49
+     ],
+     "presentation": 1,
+     "presentation_rect": [
+      1934,
+      44,
+      188,
+      49
+     ],
+     "filename": "df_routing.js",
+     "jsarguments": [],
+     "numinlets": 1,
+     "numoutlets": 0,
+     "outlettype": [],
+     "parameter_enable": 0,
+     "border": 0,
+     "varname": "route_diagram",
+     "annotation_name": "Routing Diagram",
+     "annotation": "Shows the signal path for the current routing, stage order, BPF position and ON states. Display only.",
+     "hint": "Routing Diagram: Shows the signal path for the current routing, stage order, BPF position and ON states. Display only."
+    }
+   },
+   {
+    "box": {
+     "id": "obj-371",
+     "maxclass": "newobj",
+     "patching_rect": [
+      3120,
+      1650,
+      90,
+      22
+     ],
+     "text": "prepend route",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-372",
+     "maxclass": "newobj",
+     "patching_rect": [
+      3160,
+      1650,
+      90,
+      22
+     ],
+     "text": "prepend order",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-373",
+     "maxclass": "newobj",
+     "patching_rect": [
+      3200,
+      1650,
+      90,
+      22
+     ],
+     "text": "prepend bpos",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-374",
+     "maxclass": "newobj",
+     "patching_rect": [
+      3240,
+      1650,
+      90,
+      22
+     ],
+     "text": "prepend lon",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-375",
+     "maxclass": "newobj",
+     "patching_rect": [
+      3280,
+      1650,
+      90,
+      22
+     ],
+     "text": "prepend hon",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-376",
+     "maxclass": "newobj",
+     "patching_rect": [
+      3320,
+      1650,
+      90,
+      22
+     ],
+     "text": "prepend bon",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-377",
+     "maxclass": "jsui",
+     "patching_rect": [
+      3360,
+      1600,
+      62,
+      112
+     ],
+     "presentation": 1,
+     "presentation_rect": [
+      1054,
+      46,
+      62,
+      112
+     ],
+     "filename": "df_arch.js",
+     "jsarguments": [],
+     "numinlets": 1,
+     "numoutlets": 0,
+     "outlettype": [],
+     "parameter_enable": 0,
+     "border": 0,
+     "varname": "bpf_arch_glyph",
+     "annotation_name": "BPF Architecture",
+     "annotation": "Shows the selected band-pass structure and which width controls it uses. Display only.",
+     "hint": "BPF Architecture: Shows the selected band-pass structure and which width controls it uses. Display only."
+    }
+   },
+   {
+    "box": {
+     "id": "obj-378",
+     "maxclass": "newobj",
+     "patching_rect": [
+      3400,
+      1650,
+      90,
+      22
+     ],
+     "text": "prepend arch",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-379",
+     "maxclass": "newobj",
+     "patching_rect": [
+      3440,
+      1650,
+      90,
+      22
+     ],
+     "text": "prepend on",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-380",
+     "maxclass": "newobj",
+     "patching_rect": [
+      3480,
+      1760,
+      50,
+      22
+     ],
+     "text": "sel 0 1",
+     "numinlets": 2,
+     "numoutlets": 3,
+     "outlettype": [
+      "bang",
+      "bang",
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-381",
+     "maxclass": "message",
+     "patching_rect": [
+      3520,
+      1790,
+      200,
+      22
+     ],
+     "text": "textcolor 0.3686 0.3451 0.3137 1, tricolor 0.3686 0.3451 0.3137 1",
+     "numinlets": 2,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-382",
+     "maxclass": "message",
+     "patching_rect": [
+      3560,
+      1790,
+      200,
+      22
+     ],
+     "text": "activedialcolor 0.2902 0.2667 0.2392 1, activeneedlecolor 0.3686 0.3451 0.3137 1",
+     "numinlets": 2,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-383",
+     "maxclass": "message",
+     "patching_rect": [
+      3600,
+      1790,
+      200,
+      22
+     ],
+     "text": "activebgoncolor 0.4196 0.2902 0.1412 1, textcolor 0.3686 0.3451 0.3137 1",
+     "numinlets": 2,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-384",
+     "maxclass": "message",
+     "patching_rect": [
+      3640,
+      1820,
+      200,
+      22
+     ],
+     "text": "textcolor 0.9255 0.8941 0.8314 1, tricolor 0.949 0.6275 0.2275 1",
+     "numinlets": 2,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-385",
+     "maxclass": "message",
+     "patching_rect": [
+      3680,
+      1820,
+      200,
+      22
+     ],
+     "text": "activedialcolor 0.949 0.6275 0.2275 1, activeneedlecolor 0.9255 0.8941 0.8314 1",
+     "numinlets": 2,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-386",
+     "maxclass": "message",
+     "patching_rect": [
+      3720,
+      1820,
+      200,
+      22
+     ],
+     "text": "activebgoncolor 0.949 0.6275 0.2275 1, textcolor 0.6392 0.6039 0.549 1",
+     "numinlets": 2,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-387",
+     "maxclass": "newobj",
+     "patching_rect": [
+      3760,
+      1760,
+      50,
+      22
+     ],
+     "text": "sel 0 1",
+     "numinlets": 2,
+     "numoutlets": 3,
+     "outlettype": [
+      "bang",
+      "bang",
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-388",
+     "maxclass": "message",
+     "patching_rect": [
+      3800,
+      1790,
+      200,
+      22
+     ],
+     "text": "textcolor 0.3686 0.3451 0.3137 1, tricolor 0.3686 0.3451 0.3137 1",
+     "numinlets": 2,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-389",
+     "maxclass": "message",
+     "patching_rect": [
+      3840,
+      1790,
+      200,
+      22
+     ],
+     "text": "activedialcolor 0.2902 0.2667 0.2392 1, activeneedlecolor 0.3686 0.3451 0.3137 1",
+     "numinlets": 2,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-390",
+     "maxclass": "message",
+     "patching_rect": [
+      3880,
+      1790,
+      200,
+      22
+     ],
+     "text": "activebgoncolor 0.4196 0.2902 0.1412 1, textcolor 0.3686 0.3451 0.3137 1",
+     "numinlets": 2,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-391",
+     "maxclass": "message",
+     "patching_rect": [
+      3920,
+      1820,
+      200,
+      22
+     ],
+     "text": "textcolor 0.9255 0.8941 0.8314 1, tricolor 0.949 0.6275 0.2275 1",
+     "numinlets": 2,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-392",
+     "maxclass": "message",
+     "patching_rect": [
+      3960,
+      1820,
+      200,
+      22
+     ],
+     "text": "activedialcolor 0.949 0.6275 0.2275 1, activeneedlecolor 0.9255 0.8941 0.8314 1",
+     "numinlets": 2,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-393",
+     "maxclass": "message",
+     "patching_rect": [
+      4000,
+      1820,
+      200,
+      22
+     ],
+     "text": "activebgoncolor 0.949 0.6275 0.2275 1, textcolor 0.6392 0.6039 0.549 1",
+     "numinlets": 2,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-394",
+     "maxclass": "newobj",
+     "patching_rect": [
+      4040,
+      1760,
+      50,
+      22
+     ],
+     "text": "sel 0 1",
+     "numinlets": 2,
+     "numoutlets": 3,
+     "outlettype": [
+      "bang",
+      "bang",
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-395",
+     "maxclass": "message",
+     "patching_rect": [
+      4080,
+      1790,
+      200,
+      22
+     ],
+     "text": "textcolor 0.3686 0.3451 0.3137 1, tricolor 0.3686 0.3451 0.3137 1",
+     "numinlets": 2,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-396",
+     "maxclass": "message",
+     "patching_rect": [
+      4120,
+      1790,
+      200,
+      22
+     ],
+     "text": "activebgoncolor 0.4196 0.2902 0.1412 1, textcolor 0.3686 0.3451 0.3137 1",
+     "numinlets": 2,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-397",
+     "maxclass": "message",
+     "patching_rect": [
+      4160,
+      1790,
+      200,
+      22
+     ],
+     "text": "activedialcolor 0.2902 0.2667 0.2392 1, activeneedlecolor 0.3686 0.3451 0.3137 1",
+     "numinlets": 2,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-398",
+     "maxclass": "message",
+     "patching_rect": [
+      4200,
+      1820,
+      200,
+      22
+     ],
+     "text": "textcolor 0.9255 0.8941 0.8314 1, tricolor 0.949 0.6275 0.2275 1",
+     "numinlets": 2,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-399",
+     "maxclass": "message",
+     "patching_rect": [
+      4240,
+      1820,
+      200,
+      22
+     ],
+     "text": "activebgoncolor 0.949 0.6275 0.2275 1, textcolor 0.6392 0.6039 0.549 1",
+     "numinlets": 2,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-400",
+     "maxclass": "message",
+     "patching_rect": [
+      4280,
+      1820,
+      200,
+      22
+     ],
+     "text": "activedialcolor 0.949 0.6275 0.2275 1, activeneedlecolor 0.9255 0.8941 0.8314 1",
+     "numinlets": 2,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-401",
+     "maxclass": "newobj",
+     "patching_rect": [
+      4320,
+      1700,
+      80,
+      22
+     ],
+     "text": "pak 0 0",
+     "numinlets": 2,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-402",
+     "maxclass": "newobj",
+     "patching_rect": [
+      4360,
+      1730,
+      200,
+      22
+     ],
+     "text": "expr $i1 && ($i2 != 0)",
+     "numinlets": 2,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-403",
+     "maxclass": "newobj",
+     "patching_rect": [
+      4400,
+      1760,
+      50,
+      22
+     ],
+     "text": "sel 0 1",
+     "numinlets": 2,
+     "numoutlets": 3,
+     "outlettype": [
+      "bang",
+      "bang",
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-404",
+     "maxclass": "message",
+     "patching_rect": [
+      4440,
+      1790,
+      200,
+      22
+     ],
+     "text": "activedialcolor 0.2902 0.2667 0.2392 1, activeneedlecolor 0.3686 0.3451 0.3137 1",
+     "numinlets": 2,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-405",
+     "maxclass": "message",
+     "patching_rect": [
+      4480,
+      1820,
+      200,
+      22
+     ],
+     "text": "activedialcolor 0.949 0.6275 0.2275 1, activeneedlecolor 0.9255 0.8941 0.8314 1",
+     "numinlets": 2,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-406",
+     "maxclass": "newobj",
+     "patching_rect": [
+      4520,
+      1700,
+      80,
+      22
+     ],
+     "text": "pak 0 0",
+     "numinlets": 2,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-407",
+     "maxclass": "newobj",
+     "patching_rect": [
+      4560,
+      1730,
+      200,
+      22
+     ],
+     "text": "expr $i1 && ($i2 != 2)",
+     "numinlets": 2,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-408",
+     "maxclass": "newobj",
+     "patching_rect": [
+      4600,
+      1760,
+      50,
+      22
+     ],
+     "text": "sel 0 1",
+     "numinlets": 2,
+     "numoutlets": 3,
+     "outlettype": [
+      "bang",
+      "bang",
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-409",
+     "maxclass": "message",
+     "patching_rect": [
+      4640,
+      1790,
+      200,
+      22
+     ],
+     "text": "activedialcolor 0.2902 0.2667 0.2392 1, activeneedlecolor 0.3686 0.3451 0.3137 1",
+     "numinlets": 2,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-410",
+     "maxclass": "message",
+     "patching_rect": [
+      4680,
+      1820,
+      200,
+      22
+     ],
+     "text": "activedialcolor 0.949 0.6275 0.2275 1, activeneedlecolor 0.9255 0.8941 0.8314 1",
+     "numinlets": 2,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-411",
+     "maxclass": "newobj",
+     "patching_rect": [
+      4720,
+      1700,
+      80,
+      22
+     ],
+     "text": "pak 0 0",
+     "numinlets": 2,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-412",
+     "maxclass": "newobj",
+     "patching_rect": [
+      4760,
+      1730,
+      200,
+      22
+     ],
+     "text": "expr $i1 && ($i2 == 0)",
+     "numinlets": 2,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-413",
+     "maxclass": "newobj",
+     "patching_rect": [
+      4800,
+      1760,
+      50,
+      22
+     ],
+     "text": "sel 0 1",
+     "numinlets": 2,
+     "numoutlets": 3,
+     "outlettype": [
+      "bang",
+      "bang",
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-414",
+     "maxclass": "message",
+     "patching_rect": [
+      4840,
+      1790,
+      200,
+      22
+     ],
+     "text": "activebgoncolor 0.4196 0.2902 0.1412 1, textcolor 0.3686 0.3451 0.3137 1",
+     "numinlets": 2,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-415",
+     "maxclass": "message",
+     "patching_rect": [
+      4880,
+      1820,
+      200,
+      22
+     ],
+     "text": "activebgoncolor 0.949 0.6275 0.2275 1, textcolor 0.6392 0.6039 0.549 1",
+     "numinlets": 2,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-416",
+     "maxclass": "newobj",
+     "patching_rect": [
+      4920,
+      1700,
+      80,
+      22
+     ],
+     "text": "pak 0",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-417",
+     "maxclass": "newobj",
+     "patching_rect": [
+      4960,
+      1730,
+      200,
+      22
+     ],
+     "text": "expr $i1 != 1",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-418",
+     "maxclass": "newobj",
+     "patching_rect": [
+      5000,
+      1760,
+      50,
+      22
+     ],
+     "text": "sel 0 1",
+     "numinlets": 2,
+     "numoutlets": 3,
+     "outlettype": [
+      "bang",
+      "bang",
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-419",
+     "maxclass": "message",
+     "patching_rect": [
+      5040,
+      1790,
+      200,
+      22
+     ],
+     "text": "activebgoncolor 0.4196 0.2902 0.1412 1, textcolor 0.3686 0.3451 0.3137 1",
+     "numinlets": 2,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-420",
+     "maxclass": "message",
+     "patching_rect": [
+      5080,
+      1820,
+      200,
+      22
+     ],
+     "text": "activebgoncolor 0.949 0.6275 0.2275 1, textcolor 0.6392 0.6039 0.549 1",
+     "numinlets": 2,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-421",
+     "maxclass": "newobj",
+     "patching_rect": [
+      5120,
+      1700,
+      80,
+      22
+     ],
+     "text": "pak 0",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-422",
+     "maxclass": "newobj",
+     "patching_rect": [
+      5160,
+      1730,
+      200,
+      22
+     ],
+     "text": "expr $i1 == 1",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-423",
+     "maxclass": "newobj",
+     "patching_rect": [
+      5200,
+      1760,
+      50,
+      22
+     ],
+     "text": "sel 0 1",
+     "numinlets": 2,
+     "numoutlets": 3,
+     "outlettype": [
+      "bang",
+      "bang",
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-424",
+     "maxclass": "message",
+     "patching_rect": [
+      5240,
+      1790,
+      200,
+      22
+     ],
+     "text": "activedialcolor 0.2902 0.2667 0.2392 1, activeneedlecolor 0.3686 0.3451 0.3137 1",
+     "numinlets": 2,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-425",
+     "maxclass": "message",
+     "patching_rect": [
+      5280,
+      1820,
+      200,
+      22
+     ],
+     "text": "activedialcolor 0.949 0.6275 0.2275 1, activeneedlecolor 0.9255 0.8941 0.8314 1",
+     "numinlets": 2,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-426",
+     "maxclass": "newobj",
+     "patching_rect": [
+      5320,
+      1700,
+      80,
+      22
+     ],
+     "text": "pak 0",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-427",
+     "maxclass": "newobj",
+     "patching_rect": [
+      5360,
+      1730,
+      200,
+      22
+     ],
+     "text": "expr $i1 != 0",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-428",
+     "maxclass": "newobj",
+     "patching_rect": [
+      5400,
+      1760,
+      50,
+      22
+     ],
+     "text": "sel 0 1",
+     "numinlets": 2,
+     "numoutlets": 3,
+     "outlettype": [
+      "bang",
+      "bang",
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-429",
+     "maxclass": "message",
+     "patching_rect": [
+      5440,
+      1790,
+      200,
+      22
+     ],
+     "text": "activedialcolor 0.2902 0.2667 0.2392 1, activeneedlecolor 0.3686 0.3451 0.3137 1",
+     "numinlets": 2,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-430",
+     "maxclass": "message",
+     "patching_rect": [
+      5480,
+      1820,
+      200,
+      22
+     ],
+     "text": "activedialcolor 0.949 0.6275 0.2275 1, activeneedlecolor 0.9255 0.8941 0.8314 1",
+     "numinlets": 2,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-431",
+     "maxclass": "newobj",
+     "patching_rect": [
+      5520,
+      1760,
+      50,
+      22
+     ],
+     "text": "sel 0 1",
+     "numinlets": 2,
+     "numoutlets": 3,
+     "outlettype": [
+      "bang",
+      "bang",
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-432",
+     "maxclass": "message",
+     "patching_rect": [
+      5560,
+      1790,
+      200,
+      22
+     ],
+     "text": "activedialcolor 0.2902 0.2667 0.2392 1, activeneedlecolor 0.3686 0.3451 0.3137 1",
+     "numinlets": 2,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-433",
+     "maxclass": "message",
+     "patching_rect": [
+      5600,
+      1790,
+      200,
+      22
+     ],
+     "text": "activebgoncolor 0.4196 0.2902 0.1412 1, activetextcolor 0.3686 0.3451 0.3137 1",
+     "numinlets": 2,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-434",
+     "maxclass": "message",
+     "patching_rect": [
+      5640,
+      1820,
+      200,
+      22
+     ],
+     "text": "activedialcolor 0.949 0.6275 0.2275 1, activeneedlecolor 0.9255 0.8941 0.8314 1",
+     "numinlets": 2,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-435",
+     "maxclass": "message",
+     "patching_rect": [
+      5680,
+      1820,
+      200,
+      22
+     ],
+     "text": "activebgoncolor 0.949 0.6275 0.2275 1, activetextcolor 0.6392 0.6039 0.549 1",
+     "numinlets": 2,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-436",
+     "maxclass": "newobj",
+     "patching_rect": [
+      5720,
+      1760,
+      50,
+      22
+     ],
+     "text": "sel 0 1",
+     "numinlets": 2,
+     "numoutlets": 3,
+     "outlettype": [
+      "bang",
+      "bang",
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-437",
+     "maxclass": "message",
+     "patching_rect": [
+      5760,
+      1790,
+      200,
+      22
+     ],
+     "text": "activedialcolor 0.2902 0.2667 0.2392 1, activeneedlecolor 0.3686 0.3451 0.3137 1",
+     "numinlets": 2,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-438",
+     "maxclass": "message",
+     "patching_rect": [
+      5800,
+      1790,
+      200,
+      22
+     ],
+     "text": "activebgoncolor 0.4196 0.2902 0.1412 1, textcolor 0.3686 0.3451 0.3137 1",
+     "numinlets": 2,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-439",
+     "maxclass": "message",
+     "patching_rect": [
+      5840,
+      1820,
+      200,
+      22
+     ],
+     "text": "activedialcolor 0.949 0.6275 0.2275 1, activeneedlecolor 0.9255 0.8941 0.8314 1",
+     "numinlets": 2,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-440",
+     "maxclass": "message",
+     "patching_rect": [
+      5880,
+      1820,
+      200,
+      22
+     ],
+     "text": "activebgoncolor 0.949 0.6275 0.2275 1, textcolor 0.6392 0.6039 0.549 1",
+     "numinlets": 2,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-441",
+     "maxclass": "newobj",
+     "patching_rect": [
+      5920,
+      1760,
+      50,
+      22
+     ],
+     "text": "sel 0 1",
+     "numinlets": 2,
+     "numoutlets": 3,
+     "outlettype": [
+      "bang",
+      "bang",
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-442",
+     "maxclass": "message",
+     "patching_rect": [
+      5960,
+      1790,
+      200,
+      22
+     ],
+     "text": "activedialcolor 0.2902 0.2667 0.2392 1, activeneedlecolor 0.3686 0.3451 0.3137 1",
+     "numinlets": 2,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-443",
+     "maxclass": "message",
+     "patching_rect": [
+      6000,
+      1790,
+      200,
+      22
+     ],
+     "text": "textcolor 0.3686 0.3451 0.3137 1, tricolor 0.3686 0.3451 0.3137 1",
+     "numinlets": 2,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-444",
+     "maxclass": "message",
+     "patching_rect": [
+      6040,
+      1790,
+      200,
+      22
+     ],
+     "text": "activebgoncolor 0.4196 0.2902 0.1412 1, textcolor 0.3686 0.3451 0.3137 1",
+     "numinlets": 2,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-445",
+     "maxclass": "message",
+     "patching_rect": [
+      6080,
+      1790,
+      200,
+      22
+     ],
+     "text": "activebgoncolor 0.4196 0.2902 0.1412 1, activetextcolor 0.3686 0.3451 0.3137 1",
+     "numinlets": 2,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-446",
+     "maxclass": "message",
+     "patching_rect": [
+      6120,
+      1820,
+      200,
+      22
+     ],
+     "text": "activedialcolor 0.949 0.6275 0.2275 1, activeneedlecolor 0.9255 0.8941 0.8314 1",
+     "numinlets": 2,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-447",
+     "maxclass": "message",
+     "patching_rect": [
+      6160,
+      1820,
+      200,
+      22
+     ],
+     "text": "textcolor 0.9255 0.8941 0.8314 1, tricolor 0.949 0.6275 0.2275 1",
+     "numinlets": 2,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-448",
+     "maxclass": "message",
+     "patching_rect": [
+      6200,
+      1820,
+      200,
+      22
+     ],
+     "text": "activebgoncolor 0.949 0.6275 0.2275 1, textcolor 0.6392 0.6039 0.549 1",
+     "numinlets": 2,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-449",
+     "maxclass": "message",
+     "patching_rect": [
+      6240,
+      1820,
+      200,
+      22
+     ],
+     "text": "activebgoncolor 0.949 0.6275 0.2275 1, activetextcolor 0.6392 0.6039 0.549 1",
+     "numinlets": 2,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-450",
+     "maxclass": "newobj",
+     "patching_rect": [
+      6280,
+      1760,
+      50,
+      22
+     ],
+     "text": "sel 0 1",
+     "numinlets": 2,
+     "numoutlets": 3,
+     "outlettype": [
+      "bang",
+      "bang",
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-451",
+     "maxclass": "message",
+     "patching_rect": [
+      6320,
+      1790,
+      200,
+      22
+     ],
+     "text": "activedialcolor 0.2902 0.2667 0.2392 1, activeneedlecolor 0.3686 0.3451 0.3137 1",
+     "numinlets": 2,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-452",
+     "maxclass": "message",
+     "patching_rect": [
+      6360,
+      1790,
+      200,
+      22
+     ],
+     "text": "activebgoncolor 0.4196 0.2902 0.1412 1, textcolor 0.3686 0.3451 0.3137 1",
+     "numinlets": 2,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-453",
+     "maxclass": "message",
+     "patching_rect": [
+      6400,
+      1820,
+      200,
+      22
+     ],
+     "text": "activedialcolor 0.949 0.6275 0.2275 1, activeneedlecolor 0.9255 0.8941 0.8314 1",
+     "numinlets": 2,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-454",
+     "maxclass": "message",
+     "patching_rect": [
+      6440,
+      1820,
+      200,
+      22
+     ],
+     "text": "activebgoncolor 0.949 0.6275 0.2275 1, textcolor 0.6392 0.6039 0.549 1",
+     "numinlets": 2,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
     }
    }
   ],
@@ -18759,6 +21891,2790 @@
      ],
      "destination": [
       "obj-345",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-143",
+      0
+     ],
+     "destination": [
+      "obj-367",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-367",
+      0
+     ],
+     "destination": [
+      "obj-143",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-143",
+      0
+     ],
+     "destination": [
+      "obj-368",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-368",
+      0
+     ],
+     "destination": [
+      "obj-143",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-143",
+      0
+     ],
+     "destination": [
+      "obj-369",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-369",
+      0
+     ],
+     "destination": [
+      "obj-143",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-327",
+      0
+     ],
+     "destination": [
+      "obj-371",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-371",
+      0
+     ],
+     "destination": [
+      "obj-370",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-81",
+      0
+     ],
+     "destination": [
+      "obj-372",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-372",
+      0
+     ],
+     "destination": [
+      "obj-370",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-116",
+      0
+     ],
+     "destination": [
+      "obj-373",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-373",
+      0
+     ],
+     "destination": [
+      "obj-370",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-10",
+      0
+     ],
+     "destination": [
+      "obj-374",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-374",
+      0
+     ],
+     "destination": [
+      "obj-370",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-46",
+      0
+     ],
+     "destination": [
+      "obj-375",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-375",
+      0
+     ],
+     "destination": [
+      "obj-370",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-94",
+      0
+     ],
+     "destination": [
+      "obj-376",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-376",
+      0
+     ],
+     "destination": [
+      "obj-370",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-98",
+      0
+     ],
+     "destination": [
+      "obj-378",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-378",
+      0
+     ],
+     "destination": [
+      "obj-377",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-94",
+      0
+     ],
+     "destination": [
+      "obj-379",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-379",
+      0
+     ],
+     "destination": [
+      "obj-377",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-10",
+      0
+     ],
+     "destination": [
+      "obj-380",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-380",
+      0
+     ],
+     "destination": [
+      "obj-381",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-381",
+      0
+     ],
+     "destination": [
+      "obj-12",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-380",
+      0
+     ],
+     "destination": [
+      "obj-382",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-382",
+      0
+     ],
+     "destination": [
+      "obj-14",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-382",
+      0
+     ],
+     "destination": [
+      "obj-17",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-382",
+      0
+     ],
+     "destination": [
+      "obj-19",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-382",
+      0
+     ],
+     "destination": [
+      "obj-21",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-382",
+      0
+     ],
+     "destination": [
+      "obj-23",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-380",
+      0
+     ],
+     "destination": [
+      "obj-383",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-383",
+      0
+     ],
+     "destination": [
+      "obj-27",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-380",
+      1
+     ],
+     "destination": [
+      "obj-384",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-384",
+      0
+     ],
+     "destination": [
+      "obj-12",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-380",
+      1
+     ],
+     "destination": [
+      "obj-385",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-385",
+      0
+     ],
+     "destination": [
+      "obj-14",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-385",
+      0
+     ],
+     "destination": [
+      "obj-17",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-385",
+      0
+     ],
+     "destination": [
+      "obj-19",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-385",
+      0
+     ],
+     "destination": [
+      "obj-21",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-385",
+      0
+     ],
+     "destination": [
+      "obj-23",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-380",
+      1
+     ],
+     "destination": [
+      "obj-386",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-386",
+      0
+     ],
+     "destination": [
+      "obj-27",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-46",
+      0
+     ],
+     "destination": [
+      "obj-387",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-387",
+      0
+     ],
+     "destination": [
+      "obj-388",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-388",
+      0
+     ],
+     "destination": [
+      "obj-48",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-387",
+      0
+     ],
+     "destination": [
+      "obj-389",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-389",
+      0
+     ],
+     "destination": [
+      "obj-50",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-389",
+      0
+     ],
+     "destination": [
+      "obj-53",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-389",
+      0
+     ],
+     "destination": [
+      "obj-55",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-389",
+      0
+     ],
+     "destination": [
+      "obj-57",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-389",
+      0
+     ],
+     "destination": [
+      "obj-59",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-387",
+      0
+     ],
+     "destination": [
+      "obj-390",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-390",
+      0
+     ],
+     "destination": [
+      "obj-63",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-387",
+      1
+     ],
+     "destination": [
+      "obj-391",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-391",
+      0
+     ],
+     "destination": [
+      "obj-48",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-387",
+      1
+     ],
+     "destination": [
+      "obj-392",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-392",
+      0
+     ],
+     "destination": [
+      "obj-50",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-392",
+      0
+     ],
+     "destination": [
+      "obj-53",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-392",
+      0
+     ],
+     "destination": [
+      "obj-55",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-392",
+      0
+     ],
+     "destination": [
+      "obj-57",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-392",
+      0
+     ],
+     "destination": [
+      "obj-59",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-387",
+      1
+     ],
+     "destination": [
+      "obj-393",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-393",
+      0
+     ],
+     "destination": [
+      "obj-63",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-94",
+      0
+     ],
+     "destination": [
+      "obj-394",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-394",
+      0
+     ],
+     "destination": [
+      "obj-395",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-395",
+      0
+     ],
+     "destination": [
+      "obj-96",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-394",
+      0
+     ],
+     "destination": [
+      "obj-396",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-396",
+      0
+     ],
+     "destination": [
+      "obj-98",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-394",
+      0
+     ],
+     "destination": [
+      "obj-397",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-397",
+      0
+     ],
+     "destination": [
+      "obj-100",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-397",
+      0
+     ],
+     "destination": [
+      "obj-107",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-397",
+      0
+     ],
+     "destination": [
+      "obj-109",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-397",
+      0
+     ],
+     "destination": [
+      "obj-113",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-394",
+      1
+     ],
+     "destination": [
+      "obj-398",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-398",
+      0
+     ],
+     "destination": [
+      "obj-96",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-394",
+      1
+     ],
+     "destination": [
+      "obj-399",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-399",
+      0
+     ],
+     "destination": [
+      "obj-98",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-394",
+      1
+     ],
+     "destination": [
+      "obj-400",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-400",
+      0
+     ],
+     "destination": [
+      "obj-100",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-400",
+      0
+     ],
+     "destination": [
+      "obj-107",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-400",
+      0
+     ],
+     "destination": [
+      "obj-109",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-400",
+      0
+     ],
+     "destination": [
+      "obj-113",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-94",
+      0
+     ],
+     "destination": [
+      "obj-401",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-98",
+      0
+     ],
+     "destination": [
+      "obj-401",
+      1
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-401",
+      0
+     ],
+     "destination": [
+      "obj-402",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-402",
+      0
+     ],
+     "destination": [
+      "obj-403",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-403",
+      0
+     ],
+     "destination": [
+      "obj-404",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-404",
+      0
+     ],
+     "destination": [
+      "obj-103",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-403",
+      1
+     ],
+     "destination": [
+      "obj-405",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-405",
+      0
+     ],
+     "destination": [
+      "obj-103",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-94",
+      0
+     ],
+     "destination": [
+      "obj-406",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-98",
+      0
+     ],
+     "destination": [
+      "obj-406",
+      1
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-406",
+      0
+     ],
+     "destination": [
+      "obj-407",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-407",
+      0
+     ],
+     "destination": [
+      "obj-408",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-408",
+      0
+     ],
+     "destination": [
+      "obj-409",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-409",
+      0
+     ],
+     "destination": [
+      "obj-105",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-409",
+      0
+     ],
+     "destination": [
+      "obj-111",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-408",
+      1
+     ],
+     "destination": [
+      "obj-410",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-410",
+      0
+     ],
+     "destination": [
+      "obj-105",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-410",
+      0
+     ],
+     "destination": [
+      "obj-111",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-94",
+      0
+     ],
+     "destination": [
+      "obj-411",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-327",
+      0
+     ],
+     "destination": [
+      "obj-411",
+      1
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-411",
+      0
+     ],
+     "destination": [
+      "obj-412",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-412",
+      0
+     ],
+     "destination": [
+      "obj-413",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-413",
+      0
+     ],
+     "destination": [
+      "obj-414",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-414",
+      0
+     ],
+     "destination": [
+      "obj-116",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-413",
+      1
+     ],
+     "destination": [
+      "obj-415",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-415",
+      0
+     ],
+     "destination": [
+      "obj-116",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-327",
+      0
+     ],
+     "destination": [
+      "obj-416",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-416",
+      0
+     ],
+     "destination": [
+      "obj-417",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-417",
+      0
+     ],
+     "destination": [
+      "obj-418",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-418",
+      0
+     ],
+     "destination": [
+      "obj-419",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-419",
+      0
+     ],
+     "destination": [
+      "obj-81",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-418",
+      1
+     ],
+     "destination": [
+      "obj-420",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-420",
+      0
+     ],
+     "destination": [
+      "obj-81",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-327",
+      0
+     ],
+     "destination": [
+      "obj-421",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-421",
+      0
+     ],
+     "destination": [
+      "obj-422",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-422",
+      0
+     ],
+     "destination": [
+      "obj-423",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-423",
+      0
+     ],
+     "destination": [
+      "obj-424",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-424",
+      0
+     ],
+     "destination": [
+      "obj-341",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-424",
+      0
+     ],
+     "destination": [
+      "obj-343",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-423",
+      1
+     ],
+     "destination": [
+      "obj-425",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-425",
+      0
+     ],
+     "destination": [
+      "obj-341",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-425",
+      0
+     ],
+     "destination": [
+      "obj-343",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-327",
+      0
+     ],
+     "destination": [
+      "obj-426",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-426",
+      0
+     ],
+     "destination": [
+      "obj-427",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-427",
+      0
+     ],
+     "destination": [
+      "obj-428",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-428",
+      0
+     ],
+     "destination": [
+      "obj-429",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-429",
+      0
+     ],
+     "destination": [
+      "obj-345",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-428",
+      1
+     ],
+     "destination": [
+      "obj-430",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-430",
+      0
+     ],
+     "destination": [
+      "obj-345",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-165",
+      0
+     ],
+     "destination": [
+      "obj-431",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-431",
+      0
+     ],
+     "destination": [
+      "obj-432",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-432",
+      0
+     ],
+     "destination": [
+      "obj-237",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-432",
+      0
+     ],
+     "destination": [
+      "obj-239",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-432",
+      0
+     ],
+     "destination": [
+      "obj-241",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-432",
+      0
+     ],
+     "destination": [
+      "obj-243",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-432",
+      0
+     ],
+     "destination": [
+      "obj-245",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-432",
+      0
+     ],
+     "destination": [
+      "obj-247",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-431",
+      0
+     ],
+     "destination": [
+      "obj-433",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-433",
+      0
+     ],
+     "destination": [
+      "obj-249",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-431",
+      1
+     ],
+     "destination": [
+      "obj-434",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-434",
+      0
+     ],
+     "destination": [
+      "obj-237",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-434",
+      0
+     ],
+     "destination": [
+      "obj-239",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-434",
+      0
+     ],
+     "destination": [
+      "obj-241",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-434",
+      0
+     ],
+     "destination": [
+      "obj-243",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-434",
+      0
+     ],
+     "destination": [
+      "obj-245",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-434",
+      0
+     ],
+     "destination": [
+      "obj-247",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-431",
+      1
+     ],
+     "destination": [
+      "obj-435",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-435",
+      0
+     ],
+     "destination": [
+      "obj-249",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-174",
+      0
+     ],
+     "destination": [
+      "obj-436",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-436",
+      0
+     ],
+     "destination": [
+      "obj-437",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-437",
+      0
+     ],
+     "destination": [
+      "obj-252",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-437",
+      0
+     ],
+     "destination": [
+      "obj-254",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-437",
+      0
+     ],
+     "destination": [
+      "obj-256",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-437",
+      0
+     ],
+     "destination": [
+      "obj-258",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-437",
+      0
+     ],
+     "destination": [
+      "obj-260",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-437",
+      0
+     ],
+     "destination": [
+      "obj-262",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-437",
+      0
+     ],
+     "destination": [
+      "obj-264",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-436",
+      0
+     ],
+     "destination": [
+      "obj-438",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-438",
+      0
+     ],
+     "destination": [
+      "obj-266",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-438",
+      0
+     ],
+     "destination": [
+      "obj-269",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-436",
+      1
+     ],
+     "destination": [
+      "obj-439",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-439",
+      0
+     ],
+     "destination": [
+      "obj-252",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-439",
+      0
+     ],
+     "destination": [
+      "obj-254",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-439",
+      0
+     ],
+     "destination": [
+      "obj-256",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-439",
+      0
+     ],
+     "destination": [
+      "obj-258",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-439",
+      0
+     ],
+     "destination": [
+      "obj-260",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-439",
+      0
+     ],
+     "destination": [
+      "obj-262",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-439",
+      0
+     ],
+     "destination": [
+      "obj-264",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-436",
+      1
+     ],
+     "destination": [
+      "obj-440",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-440",
+      0
+     ],
+     "destination": [
+      "obj-266",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-440",
+      0
+     ],
+     "destination": [
+      "obj-269",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-188",
+      0
+     ],
+     "destination": [
+      "obj-441",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-441",
+      0
+     ],
+     "destination": [
+      "obj-442",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-442",
+      0
+     ],
+     "destination": [
+      "obj-272",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-442",
+      0
+     ],
+     "destination": [
+      "obj-274",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-442",
+      0
+     ],
+     "destination": [
+      "obj-276",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-442",
+      0
+     ],
+     "destination": [
+      "obj-278",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-442",
+      0
+     ],
+     "destination": [
+      "obj-280",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-442",
+      0
+     ],
+     "destination": [
+      "obj-282",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-442",
+      0
+     ],
+     "destination": [
+      "obj-284",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-441",
+      0
+     ],
+     "destination": [
+      "obj-443",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-443",
+      0
+     ],
+     "destination": [
+      "obj-286",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-443",
+      0
+     ],
+     "destination": [
+      "obj-288",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-441",
+      0
+     ],
+     "destination": [
+      "obj-444",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-444",
+      0
+     ],
+     "destination": [
+      "obj-290",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-444",
+      0
+     ],
+     "destination": [
+      "obj-292",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-444",
+      0
+     ],
+     "destination": [
+      "obj-294",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-444",
+      0
+     ],
+     "destination": [
+      "obj-298",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-441",
+      0
+     ],
+     "destination": [
+      "obj-445",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-445",
+      0
+     ],
+     "destination": [
+      "obj-296",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-441",
+      1
+     ],
+     "destination": [
+      "obj-446",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-446",
+      0
+     ],
+     "destination": [
+      "obj-272",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-446",
+      0
+     ],
+     "destination": [
+      "obj-274",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-446",
+      0
+     ],
+     "destination": [
+      "obj-276",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-446",
+      0
+     ],
+     "destination": [
+      "obj-278",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-446",
+      0
+     ],
+     "destination": [
+      "obj-280",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-446",
+      0
+     ],
+     "destination": [
+      "obj-282",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-446",
+      0
+     ],
+     "destination": [
+      "obj-284",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-441",
+      1
+     ],
+     "destination": [
+      "obj-447",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-447",
+      0
+     ],
+     "destination": [
+      "obj-286",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-447",
+      0
+     ],
+     "destination": [
+      "obj-288",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-441",
+      1
+     ],
+     "destination": [
+      "obj-448",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-448",
+      0
+     ],
+     "destination": [
+      "obj-290",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-448",
+      0
+     ],
+     "destination": [
+      "obj-292",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-448",
+      0
+     ],
+     "destination": [
+      "obj-294",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-448",
+      0
+     ],
+     "destination": [
+      "obj-298",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-441",
+      1
+     ],
+     "destination": [
+      "obj-449",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-449",
+      0
+     ],
+     "destination": [
+      "obj-296",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-201",
+      0
+     ],
+     "destination": [
+      "obj-450",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-450",
+      0
+     ],
+     "destination": [
+      "obj-451",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-451",
+      0
+     ],
+     "destination": [
+      "obj-300",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-451",
+      0
+     ],
+     "destination": [
+      "obj-302",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-451",
+      0
+     ],
+     "destination": [
+      "obj-304",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-451",
+      0
+     ],
+     "destination": [
+      "obj-306",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-451",
+      0
+     ],
+     "destination": [
+      "obj-308",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-451",
+      0
+     ],
+     "destination": [
+      "obj-310",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-451",
+      0
+     ],
+     "destination": [
+      "obj-312",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-450",
+      0
+     ],
+     "destination": [
+      "obj-452",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-452",
+      0
+     ],
+     "destination": [
+      "obj-315",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-450",
+      1
+     ],
+     "destination": [
+      "obj-453",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-453",
+      0
+     ],
+     "destination": [
+      "obj-300",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-453",
+      0
+     ],
+     "destination": [
+      "obj-302",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-453",
+      0
+     ],
+     "destination": [
+      "obj-304",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-453",
+      0
+     ],
+     "destination": [
+      "obj-306",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-453",
+      0
+     ],
+     "destination": [
+      "obj-308",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-453",
+      0
+     ],
+     "destination": [
+      "obj-310",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-453",
+      0
+     ],
+     "destination": [
+      "obj-312",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-450",
+      1
+     ],
+     "destination": [
+      "obj-454",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-454",
+      0
+     ],
+     "destination": [
+      "obj-315",
       0
      ]
     }

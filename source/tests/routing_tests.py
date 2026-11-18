@@ -25,7 +25,7 @@ def run_all(record, plt, OUT, SEQ, CAT, GRID, sig):
         r = subprocess.run([sys.executable, os.path.join(HERE, "golden.py")] + args, capture_output=True, text=True)
         record(f"REGRESSION v1.4: SERIES routing bit-exact — {name}", r.returncode == 0, r.stdout.strip())
     for b in ("v1.1", "v1.2", "v1.3"):
-        r = subprocess.run([sys.executable, os.path.join(HERE, "compat.py"), f"--base=DubFilter_{b}.maxpat"], capture_output=True, text=True)
+        r = subprocess.run([sys.executable, os.path.join(HERE, "compat.py"), "--ui", f"--base=DubFilter_{b}.maxpat"], capture_output=True, text=True)
         lines = r.stdout.strip().splitlines()
         record(f"REGRESSION v1.4: {b} presets/automation/MIDI maps intact", r.returncode == 0, lines[-1] + " — " + lines[0])
 

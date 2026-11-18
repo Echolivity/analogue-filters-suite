@@ -1,5 +1,21 @@
 # Changelog
 
+## v1.5 — premium analogue UI (presentation only)
+
+- New design system: one amber accent on a charcoal/graphite chassis, metallic hairlines, header bands and consistent dial, button and segment sizes (`source/device/ui_theme.py`).
+- Hybrid UI: native live.* controls remain the only parameters. Three jsui/mgraphics components are added:
+  - illuminated suggested-order buttons, tied to Chain Order (a v1.3 bug made them latch independently)
+  - a routing diagram drawn from the engine's real topology
+  - a BPF architecture glyph
+- Availability colouring: controls that are bypassed, or not read by the current configuration, are dimmed but stay editable. There are 13 rules, each checked against the DSP source.
+- The processing chain has four modules with identical anatomy, including GATE. The centre strip is split into ROUTING and PROCESSING. Routing is now a horizontal selector with a diagram.
+- Info View text for every control.
+- Tests:
+  - `compat.py --ui`: presentation-only compatibility; the gen~ code must be byte-identical to v1.4
+  - `tests/ui_tests.py`: 47 checks
+  - `tools/jsui_sim.js`
+- DSP, parameters, automation, MIDI and presets are unchanged. Not yet validated in Max or Live: see docs/UI_VALIDATION.md.
+
 ## v1.4: filter routing
 - **New:** Filter Routing SERIES / PARALLEL / HYBRID for the LPF, HPF and BPF, plus three parallel level controls and a live signal-flow readout. 4 new Live parameters; the default is SERIES.
 - **New UI:** a FILTER ROUTING strip at the right edge (device width 1774 → 1948). No existing object moved.

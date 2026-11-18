@@ -2849,39 +2849,39 @@
   {
    "name": "CPU benchmark (transpiled C, gcc -O2, this machine)",
    "passed": true,
-   "detail": "Both stages off (pass-through): 3.79%; Default device (Ladder LPF 24 dB + K35 HPF), 1x: 4.62%; Diode LPF 48 dB + Sherman HPF 48 dB, 1x: 5.74%; Default device, 2x oversampling: 5.53%; Worst case: Diode+Sherman 48 dB, 2x, both mid-crossfade: 8.81%",
+   "detail": "Both stages off (pass-through): 3.72%; Default device (Ladder LPF 24 dB + K35 HPF), 1x: 4.44%; Diode LPF 48 dB + Sherman HPF 48 dB, 1x: 5.69%; Default device, 2x oversampling: 5.45%; Worst case: Diode+Sherman 48 dB, 2x, both mid-crossfade: 8.71%",
    "rows": [
     {
      "config": "Both stages off (pass-through)",
-     "ns_per_frame": 788.6,
-     "pct_of_one_core_48k": 3.79
+     "ns_per_frame": 775.0,
+     "pct_of_one_core_48k": 3.72
     },
     {
      "config": "Default device (Ladder LPF 24 dB + K35 HPF), 1x",
-     "ns_per_frame": 961.7,
-     "pct_of_one_core_48k": 4.62
+     "ns_per_frame": 924.0,
+     "pct_of_one_core_48k": 4.44
     },
     {
      "config": "Diode LPF 48 dB + Sherman HPF 48 dB, 1x",
-     "ns_per_frame": 1195.6,
-     "pct_of_one_core_48k": 5.74
+     "ns_per_frame": 1185.3,
+     "pct_of_one_core_48k": 5.69
     },
     {
      "config": "Default device, 2x oversampling",
-     "ns_per_frame": 1152.2,
-     "pct_of_one_core_48k": 5.53
+     "ns_per_frame": 1135.3,
+     "pct_of_one_core_48k": 5.45
     },
     {
      "config": "Worst case: Diode+Sherman 48 dB, 2x, both mid-crossfade",
-     "ns_per_frame": 1834.4,
-     "pct_of_one_core_48k": 8.81
+     "ns_per_frame": 1814.5,
+     "pct_of_one_core_48k": 8.71
     }
    ]
   },
   {
    "name": "Denormals: decay tails flush to zero; silence costs no more than signal",
    "passed": true,
-   "detail": "silence/signal CPU ratio 0.82"
+   "detail": "silence/signal CPU ratio 0.85"
   },
   {
    "name": "DC offset at output with asymmetric saturation (drive 100%, hot input)",
@@ -4221,32 +4221,32 @@
   {
    "name": "CPU with BPF (transpiled C, gcc -O2, this machine)",
    "passed": true,
-   "detail": "v1.1 default device (LPF+HPF), BPF off: 4.89%; + BPF SVF: 5.01%; + BPF CASCADE: 5.37%; + BPF MULTIMODE (ARP): 5.71%; worst: all three, 48 dB slopes, 2x, BPF mid-crossfade: 10.69%",
+   "detail": "v1.1 default device (LPF+HPF), BPF off: 4.66%; + BPF SVF: 4.9%; + BPF CASCADE: 5.21%; + BPF MULTIMODE (ARP): 5.77%; worst: all three, 48 dB slopes, 2x, BPF mid-crossfade: 10.97%",
    "rows": [
     {
      "config": "v1.1 default device (LPF+HPF), BPF off",
-     "ns_per_frame": 1018.0,
-     "pct_of_one_core_48k": 4.89
+     "ns_per_frame": 970.1,
+     "pct_of_one_core_48k": 4.66
     },
     {
      "config": "+ BPF SVF",
-     "ns_per_frame": 1044.7,
-     "pct_of_one_core_48k": 5.01
+     "ns_per_frame": 1020.3,
+     "pct_of_one_core_48k": 4.9
     },
     {
      "config": "+ BPF CASCADE",
-     "ns_per_frame": 1119.4,
-     "pct_of_one_core_48k": 5.37
+     "ns_per_frame": 1085.3,
+     "pct_of_one_core_48k": 5.21
     },
     {
      "config": "+ BPF MULTIMODE (ARP)",
-     "ns_per_frame": 1190.6,
-     "pct_of_one_core_48k": 5.71
+     "ns_per_frame": 1202.2,
+     "pct_of_one_core_48k": 5.77
     },
     {
      "config": "worst: all three, 48 dB slopes, 2x, BPF mid-crossfade",
-     "ns_per_frame": 2227.7,
-     "pct_of_one_core_48k": 10.69
+     "ns_per_frame": 2285.9,
+     "pct_of_one_core_48k": 10.97
     }
    ]
   },
@@ -4916,37 +4916,37 @@
   {
    "name": "CPU with the dynamics chain (transpiled C, gcc -O2, this machine)",
    "passed": true,
-   "detail": "v1.2 device, dynamics off: 4.56%; + TUBE: 5.54%; + OPTO: 5.53%; + VCA: 5.86%; + all three + gate: 6.48%; worst: LPF+HPF+BPF 2x + all dynamics, reordering every 20 ms: 12.84%",
+   "detail": "v1.2 device, dynamics off: 4.51%; + TUBE: 5.63%; + OPTO: 5.7%; + VCA: 5.45%; + all three + gate: 6.42%; worst: LPF+HPF+BPF 2x + all dynamics, reordering every 20 ms: 12.65%",
    "rows": [
     {
      "config": "v1.2 device, dynamics off",
-     "ns_per_frame": 950.5,
-     "pct_of_one_core_48k": 4.56
+     "ns_per_frame": 940.6,
+     "pct_of_one_core_48k": 4.51
     },
     {
      "config": "+ TUBE",
-     "ns_per_frame": 1155.1,
-     "pct_of_one_core_48k": 5.54
+     "ns_per_frame": 1173.2,
+     "pct_of_one_core_48k": 5.63
     },
     {
      "config": "+ OPTO",
-     "ns_per_frame": 1151.7,
-     "pct_of_one_core_48k": 5.53
+     "ns_per_frame": 1186.5,
+     "pct_of_one_core_48k": 5.7
     },
     {
      "config": "+ VCA",
-     "ns_per_frame": 1221.0,
-     "pct_of_one_core_48k": 5.86
+     "ns_per_frame": 1134.9,
+     "pct_of_one_core_48k": 5.45
     },
     {
      "config": "+ all three + gate",
-     "ns_per_frame": 1350.8,
-     "pct_of_one_core_48k": 6.48
+     "ns_per_frame": 1337.3,
+     "pct_of_one_core_48k": 6.42
     },
     {
      "config": "worst: LPF+HPF+BPF 2x + all dynamics, reordering every 20 ms",
-     "ns_per_frame": 2674.8,
-     "pct_of_one_core_48k": 12.84
+     "ns_per_frame": 2635.3,
+     "pct_of_one_core_48k": 12.65
     }
    ]
   },
@@ -5147,19 +5147,19 @@
   {
    "name": "CPU by routing mode (LPF + HPF + BPF on)",
    "passed": true,
-   "detail": "LPF + HPF + BPF, SERIES: 5.22%; LPF + HPF + BPF, PARALLEL: 5.16%; LPF + HPF + BPF, HYBRID: 5.19%",
+   "detail": "LPF + HPF + BPF, SERIES: 5.11%; LPF + HPF + BPF, PARALLEL: 5.14%; LPF + HPF + BPF, HYBRID: 5.16%",
    "rows": [
     {
      "config": "LPF + HPF + BPF, SERIES",
-     "pct_of_one_core_48k": 5.22
+     "pct_of_one_core_48k": 5.11
     },
     {
      "config": "LPF + HPF + BPF, PARALLEL",
-     "pct_of_one_core_48k": 5.16
+     "pct_of_one_core_48k": 5.14
     },
     {
      "config": "LPF + HPF + BPF, HYBRID",
-     "pct_of_one_core_48k": 5.19
+     "pct_of_one_core_48k": 5.16
     }
    ]
   },
@@ -5172,6 +5172,6 @@
  "summary": {
   "total": 95,
   "passed": 95,
-  "seconds": 213.4
+  "seconds": 221.9
  }
 }

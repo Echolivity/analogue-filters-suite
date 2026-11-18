@@ -12,6 +12,9 @@ A performance filter for dub mixing in the Ariwa tradition: big resonant low-pas
 | `DubFilter.amxd` | The device. Drag onto an audio track. |
 | `DubFilter.maxpat` | Editable Max patch (identical content). |
 | `docs/INSTALL.md` | Installation, plus a fallback procedure if the .amxd will not load. |
+| `df_button.js`, `df_routing.js`, `df_arch.js` | v1.5 jsui components. Keep them next to the .amxd, or use Freeze Device in Max to embed them. |
+| `docs/UI.md` | v1.5 UI architecture, design system, availability rules, full parameter-to-control mapping. |
+| `docs/UI_VALIDATION.md` | v1.5 UI checks (47 offline) and the Max/Live checklist still to run. |
 | `docs/ROUTING.md` | v1.4 filter routing: SERIES / PARALLEL / HYBRID, parallel levels, how the sum works. |
 | `docs/CHAIN.md` | v1.3 processing chain: modules, reordering, detector sourcing, gain staging, latency, limitations. |
 | `docs/BPF.md` | v1.2 band-pass engine: architectures, models, native/derived matrix, sources. |
@@ -39,6 +42,6 @@ A performance filter for dub mixing in the Ariwa tradition: big resonant low-pas
 - **MS-20 rig:** both stages on K35, Order HP>LP, resonance up on both. Narrow the band and sweep.
 
 ## Status
-The DSP was validated offline by running the exact gen~ code: 95 of 95 checks pass. They include bit-exact regression of the v1.1 LPF/HPF, v1.2 BPF and v1.3 dynamics engines, exact parallel/hybrid filter sums, all six chain orders and all 30 live reorders, and sidechain and gate behaviour (see VALIDATION.md). The chain UI's drag/move/page logic is verified statically, not yet run in Max. The device file itself has **not yet been opened in Max or Live**. Please run the short manual checklist at the end of VALIDATION.md on first use.
+The DSP was validated offline by running the exact gen~ code: 95 of 95 checks pass. They include bit-exact regression of the v1.1 LPF/HPF, v1.2 BPF and v1.3 dynamics engines, exact parallel/hybrid filter sums, all six chain orders and all 30 live reorders, and sidechain and gate behaviour (see VALIDATION.md). The chain UI's drag/move/page logic is verified statically, not yet run in Max. The device file itself has **not yet been opened in Max or Live**. Please run the short manual checklist at the end of VALIDATION.md on first use. v1.5 changed only the interface: the gen~ code is byte-identical to v1.4. Its 47 offline UI checks pass, and its Max/Live checklist is in UI_VALIDATION.md.
 
 The models are inspired by the named instruments. They are not affiliated with, endorsed by, or claimed to be equivalent to products of Sherman, Korg, Moog, Steiner-Parker, Oberheim, Roland, ARP, EMS, Teletronix/Universal Audio or API.

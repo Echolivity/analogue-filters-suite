@@ -8,15 +8,19 @@ ROOT = os.path.join(HERE, "..")
 CODE = open(os.path.join(ROOT, "build", "dubfilter.genexpr")).read()
 
 W, H = 700, 169
-# ---- palette (RGBA 0..1) ----
-BG = [0.086, 0.082, 0.078, 1.0]        # near-black chassis
-PANEL = [0.133, 0.125, 0.118, 1.0]     # charcoal section plates
-STRIP = [0.110, 0.104, 0.098, 1.0]
-AMBER = [0.961, 0.627, 0.200, 1.0]     # LPF accent
-COPPER = [0.906, 0.400, 0.176, 1.0]    # HPF accent
-CREAM = [0.925, 0.886, 0.800, 1.0]
-MUTED = [0.580, 0.553, 0.506, 1.0]
-DIM = [0.240, 0.226, 0.212, 1.0]
+# ---- palette: v1.5 design system (device/ui_theme.py). The old names are kept as
+# aliases so the section code below reads as before; every section now shares one
+# accent (amber = ON / selected / value) instead of a colour per section.
+sys.path.insert(0, HERE)
+import ui_theme as T
+BG = T.CHASSIS
+PANEL = T.PLATE
+STRIP = T.PLATE
+AMBER = T.AMBER
+COPPER = T.AMBER
+CREAM = T.TEXT
+MUTED = T.LABEL
+DIM = T.BEVEL
 
 boxes, lines = [], []
 _n = [0]
@@ -120,8 +124,9 @@ def dial(gname, long, short, prect, lo, hi, init, unit, accent, exponent=1.0, bi
     x = ux()
     attrs = dict(numinlets=1, numoutlets=2, outlettype=["", "float"], parameter_enable=1,
                  varname=gname, showname=showname, shownumber=1,
-                 activedialcolor=accent, activeneedlecolor=CREAM, dialcolor=DIM, needlecolor=MUTED,
-                 textcolor=CREAM, fontsize=10.0 if big else 9.0, fontface=1 if big else 0,
+                 activedialcolor=T.AMBER, activeneedlecolor=T.TEXT, dialcolor=T.ARC_OFF, needlecolor=T.TEXT_DIM,
+                 textcolor=T.TEXT if big else T.LABEL, fontsize=10.0 if big else T.F_LABEL, fontface=1 if big else 0,
+                 focusbordercolor=T.AMBER,
                  saved_attribute_attributes=valueof(long, short, 0, lo, hi, init, unit, exponent=exponent, units=units))
     if big:
         attrs["appearance"] = 0
@@ -136,7 +141,8 @@ def menu(gname, long, short, prect, items, init, accent):
     x = ux()
     b = box("live.menu", [x, 560, prect[2], prect[3]], prect, numinlets=1, numoutlets=3,
             outlettype=["", "", "float"], parameter_enable=1, varname=gname,
-            textcolor=CREAM, bgcolor=PANEL, activebgcolor=STRIP, tricolor=accent, fontsize=10.0,
+            textcolor=T.TEXT, bgcolor=T.INSET, activebgcolor=T.INSET, tricolor=T.AMBER,
+            fontsize=9.0,
             saved_attribute_attributes=valueof(long, short, 2, 0, len(items) - 1, init, 9, enum=items))
     bid_x[b] = x
     param_ids[b] = (long, short)
@@ -144,13 +150,21 @@ def menu(gname, long, short, prect, items, init, accent):
     return b
 
 
+# segment / button colours: active (normal) vs inactive (unavailable) variants
+# (attribute names per the Max 8 live.tab / live.text references; bg*/inactive* = active 0)
+SEG_COLOURS = dict(textcolor=T.LABEL, textoncolor=T.TEXT_ON, inactivetextoffcolor=T.TEXT_DIM, inactivetextoncolor=T.TEXT_DIM,
+                   bgcolor=T.INSET, bgoncolor=T.AMBER_DIM, activebgcolor=T.OFF, activebgoncolor=T.AMBER,
+                   bordercolor=T.BEVEL, focusbordercolor=T.AMBER)
+BTN_COLOURS = dict(activetextcolor=T.LABEL, activetextoncolor=T.TEXT_ON, textcolor=T.TEXT_DIM, textoncolor=T.TEXT_DIM,
+                   bgcolor=T.INSET, bgoncolor=T.AMBER_DIM, activebgcolor=T.OFF, activebgoncolor=T.AMBER,
+                   bordercolor=T.BEVEL, focusbordercolor=T.AMBER)
+
+
 def tab(gname, long, short, prect, items, init, accent):
     x = ux()
     b = box("live.tab", [x, 560, prect[2], prect[3]], prect, numinlets=1, numoutlets=3,
             outlettype=["", "", "float"], parameter_enable=1, varname=gname, num_lines_patching=1,
-            num_lines_presentation=1, fontsize=9.0, textcolor=MUTED, textoncolor=BG,
-            bgcolor=PANEL, bgoncolor=accent, activebgcolor=PANEL, activebgoncolor=accent,
-            bordercolor=DIM, focusbordercolor=accent,
+            num_lines_presentation=1, fontsize=8.0, fontface=1, **SEG_COLOURS,
             saved_attribute_attributes=valueof(long, short, 2, 0, len(items) - 1, init, 9, enum=items))
     bid_x[b] = x
     param_ids[b] = (long, short)
@@ -162,8 +176,7 @@ def toggle(gname, long, short, prect, label, init, accent):
     x = ux()
     b = box("live.text", [x, 560, prect[2], prect[3]], prect, numinlets=1, numoutlets=2,
             outlettype=["", ""], parameter_enable=1, varname=gname, mode=0, text=label, texton=label,
-            fontsize=9.0, fontface=1, textcolor=MUTED, textoncolor=BG, bgcolor=PANEL, bgoncolor=accent,
-            activebgcolor=PANEL, activebgoncolor=accent, bordercolor=DIM, focusbordercolor=accent,
+            fontsize=8.0, fontface=1, **BTN_COLOURS,
             saved_attribute_attributes=valueof(long, short, 2, 0, 1, init, 9, enum=["off", "on"]))
     bid_x[b] = x
     param_ids[b] = (long, short)
@@ -200,23 +213,23 @@ INFO_HP[3] = "HP INJ: 6dB SKIRT | 24-48 EXT"
 
 
 def section(x0, s, title, accent, items, chars, infos, cmin, cmax, cinit, cexp, minit, slinit, scale):
-    panel([x0, 4, 298, 161], PANEL, border=[accent[0] * 0.55, accent[1] * 0.55, accent[2] * 0.55, 1])
-    box("panel", [x0, 1200, 298, 3], [x0 + 6, 22, 286, 2], bgcolor=accent, rounded=0, numinlets=1, numoutlets=0)
-    comment(title, [x0 + 6, 5, 160, 16], accent, 11.0, 1)
+    panel([x0, 4, 298, 161], PANEL, border=T.BEVEL)
+    box("panel", [x0, 1200, 298, 3], [x0 + 1, 22, 296, 1], bgcolor=T.BEVEL_HI, rounded=0, numinlets=1, numoutlets=0)
+    comment(title, [x0 + 8, 6, 150, 14], T.TEXT, T.F_TITLE, 1)
     pre = "LPF" if s == "l" else "HPF"
-    toggle(f"{s}_on", f"{pre} On", f"{pre} On", [x0 + 252, 6, 40, 14], "ON", 1, accent)
-    m = menu(f"{s}_model", f"{pre} Model", f"{pre} Model", [x0 + 6, 28, 286, 16], items, minit, accent)
+    toggle(f"{s}_on", f"{pre} On", f"{pre} On", [x0 + 256, 6, T.ON_W, T.ON_H], "ON", 1, accent)
+    m = menu(f"{s}_model", f"{pre} Model", f"{pre} Model", [x0 + 6, 27, 286, 16], items, minit, accent)
     dial(f"{s}_cut", f"{pre} Cutoff", f"{pre} Cut", [x0 + 4, 48, 108, 100], cmin, cmax, cinit, 3, accent,
          exponent=cexp, big=True)
-    comment(scale, [x0 + 6, 148, 106, 12], MUTED, 8.0, 0, 1)
+    comment(scale, [x0 + 4, 150, 108, 11], MUTED, T.F_SMALL, 0, 1)
     dial(f"{s}_res", f"{pre} Resonance", f"{pre} Res", [x0 + 118, 48, 54, 50], 0, 100, 0, 5, accent)
     dial(f"{s}_drive", f"{pre} Drive", f"{pre} Drive", [x0 + 176, 48, 54, 50], 0, 100, 0, 5, accent)
     dial(f"{s}_comp", f"{pre} Compensation", f"{pre} Comp", [x0 + 234, 48, 54, 50], 0, 100, 100, 5, accent)
     dial(f"{s}_char", f"{pre} Character", f"{pre} Char", [x0 + 118, 104, 54, 44], 0, 100, 0, 5, accent, showname=0)
-    lab = comment(chars[minit], [x0 + 112, 148, 66, 12], accent, 8.0, 1, 1)
-    comment("SLOPE  dB/OCT", [x0 + 182, 102, 110, 12], MUTED, 8.0, 0)
+    lab = comment(chars[minit], [x0 + 112, 149, 66, 12], T.AMBER, T.F_SMALL, 1, 1)
+    comment("SLOPE  dB/OCT", [x0 + 182, 102, 110, 12], MUTED, T.F_SMALL, 0)
     tab(f"{s}_slope", f"{pre} Slope", f"{pre} Slope", [x0 + 182, 115, 110, 16], ["12", "24", "36", "48"], slinit, accent)
-    info = comment(infos[minit], [x0 + 182, 134, 110, 26], MUTED, 7.5, 0)
+    info = comment(infos[minit], [x0 + 182, 134, 110, 26], MUTED, T.F_TINY, 0)
     # model -> character label + slope info
     n = len(items)
     sel = newobj("sel " + " ".join(str(i) for i in range(n)), [bid_x[m], 470, 120, 22], 2, n + 1, ["bang"] * n + [""])
@@ -232,40 +245,41 @@ section(4, "l", "LOW-PASS", AMBER, LP_ITEMS, CHAR_LP, INFO_LP, 20, 20000, 20000,
 section(398, "h", "HIGH-PASS", COPPER, HP_ITEMS, CHAR_HP, INFO_HP, 20, 2000, 20, 3.46, 1, 0, "OPEN 20 Hz  ·  2k")
 
 # centre strip
-panel([306, 4, 88, 161], STRIP, border=DIM)
-comment("DUB", [310, 4, 80, 16], CREAM, 12.0, 1, 1)
-comment("FILTER", [310, 18, 80, 12], MUTED, 8.0, 1, 1)
-comment("ORDER", [310, 34, 80, 11], MUTED, 8.0, 0, 1)
+panel([306, 4, 88, 161], STRIP, border=T.BEVEL)
+comment("DUB FILTER", [308, 7, 84, 14], T.TEXT, 9.5, 1, 1)
+comment("ROUTING", [308, 26, 84, 10], T.AMBER, T.F_TINY, 1, 1)
+comment("STAGE ORDER", [308, 35, 84, 10], MUTED, T.F_TINY, 0, 1)
 tab("order_sel", "Stage Order", "Order", [312, 46, 76, 15], ["LP>HP", "HP>LP"], 0, CREAM)
-comment("OVERSAMPLE", [310, 64, 80, 11], MUTED, 8.0, 0, 1)
-tab("ovs_sel", "Oversampling", "OS", [312, 76, 76, 15], ["1x", "2x"], 0, CREAM)
-dial("out_db", "Output", "Output", [323, 94, 54, 50], -24, 12, 0, 4, CREAM)
-toggle("softclip", "Soft Clip", "Soft Clip", [312, 147, 76, 14], "SOFT CLIP", 1, CREAM)
+comment("OVERSAMPLE", [308, 76, 84, 10], MUTED, T.F_TINY, 0, 1)
+tab("ovs_sel", "Oversampling", "OS", [312, 86, 76, 14], ["1x", "2x"], 0, CREAM)
+dial("out_db", "Output", "Output", [323, 101, 54, 47], -24, 12, 0, 4, CREAM)
+toggle("softclip", "Soft Clip", "Soft Clip", [312, 149, 76, 14], "SOFT CLIP", 1, CREAM)
 
 # ------------------------------------------------- v1.2: BAND-PASS section
 # Appended after every v1.1 object so all existing object ids, parameters and
 # presentation rects stay exactly as they were (checked by tests/compat.py).
-BRASS = [0.851, 0.729, 0.333, 1.0]
+BRASS = T.AMBER
 BX = 702
-W_TOTAL = BX + 360 + 4
+BW_SEC = 418
+W_TOTAL = BX + BW_SEC + 4
 panel([W, 0, W_TOTAL - W, H], BG, rounded=0)
-panel([BX, 4, 360, 161], PANEL, border=[BRASS[0] * 0.55, BRASS[1] * 0.55, BRASS[2] * 0.55, 1])
-box("panel", [BX, 1200, 348, 3], [BX + 6, 22, 348, 2], bgcolor=BRASS, rounded=0, numinlets=1, numoutlets=0)
-comment("BAND-PASS", [BX + 6, 5, 160, 16], BRASS, 11.0, 1)
-toggle("b_on", "BPF On", "BPF On", [BX + 314, 6, 40, 14], "ON", 0, BRASS)
+panel([BX, 4, BW_SEC, 161], PANEL, border=T.BEVEL)
+box("panel", [BX, 1200, 348, 3], [BX + 1, 22, BW_SEC - 2, 1], bgcolor=T.BEVEL_HI, rounded=0, numinlets=1, numoutlets=0)
+comment("BAND-PASS", [BX + 8, 6, 150, 14], T.TEXT, T.F_TITLE, 1)
+toggle("b_on", "BPF On", "BPF On", [BX + BW_SEC - 42, 6, T.ON_W, T.ON_H], "ON", 0, BRASS)
 BP_ITEMS = ["01 Oberheim SEM", "02 Steiner-Parker", "03 Korg 35 / MS-20", "04 ARP 2600 - derived", "05 EMS VCS3 - derived"]
-bm = menu("b_model", "BPF Model", "BPF Model", [BX + 6, 28, 196, 16], BP_ITEMS, 0, BRASS)
-ba = tab("b_arch", "BPF Architecture", "BPF Arch", [BX + 206, 28, 148, 16], ["SVF", "CASC", "MULTI"], 0, BRASS)
+bm = menu("b_model", "BPF Model", "BPF Model", [BX + 6, 27, 200, 16], BP_ITEMS, 0, BRASS)
+ba = tab("b_arch", "BPF Architecture", "BPF Arch", [BX + 210, 27, 136, 16], ["SVF", "CASC", "MULTI"], 0, BRASS)
 dial("b_freq", "BPF Centre", "BPF Freq", [BX + 4, 48, 108, 100], 30, 12000, 1000, 3, BRASS, exponent=4.39, big=True)
-comment("30 Hz  ·  CENTRE  ·  12k", [BX + 4, 148, 110, 12], MUTED, 8.0, 0, 1)
+comment("30 Hz  ·  CENTRE  ·  12k", [BX + 4, 150, 108, 11], MUTED, T.F_SMALL, 0, 1)
 dial("b_bw", "BPF Bandwidth", "BPF BW", [BX + 118, 48, 54, 50], 0.2, 6, 2, 9, BRASS, units="%0.1f oct")
 dial("b_q", "BPF Q", "BPF Q", [BX + 176, 48, 54, 50], 0.5, 10, 0.707, 1, BRASS, exponent=2.0)
 dial("b_res", "BPF Resonance", "BPF Res", [BX + 234, 48, 54, 50], 0, 100, 0, 5, BRASS)
 dial("b_drive", "BPF Drive", "BPF Drive", [BX + 292, 48, 54, 50], 0, 100, 0, 5, BRASS)
 dial("b_comp", "BPF Compensation", "BPF Comp", [BX + 118, 102, 54, 46], 0, 100, 100, 5, BRASS)
 dial("b_mix", "BPF Mix", "BPF Mix", [BX + 176, 102, 54, 46], 0, 100, 100, 5, BRASS)
-comment("POSITION", [BX + 236, 101, 118, 11], MUTED, 8.0, 0)
-tab("b_pos", "BPF Position", "BPF Pos", [BX + 236, 113, 118, 15], ["POST", "PRE"], 0, BRASS)
+comment("POSITION (SERIES)", [BX + 236, 101, 110, 11], MUTED, T.F_SMALL, 0)
+tab("b_pos", "BPF Position", "BPF Pos", [BX + 236, 113, 110, 15], ["POST", "PRE"], 0, BRASS)
 # native/derived + active-control info, from model x architecture
 B_INFO = {
     (0, 0): "NATIVE: SEM BP MODE | Q = WIDTH", (0, 1): "DERIVED: SEM HP>LP | BW + EDGE Q", (0, 2): "DERIVED: OTA LADDER | BW = ORDER",
@@ -274,7 +288,7 @@ B_INFO = {
     (3, 0): "DERIVED: 2600 HAS NO BP | Q = WIDTH", (3, 1): "DERIVED: 2600 HAS NO BP | BW + Q", (3, 2): "CLOSEST: 2600 LADDER | BW = ORDER",
     (4, 0): "DERIVED: VCS3 HAS NO BP | Q = WIDTH", (4, 1): "DERIVED: VCS3 HAS NO BP | BW + Q", (4, 2): "CLOSEST: VCS3 LADDER | BW = ORDER",
 }
-binfo = comment(B_INFO[(0, 0)], [BX + 236, 131, 120, 30], MUTED, 7.5, 0)
+binfo = comment(B_INFO[(0, 0)], [BX + 236, 131, 112, 30], MUTED, T.F_TINY, 0)
 pk = newobj("pak 0 0", [bid_x[bm], 440, 60, 22], 2, 1, [""])
 ex = newobj("expr $i1 * 3 + $i2", [bid_x[bm], 465, 110, 22], 2, 1, [""])
 bsel = newobj("sel " + " ".join(str(i) for i in range(15)), [bid_x[bm], 490, 200, 22], 2, 16, ["bang"] * 15 + [""])
@@ -318,16 +332,15 @@ plug34 = newobj("plugin~ 3 4", [130, 700, 80, 22], 2, 2, ["signal", "signal"])
 connect(plug34, 0, gen, 2)
 connect(plug34, 1, gen, 3)
 
-EMBER = [0.902, 0.420, 0.220, 1.0]
-GOLD = [0.922, 0.780, 0.420, 1.0]
-STEEL = [0.800, 0.760, 0.680, 1.0]
+EMBER = GOLD = STEEL = T.AMBER
 MCOL = {"T": EMBER, "O": GOLD, "V": STEEL}
 CX = W_TOTAL
-W_TOTAL = CX + 704 + 4
+CW = 800
+W_TOTAL = CX + CW + 4
 panel([CX - 2, 0, W_TOTAL - CX + 2, H], BG, rounded=0)
-panel([CX, 4, 704, 161], PANEL, border=[0.45, 0.42, 0.38, 1])
-comment("PROCESSING CHAIN", [CX + 6, 5, 150, 16], CREAM, 11.0, 1)
-box("panel", [CX, 1200, 692, 2], [CX + 6, 22, 692, 1], bgcolor=DIM, rounded=0, numinlets=1, numoutlets=0)
+panel([CX, 4, CW, 161], PANEL, border=T.BEVEL)
+comment("PROCESSING CHAIN", [CX + 8, 6, 122, 14], T.TEXT, T.F_TITLE, 1)
+box("panel", [CX, 1200, 692, 2], [CX + 1, 22, CW - 2, 1], bgcolor=T.BEVEL_HI, rounded=0, numinlets=1, numoutlets=0)
 
 thisp = newobj("thispatcher", [1500, 760, 80, 22], 1, 2, ["", ""])
 
@@ -345,9 +358,9 @@ def hide(bid):
 
 
 # header: order menu, suggested configurations, key listen, key source
-ordm = menu("c_order", "Chain Order", "Order", [CX + 160, 5, 150, 15], DYN.PERM_NAMES, 0, CREAM)
+ordm = menu("c_order", "Chain Order", "Order", [CX + 132, 5, 140, 15], DYN.PERM_NAMES, 0, CREAM)
 presets = []
-px = CX + 316
+px = CX + 280
 for name, idx in DYN.PRESETS.items():
     wdt = 58 if name != "PUNCH & COLOUR" else 82
     b = box("live.text", [px, 1250, wdt, 15], [px, 5, wdt, 15], numinlets=1, numoutlets=2, outlettype=["", ""],
@@ -359,19 +372,19 @@ for name, idx in DYN.PRESETS.items():
     connect(sel1, 0, msg, 0)
     connect(msg, 0, ordm, 0)
     px += wdt + 4
-comment("KEY LISTEN", [CX + 540, 4, 70, 9], MUTED, 7.0, 0)
-tab("key_listen", "Key Listen", "Key Listen", [CX + 540, 12, 160, 10], ["OFF", "OPTO", "VCA", "GATE"], 0, CREAM)
-kr = box("live.routing", [1600, 800, 120, 40], [CX + 604, 118, 96, 34], numinlets=1, numoutlets=1, outlettype=[""],
-         varname="key_routing", fontsize=8.0, textcolor=CREAM)
-comment("EXTERNAL KEY (SIDECHAIN)", [CX + 604, 106, 100, 10], MUTED, 6.5, 0)
+comment("KEY LISTEN", [CX + 542, 8, 52, 10], MUTED, T.F_TINY, 1)
+tab("key_listen", "Key Listen", "Key Listen", [CX + 596, 5, 198, 15], ["OFF", "OPTO", "VCA", "GATE"], 0, CREAM)
+kr = box("live.routing", [1600, 800, 120, 40], [CX + 640, 120, 152, 34], numinlets=1, numoutlets=1, outlettype=[""],
+         varname="key_routing", fontsize=8.0, textcolor=T.TEXT)
+comment("EXTERNAL KEY (SIDECHAIN)", [CX + 640, 107, 152, 10], MUTED, T.F_TINY, 1)
 
 # flow strip: IN -> slot1 -> slot2 -> slot3 -> GATE -> OUT
-SLOT_X = [CX + 26, CX + 214, CX + 402]
-BY, BW_, BH = 27, 170, 58
-comment("IN", [CX + 6, BY + 20, 18, 12], MUTED, 8.0, 1)
+SLOT_X = [CX + 22, CX + 212, CX + 402]
+BY, BW_, BH = 26, 172, 60
+comment("IN", [CX + 5, BY + 24, 18, 12], MUTED, 8.0, 1)
 for k in range(3):
-    comment(">", [SLOT_X[k] + BW_ + 3, BY + 20, 14, 12], MUTED, 9.0, 1)
-GX = CX + 590
+    comment("▸", [SLOT_X[k] + BW_ + 4, BY + 23, 12, 12], T.AMBER, 9.0, 1)
+GX = CX + 592
 block_objs = {}   # module -> list of (bid, dx, dy, w, h)
 
 
@@ -386,48 +399,50 @@ for m in DYN.MODS:
     bx = SLOT_X[k]
     col = MCOL[m]
     p = {"T": "t", "O": "o", "V": "v"}[m]
-    blk(m, panel([bx, BY, BW_, BH], STRIP, border=col), 0, 0, BW_, BH, f"blk_{m}_bg")
-    blk(m, comment(DYN.MOD_NAMES[m], [bx + 4, BY + 2, 112, 12], col, 8.5, 1), 4, 2, 112, 12, f"blk_{m}_name")
+    blk(m, panel([bx, BY, BW_, BH], T.INSET, border=T.BEVEL), 0, 0, BW_, BH, f"blk_{m}_bg")
+    block_objs[m].append((f"blk_{m}_hdr", 1, 1, BW_ - 2, 15))          # v1.5 header plate (created below)
+    blk(m, comment(DYN.MOD_NAMES[m], [bx + 6, BY + 2, 120, 12], T.TEXT, T.F_LABEL, 1), 6, 2, 120, 12, f"blk_{m}_name")
     on = toggle(f"{p}_on", {"t": "Tube On", "o": "Opto On", "v": "VCA On"}[p], {"t": "Tube On", "o": "Opto On", "v": "VCA On"}[p],
-                [bx + 126, BY + 2, 40, 13], "ON", 0, col)
-    block_objs[m].append((f"{p}_on", 126, 2, 40, 13))
+                [bx + BW_ - 40, BY + 2, 36, 13], "ON", 0, col)
+    block_objs[m].append((f"{p}_on", BW_ - 40, 2, 36, 13))
     for j, (lab, outlet) in enumerate((("IN", {"T": 2, "O": 4, "V": 7}[m]), ("OUT", {"T": 3, "O": 5, "V": 8}[m]))):
-        blk(m, comment(lab, [bx + 4, BY + 16 + 9 * j, 24, 9], MUTED, 7.0, 0), 4, 16 + 9 * j, 24, 9, f"blk_{m}_l{j}")
-        mt = box("live.meter~", [1200 + 60 * DYN.MODS.index(m), 820 + 30 * j, 80, 6], [bx + 28, BY + 18 + 9 * j, 138, 5],
-                 numinlets=1, numoutlets=1, outlettype=["list"], orientation=1, coldcolor=col, warmcolor=col, hotcolor=EMBER,
-                 overloadcolor=[0.9, 0.2, 0.15, 1])
-        blk(m, mt, 28, 18 + 9 * j, 138, 5, f"blk_{m}_m{j}")
+        blk(m, comment(lab, [bx + 6, BY + 18 + 9 * j, 24, 9], MUTED, T.F_TINY, 0), 6, 18 + 9 * j, 24, 9, f"blk_{m}_l{j}")
+        mt = box("live.meter~", [1200 + 60 * DYN.MODS.index(m), 820 + 30 * j, 80, 6], [bx + 30, BY + 20 + 9 * j, BW_ - 36, 5],
+                 numinlets=1, numoutlets=1, outlettype=["list"], orientation=1, coldcolor=T.METER_LO, warmcolor=T.AMBER,
+                 hotcolor=T.METER_HI, overloadcolor=T.METER_OVER)
+        blk(m, mt, 30, 20 + 9 * j, BW_ - 36, 5, f"blk_{m}_m{j}")
         connect(gen, outlet, mt, 0)
     if m != "T":
-        blk(m, comment("GR", [bx + 4, BY + 34, 34, 9], MUTED, 7.0, 0), 4, 34, 34, 9, f"blk_{m}_l2")
+        blk(m, comment("GR", [bx + 6, BY + 37, 20, 9], MUTED, T.F_TINY, 0), 6, 37, 20, 9, f"blk_{m}_l2")
         snap = newobj("snapshot~ 50", [1200 + 60 * DYN.MODS.index(m), 900, 80, 22], 2, 1, ["float"])
         mul = newobj("* 30.", [1200 + 60 * DYN.MODS.index(m), 930, 40, 22], 2, 1, ["float"])
-        nb = box("live.numbox", [1200 + 60 * DYN.MODS.index(m), 960, 44, 15], [bx + 40, BY + 33, 44, 11],
+        nb = box("live.numbox", [1200 + 60 * DYN.MODS.index(m), 960, 44, 15], [bx + 28, BY + 36, 40, 11],
                  numinlets=1, numoutlets=2, outlettype=["", "float"], parameter_enable=0, fontsize=7.5,
-                 textcolor=col, activeslidercolor=col, appearance=0)
+                 textcolor=T.AMBER, activeslidercolor=T.AMBER, appearance=0)
         connect(gen, {"O": 6, "V": 9}[m], snap, 0)
         connect(snap, 0, mul, 0)
         connect(mul, 0, nb, 0)
-        blk(m, nb, 40, 33, 44, 11, f"blk_{m}_gr")
-        blk(m, comment("dB", [bx + 86, BY + 34, 20, 9], MUTED, 7.0, 0), 86, 34, 20, 9, f"blk_{m}_db")
+        blk(m, nb, 28, 36, 40, 11, f"blk_{m}_gr")
+        blk(m, comment("dB", [bx + 68, BY + 37, 20, 9], MUTED, T.F_TINY, 0), 68, 37, 20, 9, f"blk_{m}_db")
+    block_objs[m].append((f"blk_{m}_cap", 90, 37, BW_ - 94, 9))     # v1.5 module caption (created below)
     # drag handle: drag the grip left/right and release to move the block (1 or 2 slots)
-    grip = box("live.slider", [1200 + 60 * DYN.MODS.index(m), 1000, 160, 10], [bx + 4, BY + 45, 162, 11],
+    grip = box("live.slider", [1200 + 60 * DYN.MODS.index(m), 1000, 160, 10], [bx + 6, BY + 48, BW_ - 12, 9],
                numinlets=1, numoutlets=2, outlettype=["", "float"], parameter_enable=0, orientation=1,
-               min=-2.0, size=4.0, showname=0, shownumber=0, slidercolor=col, trioncolor=col, tribordercolor=DIM,
+               min=-2.0, size=4.0, showname=0, shownumber=0, slidercolor=T.OFF, trioncolor=T.AMBER, tribordercolor=T.BEVEL,
                textcolor=MUTED)
-    blk(m, grip, 4, 45, 162, 11, f"blk_{m}_grip")
+    blk(m, grip, 6, 48, BW_ - 12, 9, f"blk_{m}_grip")
     block_objs[m + "_grip_id"] = grip
-comment("GATE", [GX, BY + 2, 40, 12], CREAM, 8.5, 1)
-toggle("g_on", "Gate On", "Gate On", [GX + 50, BY + 2, 40, 13], "ON", 0, CREAM)
-gm = box("live.meter~", [1400, 820, 80, 6], [GX, BY + 18, 90, 5], numinlets=1, numoutlets=1, outlettype=["list"],
-         orientation=1, coldcolor=CREAM, warmcolor=CREAM, hotcolor=CREAM, varname="gate_meter")
+comment("GATE", [GX + 6, BY + 2, 60, 12], T.TEXT, T.F_LABEL, 1)
+toggle("g_on", "Gate On", "Gate On", [GX + BW_ - 40, BY + 2, 36, 13], "ON", 0, CREAM)
+gm = box("live.meter~", [1400, 820, 80, 6], [GX + 30, BY + 20, BW_ - 36, 5], numinlets=1, numoutlets=1, outlettype=["list"],
+         orientation=1, coldcolor=T.AMBER, warmcolor=T.AMBER, hotcolor=T.AMBER, varname="gate_meter")
 connect(gen, 10, gm, 0)
-comment("OPEN", [GX, BY + 24, 40, 9], MUTED, 7.0, 0)
-km = box("live.meter~", [1400, 850, 80, 6], [GX, BY + 36, 90, 5], numinlets=1, numoutlets=1, outlettype=["list"],
-         orientation=1, coldcolor=MUTED, warmcolor=MUTED, hotcolor=EMBER, varname="key_meter")
+comment("OPEN", [GX + 6, BY + 18, 24, 9], MUTED, T.F_TINY, 0)
+km = box("live.meter~", [1400, 850, 80, 6], [GX + 30, BY + 29, BW_ - 36, 5], numinlets=1, numoutlets=1, outlettype=["list"],
+         orientation=1, coldcolor=T.METER_LO, warmcolor=T.METER_LO, hotcolor=T.METER_HI, varname="key_meter")
 connect(gen, 11, km, 0)
-comment("EXT KEY", [GX, BY + 42, 50, 9], MUTED, 7.0, 0)
-comment("> OUT", [GX + 56, BY + 44, 40, 12], MUTED, 8.0, 1)
+comment("KEY", [GX + 6, BY + 27, 24, 9], MUTED, T.F_TINY, 0)
+comment("OUT", [GX + BW_ + 3, BY + 24, 26, 12], MUTED, 8.0, 1)
 
 # order -> block positions (thispatcher scripting)
 osel = newobj("sel " + " ".join(str(i) for i in range(6)), [1500, 700, 140, 22], 2, 7, ["bang"] * 6 + [""])
@@ -491,10 +506,10 @@ connect(lut, 0, ordm, 0)
 
 # detail pages (EDIT: TUBE / OPTO / VCA / GATE); controls of other pages hidden via scripting
 DX = CX + 84
-DY = 90
-edit = box("live.tab", [1500, 1150, 70, 68], [CX + 6, DY, 72, 70], numinlets=1, numoutlets=3, outlettype=["", "", "float"],
-           parameter_enable=0, num_lines_patching=4, num_lines_presentation=4, fontsize=8.0, textcolor=MUTED, textoncolor=BG,
-           bgcolor=PANEL, bgoncolor=CREAM, activebgcolor=PANEL, activebgoncolor=CREAM, bordercolor=DIM, varname="edit_page")
+DY = 93
+edit = box("live.tab", [1500, 1150, 70, 68], [CX + 6, DY, 70, 68], numinlets=1, numoutlets=3, outlettype=["", "", "float"],
+           parameter_enable=0, num_lines_patching=4, num_lines_presentation=4, fontsize=8.0, fontface=1, **SEG_COLOURS,
+           varname="edit_page")
 edit_box = next(b["box"] for b in boxes if b["box"]["id"] == edit)
 edit_box["saved_attribute_attributes"] = {"valueof": {"parameter_enum": ["TUBE", "OPTO", "VCA", "GATE"], "parameter_mmax": 3}}
 edit_box["parameter_enable"] = 0
@@ -582,22 +597,22 @@ for pg in range(4):
 # ------------------------------------------------- v1.4: FILTER ROUTING strip
 # Appended after every v1.3 object; existing objects, ids and rects are unchanged.
 RX = W_TOTAL
-W_TOTAL = RX + 170 + 4
+RW = 200
+W_TOTAL = RX + RW + 4
 panel([RX - 2, 0, W_TOTAL - RX + 2, H], BG, rounded=0)
-panel([RX, 4, 170, 161], STRIP, border=DIM)
-comment("FILTER ROUTING", [RX + 6, 5, 160, 14], CREAM, 10.0, 1)
-comment("LP · HP · BP", [RX + 104, 6, 62, 12], MUTED, 7.5, 0)
-rt = box("live.tab", [1900, 700, 74, 48], [RX + 6, 24, 74, 48], numinlets=1, numoutlets=3, outlettype=["", "", "float"],
-         parameter_enable=1, varname="flt_route", num_lines_patching=3, num_lines_presentation=3, fontsize=8.0,
-         textcolor=MUTED, textoncolor=BG, bgcolor=PANEL, bgoncolor=CREAM, activebgcolor=PANEL, activebgoncolor=CREAM,
-         bordercolor=DIM, focusbordercolor=CREAM,
+panel([RX, 4, RW, 161], STRIP, border=T.BEVEL)
+comment("FILTER ROUTING", [RX + 8, 6, 120, 14], T.TEXT, T.F_TITLE, 1)
+comment("LP · HP · BP", [RX + 140, 8, 56, 10], MUTED, T.F_TINY, 0)
+rt = box("live.tab", [1900, 700, 74, 48], [RX + 6, 26, RW - 12, 15], numinlets=1, numoutlets=3, outlettype=["", "", "float"],
+         parameter_enable=1, varname="flt_route", num_lines_patching=3, num_lines_presentation=1, fontsize=8.0, fontface=1,
+         **SEG_COLOURS,
          saved_attribute_attributes=valueof("Filter Routing", "Routing", 2, 0, 2, 0, 9, enum=["SERIES", "PARALLEL", "HYBRID"]))
 bid_x[rt] = 1900
 param_ids[rt] = ("Filter Routing", "Routing")
 wire(rt, "flt_route")
 FLOW = ["IN > LP > HP > BP > OUT", "IN > BP > LP > HP > OUT", "IN > HP > LP > BP > OUT", "IN > BP > HP > LP > OUT",
         "IN > ( LP + HP + BP ) > OUT", "IN > ( LP > HP ) + BP > OUT", "IN > ( HP > LP ) + BP > OUT"]
-flow = comment(FLOW[0], [RX + 84, 26, 82, 46], CREAM, 8.0, 1)
+flow = comment(FLOW[0], [RX + 6, 95, RW - 12, 10], MUTED, T.F_TINY, 1, 1)
 named(flow, "route_flow")
 ob = next(b["box"]["id"] for b in boxes if b["box"].get("varname") == "order_sel")
 pb = next(b["box"]["id"] for b in boxes if b["box"].get("varname") == "b_pos")
@@ -613,11 +628,155 @@ for i, t in enumerate(FLOW):
     mb = box("message", [1900 + 15 * i, 850 + 4 * i, 160, 22], text="set " + t, numinlets=2, numoutlets=1, outlettype=[""])
     connect(rsel, i, mb, 0)
     connect(mb, 0, flow, 0)
-comment("PARALLEL LEVELS", [RX + 6, 76, 160, 10], MUTED, 7.5, 0)
-dial("par_l", "Parallel LPF Level", "LP Lvl", [RX + 6, 88, 52, 50], -40, 6, 0, 4, AMBER)
-dial("par_h", "Parallel HPF Level", "HP Lvl", [RX + 60, 88, 52, 50], -40, 6, 0, 4, COPPER)
-dial("par_b", "Parallel BPF Level", "BP Lvl", [RX + 114, 88, 52, 50], -40, 6, 0, 4, BRASS)
+comment("PARALLEL LEVELS", [RX + 6, 106, RW - 12, 9], T.AMBER, T.F_TINY, 1, 1)
+dial("par_l", "Parallel LPF Level", "LP Lvl", [RX + 12, 114, 56, 50], -40, 6, 0, 4, AMBER)
+dial("par_h", "Parallel HPF Level", "HP Lvl", [RX + 72, 114, 56, 50], -40, 6, 0, 4, COPPER)
+dial("par_b", "Parallel BPF Level", "BP Lvl", [RX + 132, 114, 56, 50], -40, 6, 0, 4, BRASS)
 comment("PARALLEL: ALL THREE | HYBRID: BP LVL", [RX + 6, 146, 162, 12], MUTED, 7.0, 0)
+hide(boxes[-1]["box"]["id"])   # v1.5: availability dimming of the level dials now shows this
+
+# ------------------------------------------------- v1.5: premium UI layer
+# Appended after every v1.4 object. Nothing here touches gen~, a Param or a parameter
+# object's definition: it adds panels, jsui displays, availability colouring and Info
+# View text. See docs/UI.md.
+import ui_info as INFO
+BYV = lambda vn: next(b["box"] for b in boxes if b["box"].get("varname") == vn)
+BID = lambda vn: BYV(vn)["id"]
+_v15 = [2400]
+
+
+def vx():
+    _v15[0] += 40
+    return _v15[0]
+
+
+def plate(prect, color, name=None, border=None):
+    b = box("panel", [vx(), 1500, prect[2], prect[3]], prect, bgcolor=color, rounded=2, numinlets=1, numoutlets=0,
+            background=1, **({"border": 1, "bordercolor": border} if border else {}))
+    if name:
+        named(b, name)
+    return b
+
+
+def jsui(fname, prect, args, ni, no, name):
+    b = box("jsui", [vx(), 1600, prect[2], prect[3]], prect, filename=fname, jsarguments=args, numinlets=ni,
+            numoutlets=no, outlettype=[""] * no, parameter_enable=0, border=0, varname=name)
+    return b
+
+
+# header bands (one per section), group separators
+for x0, w0 in ((4, 298), (306, 88), (398, 298), (BX, BW_SEC), (CX, CW), (RX, RW)):
+    plate([x0 + 1, 5, w0 - 2, 17], T.HEADER)
+plate([310, 64, 80, 1], T.BEVEL_HI)
+comment("PROCESSING", [308, 66, 84, 10], T.AMBER, T.F_TINY, 1, 1)
+plate([CX + 6, 89, CW - 12, 1], T.BEVEL)
+
+# chain blocks: header plates + captions, created at their TUBE > OPTO > VCA positions
+CAPS = {"T": "TRIODE · 2x OS", "O": "T4 OPTO CELL", "V": "RMS VCA"}
+for m in DYN.MODS:
+    bx = SLOT_X[DYN.PERMS[0].index(m)]
+    plate([bx + 1, BY + 1, BW_ - 2, 15], T.HEADER, f"blk_{m}_hdr")
+    named(comment(CAPS[m], [bx + 90, BY + 37, BW_ - 94, 9], MUTED, T.F_TINY, 0, 2), f"blk_{m}_cap")
+# gate block, same anatomy (fixed position: the gate runs after the reorderable chain)
+plate([GX, BY, BW_, BH], T.INSET, "blk_G_bg", border=T.BEVEL)
+plate([GX + 1, BY + 1, BW_ - 2, 15], T.HEADER, "blk_G_hdr")
+comment("4 dB HYSTERESIS · HOLD", [GX + 6, BY + 37, BW_ - 12, 9], MUTED, T.F_TINY, 0)
+comment("FIXED · AFTER CHAIN", [GX + 6, BY + 47, BW_ - 12, 9], T.TEXT_DIM, T.F_TINY, 0)
+
+# suggested chain orders: jsui buttons lit when Chain Order equals the preset's order
+for name, idx in DYN.PRESETS.items():
+    old = BYV(f"preset_{idx}")
+    old["hidden"] = 1                      # the v1.3 latching live.text stays (ids), hidden
+    r = [CX + 280 + {0: 0, 4: 74, 3: 174}[idx], 5, {0: 70, 4: 96, 3: 82}[idx], 15]
+    j = jsui("df_button.js", r, [name.replace(" ", "_"), idx, "select"], 1, 1, f"presetbtn_{idx}")
+    connect(ordm, 0, j, 0)                 # Chain Order -> button state
+    connect(j, 0, ordm, 0)                 # click -> Chain Order (the parameter)
+
+# routing diagram (display) fed by every parameter that changes the topology
+rd = jsui("df_routing.js", [RX + 6, 44, RW - 12, 49], [], 1, 0, "route_diagram")
+for vn, msg in (("flt_route", "route"), ("order_sel", "order"), ("b_pos", "bpos"), ("l_on", "lon"), ("h_on", "hon"), ("b_on", "bon")):
+    p = newobj(f"prepend {msg}", [vx(), 1650, 90, 22], 1, 1, [""])
+    connect(BID(vn), 0, p, 0)
+    connect(p, 0, rd, 0)
+# band-pass architecture glyph
+ag = jsui("df_arch.js", [BX + 352, 46, 62, 112], [], 1, 0, "bpf_arch_glyph")
+for vn, msg in (("b_arch", "arch"), ("b_on", "on")):
+    p = newobj(f"prepend {msg}", [vx(), 1650, 90, 22], 1, 1, [""])
+    connect(BID(vn), 0, p, 0)
+    connect(p, 0, ag, 0)
+
+# availability: a control that is bypassed, or not read by the current configuration,
+# is drawn in reduced contrast. Only colour attributes change; the control stays fully
+# editable (active stays 1), so values can be prepared before switching.
+c4 = lambda c: " ".join(f"{v:g}" for v in c)
+LOOK = {
+    "live.dial": ({"activedialcolor": T.AMBER, "activeneedlecolor": T.TEXT},
+                  {"activedialcolor": T.ARC_OFF, "activeneedlecolor": T.TEXT_DIM}),
+    "live.tab": ({"activebgoncolor": T.AMBER, "textcolor": T.LABEL}, {"activebgoncolor": T.AMBER_DIM, "textcolor": T.TEXT_DIM}),
+    "live.text": ({"activebgoncolor": T.AMBER, "activetextcolor": T.LABEL},
+                  {"activebgoncolor": T.AMBER_DIM, "activetextcolor": T.TEXT_DIM}),
+    "live.menu": ({"textcolor": T.TEXT, "tricolor": T.AMBER}, {"textcolor": T.TEXT_DIM, "tricolor": T.TEXT_DIM}),
+}
+AVAIL = []   # (rule text, sources, targets) — also exported for the tests / docs
+
+
+def avail(srcs, expr, targets, why):
+    AVAIL.append({"sources": srcs, "expr": expr, "targets": targets, "why": why})
+    n = len(srcs)
+    if n == 1 and expr == "$i1":
+        gate = None
+    else:
+        pk = newobj("pak " + " ".join(["0"] * n), [vx(), 1700, 80, 22], n, 1, [""])
+        for i, s_ in enumerate(srcs):
+            connect(BID(s_), 0, pk, i)
+        gate = newobj(f"expr {expr}", [vx(), 1730, 200, 22], n, 1, [""])
+        connect(pk, 0, gate, 0)
+    sel = newobj("sel 0 1", [vx(), 1760, 50, 22], 2, 3, ["bang", "bang", ""])
+    connect(gate if gate else BID(srcs[0]), 0, sel, 0)
+    for state in (0, 1):
+        by_cls = {}
+        for t in targets:
+            by_cls.setdefault(BYV(t)["maxclass"], []).append(t)
+        for cls, ts in by_cls.items():
+            attrs = LOOK[cls][0 if state else 1]
+            mb = box("message", [vx(), 1790 + 30 * state, 200, 22], text=", ".join(f"{k} {c4(v)}" for k, v in attrs.items()),
+                     numinlets=2, numoutlets=1, outlettype=[""])
+            connect(sel, state, mb, 0)
+            for t in ts:
+                connect(mb, 0, BID(t), 0)
+
+
+LP_CTRL = ["l_model", "l_cut", "l_res", "l_drive", "l_comp", "l_char", "l_slope"]
+HP_CTRL = [c.replace("l_", "h_", 1) for c in LP_CTRL]
+avail(["l_on"], "$i1", LP_CTRL, "LPF bypassed")
+avail(["h_on"], "$i1", HP_CTRL, "HPF bypassed")
+avail(["b_on"], "$i1", ["b_model", "b_arch", "b_freq", "b_res", "b_drive", "b_mix"], "BPF bypassed")
+avail(["b_on", "b_arch"], "$i1 && ($i2 != 0)", ["b_bw"], "SVF does not read Bandwidth")
+avail(["b_on", "b_arch"], "$i1 && ($i2 != 2)", ["b_q", "b_comp"], "MULTI does not read Q or Compensation")
+avail(["b_on", "flt_route"], "$i1 && ($i2 == 0)", ["b_pos"], "BPF Position applies to SERIES only")
+avail(["flt_route"], "$i1 != 1", ["order_sel"], "PARALLEL has no LP/HP order")
+avail(["flt_route"], "$i1 == 1", ["par_l", "par_h"], "LP/HP levels apply to PARALLEL only")
+avail(["flt_route"], "$i1 != 0", ["par_b"], "BP level applies to PARALLEL and HYBRID")
+for pfx, on in (("t", "t_on"), ("o", "o_on"), ("v", "v_on"), ("g", "g_on")):
+    ts = [b["box"]["varname"] for b in boxes if b["box"].get("parameter_enable")
+          and b["box"].get("varname", "").startswith(pfx + "_") and b["box"]["varname"] != on]
+    avail([on], "$i1", ts, f"{on[:-3].upper()} module bypassed")
+
+# Info View / hint text on every parameter and on the jsui controls
+for b in boxes:
+    bb = b["box"]
+    if bb.get("parameter_enable"):
+        v = bb["saved_attribute_attributes"]["valueof"]
+        bb["annotation_name"] = v["parameter_longname"]
+        bb["annotation"] = INFO.describe(bb["varname"], v)
+        bb["hint"] = v["parameter_longname"] + ": " + INFO.DESC.get(bb["varname"], "")
+for vn, (nm, txt) in INFO.UI_DESC.items():
+    for cand in (vn, vn.replace("preset_", "presetbtn_")):
+        hits = [b["box"] for b in boxes if b["box"].get("varname") == cand and b["box"]["maxclass"] != "live.text"]
+        for bb in hits:
+            bb["annotation_name"] = nm
+            bb["annotation"] = txt
+            bb["hint"] = f"{nm}: {txt}"
 
 # ---------------------------------------------------------------- patcher
 patcher = {
@@ -680,4 +839,10 @@ amxd = b"ampf" + struct.pack("<I", 4) + b"aaaa" + b"meta" + struct.pack("<I", 4)
        b"ptch" + struct.pack("<I", len(payload)) + payload
 with open(os.path.join(out_dir, "DubFilter.amxd"), "wb") as f:
     f.write(amxd)
+import shutil
+for f in sorted(os.listdir(os.path.join(HERE, "jsui"))):
+    if f.endswith(".js"):
+        shutil.copy(os.path.join(HERE, "jsui", f), os.path.join(out_dir, f))
+with open(os.path.join(out_dir, "ui_availability.json"), "w") as f:
+    json.dump(AVAIL, f, indent=1)
 print(f"boxes {len(boxes)}, lines {len(lines)}, parameters {len(param_ids)}, amxd {len(amxd)} bytes")
