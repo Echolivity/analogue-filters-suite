@@ -28,7 +28,24 @@
 | Amplitude-dependent damping | none | D11/D12 path, active above about 2.6 V BP | **Missing** |
 | Self-oscillation | never (Q ≤ 10) | not specified. With w = 0 only the residual losses and the diode path damp it. Whether a real unit self-oscillates depends on pot end resistance and losses that the schematic cannot give. | **Undetermined** |
 
-**Assumptions a change would need:**
+## Decision and status (user, 2026-11-19): circuit damping, no self-oscillation. Done.
+
+- **Input:** linear (the old 2·tanh(x/2) is removed). The op-amp and buffer rails limit the HP, BP and LP outputs at ±13 V (2.6 units), with a sharp knee that is linear at normal levels.
+- **Damping:** 2R = 0.1 + 3.03·(1 − res). This is the RES-pot law with a linear taper, plus a 0.1 floor (Q ≤ 10, the same maximum as before), so the filter never self-oscillates. Q now runs from 0.32 to 10 (v1.5: 0.5 to 10).
+- **D11/D12 limiter:** extra half-damping 0.463·max(0, 0.175·|BP| − 0.45 V)/|BP|, smoothed and exactly 0 at small signal, with BP in volts at 5 V per unit. It is evaluated at the lagged BP, then re-solved at the current BP.
+- **Measured:**
+
+  | Check | Result |
+  |---|---|
+  | Small-signal fit to 1/(s² + 2R·s + 1) | within 0.23 dB at res 0, 50, 90, 100 |
+  | Res 100 gain at 1 kHz | +20.0 dB at −30 dBFS, +18.3 at −12, +11.2 at 0 dBFS |
+  | Impulse at res 100 | decays to −220 dB |
+  | 1x aliasing at the bright test point | −140 dBc (v1.5: −89; the soft clip was the main distortion) |
+
+- **Tests:** validate's SEM reference law is updated. The tracking check now compares the SEM peak with its circuit-Q position (Q ≈ 1.8 at res 85 puts the peak about 145 cents below fc, as a 2-pole should). A new v1.6 check locks this in.
+- **Goldens:** only SEM scenarios change.
+
+**Assumptions as stated before the change:**
 - the RES pot taper (linear assumed);
 - a level reference for the 2.6 V diode threshold;
 - a residual minimum damping, if self-oscillation is to be excluded.

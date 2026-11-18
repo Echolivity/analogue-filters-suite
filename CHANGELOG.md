@@ -35,6 +35,12 @@ Details and before/after measurements: [docs/V1.6_ENGINE.md](docs/V1.6_ENGINE.md
   - At Drive 100, the −3 dB point goes 760 → 992 → 2059 Hz at −40 / −10 / 0 dBFS. The old law gave 760 / 812 / 760 Hz.
   - The article also confirms the model's transfer functions, input points and high-pass node; its plots fit K/48 and Q = 1/(3 − K).
   - Level reference (assumption): one model unit = the article's 0 dBm input at the low-pass node.
+- **Changed: the Oberheim SEM now follows the SEM-1A schematic** (supplied by you):
+  - **Resonance:** the RES-pot law 2R = 0.1 + 3.03·(1 − res), so Q runs 0.32 → 10 (v1.5: 0.5 → 10). The 0.1 floor keeps it from self-oscillating.
+  - **D11/D12 diode limiter:** damping rises on loud signals. At maximum resonance the peak gain is +20 dB at −30 dBFS and +11 dB at 0 dBFS.
+  - **No input soft clip** (no circuit origin); the op-amp rails limit the outputs at ±13 V. At 1x it is far cleaner: −140 dBc aliasing (v1.5: −89).
+  - **Unchanged:** notch and band-pass routing, which already matched the PS19 crossfade.
+  - **Assumptions:** a linear RES pot; 5 V per unit; the Q floor.
 - **New UI:** an ENGINE strip at the right edge showing the mode, the high-oversampling choice, and the factors actually running. Two new Live parameters, appended; all 79 earlier ones are unchanged.
 - **Compatibility:**
   - Earlier Sets open in REFERENCE. Choose CREATIVE to get v1.5's oversampling factor back.
@@ -51,7 +57,7 @@ Details and before/after measurements: [docs/V1.6_ENGINE.md](docs/V1.6_ENGINE.md
   - `tests/v16_tests.py` (15 checks)
   - `tests/golden.py check-v16`
   - `compat.py --allow-dsp`
-  - Suite: 95/95 + 21/21 + UI 47/47
+  - Suite: 95/95 + 22/22 + UI 47/47
 - **Not yet compiled in Max.** The GenExpr is now about 14,000 lines.
 
 ## v1.5 — premium analogue UI (presentation only)
