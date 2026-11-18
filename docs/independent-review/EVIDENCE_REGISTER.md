@@ -89,3 +89,13 @@ See [MS20_STUDY_CHECK.md](MS20_STUDY_CHECK.md).
 | E50 | Korg35 diodes are in the forward path (×58, ~0.5 V knee); OTA diodes are in the feedback path (×4, ~2 V) | S | Model's clipper is feedback-path, so it is Mk2-like; Mk1 is missing |
 | E51 | Korg35 resonance is asymmetric (SPICE only) | S (unverified) | Not modelled |
 
+## Added 2026-11-19: Steiner, Electronic Design 1974 [P]
+
+See [STEINER_1974_CHECK.md](STEINER_1974_CHECK.md).
+
+| ID | Finding | Class | Verdict |
+|---|---|---|---|
+| E52 | LP K/(s² + (3 − K)s + 1), HP K·s(s + 2)/(…), BP K·s/(…); the HP node is the bottom of C2 | P + derivation | Model conforms |
+| E53 | The article's plots fit passband = K/48 and Q = 1/(3 − K) within about 1 dB | P | Conforms |
+| E54 | The diode string is one forward-biased string fed in mirror from both ends; net law i = 2I·sinh(v/V′); even orders cancel | P + derivation | Model uses tanh: wrong direction (cutoff falls with level instead of rising) |
+
