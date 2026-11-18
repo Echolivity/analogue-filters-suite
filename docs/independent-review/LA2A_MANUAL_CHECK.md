@@ -69,9 +69,9 @@
 
 **Implemented in v1.6** (internal detector). See [V1.6_ENGINE.md §4b](../V1.6_ENGINE.md) for every number.
 - **COMP:** exponent 2, unchanged.
-- **LIMIT:** exponent 3.5 plus the R7 sense term and the 40 dB floor. It fits Figure 1 at PR 80: 2.7/4.0/5.3/5.5 against 3.4/5.1/5.6/5.7.
+- **LIMIT:** exponent 3.5 plus the R7 sense term and the 40 dB floor. It fits Figure 1 within 1.4 dB (3.2/4.7/6.2/7.1 against 3.4/5.1/5.6/5.7), then dips about 5 dB beyond Figure 1's range, toward the 40 dB floor.
 - **Emphasis:** the R37 network.
-- **CHAIN/EXT keys:** unchanged. The R7 term latches without feedback.
+- **CHAIN/EXT keys:** gain law unchanged (the R7 term latches without feedback). Emphasis uses the R37 network for every source.
 
 **Remaining gaps:**
 - **One cell, two exponents.** No single cell fits both published curves. This follows both documents rather than the physics (the user's decision).

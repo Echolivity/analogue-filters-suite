@@ -174,10 +174,11 @@ def run_all(record, plt, OUT, SEQ, CAT, GRID, sig):
     brk = next(L for L, o in zip(lv, deep) if (L - lv[0]) - (o - deep[0]) > 1.0)
     best = min(((max(deep[i:i + 11]) - deep[i], lv[i]) for i in range(len(lv) - 10)))
     rise, w0 = best
+    dip = max(max(deep[:j + 1]) - deep[j] for j in range(len(deep)))   # largest fall after any earlier peak
     record("OPTO: static curve — COMP ≈2–4:1 (manual: about 3:1); LIMIT steeper than COMP and rising < 1 dB over 20 dB of input "
            "in its limiting region (manual: < 1 dB output rise for 20 dB more input)",
            all(1.8 <= r <= 4.5 for r in comp_r) and all(l > c for l, c in zip(lim_r, comp_r)) and rise < 1.0,
-           "; ".join(f"{r['mode']} PR{r['peak_reduction']}: {r['ratio_top']}:1" for r in rows) + f"; LIMIT PR100: best 20 dB window starts {w0 - brk:+d} dB above breakaway (manual: about +10), output rise {rise:.2f} dB",
+           "; ".join(f"{r['mode']} PR{r['peak_reduction']}: {r['ratio_top']}:1" for r in rows) + f"; LIMIT PR100: best 20 dB window starts {w0 - brk:+d} dB above breakaway (manual: about +10), output rise {rise:.2f} dB; then a {dip:.1f} dB dip before the 40 dB floor (beyond Figure 1)",
            rows=rows)
     trows = []
     for dur in (1, 10):

@@ -50,7 +50,7 @@ How the model implements this (internal detector; CHAIN/EXT keys keep their earl
 - **Timing (unchanged since v1.3).** An EL-panel light state, an LDR with fast and slow components, and a memory that lengthens the release.
 - **Gain.** G = 1/(1 + (1.6·c)^p), floored at 40 dB of reduction.
   - COMP: p = 2 (the addendum's ~3:1).
-  - LIMIT: p = 3.5, plus the R7 sense term (1 + 0.0444·q). This fits Figure 1, the manual's limiter curve.
+  - LIMIT: p = 3.5, plus the R7 sense term (1 + 0.0444·q). This fits Figure 1, the manual's limiter curve, within 1.4 dB, then dips about 5 dB toward the 40 dB floor.
 - **Emphasis.** The R37 network, 3rd order.
 
 Details and measurements: V1.6_ENGINE.md §4b.

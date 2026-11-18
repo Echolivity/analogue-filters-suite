@@ -25,5 +25,5 @@
  "changed_vs_legacy": [
   "opto limit emph"
  ],
- "note": "v1.6 solver fix (Sherman, Steiner, BPF SVF limiter) and Reference-mode power-on default; legacy tests run in Creative mode (tests/dsp.py base). OPTO from the Teletronix schematic C-10953 rev C (internal detector): LIMIT senses above R7 with cell exponent 3.5 (fits manual Figure 1); Emphasis is the R37/C12 network. COMP and CHAIN/EXT detector renders are unchanged."
+ "note": "v1.6 solver fix (Sherman, Steiner, BPF SVF limiter) and Reference-mode power-on default; legacy tests run in Creative mode (tests/dsp.py base). OPTO from the Teletronix schematic C-10953 rev C (internal detector): LIMIT senses above R7 with cell exponent 3.5 (fits manual Figure 1); Emphasis is the R37/C12 network. COMP renders are unchanged; CHAIN/EXT keep their gain law (Emphasis now uses the R37 network for every source)."
 }

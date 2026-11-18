@@ -10,12 +10,12 @@ Details and before/after measurements: [docs/V1.6_ENGINE.md](docs/V1.6_ENGINE.md
 - **New:** Engine Mode REFERENCE (default) / CREATIVE. REFERENCE runs each active model at least at its measured minimum factor (≤ −80 dBc aliasing at a bright test point; TUBE 8x). CREATIVE runs exactly your setting.
 - **Changed: OPTO LIMIT and Emphasis** (internal detector), rebuilt from the Teletronix schematic C-10953 rev C and the LA-2A manuals you supplied:
   - **LIMIT has a softer knee and a flat top.** It uses the hardware's R7 side-chain point, with the cell exponent fitted to the manual's Figure 1, which the addendum gives as the limiter curve.
-    - PR 80: +2.7/4.0/5.3/5.5 dB above breakaway (Figure 1: 3.4/5.1/5.6/5.7).
-    - About 1 dB of over-compression at extreme settings.
+    - +3.2/4.7/6.2/7.1 dB at 5/10/15/30 dB above breakaway (Figure 1: 3.4/5.1/5.6/5.7).
+    - Past the flat top it dips about 5 dB toward the 40 dB cell floor at extreme settings (Figure 1 stops before that point).
     - No more hunting (GR reversals on programme material 577 → 110).
   - **Emphasis now cuts the lows going to the detector** (up to about −15 dB near 200 Hz) instead of boosting the highs.
   - LIMIT distortion at ≥ 30 dB of reduction: 1 kHz 0.007 %, 400 Hz 0.04 %, 100 Hz 0.66 % (was 1.8 %).
-  - **Unchanged:** COMP (bit-identical below 40 dB of reduction) and CHAIN/EXT detector sources (bit-identical in both modes).
+  - **Unchanged:** COMP (bit-identical below 40 dB of reduction) and the CHAIN/EXT detector gain law (bit-identical in both modes with Emphasis at 0 %).
 - **New UI:** an ENGINE strip at the right edge showing the mode, the high-oversampling choice, and the factors actually running. Two new Live parameters, appended; all 79 earlier ones are unchanged.
 - **Compatibility:**
   - Earlier Sets open in REFERENCE. Choose CREATIVE to get v1.5's oversampling factor back.
