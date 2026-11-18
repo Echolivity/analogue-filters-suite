@@ -64,6 +64,7 @@ The review's R9 assumed the opposite (that the current model is Mk1 and Mk2 was 
   - The K35 high-pass now implements the OTA circuit's s(s + 1)/den: y = x + LP₂(u − x), with u = HP₁(K·y).
   - Measured: within 0.11 dB of that function (60 Hz–3 kHz) at resonance 0, 50 and 80; 5.6–5.7 dB/oct below cutoff.
   - The Reference aliasing check is still ≤ −80 dBc at 2x.
+- **High-pass Drive behaviour: keep the circuit-clean passband (user, 2026-11-19).** Drive 100 gives 0.18 % THD in the K35 high-pass passband, against 32.7 % in v1.5. No behavioural saturator is added; Drive mostly shapes the region around cutoff, as in the built circuit.
 - **Low-pass: relabelled, and Mk1 added. Done.** The current model is now described as the OTA (Mk2) circuit; its sound is unchanged and it is the default. The appended **K35 Circuit** parameter selects KORG-35 (Mk1) for both the LPF and the HPF. Switching uses the 4 ms duck and a state reset.
 
 | Mk1 check (`tests/v16_tests.py`) | Result |
