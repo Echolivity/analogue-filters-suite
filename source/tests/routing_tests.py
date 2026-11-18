@@ -202,5 +202,5 @@ def run_all(record, plt, OUT, SEQ, CAT, GRID, sig):
                     probs.append(f"flow r{r_} o{o} p{pos}: {txt} != {want}")
     params = [b for b in bx.values() if b.get("parameter_enable")]
     longs = [b["saved_attribute_attributes"]["valueof"]["parameter_longname"] for b in params]
-    record("DEVICE: Filter Routing + 3 parallel levels are stored parameters; signal-flow readout correct for all 12 routing × order × position combinations; 81 unique parameters (v1.6 appends Engine Mode, High Oversampling)",
-           not probs and len(longs) == 81 and len(set(longs)) == 81, "ok" if not probs else "; ".join(probs))
+    record("DEVICE: Filter Routing + 3 parallel levels are stored parameters; signal-flow readout correct for all 12 routing × order × position combinations; 82 unique parameters (v1.6 appends Engine Mode, High Oversampling, K35 Circuit)",
+           not probs and len(longs) == 82 and len(set(longs)) == 82, "ok" if not probs else "; ".join(probs))

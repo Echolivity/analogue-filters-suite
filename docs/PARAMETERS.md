@@ -1,6 +1,6 @@
 # Parameters, automation and MIDI mapping
 
-All 81 controls are Live parameters: the 20 from v1.1, 11 from v1.2 and 44 from v1.3, all unchanged, plus 4 for v1.4 filter routing and 2 for the v1.6 engine. Every one can be automated, MIDI-mapped (Cmd/Ctrl+M, click the control, move a controller) and key-mapped, and all are stored with the Live Set. Names below are the exact names in Live's automation chooser.
+All 82 controls are Live parameters: the 20 from v1.1, 11 from v1.2 and 44 from v1.3, all unchanged, plus 4 for v1.4 filter routing and 3 for v1.6 (Engine Mode, High Oversampling, K35 Circuit). Every one can be automated, MIDI-mapped (Cmd/Ctrl+M, click the control, move a controller) and key-mapped, and all are stored with the Live Set. Names below are the exact names in Live's automation chooser.
 
 ## Low-pass stage (amber)
 
@@ -146,3 +146,5 @@ See V1.6_ENGINE.md.
 | High Oversampling | OFF / 4x / 8x / 16x | OFF | Overrides the 1x/2x switch when not OFF. Applies to the filters and TUBE. A change ducks for 8 ms and resets the filter states. |
 
 The ENGINE strip's RUNNING AT readout shows the factors in effect.
+| K35 Circuit | OTA (Mk2) / KORG-35 (Mk1) | OTA (Mk2) | Which MS-20 filter circuit model 02 uses, for both the LPF and the HPF. OTA is the v1.5 sound. KORG-35 puts the clipping diodes in the signal path, and CHARACTER drives them. A change ducks for 8 ms and resets the filter states. See MODELS.md. |
+

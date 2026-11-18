@@ -141,13 +141,17 @@ def t_frequency_response():
             # check that 12 == 24 (no 12 dB tap) and each extension adds 12 dB/oct.
             exp = dnat["l"] + 12 * max(0, r["selected"] // 12 - 2)
             r["note"] = "native diode slope measured near fc; extensions add 12 dB/oct each"
+        if ("K35" in r["model"] or "Korg" in r["model"]) and r["stage"] == "h":
+            # v1.6: MS-20 HP as built (Stinchcombe 2006 s.7): s(s+1)/D -> 6 dB/oct skirt below fc
+            exp = 6 + 12 * (r["selected"] // 12 - 1)
+            r["note"] = "MS-20 HP (6 dB/oct, hardware) + 12 dB/oct per extension"
         if r["model"].startswith("Steiner") and r["stage"] == "h":
             # Steiner HP injection: K s(s+2)/D -> 6 dB/oct skirt well below fc
             exp = snat + 12 * (r["selected"] // 12 - 1)
             r["note"] = "Steiner HP injection skirt (6 dB/oct) + 12 dB/oct per extension"
         if abs(r["measured"] - exp) > 4:
             bad.append(f"{r['stage']}/{r['model']} sel {r['selected']} meas {r['measured']}")
-    record("Slope selector: measured slope (4–8× fc) within ±4 dB/oct of effective slope (diode & Steiner HP: native + 12 per extension)",
+    record("Slope selector: measured slope (4–8× fc) within ±4 dB/oct of effective slope (diode, Steiner HP and K35 HP: native + 12 per extension)",
            not bad, "ok" if not bad else "; ".join(bad), rows=slope_rows)
 
 
@@ -554,7 +558,7 @@ def t_circuit_reference():
             lambda s, k=k: s ** 4 / ((1 + s) ** 4 + k))
         K = 0.05 + 2.03 * (res / 100) ** 1.1
         add(f"Korg 35 LP — 1/(s^2+(2-K)s+1), res {res}%", "l", 1, 1000, res, 0, lambda s, K=K: 1 / (s * s + (2 - K) * s + 1))
-        add(f"Korg 35 HP — s^2/(s^2+(2-K)s+1), res {res}%", "h", 1, 300, res, 0, lambda s, K=K: s * s / (s * s + (2 - K) * s + 1))
+        add(f"Korg 35 HP — s(s+1)/(s^2+(2-K)s+1) (MS-20 as built), res {res}%", "h", 1, 300, res, 0, lambda s, K=K: s * (s + 1) / (s * s + (2 - K) * s + 1))
         Ks = 1 + 2.1 * (res / 100) ** 1.3
         add(f"Steiner-Parker LP — Sallen-Key K/(s^2+(3-K)s+1), res {res}%", "l", 3, 1000, res, 0,
             lambda s, K=Ks: K / (s * s + (3 - K) * s + 1))

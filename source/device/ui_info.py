@@ -19,11 +19,12 @@ DESC = {
     "h_drive": "Input level into the high-pass model's nonlinear stages.",
     "h_comp": "Level compensation for resonance-related passband loss.",
     "h_char": "Model-specific control; its name (below the knob) changes with the model.",
-    "h_slope": "Filter slope in dB/oct. Slopes beyond the model's native order add extension stages.",
+    "h_slope": "Filter slope in dB/oct. Slopes beyond the model's native order add extension stages. The Korg 35 / MS-20 and Steiner-Parker high-passes are 6 dB/oct natively, as on the hardware, so on those models the settings give about 6, 18, 30 and 42 dB/oct.",
     # DUB FILTER centre
     "order_sel": "Series order of the low-pass and high-pass stages. Not used in PARALLEL routing.",
     "ovs_sel": "Oversampling for the filter engines and TUBE: 1x or 2x (see High Oversampling for 4x-16x). In REFERENCE mode this is a minimum: the engine runs at least at each active model's measured minimum.",
     "eng_mode": "REFERENCE: every active model runs at least at its measured minimum oversampling (filters <= -80 dBc aliasing at a bright test point; TUBE 8x). CREATIVE: the engine runs at exactly the factor you set, including 1x.",
+    "k35_circ": "Which MS-20 filter circuit the K35 model (LPF and HPF) uses. OTA (Mk2): the later LM13600 design, with clipping diodes in the resonance feedback, as in v1.5. KORG-35 (Mk1): the original Korg35 Sallen-Key, with clipping diodes in the signal path, so loud signals distort at every frequency; CHARACTER sets how hard they are driven. Reference mode runs it at 8x (LPF) / 4x (HPF).",
     "ovs_hi": "Optional 4x, 8x or 16x oversampling for the filter engines and TUBE. Overrides the 1x/2x switch when not OFF. Higher factors cost CPU.",
     "out_db": "Device output level after all processing.",
     "softclip": "Gentle output soft clipper that catches peaks from resonance and drive.",

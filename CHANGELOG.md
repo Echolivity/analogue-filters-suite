@@ -16,6 +16,19 @@ Details and before/after measurements: [docs/V1.6_ENGINE.md](docs/V1.6_ENGINE.md
   - **Emphasis now cuts the lows going to the detector** (up to about −15 dB near 200 Hz) instead of boosting the highs.
   - LIMIT distortion at ≥ 30 dB of reduction: 1 kHz 0.007 %, 400 Hz 0.04 %, 100 Hz 0.66 % (was 1.8 %).
   - **Unchanged:** COMP (bit-identical below 40 dB of reduction) and the CHAIN/EXT detector gain law (bit-identical in both modes with Emphasis at 0 %).
+- **Changed: the K35 high-pass is now 6 dB/oct, as on the MS-20** (Stinchcombe 2006, §7). The real circuit grounds the low-pass input and drives stage 2's lifted capacitor, which gives s(s + 1)/(s² + (2 − K)s + 1); v1.5 used s²/(…), 12 dB/oct. Measured within 0.11 dB of that function at resonance 0, 50 and 80.
+  - **The HPF powers on as K35, so this changes the device's default high-pass.** On this model the slope settings now give about 6/18/30/42 dB/oct.
+  - **Drive barely distorts its passband any more.** THD at 2 kHz, Drive 100 is 0.18 %, against 32.7 % in v1.5. In the built circuit the input reaches the output through stage 2's capacitor, so the OTA's saturation only shapes the region around cutoff; v1.5's passband distortion came from its non-circuit structure.
+  - Sets that use the K35 high-pass get a gentler low cut, and up to +2.9 dB more level at the resonant peak (+0.1 dB at res 0, +2.1 at 50, +2.9 at 80).
+  - Because the HPF powers on as K35, every HPF reference render changes during its start-up crossfade. The residual is exactly zero within 2 s.
+- **New: K35 Circuit, OTA (Mk2) / KORG-35 (Mk1).** Stinchcombe's study shows the existing K35 model is the later LM13600 OTA circuit. It is now labelled as such, and its sound is unchanged (the default). KORG-35 adds the original MS-10/early MS-20 circuit:
+  - a Sallen-Key core (C1 = 3·C2, 1/(s² + (7/3 − k)s + 1));
+  - CHARACTER drives the diode stage by 0 to +24 dB, with makeup gain following the Drive control's level compensation (half the drive in dB at the default 100 %). At CHARACTER 100, quiet signals come out +11.6 dB and loud ones −6.6 dB;
+  - the ×58 diode stage in the signal path (fitted to the study's Figure 17), so loud signals distort at every frequency, and CHARACTER sets the drive;
+  - measured: transfer functions within 0.23 dB; passband THD rising from 0.009 % to 4.5 % with level in the study's test; self-oscillation only at maximum resonance; worst fs/4 peak −3.9 dBFS;
+  - Reference mode runs it at 8x (LPF) / 4x (HPF), measured at the default CHARACTER as for every model. Heavy CHARACTER aliases more: at 8x, −67.9 dBc at CHARACTER 50 and −44.5 at 100. It costs about 2.3× the OTA circuit's CPU at the same factor.
+  - **Assumptions:** 5 V peak per unit inside the filter (after Drive, which feeds the models at −12 dB at Drive 0). The diode knee is then reached at about +2 dBFS input at Drive 0, and about −16 dBFS at Drive 60; the study's R1 = R2/3 and ×1.1 buffer gain; MS-10 component values. The study's asymmetric resonance is not modelled (simulation only).
+  - A new K35 strip sits at the right edge, and the parameter is appended (82 in total).
 - **New UI:** an ENGINE strip at the right edge showing the mode, the high-oversampling choice, and the factors actually running. Two new Live parameters, appended; all 79 earlier ones are unchanged.
 - **Compatibility:**
   - Earlier Sets open in REFERENCE. Choose CREATIVE to get v1.5's oversampling factor back.
@@ -23,8 +36,8 @@ Details and before/after measurements: [docs/V1.6_ENGINE.md](docs/V1.6_ENGINE.md
 
     | Baseline | v1.6 result |
     |---|---|
-    | Dynamics, 21 | 20 bit-identical; 1 changes ("opto limit emph") |
-    | LPF/HPF, 48 | 29 bit-identical; the 19 that change are the Sherman and Steiner scenarios and device power-on |
+    | Dynamics, 21 | 14 bit-identical; 7 change ("opto limit emph", and the 6 chain + filters scenarios via the K35 high-pass) |
+    | LPF/HPF, 48 | 18 bit-identical; 30 change (Sherman, Steiner, device power-on, and every scenario using the HPF via the K35 high-pass) |
     | BPF, 35 | 34 change by at most −87 dBFS (SVF) or −115 dBFS (the startup crossfade only) |
 
     These changes are documented and gated.
@@ -32,7 +45,7 @@ Details and before/after measurements: [docs/V1.6_ENGINE.md](docs/V1.6_ENGINE.md
   - `tests/v16_tests.py` (15 checks)
   - `tests/golden.py check-v16`
   - `compat.py --allow-dsp`
-  - Suite: 95/95 + 15/15 + UI 47/47
+  - Suite: 95/95 + 20/20 + UI 47/47
 - **Not yet compiled in Max.** The GenExpr is now about 14,000 lines.
 
 ## v1.5 — premium analogue UI (presentation only)

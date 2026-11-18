@@ -58,7 +58,37 @@ In each case this is a 12 dB/oct high-pass plus a band-pass term. Below cutoff t
 
 The review's R9 assumed the opposite (that the current model is Mk1 and Mk2 was missing). This check reverses it: **Mk1 is the one that is missing.**
 
-## Options (need the user's decision; no engine change yet)
+## Decisions (user, 2026-11-18) and status
+
+- **High-pass: changed in place. Done.**
+  - The K35 high-pass now implements the OTA circuit's s(s + 1)/den: y = x + LP₂(u − x), with u = HP₁(K·y).
+  - Measured: within 0.11 dB of that function (60 Hz–3 kHz) at resonance 0, 50 and 80; 5.6–5.7 dB/oct below cutoff.
+  - The Reference aliasing check is still ≤ −80 dBc at 2x.
+- **High-pass Drive behaviour: keep the circuit-clean passband (user, 2026-11-19).** Drive 100 gives 0.18 % THD in the K35 high-pass passband, against 32.7 % in v1.5. No behavioural saturator is added; Drive mostly shapes the region around cutoff, as in the built circuit.
+- **Low-pass: relabelled, and Mk1 added. Done.** The current model is now described as the OTA (Mk2) circuit; its sound is unchanged and it is the default. The appended **K35 Circuit** parameter selects KORG-35 (Mk1) for both the LPF and the HPF. Switching uses the 4 ms duck and a state reset.
+
+| Mk1 check (`tests/v16_tests.py`) | Result |
+|---|---|
+| LP fit to 1/(s² + (7/3 − k)s + 1) | within 0.23 dB |
+| HP fit to s(s + 4/3)/(…) | within 0.11 dB |
+| The study's detection test (500 Hz, fc 7 kHz, res 50) | Mk1 THD 0.009 % → 0.151 % → 4.46 % at −24/−12/0 dBFS; Mk2 0.002 % → 0.037 % → 0.59 % |
+| Self-oscillation | at res 100 (−6.8 dBFS, held by the diodes); not at res 90 |
+| fs/4 sweep | worst −3.9 dBFS |
+| Reference oversampling | LPF 8x (−105.3 dBc; 4x gives −76.5); HPF 4x (−86.9 dBc) |
+| Mid-signal circuit switch | ducked, no step |
+| CPU at 8x | 4,013 ns, vs 1,716 for Mk2 |
+
+Diode stage fitted to Figure 17: n·Vt = 52 mV, Is = 1.72 nA. Solver: one scalar monotone equation in the diode voltage. The offline check (`ms20/solver.py`) gives a worst relative residual of 1.2e-5 with four Newton steps.
+
+**Assumptions:**
+- 5 V peak per unit inside the filter, after Drive (−12 dB at Drive 0), so the knee is at about +2 dBFS input at Drive 0. CHARACTER adds 0 to +24 dB of drive, with makeup gain as Drive. The Reference minimums hold at the default CHARACTER.
+- R1 = R2/3, which the study itself doubts; equal resistances would move self-oscillation to k = 5/3.
+- The JFET buffer is ×1.1, so maximum loop gain is about 2.4.
+- MS-10 values are used for the MS-20.
+
+**Not modelled:** the asymmetric resonance ([S], unverified).
+
+## Options as presented
 
 - **Labelling.** Relabel the current model as "MS-20 Mk2 (LM13600 OTA)-inspired". The sound is unchanged.
 - **Mk1.** Add the Korg35 (Mk1) circuit as an **appended parameter** (e.g. "K35 Circuit: OTA / KORG-35"), not a new value on LPF/HPF Model. Extending those lists would break `compat.py`, which requires every earlier parameter box and gen~ range to stay identical. The Mk1 circuit would have:

@@ -15,7 +15,7 @@ How much I could establish varies by circuit. The TB-303 and Moog ladder are tho
 | # | Model | Circuit basis | Topology supports | LPF stage | HPF stage | Native slope | Taps | Self-osc. | CHARACTER |
 |---|---|---|---|---|---|---|---|---|---|
 | 01 | Sherman Filterbank-inspired | **Behavioural** (no public schematic) | LP, BP, notch, HP (per the maker's spec) | LP | HP | 24 (filters 1+2) | 12 = filter 2 alone | yes | FEEDBACK |
-| 02 | Korg 35 (MS-20 Mk1)-inspired | Korg 35 Sallen-Key LP and HP | LP, HP | LP | HP | 12 | 12 | yes | FB CLIP |
+| 02 | Korg 35 / MS-20 (K35 Circuit: OTA Mk2 or KORG-35 Mk1) | Mk2: two buffered one-poles (LM13600). Mk1: Korg35 Sallen-Key | LP, HP | LP | HP (6 dB/oct, as built) | LP 12, HP 6 | 12 | yes | Mk2: FB CLIP · Mk1: DIODE DRIVE |
 | 03 | Moog transistor ladder-inspired | 4 differential-pair stages + global feedback | LP (HP/BP only by pole mixing) | LP | **ALT** pole-mix HP | 24 | 12 / 24 | yes | STAGE SAT |
 | 04 | Steiner-Parker Synthacon-inspired | Sallen-Key, diode-string resistors, 3 injection points | LP, BP, HP | LP (+BP) | HP injection (+BP) | 12 (HP: see note) | 12 | yes | BP BLEND |
 | 05 | Oberheim SEM-inspired | OTA state-variable filter | LP, BP, notch, HP | LP→notch | HP→notch | 12 | 12 | no | NOTCH MORPH |
@@ -37,19 +37,41 @@ Rules: no silent substitution (the HPF menu has five entries), the one alternati
 
 **Not modelled.** Harmonic coupling of filter 2, parallel mode, continuous mode morphing, the envelopes, LFO, ring modulator and pitch tracking.
 
-## 02 Korg 35 (MS-20 Mk1)-inspired
+## 02 Korg 35 / MS-20
 
-**Circuit.**
-- The MS-10 and early MS-20 used Korg's proprietary KORG35 thick-film IC filter, which was later replaced by an LM13600 OTA design.
-- The Korg 35 is a voltage-controlled Sallen-Key topology that can produce both low-pass and high-pass responses.
-- Its Q is set by a delay-less positive feedback loop, with the saturation circuit inside that loop.
-- MS-20-style filters put diodes in the resonance path, which keeps them from clipping when they self-oscillate.
+**Source (v1.6):** T. E. Stinchcombe, *A Study of the Korg MS10 & MS20 Filters* (2006), a SPICE circuit analysis of the MS-10 (Korg35) and KLM-307 (OTA) schematics. Full check: [MS20_STUDY_CHECK.md](independent-review/MS20_STUDY_CHECK.md).
 
-**The model (unchanged in this revision; it already followed this structure).**
-- LP: LP1 → Σ → LP2, with K·y fed back through HP1 into Σ. H = 1/(s² + (2−K)s + 1), self-oscillating at K = 2.
-- HP: the mirrored HP1 → Σ → HP2 with an LP1 feedback path. H = s²/(s² + (2−K)s + 1).
+**Two circuits share the name.** The **K35 Circuit** parameter selects between them for both the LPF and the HPF.
 
-Both use a zero-delay-feedback solve with a saturator in the loop. The feedback gain is limited by the diode characteristic (secant of tanh), and CHARACTER (FB CLIP) sets the clipping level. **Approximation:** the Korg 35 IC's internal transistor-level behaviour, including its "overdrive at the cost of bass" character, is represented by the loop saturator rather than by transistor equations.
+| | OTA (Mk2), the default and the v1.5 sound | KORG-35 (Mk1) |
+|---|---|---|
+| Used in | later MS-20s (daughterboard KLM-307) | MS-10 and early MS-20s |
+| Core | two buffered one-pole OTA stages | Sallen-Key, C1 = 3·C2 |
+| Low-pass | 1/(s² + (2 − K)s + 1) | 1/(s² + (7/3 − k)s + 1), with R1 = R2/3 (the study's assumption) |
+| High-pass | s(s + 1)/(s² + (2 − K)s + 1) | s(s + 4/3)/(…) |
+| Clipping diodes | in the resonance feedback, so only frequencies near cutoff are affected | in the forward path (the X1 stage, ×58, with 1N4148s across 270 kΩ), so loud signals distort at every frequency |
+| CHARACTER | sets the feedback clip level (FB CLIP) | drives the diode stage, 0 to +24 dB above the reference |
+| Reference oversampling | 2x | 8x (LPF), 4x (HPF) |
+
+**High-pass (v1.6).** Both real high-pass variants are 6 dB/oct, not 12. In the built circuit the input reaches the output through stage 2's capacitor, so the high-pass passband is essentially clean: Drive mostly shapes the region around cutoff. v1.5's structure ran the input through a saturator, giving 32.7 % THD at Drive 100; v1.6 gives 0.18 %. Korg grounds the low-pass input and feeds the signal into stage 2's lifted capacitor. The result is a 12 dB high-pass plus a band-pass term, so the slope below cutoff is 6 dB/oct. Up to v1.5 this model used s²/(…), at 12 dB/oct.
+
+**Mk2 model (unchanged except the high-pass).**
+- LP1 → Σ → LP2, with K·y fed back through HP1.
+- The feedback gain is limited by a diode-like secant, and there is a mild tanh at the stage-2 input, as an OTA input stage would add.
+
+**Mk1 model (new in v1.6).**
+- A Sallen-Key core solved zero-delay from both capacitor states.
+- The X1 diode stage is fitted to the study's Figure 17 (n·Vt = 52 mV, Is ≈ 1.7 nA). Each sample solves the stage as one scalar monotone equation (four Newton steps, worst relative residual about 1e-5).
+- **Level reference (assumption):** 5 V peak per unit of signal inside the filter, after Drive. Drive feeds every model at −12 dB at Drive 0 and up to +18 dB at Drive 100, so the diode knee is reached at about +2 dBFS input at Drive 0 and about −16 dBFS at Drive 60.
+- **CHARACTER** drives the diode stage by 0 to +24 dB. Makeup gain follows Drive's level compensation (half the drive in dB at the default 100 %). At CHARACTER 100, quiet signals come out +11.6 dB and 0 dBFS −6.6 dB, and self-oscillation drops from −6.8 to −18.8 dBFS.
+- **Reference minimums (8x LPF / 4x HPF) are measured at the default CHARACTER,** as for every model. Heavy CHARACTER aliases more: −67.9 dBc at 8x at CHARACTER 50, and −44.5 at 100.
+- Resonance reaches a small-signal loop gain of about 2.4, which assumes the study's ×1.1 JFET buffer. So Mk1 self-oscillates only near maximum resonance (it does at 100 %, not at 90 %).
+- **Not modelled:** the Korg35's asymmetric resonance. The study shows it in simulation only, and its magnitude is unverified. The MS-20's own component values may also differ from the MS-10's, which the study used.
+
+**Measured** (`tests/v16_tests.py`):
+- Mk1 matches its transfer functions within 0.23 dB (LP) and 0.11 dB (HP).
+- In Stinchcombe's detection test (500 Hz, fc 7 kHz, res 50), Mk1's distortion rises from 0.009 % at −24 dBFS to 4.5 % at 0 dBFS, against 0.002–0.59 % for Mk2.
+- Worst peak in the fs/4 sweep: −3.9 dBFS.
 
 ## 03 Moog transistor ladder-inspired, revised
 
