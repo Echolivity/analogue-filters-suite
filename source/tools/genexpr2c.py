@@ -24,12 +24,12 @@ TOK = re.compile(r"""
 
 BUILTIN_F = {
     "tanh": ("tanh", 1), "tan": ("tan", 1), "exp": ("exp", 1), "exp2": ("exp2", 1),
-    "log2": ("log2", 1), "log": ("log", 1), "pow": ("pow", 2), "sqrt": ("sqrt", 1),
+    "log2": ("log2", 1), "log": ("log", 1), "log10": ("log10", 1), "pow": ("pow", 2), "sqrt": ("sqrt", 1),
     "abs": ("fabs", 1), "min": ("fmin", 2), "max": ("fmax", 2), "clamp": ("gclamp", 3),
     "floor": ("floor", 1), "sin": ("sin", 1), "cos": ("cos", 1), "fixdenorm": ("fixdenorm", 1),
 }
-BUILTIN_V = {"samplerate": "g_sr", "pi": "M_PI", "in1": "in1", "in2": "in2"}
-OUTPUTS = {"out1", "out2"}
+BUILTIN_V = {"samplerate": "g_sr", "pi": "M_PI", "in1": "in1", "in2": "in2", "in3": "in3", "in4": "in4"}
+OUTPUTS = {f"out{i}" for i in range(1, 15)}
 
 
 class Err(Exception):
@@ -393,7 +393,7 @@ class Compiler:
             ctx["locals"].add(name)
             return "v_" + name
         if name in OUTPUTS:
-            return "*" + name
+            return f"outs[{int(name[3:]) - 1}]"
         if name in self.pnames:
             raise Err(f"line {ln}: assignment to Param {name}")
         if name in self.hnames:
@@ -430,7 +430,7 @@ class Compiler:
         ctx = dict(kind="main", name="main", args=set(), locals=set(), tmp=0, hwritten=set())
         body = []
         self.blk(self.body_stmts, Scope(), ctx, body, 1)
-        out.append("void gen_perform(double in1, double in2, double* out1, double* out2) {")
+        out.append("void gen_perform(double in1, double in2, double in3, double in4, double* outs) {")
         if ctx["locals"]:
             out.append("    double " + ", ".join(f"v_{n} = 0.0" for n in sorted(ctx["locals"])) + ";")
         out.extend(body)

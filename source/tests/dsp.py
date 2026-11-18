@@ -11,20 +11,30 @@ def base(**kw):
              ovs_sel=0, out_db=0, softclip=0)
     p.update(kw); return p
 
-def run(x, params, sr=48000, events=(), ns=False):
+def run(x, params, sr=48000, events=(), ns=False, key=None, meters=False):
     """x: (n,2) or (n,) array. params: initial values (applied before sample 0, so
     smoothers still glide from their power-on values -> callers pre-roll)."""
     x = np.asarray(x, np.float32)
     if x.ndim == 1: x = np.stack([x, x], 1)
     with tempfile.TemporaryDirectory() as d:
-        fi, fo, fs = (os.path.join(d, n) for n in ("i", "o", "s"))
+        fi, fo, fs, fk, fm = (os.path.join(d, n) for n in ("i", "o", "s", "k", "m"))
         x.astype(np.float32).tofile(fi)
+        args = []
+        if key is not None:
+            key = np.asarray(key, np.float32)
+            if key.ndim == 1: key = np.stack([key, key], 1)
+            key.astype(np.float32).tofile(fk); args = [fk]
+        if meters:
+            args = (args or ["-"]) + [fm]
         with open(fs, "w") as f:
             for k, v in params.items(): f.write(f"-1 {k} {v}\n")
             for (fr, k, v) in events: f.write(f"{int(fr)} {k} {v}\n")
-        r = subprocess.run([HARN, str(sr), fi, fo, fs], capture_output=True, text=True)
+        r = subprocess.run([HARN, str(sr), fi, fo, fs] + args, capture_output=True, text=True)
         if r.returncode: raise RuntimeError(r.stderr)
         y = np.fromfile(fo, np.float32).reshape(-1, 2).astype(np.float64)
+        M = np.fromfile(fm, np.float32).reshape(-1, 12).astype(np.float64) if meters else None
+    if meters:
+        return y, M
     return (y, float(r.stdout)) if ns else y
 
 def tf(params, sr=48000, n=1<<16, pre=None, level=1e-3, seed=1):
@@ -45,3 +55,8 @@ def bpf(**kw):
     d = dict(b_on=1)
     d.update({(k if (k.startswith(("b_", "l_", "h_")) or k in glob) else "b_" + k): v for k, v in kw.items()})
     return base(**d)
+DYN_PERMS = ["TUBE>OPTO>VCA", "TUBE>VCA>OPTO", "OPTO>TUBE>VCA", "OPTO>VCA>TUBE", "VCA>TUBE>OPTO", "VCA>OPTO>TUBE"]
+
+def dyn(**kw):
+    """Dynamics only (filters off)."""
+    return base(**kw)

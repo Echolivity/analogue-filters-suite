@@ -16,6 +16,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(HERE, "..", "tools"))
 from hiir_design import coefs as hiir_coefs
 import bpf  # v1.2 band-pass engine (separate module)
+import dyn  # v1.3 dynamics chain (separate module)
 
 HIIR = hiir_coefs(10, 0.0227)
 
@@ -396,6 +397,9 @@ def build():
     # v1.2: band-pass engine parameters (appended; existing parameters unchanged)
     for (n, d, lo, hi) in bpf.params():
         P(n, d, lo, hi)
+    # v1.3: dynamics chain parameters (appended)
+    for (n, d, lo, hi) in dyn.params():
+        P(n, d, lo, hi)
 
     # ----- state declarations -----
     statevars = []   # local names mirrored from histories
@@ -441,6 +445,10 @@ def build():
         CV(n, i)
     bpf.register_state(SVB, CV)
     for v in bpf_sv:
+        SV(v)
+    dyn_sv = []
+    dyn.register_state(lambda n: dyn_sv.append(n), CV)  # v1.3 (after all existing state)
+    for v in dyn_sv:
         SV(v)
 
     # ======================= main body ==========================
@@ -705,6 +713,8 @@ def build():
     G.ind -= 1
     w("}")
     w()
+    dyn.emit_chain(w, G, {"L": "y_L", "R": "y_R"}, {"L": "y_L", "R": "y_R"})  # v1.3
+    w()
     w("// ---- DC blocker (1st order, 2 Hz), output gain, soft clip, duck ----")
     w("dcr = 1 - 2 * pi * 2 / fs;")
     w("og = H_og + a_par * (exp(0.11512925465 * clamp(out_db, -24, 12)) - H_og);")
@@ -727,6 +737,7 @@ def build():
         w(f"q_{ch} = q_{ch} == q_{ch} ? q_{ch} : 0;")
     w("out1 = q_L;")
     w("out2 = q_R;")
+    dyn.emit_outputs(w)  # v1.3 meter outlets out3..out14
     w()
     w("// ---- reset all filter state on oversampling change ----")
     w("if (rst > 0.5) {")
@@ -751,6 +762,8 @@ def build():
     for n in bpf.ctrl_names():
         w(f"H_{n} = {n};")
     w("H_b_cur_pos = new_pos;")
+    for n in dyn.ctrl_names():
+        w(f"H_{n} = {n};")
 
     # ---- assemble ----
     out = []
@@ -765,6 +778,7 @@ def build():
         out.append(f"History {n}({init!r});")
     out.append(LIB)
     out.append(bpf.LIB)
+    out.append(dyn.LIB)
     out.extend(G.lines)
     return "\n".join(out) + "\n", params
 
