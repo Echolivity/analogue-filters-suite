@@ -99,8 +99,50 @@ def render_all(extra=None, bpf=False, dyn=False):
         out[name] = hashlib.sha256(y.tobytes()).hexdigest()
     return out
 
+GOLD16 = {"": os.path.join(HERE, "baseline", "lpf_hpf_golden_v1.6.json"),
+          "bpf": os.path.join(HERE, "baseline", "bpf_golden_v1.6.json"),
+          "dyn": os.path.join(HERE, "baseline", "dyn_golden_v1.6.json")}
+LEGACY = {"": GOLD, "bpf": GOLD_BPF, "dyn": GOLD_DYN}
+
+
+def v16(kind, capture=False):
+    """v1.6: every scenario must match the v1.6 capture, and the set of scenarios that differ
+    from the legacy (v1.1/v1.2/v1.3) capture must be exactly the documented one."""
+    h = render_all(bpf=kind == "bpf", dyn=kind == "dyn")
+    legacy = json.load(open(LEGACY[kind]))
+    changed = sorted(k for k in legacy if h.get(k) != legacy[k])
+    if capture:
+        json.dump({"hashes": h, "changed_vs_legacy": changed,
+                   "note": "v1.6 solver fix (Sherman, Steiner, BPF SVF limiter) and Reference-mode power-on default; "
+                           "legacy tests run in Creative mode (tests/dsp.py base)"}, open(GOLD16[kind], "w"), indent=1)
+        print(f"captured v1.6 {kind or 'lpf/hpf'}: {len(h)} renders; {len(changed)} differ from legacy")
+        return 0
+    g = json.load(open(GOLD16[kind]))
+    bad = [k for k in g["hashes"] if h.get(k) != g["hashes"][k]]
+    drift = sorted(set(changed) ^ set(g["changed_vs_legacy"]))
+    print(f"v1.6 {kind or 'lpf/hpf'}: {len(g['hashes']) - len(bad)}/{len(g['hashes'])} bit-identical to v1.6; "
+          f"{len(legacy) - len(changed)}/{len(legacy)} still bit-identical to legacy (documented changes: {len(g['changed_vs_legacy'])})"
+          + (f" — MISMATCH: {bad}" if bad else "") + (f" — UNDOCUMENTED LEGACY CHANGE: {drift}" if drift else ""))
+    return 1 if (bad or drift) else 0
+
+
+def legacy_report(kind, gold, h, bad):
+    """Legacy baseline check (v1.6): passes when every render is bit-identical to the legacy baseline,
+    except exactly the documented v1.6 changes, which must match the v1.6 capture."""
+    g = json.load(open(GOLD16[kind]))
+    doc = set(g["changed_vs_legacy"])
+    wrong16 = [k for k in doc if h.get(k) != g["hashes"].get(k)]
+    undoc = sorted(set(bad) - doc)
+    print(f"{len(gold) - len(bad)}/{len(gold)} bit-identical to legacy; {len(set(bad) & doc)} documented v1.6 changes "
+          f"(match the v1.6 capture: {not wrong16})" + (f" — UNDOCUMENTED MISMATCH: {', '.join(undoc)}" if undoc else "")
+          + (f" — v1.6 MISMATCH: {wrong16}" if wrong16 else ""))
+    return 1 if (undoc or wrong16) else 0
+
+
 if __name__ == "__main__":
     mode = sys.argv[1]
+    if mode in ("check-v16", "capture-v16"):
+        sys.exit(max(v16(k, capture=mode == "capture-v16") for k in ("", "bpf", "dyn")))
     if mode == "capture":
         h = render_all()
         os.makedirs(os.path.dirname(GOLD), exist_ok=True)
@@ -118,18 +160,15 @@ if __name__ == "__main__":
         gold = json.load(open(GOLD_DYN))
         h = render_all(dyn=True)
         bad = [k for k in gold if h.get(k) != gold[k]]
-        print(f"{len(gold) - len(bad)}/{len(gold)} bit-identical" + (" — MISMATCH: " + ", ".join(bad) if bad else ""))
-        sys.exit(1 if bad else 0)
+        sys.exit(legacy_report('dyn', gold, h, bad))
     elif mode == "check-bpf":
         gold = json.load(open(GOLD_BPF))
         h = render_all(bpf=True)
         bad = [k for k in gold if h.get(k) != gold[k]]
-        print(f"{len(gold) - len(bad)}/{len(gold)} bit-identical" + (" — MISMATCH: " + ", ".join(bad) if bad else ""))
-        sys.exit(1 if bad else 0)
+        sys.exit(legacy_report('bpf', gold, h, bad))
     else:
         extra = json.loads(sys.argv[2]) if len(sys.argv) > 2 else None
         gold = json.load(open(GOLD))
         h = render_all(extra)
         bad = [k for k in gold if h.get(k) != gold[k]]
-        print(f"{len(gold) - len(bad)}/{len(gold)} bit-identical" + (" — MISMATCH: " + ", ".join(bad) if bad else ""))
-        sys.exit(1 if bad else 0)
+        sys.exit(legacy_report('', gold, h, bad))

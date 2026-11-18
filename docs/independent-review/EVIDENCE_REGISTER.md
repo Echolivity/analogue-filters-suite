@@ -57,3 +57,35 @@
 | E32 | Other secant models (K35, Ladder, SEM, 303, BPF) have the same lagged pattern; none diverged on the map, but they have not been swept at 1-cent resolution around fs/4 | H | :124, :157–161, :226–227, :247–250; bpf.py:57–58, 84–95 | (planned: T0) | — | — |
 | E33 | ADAA could replace 8× for the static TUBE shaper at lower cost | H | dyn.py:66–72 | (planned: P0-4 evaluation) | — | ADAA literature (Parker et al., antiderivative anti-aliasing) — not opened in this review |
 | E34 | Hardware fidelity of any model | none | — | — | — | **No hardware evidence exists**; no claim is made |
+
+## Added 2026-11-18: LA-2A operating manual [P]
+
+See [LA2A_MANUAL_CHECK.md](LA2A_MANUAL_CHECK.md). `tests/review/la2a_manual.py` makes the measurements.
+
+| ID | Finding | Class | Verdict |
+|---|---|---|---|
+| E35 | LIMIT: output rises 2.1 dB over the top 20 dB. The manual says < 1 dB. | P vs M | Deviates |
+| E36 | COMP local ratio 1.7 → 2.8:1. The manual says about 3:1 (100 % → 30 %, about 2.6:1). | P vs M | Conforms |
+| E37 | Emphasis at maximum: +8.2 to +8.9 dB more GR at 15 kHz (LIMIT). The manual says about +10 dB. | P vs M | Slightly short |
+| E38 | THD at ≥ 30 dB GR: 0.018 % at 1 kHz, 1.8 % at 100 Hz. The manual says < 0.5 %, frequency not stated. | P vs M | Conforms at 1 kHz |
+| E39 | Side-chain: the manual's text says input-fed. OPTO is output-fed (feedback). | P vs code | Deviates (schematic needed) |
+| E40 | Attack: the manual says 10 µs, undefined. OPTO measures 2.35–8.1 ms t63. | P vs M | Conflicts; not used |
+| E41 | Schematic C-10953 rev C: R2 is fed from the R6/R7 node, so the side-chain is feedback. SW3 shorts R7 (COMP). | P | Resolves E39; v1.6 LIMIT implements it |
+| E42 | R37 ∥ C12 network: max = LF side-chain cut; 15 kHz +12 dB vs 500 Hz, +8 dB vs 1 kHz | P (computed) | Implemented; conforms to E37's manual figure |
+| E43 | Figure 1 (3-66 manual, pre-switch): output +3.4/+5.1/+5.6/+5.7 dB at 5/10/15/30 dB above breakaway | P | v1.6 LIMIT: 2.5/3.9/5.7/7.5 (PR 100). Partial match. |
+| E44 | UREI 1992 notice: the "10 µs" attack "should have been in milliseconds" | P | Supports OPTO's ms attack; supersedes E40's conflict |
+| E45 | R37 position: 3-66 text says ahead of R2; drawing rev C shows it after V3 | P vs P | The model follows the drawing; the two agree above 500 Hz |
+| E46 | Cell exponent: 2 fits the addendum's COMP; 3.5 fits Figure 1, which the addendum gives as the LIMIT curve; no single value fits both | M (static solve) | The user chose per-mode exponents: COMP 2, LIMIT 3.5 |
+| E47 | Lawrence 1964: release about 2 s after 5–6 dB, 5–10 s after 20–30 dB, 50 % < 1 s; no cell transfer data | P | Consistent with E21 |
+
+## Added 2026-11-18: Stinchcombe MS-10/MS-20 study [S]
+
+See [MS20_STUDY_CHECK.md](MS20_STUDY_CHECK.md).
+
+| ID | Finding | Class | Verdict |
+|---|---|---|---|
+| E48 | Korg35 low-pass denominator s² + (7/3 − k)s + 1; OTA s² + (2 − k)s + 1 (re-derived) | S + derivation | Model matches the OTA form within 0.23 dB below 3 kHz |
+| E49 | Both MS-20 high-pass variants are 6 dB/oct: s(s + 4/3) and s(s + 1) numerators | S + derivation | Model is 12 dB/oct; deviates |
+| E50 | Korg35 diodes are in the forward path (×58, ~0.5 V knee); OTA diodes are in the feedback path (×4, ~2 V) | S | Model's clipper is feedback-path, so it is Mk2-like; Mk1 is missing |
+| E51 | Korg35 resonance is asymmetric (SPICE only) | S (unverified) | Not modelled |
+

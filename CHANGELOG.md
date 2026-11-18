@@ -1,5 +1,40 @@
 # Changelog
 
+## v1.6: stability, fault containment, 4x–16x oversampling, Reference mode
+
+Details and before/after measurements: [docs/V1.6_ENGINE.md](docs/V1.6_ENGINE.md).
+
+- **Fixed:** Sherman, Steiner-Parker and the BPF SVF could run away at high resonance near fs/4. At the reported point (48 kHz, 12 kHz, res 100 %), Sherman peaked at +249 dBFS and now peaks at −1.8 dBFS. The non-linear terms are now evaluated implicitly, from the current sample's values. The fix applies everywhere. Small-signal response is unchanged; high-resonance tone changes slightly (self-oscillation now tracks the cutoff within 0.5 %).
+- **New:** fault containment. A stage whose output becomes non-finite or absurd resets itself and passes dry. It never activated in normal-use tests.
+- **New:** High Oversampling OFF / 4x / 8x / 16x for the filters and TUBE, using cascaded half-band stages. 2x is bit-identical to v1.5.
+- **New:** Engine Mode REFERENCE (default) / CREATIVE. REFERENCE runs each active model at least at its measured minimum factor (≤ −80 dBc aliasing at a bright test point; TUBE 8x). CREATIVE runs exactly your setting.
+- **Changed: OPTO LIMIT and Emphasis** (internal detector), rebuilt from the Teletronix schematic C-10953 rev C and the LA-2A manuals you supplied:
+  - **LIMIT has a softer knee and a flat top.** It uses the hardware's R7 side-chain point, with the cell exponent fitted to the manual's Figure 1, which the addendum gives as the limiter curve.
+    - +3.2/4.7/6.2/7.1 dB at 5/10/15/30 dB above breakaway (Figure 1: 3.4/5.1/5.6/5.7).
+    - Past the flat top it dips about 5 dB toward the 40 dB cell floor at extreme settings (Figure 1 stops before that point).
+    - No more hunting (GR reversals on programme material 577 → 110).
+  - **Emphasis now cuts the lows going to the detector** (up to about −15 dB near 200 Hz) instead of boosting the highs.
+  - LIMIT distortion at ≥ 30 dB of reduction: 1 kHz 0.007 %, 400 Hz 0.04 %, 100 Hz 0.66 % (was 1.8 %).
+  - **Unchanged:** COMP (bit-identical below 40 dB of reduction) and the CHAIN/EXT detector gain law (bit-identical in both modes with Emphasis at 0 %).
+- **New UI:** an ENGINE strip at the right edge showing the mode, the high-oversampling choice, and the factors actually running. Two new Live parameters, appended; all 79 earlier ones are unchanged.
+- **Compatibility:**
+  - Earlier Sets open in REFERENCE. Choose CREATIVE to get v1.5's oversampling factor back.
+  - Golden renders:
+
+    | Baseline | v1.6 result |
+    |---|---|
+    | Dynamics, 21 | 20 bit-identical; 1 changes ("opto limit emph") |
+    | LPF/HPF, 48 | 29 bit-identical; the 19 that change are the Sherman and Steiner scenarios and device power-on |
+    | BPF, 35 | 34 change by at most −87 dBFS (SVF) or −115 dBFS (the startup crossfade only) |
+
+    These changes are documented and gated.
+- **Tests:**
+  - `tests/v16_tests.py` (15 checks)
+  - `tests/golden.py check-v16`
+  - `compat.py --allow-dsp`
+  - Suite: 95/95 + 15/15 + UI 47/47
+- **Not yet compiled in Max.** The GenExpr is now about 14,000 lines.
+
 ## v1.5 — premium analogue UI (presentation only)
 
 - New design system: one amber accent on a charcoal/graphite chassis, metallic hairlines, header bands and consistent dial, button and segment sizes (`source/device/ui_theme.py`).

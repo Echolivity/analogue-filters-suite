@@ -1,6 +1,6 @@
 # Parameters, automation and MIDI mapping
 
-All 79 controls are Live parameters: the 20 from v1.1, 11 from v1.2 and 44 from v1.3, all unchanged, plus 4 for v1.4 filter routing. Every one can be automated, MIDI-mapped (Cmd/Ctrl+M, click the control, move a controller) and key-mapped, and all are stored with the Live Set. Names below are the exact names in Live's automation chooser.
+All 81 controls are Live parameters: the 20 from v1.1, 11 from v1.2 and 44 from v1.3, all unchanged, plus 4 for v1.4 filter routing and 2 for the v1.6 engine. Every one can be automated, MIDI-mapped (Cmd/Ctrl+M, click the control, move a controller) and key-mapped, and all are stored with the Live Set. Names below are the exact names in Live's automation chooser.
 
 ## Low-pass stage (amber)
 
@@ -32,7 +32,7 @@ The other HPF parameters (Resonance, Drive, Compensation, Character, On) match t
 | Live name | Range | Default | Behaviour |
 |---|---|---|---|
 | Stage Order | LP>HP / HP>LP | LP>HP | The output fades out over 4 ms, the order switches, and it fades back in over 4 ms. Filter states are kept. |
-| Oversampling | 1x / 2x | 1x | 2x polyphase-IIR half-band up/down sampling (10 allpass coefficients, about 106 dB image rejection). Same 8 ms duck; filter states reset at the switch. |
+| Oversampling | 1x / 2x | 1x | 2x polyphase-IIR half-band up/down sampling (10 allpass coefficients, about 106 dB image rejection). Same 8 ms duck; filter states reset at the switch. In REFERENCE mode this is a minimum (see Engine). Ignored when High Oversampling is not OFF. |
 | Output | −24 … +12 dB | 0 dB | 15 ms smoothing. |
 | Soft Clip | off / on | on | Linear below −3.1 dBFS, then a smooth tanh knee to a 0 dBFS ceiling. Catches self-oscillation and heavy resonance. |
 
@@ -96,7 +96,7 @@ See CHAIN.md for routing, detector sourcing and gain staging. The drag grips, ED
 | Opto Mix | 0 – 100 % | 100 |
 | Opto Peak Reduction | 0 – 100 % | 40 |
 | Opto Mode | COMP / LIMIT | COMP |
-| Opto HF Emphasis | 0 – 100 % | 0 |
+| Opto HF Emphasis | 0 – 100 % | 0 | (v1.6: the LA-2A R37 network; cuts the low-frequency side-chain, 0 % = flat) |
 | Opto SC HPF | 20 – 500 Hz | 20 |
 | Opto SC Source | INT / CHAIN / EXT | INT |
 | Opto Link | 0 – 100 % | 100 |
@@ -135,3 +135,14 @@ See ROUTING.md.
 | Parallel LPF Level | −40 – +6 dB (PARALLEL) | 0 dB |
 | Parallel HPF Level | −40 – +6 dB (PARALLEL) | 0 dB |
 | Parallel BPF Level | −40 – +6 dB (PARALLEL and HYBRID) | 0 dB |
+
+## Engine (v1.6)
+
+See V1.6_ENGINE.md.
+
+| Live name | Range | Default | Behaviour |
+|---|---|---|---|
+| Engine Mode | REFERENCE / CREATIVE | REFERENCE | REFERENCE: effective factor = max(your setting, the measured minimum of every active model). LPF minimums: SEM 1x; Sherman, K35 and 303 2x; Ladder and Steiner 4x. HPF 2x, BPF 4x, TUBE 8x. CREATIVE: exactly your setting. |
+| High Oversampling | OFF / 4x / 8x / 16x | OFF | Overrides the 1x/2x switch when not OFF. Applies to the filters and TUBE. A change ducks for 8 ms and resets the filter states. |
+
+The ENGINE strip's RUNNING AT readout shows the factors in effect.

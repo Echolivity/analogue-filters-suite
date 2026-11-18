@@ -23,7 +23,7 @@ def run_all(record, plt, OUT, SEQ, CAT, GRID, sig):
     # ================================================================ regression gates
     for args, name in ((["check"], "LPF/HPF vs v1.1 (48)"), (["check-bpf"], "BPF vs v1.2 (35)"), (["check-dyn"], "dynamics chain vs v1.3 (21)")):
         r = subprocess.run([sys.executable, os.path.join(HERE, "golden.py")] + args, capture_output=True, text=True)
-        record(f"REGRESSION v1.4: SERIES routing bit-exact — {name}", r.returncode == 0, r.stdout.strip())
+        record(f"REGRESSION v1.4: SERIES routing bit-exact (except documented v1.6 changes) — {name}", r.returncode == 0, r.stdout.strip())
     for b in ("v1.1", "v1.2", "v1.3"):
         r = subprocess.run([sys.executable, os.path.join(HERE, "compat.py"), "--ui", f"--base=DubFilter_{b}.maxpat"], capture_output=True, text=True)
         lines = r.stdout.strip().splitlines()
@@ -202,5 +202,5 @@ def run_all(record, plt, OUT, SEQ, CAT, GRID, sig):
                     probs.append(f"flow r{r_} o{o} p{pos}: {txt} != {want}")
     params = [b for b in bx.values() if b.get("parameter_enable")]
     longs = [b["saved_attribute_attributes"]["valueof"]["parameter_longname"] for b in params]
-    record("DEVICE: Filter Routing + 3 parallel levels are stored parameters; signal-flow readout correct for all 12 routing × order × position combinations; 79 unique parameters",
-           not probs and len(longs) == 79 and len(set(longs)) == 79, "ok" if not probs else "; ".join(probs))
+    record("DEVICE: Filter Routing + 3 parallel levels are stored parameters; signal-flow readout correct for all 12 routing × order × position combinations; 81 unique parameters (v1.6 appends Engine Mode, High Oversampling)",
+           not probs and len(longs) == 81 and len(set(longs)) == 81, "ok" if not probs else "; ".join(probs))

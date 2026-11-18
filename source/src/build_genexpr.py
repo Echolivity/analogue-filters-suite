@@ -107,6 +107,12 @@ f_sherman(x, s1a, s2a, ba, s1b, s2b, bb, yp, g, R1, Rt, fb, ti, hp) {
 	Rb = 1 - (1 - Rt) * f_ag(bb * 2);
 	i2 = u + ti * (o1 - u);
 	h2, b2, l2, n1b, n2b = f_svf(i2, s1b, s2b, g, Rb);
+	// v1.6: re-evaluate the amplitude-dependent damping at the CURRENT band value
+	// (one fixed-point step). The lagged value alone lets the limiter sample an
+	// oscillation near fs/4 at its zero crossings and pump it (period-2 parametric
+	// instability, docs/independent-review/INDEPENDENT_AUDIT_REVIEW.md section 3.1).
+	Rb = 1 - (1 - Rt) * f_ag(b2 * 2);
+	h2, b2, l2, n1b, n2b = f_svf(i2, s1b, s2b, g, Rb);
 	o2 = hp > 0.5 ? h2 : l2;
 	ynext = tanh(o2);
 	return o2, o2, fixdenorm(n1a), fixdenorm(n2a), b1, fixdenorm(n1b), fixdenorm(n2b), b2, ynext;
@@ -194,10 +200,8 @@ f_ladder(x, s1, s2, s3, s4, p0, p1, p2, p3, p4, g, k, bc, hs, hp) {
 // across each string), the amplifier clips (hard-knee sigmoid secant on K).
 // Zero-delay 2x2 trapezoidal solve per sample.
 // returns y, s1, s2, d1, d2, vb
-f_steiner(xl, xb, xh, s1, s2, d1p, d2p, vbp, g, K) {
-	t1 = f_tg(d1p * 0.7);
-	t2 = f_tg(d2p * 0.7);
-	Ke = K * f_ag(K * vbp * 0.7);
+// one linear solve of the Sallen-Key network for given element secants t1, t2 and amp gain Ke
+f_stsolve(xl, xb, xh, s1, s2, t1, t2, Ke, g) {
 	a11 = 1 + g * (t1 + t2);
 	a12 = -g * (t1 * Ke + t2 * (Ke - 1));
 	a21 = g * t2;
@@ -210,6 +214,20 @@ f_steiner(xl, xb, xh, s1, s2, d1p, d2p, vbp, g, K) {
 	q2 = (a11 * b2 - a21 * b1) * idet;
 	vB = q2 + xh;
 	vA = Ke * vB + xb - q1;
+	return q1, q2, vA, vB;
+}
+
+f_steiner(xl, xb, xh, s1, s2, d1p, d2p, vbp, g, K) {
+	t1 = f_tg(d1p * 0.7);
+	t2 = f_tg(d2p * 0.7);
+	Ke = K * f_ag(K * vbp * 0.7);
+	q1, q2, vA, vB = f_stsolve(xl, xb, xh, s1, s2, t1, t2, Ke, g);
+	// v1.6: re-evaluate the diode-string secants and amplifier limit at the current
+	// solution (one fixed-point step) - removes the fs/4 overshoot (+30 dBFS) of v1.5.
+	t1 = f_tg((xl - vA) * 0.7);
+	t2 = f_tg((vA - vB) * 0.7);
+	Ke = K * f_ag(K * vB * 0.7);
+	q1, q2, vA, vB = f_stsolve(xl, xb, xh, s1, s2, t1, t2, Ke, g);
 	return Ke * vB, fixdenorm(2 * q1 - s1), fixdenorm(2 * q2 - s2), xl - vA, vA - vB, vB;
 }
 
@@ -341,6 +359,22 @@ MODELS = [
                "{acc} = {acc} + {mix} * o1;"]),
 ]
 
+# v1.6 minimum oversampling index per model in Reference mode (0 = 1x, 1 = 2x, 2 = 4x),
+# from the independent review's factor study (verify.json OS_filters, test C1, target -80 dBc)
+# and tests/v16_tests.py for HPF / BPF.
+OS_MIN_LP = [1, 1, 2, 2, 0, 1]      # Sherman, K35, Ladder, Steiner, SEM, TB-303
+OS_MIN_HP = [1, 1, 1, 1, 1]         # Sherman, K35, Ladder ALT, Steiner, SEM (HPF at fc 2 kHz: all pass at 2x)
+OS_MIN_BPF = [2, 2, 2]              # SVF, CASCADE, MULTIMODE (all about -70 dBc at 2x, < -116 at 4x)
+TUBE_OS_MIN_REF = 3                 # TUBE in Reference mode: 8x
+
+def tbl(var, vals):
+    """Nested ternary picking vals[i] by the index expression var."""
+    e = repr(float(vals[-1]))
+    for i in range(len(vals) - 2, -1, -1):
+        e = f"({var} < {i + 0.5} ? {float(vals[i])!r} : {e})"
+    return e
+
+
 STAGES = [
     dict(key="l", hp=0, cut_min=20, cut_max=20000, cut_def=20000, nmodels=6),
     dict(key="h", hp=1, cut_min=20, cut_max=2000, cut_def=20, nmodels=5),
@@ -404,6 +438,9 @@ def build():
     # v1.4: filter routing parameters (appended)
     for (n, d, lo, hi) in routing.params():
         P(n, d, lo, hi)
+    # v1.6: engine mode (0 = Reference, 1 = Creative) and high oversampling factors (appended)
+    P("eng_mode", 0, 0, 1)
+    P("ovs_hi", 0, 0, 3)
 
     # ----- state declarations -----
     statevars = []   # local names mirrored from histories
@@ -455,14 +492,34 @@ def build():
     for v in dyn_sv:
         SV(v)
     routing.register_state(CV)  # v1.4
+    for c in CH:  # v1.6: half-band stages 2..4 (4x, 8x, 16x); stage 1 keeps the v1.1 os_* states
+        for stg in (2, 3, 4):
+            for d in ("up", "dn"):
+                for p in ("a", "b"):
+                    for z in range(6):
+                        SV(f"os_{c}_s{stg}{d}{p}{z}")
+    CV("cur_tos", 1)  # v1.6: TUBE oversampling index (1 = 2x, as v1.3-v1.5)
 
+    dirty = []   # v1.6 has-state flags (stored at the end)
+
+    def lazy_cond(v):
+        """v1.6: half-band states of stages 2..4 are loaded / stored only while that stage is in use."""
+        import re as _re
+        mm = _re.match(r"os_[LR]_s(\d)", v)
+        if mm:
+            return f"cur_os > {int(mm.group(1)) - 0.5}"
+        mm = _re.match(r"d[PQ]_T_[LR]_s(\d)", v)
+        if mm:
+            return f"cur_tos > {int(mm.group(1)) - 0.5}"
+        return None
     # ======================= main body ==========================
     w = G.w
     w("// ======================= MAIN =======================")
     w("fs = samplerate;")
     w("cur_order = H_cur_order;")
     w("cur_os = H_cur_os;")
-    w("ovs = cur_os > 0.5 ? 2 : 1;")
+    w("cur_tos = H_cur_tos;")
+    w("ovs = cur_os < 0.5 ? 1 : (cur_os < 1.5 ? 2 : (cur_os < 2.5 ? 4 : (cur_os < 3.5 ? 8 : 16)));")
     w("fso = fs * ovs;")
     w("a_cut = 1 - exp(-1 / (0.006 * fs));")
     w("a_par = 1 - exp(-1 / (0.015 * fs));")
@@ -471,10 +528,22 @@ def build():
     w("dstep = 1 / (0.004 * fs);")
     w("x_L = in1;")
     w("x_R = in2;")
+    w("fault = 0;")
     w()
     w("// ---- load state ----")
+    groups = {}
     for v in statevars:
-        w(f"{v} = H_{v};")
+        c = lazy_cond(v)
+        if c is None:
+            w(f"{v} = H_{v};")
+        else:
+            w(f"{v} = 0;")
+            groups.setdefault(c, []).append(v)
+    for c, vs in groups.items():
+        w(f"if ({c}) {{")
+        for v in vs:
+            w(f"\t{v} = H_{v};")
+        w("}")
     w()
 
     for st in STAGES:
@@ -550,23 +619,37 @@ def build():
             w(f"// coefficients: {m['name']}")
             for line in m["coef"]:
                 w(fill(line, s=s, p=f"{s}_{m['key']}", r=r, c=c, lpflag=1 - st["hp"]))
-        # reset inactive model state
+        # reset inactive model state (v1.6: once, when it holds state - bit-exact with v1.5)
         for m in mods:
             k = m["key"]
-            w(f"if ({s}_a{k} < 0.5) {{")
+            dz = f"{s}_dz{k}"
+            G.H("H_" + dz, 0.0); dirty.append(dz)
+            w(f"{dz} = H_{dz};")
+            w(f"if ({s}_a{k} < 0.5 && {dz} > 0.5) {{")
             G.ind += 1
             for ch in CH:
                 for v in m["states"]:
                     w(f"{s}_{ch}_{k}_{v} = 0;")
+            w(f"{dz} = 0;")
             G.ind -= 1
             w("}")
+            w(f"if ({s}_a{k} > 0.5) {{")
+            w(f"\t{dz} = 1;")
+            w("}")
         for e, flag in enumerate(("xa", "xb", "xc")):
-            w(f"if ({s}_{flag} < 0.5 || {s}_run < 0.5) {{")
+            dz = f"{s}_dzx{e}"
+            G.H("H_" + dz, 0.0); dirty.append(dz)
+            w(f"{dz} = H_{dz};")
+            w(f"if (({s}_{flag} < 0.5 || {s}_run < 0.5) && {dz} > 0.5) {{")
             G.ind += 1
             for ch in CH:
                 w(f"{s}_{ch}_x{e}_s1 = 0;")
                 w(f"{s}_{ch}_x{e}_s2 = 0;")
+            w(f"{dz} = 0;")
             G.ind -= 1
+            w("}")
+            w(f"if ({s}_{flag} > 0.5 && {s}_run > 0.5) {{")
+            w(f"\t{dz} = 1;")
             w("}")
         w()
 
@@ -576,41 +659,34 @@ def build():
     # ---- duck / config switching ----
     w("// ================= order / oversampling switching (duck) =================")
     w("cfg_o = order_sel > 0.5 ? 1 : 0;")
-    w("cfg_s = ovs_sel > 0.5 ? 1 : 0;")
+    # v1.6 oversampling policy (docs/independent-review/DSP_ARCHITECTURE_RECOMMENDATIONS.md 2.1):
+    # index 0..4 = 1x, 2x, 4x, 8x, 16x. Creative: the user's setting. Reference: at least the
+    # measured minimum of every active model (<= -80 dBc aliasing at the bright test point).
+    w("os_user = ovs_hi > 0.5 ? clamp(floor(ovs_hi + 0.5), 1, 3) + 1 : (ovs_sel > 0.5 ? 1 : 0);")
+    w("ref_mode = eng_mode < 0.5 ? 1 : 0;")
+    w(f"os_ml = l_on > 0.5 ? {tbl('clamp(floor(l_model + 0.5), 0, 5)', OS_MIN_LP)} : 0;")
+    w(f"os_mh = h_on > 0.5 ? {tbl('clamp(floor(h_model + 0.5), 0, 4)', OS_MIN_HP)} : 0;")
+    w(f"os_mb = b_on > 0.5 ? {tbl('clamp(floor(b_arch + 0.5), 0, 2)', OS_MIN_BPF)} : 0;")
+    w("cfg_s = ref_mode > 0.5 ? max(os_user, max(os_ml, max(os_mh, os_mb))) : os_user;")
+    w(f"cfg_t = ref_mode > 0.5 ? max(os_user, {TUBE_OS_MIN_REF}) : max(os_user, 1);")
     w("cfg_p = b_pos > 0.5 ? 1 : 0;")
     w("b_cur_pos = H_b_cur_pos;")
-    w("pend = (cfg_o != cur_order || cfg_s != cur_os || cfg_p != b_cur_pos || cfg_r != cur_route) ? 1 : 0;")
+    w("pend = (cfg_o != cur_order || cfg_s != cur_os || cfg_p != b_cur_pos || cfg_r != cur_route || cfg_t != cur_tos) ? 1 : 0;")
     w("duck = H_duck;")
     w("duck = pend > 0.5 ? max(0, duck - dstep) : min(1, duck + dstep);")
     w("new_order = cur_order;")
     w("new_os = cur_os;")
     w("new_pos = b_cur_pos;")
     w("new_route = cur_route;")
+    w("new_tos = cur_tos;")
     w("rst = 0;")
     w("if (pend > 0.5 && duck <= 0) {")
     w("\tnew_order = cfg_o;")
     w("\tnew_os = cfg_s;")
     w("\tnew_pos = cfg_p;")
     w("\tnew_route = cfg_r;")
-    w("\trst = cfg_s != cur_os ? 1 : 0;")
-    w("}")
-    w()
-
-    # ---- oversampling: upsample ----
-    ca = HIIR[0::2]; cb = HIIR[1::2]
-    ca_s = ", ".join(repr(round(v, 15)) for v in ca)
-    cb_s = ", ".join(repr(round(v, 15)) for v in cb)
-    w("// ================= input (2x upsampler when oversampling) =================")
-    for ch in CH:
-        w(f"xa_{ch} = x_{ch};")
-        w(f"xb_{ch} = 0;")
-    w("if (ovs > 1.5) {")
-    G.ind += 1
-    for ch in CH:
-        for p, cs in (("a", ca_s), ("b", cb_s)):
-            zs = [f"os_{ch}_up{p}{z}" for z in range(6)]
-            w(f"x{p}_{ch}, {', '.join(zs)} = f_ap5(x_{ch}, {', '.join(zs)}, {cs});")
-    G.ind -= 1
+    w("\tnew_tos = cfg_t;")
+    w("\trst = (cfg_s != cur_os || cfg_t != cur_tos) ? 1 : 0;")
     w("}")
     w()
 
@@ -660,69 +736,139 @@ def build():
                 w("}")
                 prev = f"e{e + 1}"
             w(f"wet_{ch} = ({s}_w0 * e0 + {s}_w1 * e1 + {s}_w2 * e2 + {s}_w3 * e3) * {s}_osc;")
+            # v1.6 fault containment (defence in depth; never active in normal operation):
+            # a non-finite or absurd stage output resets that stage's model state for this channel
+            w(f"flt_bad = abs(wet_{ch}) < 1000000 ? 0 : 1;")
+            w("if (flt_bad > 0.5) {")
+            G.ind += 1
+            for m in mods:
+                for v in m["states"]:
+                    w(f"{s}_{ch}_{m['key']}_{v} = 0;")
+            for e in range(3):
+                w(f"{s}_{ch}_x{e}_s1 = 0;")
+                w(f"{s}_{ch}_x{e}_s2 = 0;")
+            w(f"wet_{ch} = {xin};")
+            w("fault = 1;")
+            G.ind -= 1
+            w("}")
             w(f"{s}y{sub}_{ch} = {xin} + {s}_wet * (wet_{ch} - {xin});")
         G.ind -= 1
         w("}")
 
-    lst, hst = STAGES
+    # ---- oversampling (v1.6): cascade of the v1.1 half-band to 2x / 4x / 8x / 16x ----
+    ca = HIIR[0::2]; cb = HIIR[1::2]
+    ca_s = ", ".join(repr(round(v, 15)) for v in ca)
+    cb_s = ", ".join(repr(round(v, 15)) for v in cb)
+    NMAX = 16
+
+    def stz(ch, stg, d, p):
+        if stg == 1:
+            return [f"os_{ch}_{d}{p}{z}" for z in range(6)]
+        return [f"os_{ch}_s{stg}{d}{p}{z}" for z in range(6)]
+
+    w("// ================= input: up-sampling cascade (v1.6) =================")
     for ch in CH:
-        w(f"zb_{ch} = 0;")
-    for sub in ("a", "b"):
-        if sub == "b":
-            w("if (ovs > 1.5) {")
+        for k in range(NMAX):
+            w(f"u{k}_{ch} = 0;")
+            w(f"wo{k}_{ch} = 0;")
+        w(f"u0_{ch} = x_{ch};")
+    for ch in CH:
+        # level L holds 2^L values u0..; built in place from the previous level, stage by stage
+        for stg in (1, 2, 3, 4):
+            w(f"if (ovs > {2 ** (stg - 1) + 0.5}) {{")
             G.ind += 1
-        w(f"// ================= processing chain, subsample {sub} =================")
-        w("if (b_cur_pos > 0.5 && cur_route < 0.5) {")  # v1.2: BPF before the LPF/HPF chain (v1.4: SERIES only)
-        G.ind += 1
-        bpf.emit_process(w, G, {ch: f"x{sub}_{ch}" for ch in CH}, {ch: f"x{sub}_{ch}" for ch in CH})
-        G.ind -= 1
-        w("}")
-        for ch in CH:
-            w(f"hy{sub}_{ch} = 0;")
-        w("if (cur_order > 0.5 && r_par < 0.5) {")  # v1.4: PARALLEL feeds the HPF below from the input
-        G.ind += 1
-        emit_stage(hst, sub, {ch: f"x{sub}_{ch}" for ch in CH})
-        G.ind -= 1
-        w("}")
-        for ch in CH:
-            w(f"lsrc_{ch} = (cur_order > 0.5 && r_par < 0.5) ? hy{sub}_{ch} : x{sub}_{ch};")
-        emit_stage(lst, sub, {ch: f"lsrc_{ch}" for ch in CH})
-        for ch in CH:
-            w(f"z{sub}_{ch} = ly{sub}_{ch};")
-        for ch in CH:
-            w(f"hsrc_{ch} = r_par > 0.5 ? x{sub}_{ch} : ly{sub}_{ch};")
-        w("if (cur_order < 0.5 || r_par > 0.5) {")
-        G.ind += 1
-        emit_stage(hst, sub, {ch: f"hsrc_{ch}" for ch in CH})
-        for ch in CH:
-            w(f"z{sub}_{ch} = hy{sub}_{ch};")
-        G.ind -= 1
-        w("}")
-        routing.emit_combine(w, G, sub, bpf.emit_process)  # v1.4: PARALLEL sum / HYBRID add
-        w("if (b_cur_pos < 0.5 && cur_route < 0.5) {")  # v1.2: BPF after the LPF/HPF chain (default; v1.4: SERIES only)
-        G.ind += 1
-        bpf.emit_process(w, G, {ch: f"z{sub}_{ch}" for ch in CH}, {ch: f"z{sub}_{ch}" for ch in CH})
-        G.ind -= 1
-        w("}")
-        if sub == "b":
+            n_in = 2 ** (stg - 1)
+            za, zb = stz(ch, stg, "up", "a"), stz(ch, stg, "up", "b")
+            # compute outputs from the current level first (temporaries), then write the new level
+            for j in range(n_in):
+                w(f"q{2 * j}, {', '.join(za)} = f_ap5(u{j}_{ch}, {', '.join(za)}, {ca_s});")
+                w(f"q{2 * j + 1}, {', '.join(zb)} = f_ap5(u{j}_{ch}, {', '.join(zb)}, {cb_s});")
+                w(f"u{2 * j}_t{stg}_{ch} = q{2 * j};")
+                w(f"u{2 * j + 1}_t{stg}_{ch} = q{2 * j + 1};")
+            for j in range(2 * n_in):
+                w(f"u{j}_{ch} = u{j}_t{stg}_{ch};")
             G.ind -= 1
             w("}")
-        w()
+    w()
 
-    # ---- downsample ----
-    w("// ================= output (2x downsampler when oversampling) =================")
-    for ch in CH:
-        w(f"y_{ch} = za_{ch};")
-    w("if (ovs > 1.5) {")
+    lst, hst = STAGES
+    w(f"// ================= filter section: one pass per sub-sample (ovs = 1..{NMAX}) =================")
+    w("for (k = 0; k < ovs; k += 1) {")
     G.ind += 1
+    sub = "a"
     for ch in CH:
-        za = [f"os_{ch}_dna{z}" for z in range(6)]
-        zb = [f"os_{ch}_dnb{z}" for z in range(6)]
-        w(f"pa, {', '.join(za)} = f_ap5(zb_{ch}, {', '.join(za)}, {ca_s});")
-        w(f"pb, {', '.join(zb)} = f_ap5(za_{ch}, {', '.join(zb)}, {cb_s});")
-        w(f"y_{ch} = 0.5 * (pa + pb);")
+        sel = f"u{NMAX - 1}_{ch}"
+        for k in range(NMAX - 2, -1, -1):
+            sel = f"(k < {k + 0.5} ? u{k}_{ch} : {sel})"
+        w(f"x{sub}_{ch} = {sel};")
+    w("if (b_cur_pos > 0.5 && cur_route < 0.5) {")  # v1.2: BPF before the LPF/HPF chain (v1.4: SERIES only)
+    G.ind += 1
+    bpf.emit_process(w, G, {ch: f"x{sub}_{ch}" for ch in CH}, {ch: f"x{sub}_{ch}" for ch in CH})
     G.ind -= 1
     w("}")
+    for ch in CH:
+        w(f"hy{sub}_{ch} = 0;")
+    w("if (cur_order > 0.5 && r_par < 0.5) {")  # v1.4: PARALLEL feeds the HPF below from the input
+    G.ind += 1
+    emit_stage(hst, sub, {ch: f"x{sub}_{ch}" for ch in CH})
+    G.ind -= 1
+    w("}")
+    for ch in CH:
+        w(f"lsrc_{ch} = (cur_order > 0.5 && r_par < 0.5) ? hy{sub}_{ch} : x{sub}_{ch};")
+    emit_stage(lst, sub, {ch: f"lsrc_{ch}" for ch in CH})
+    for ch in CH:
+        w(f"z{sub}_{ch} = ly{sub}_{ch};")
+    for ch in CH:
+        w(f"hsrc_{ch} = r_par > 0.5 ? x{sub}_{ch} : ly{sub}_{ch};")
+    w("if (cur_order < 0.5 || r_par > 0.5) {")
+    G.ind += 1
+    emit_stage(hst, sub, {ch: f"hsrc_{ch}" for ch in CH})
+    for ch in CH:
+        w(f"z{sub}_{ch} = hy{sub}_{ch};")
+    G.ind -= 1
+    w("}")
+    routing.emit_combine(w, G, sub, bpf.emit_process)  # v1.4: PARALLEL sum / HYBRID add
+    w("if (b_cur_pos < 0.5 && cur_route < 0.5) {")  # v1.2: BPF after the LPF/HPF chain (default; v1.4: SERIES only)
+    G.ind += 1
+    bpf.emit_process(w, G, {ch: f"z{sub}_{ch}" for ch in CH}, {ch: f"z{sub}_{ch}" for ch in CH})
+    G.ind -= 1
+    w("}")
+    # store this sub-sample's output
+    for k in range(NMAX):
+        w(("if" if k == 0 else "} else if") + f" (k < {k + 0.5}) {{")
+        G.ind += 1
+        for ch in CH:
+            w(f"wo{k}_{ch} = z{sub}_{ch};")
+        G.ind -= 1
+    w("}")
+    G.ind -= 1
+    w("}")
+    w()
+
+    # ---- down-sampling cascade ----
+    w("// ================= output: down-sampling cascade (v1.6) =================")
+    for ch in CH:
+        w(f"y_{ch} = wo0_{ch};")
+    for n_os in (2, 4, 8, 16):
+        w(f"if (ovs > {n_os / 2 + 0.5} && ovs < {n_os + 0.5}) {{")
+        G.ind += 1
+        for ch in CH:
+            vals = [f"wo{k}_{ch}" for k in range(n_os)]
+            stg = n_os.bit_length() - 1      # highest stage index used
+            while len(vals) > 1:
+                za, zb = stz(ch, stg, "dn", "a"), stz(ch, stg, "dn", "b")
+                nxt = []
+                for j in range(len(vals) // 2):
+                    w(f"pa, {', '.join(za)} = f_ap5({vals[2 * j + 1]}, {', '.join(za)}, {ca_s});")
+                    w(f"pb, {', '.join(zb)} = f_ap5({vals[2 * j]}, {', '.join(zb)}, {cb_s});")
+                    nm = f"d{stg}_{j}_{ch}"
+                    w(f"{nm} = 0.5 * (pa + pb);")
+                    nxt.append(nm)
+                vals = nxt
+                stg -= 1
+            w(f"y_{ch} = {vals[0]};")
+        G.ind -= 1
+        w("}")
     w()
     dyn.emit_chain(w, G, {"L": "y_L", "R": "y_R"}, {"L": "y_L", "R": "y_R"})  # v1.3
     w()
@@ -730,6 +876,14 @@ def build():
     w("dcr = 1 - 2 * pi * 2 / fs;")
     w("og = H_og + a_par * (exp(0.11512925465 * clamp(out_db, -24, 12)) - H_og);")
     for ch in CH:
+        # v1.6: never let a non-finite / absurd value into the output DC blocker's memory
+        w(f"if (abs(y_{ch}) < 1000000 && abs(dc_{ch}_y) < 1000000) {{")
+        w("} else {")
+        w(f"\ty_{ch} = 0;")
+        w(f"\tdc_{ch}_x = 0;")
+        w(f"\tdc_{ch}_y = 0;")
+        w("\tfault = 1;")
+        w("}")
         w(f"dy_{ch} = y_{ch} - dc_{ch}_x + dcr * dc_{ch}_y;")
         w(f"dc_{ch}_x = y_{ch};")
         w(f"dc_{ch}_y = fixdenorm(dy_{ch});")
@@ -749,6 +903,9 @@ def build():
     w("out1 = q_L;")
     w("out2 = q_R;")
     dyn.emit_outputs(w)  # v1.3 meter outlets out3..out14
+    w("out15 = ovs;")       # v1.6: effective filter oversampling factor
+    w("out16 = t_nf;")      # v1.6: effective TUBE oversampling factor
+    w("out17 = fault;")     # v1.6: 1 on a sample where fault containment acted
     w()
     w("// ---- reset all filter state on oversampling change ----")
     w("if (rst > 0.5) {")
@@ -759,7 +916,19 @@ def build():
     w("}")
     w()
     w("// ---- store state ----")
+    groups = {}
     for v in statevars:
+        c = lazy_cond(v)
+        if c is None:
+            w(f"H_{v} = {v};")
+        else:
+            groups.setdefault(c, []).append(v)
+    for c, vs in groups.items():
+        w(f"if ({c} || rst > 0.5) {{")
+        for v in vs:
+            w(f"\tH_{v} = {v};")
+        w("}")
+    for v in dirty:
         w(f"H_{v} = {v};")
     for st in STAGES:
         s = st["key"]
@@ -774,6 +943,7 @@ def build():
         w(f"H_{n} = {n};")
     w("H_b_cur_pos = new_pos;")
     w("H_cur_route = new_route;")
+    w("H_cur_tos = new_tos;")
     for n in routing.ctrl_names():
         w(f"H_{n} = {n};")
     for n in dyn.ctrl_names():

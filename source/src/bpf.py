@@ -136,10 +136,12 @@ def register_state(SV, CV):
         CV(f"b_{n}", i)
     for n, i in (("ca", 0), ("cb", 0), ("act", 0), ("fade", 1), ("cur_pos", 0)):
         CV(f"b_{n}", i)
+    CV("bA_dz", 0)   # v1.6 slot-has-state flags
+    CV("bB_dz", 0)
 
 
 def ctrl_names():
-    return ["b_lc", "b_bwz", "b_lq", "b_rz", "b_drv", "b_cmp", "b_mx", "b_en", "b_ca", "b_cb", "b_act", "b_fade"]
+    return ["bA_dz", "bB_dz", "b_lc", "b_bwz", "b_lq", "b_rz", "b_drv", "b_cmp", "b_mx", "b_en", "b_ca", "b_cb", "b_act", "b_fade"]
 
 
 def model_table(field, idx):
@@ -233,12 +235,18 @@ def emit_controls(w, G):
         w(f"{p}_ocmp = pow({p}_raw, 1 - b_cmp);")
         w(f"{p}_gro = tan(pi * min(14000, 0.45 * fso) / fso);")
         w(f"{p}_Gro = {p}_gro / (1 + {p}_gro);")
-        w(f"if ({p}_run < 0.5 || b_new{sl} > 0.5) {{")
+        # v1.6: clear the slot only when it holds state (bit-exact with clearing every sample)
+        w(f"{p}_dz = H_{p}_dz;")
+        w(f"if (({p}_run < 0.5 && {p}_dz > 0.5) || b_new{sl} > 0.5) {{")
         G.ind += 1
         for ch in CH:
             for v in SLOT_STATES:
                 w(f"{p}_{ch}_{v} = 0;")
+        w(f"{p}_dz = 0;")
         G.ind -= 1
+        w("}")
+        w(f"if ({p}_run > 0.5) {{")
+        w(f"\t{p}_dz = 1;")
         w("}")
     w()
 
@@ -258,6 +266,10 @@ def emit_slot(w, G, sl, ch, xin, yout):
     w(f"ah, bh, ab, bb, al, bl = f_bsva({', '.join(sv)}, {p}_gc, {p}_R, {p}_sc);")
     w(f"nA = 2 * {p}_R * ab;")
     w(f"nB = 2 * {p}_R * bb;")
+    w(f"bu = (bx + {p}_r * bt * nB) / (1 - {p}_r * bt * nA);")
+    # v1.6: re-evaluate the regeneration limiter at the current band estimate (one fixed-point
+    # step; the lagged value overshoots to about +33 dBFS at fc near fs/4, tests/v16_tests.py)
+    w(f"bt = f_bsat((nA * bu + nB) * 3.3333333333, {p}_rg);")
     w(f"bu = (bx + {p}_r * bt * nB) / (1 - {p}_r * bt * nA);")
     w(f"hh, b1, l1, {sv[0]}, {sv[1]} = f_bsvs(bu, {', '.join(sv)}, {p}_gc, {p}_R, {p}_sc);")
     w(f"{sv[2]} = hh;")
@@ -312,6 +324,16 @@ def emit_process(w, G, src, dst):
         w(f"bo_{ch} = 0;")
         for sl in SLOTS:
             emit_slot(w, G, sl, ch, src[ch], f"bo_{ch}")
+        w(f"bbad = abs(bo_{ch}) < 1000000 ? 0 : 1;")   # v1.6 fault containment
+        w("if (bbad > 0.5) {")
+        G.ind += 1
+        for sl in SLOTS:
+            for v in SLOT_STATES:
+                w(f"b{sl}_{ch}_{v} = 0;")
+        w(f"bo_{ch} = {src[ch]};")
+        w("fault = 1;")
+        G.ind -= 1
+        w("}")
         w(f"{dst[ch]} = {src[ch]} + b_wet * (bo_{ch} - {src[ch]});")
     G.ind -= 1
     w("}")

@@ -36,8 +36,8 @@ ALL3 = dict(t_on=1, o_on=1, v_on=1, t_drive=45, o_pr=55, v_thr=-24, v_ratio=3, v
 
 def run_all(record, plt, OUT, SEQ, CAT, GRID, sig):
     # ================================================================ regression gates
-    for args, name in ((["check"], "REGRESSION v1.3: LPF/HPF bit-exact vs v1.1 baseline (48 scenarios, dynamics off)"),
-                       (["check-bpf"], "REGRESSION v1.3: BPF bit-exact vs v1.2 baseline (35 scenarios, dynamics off)")):
+    for args, name in ((["check"], "REGRESSION v1.3: LPF/HPF bit-exact vs v1.1 baseline except documented v1.6 changes (48 scenarios, dynamics off)"),
+                       (["check-bpf"], "REGRESSION v1.3: BPF bit-exact vs v1.2 baseline except documented v1.6 changes (35 scenarios, dynamics off)")):
         r = subprocess.run([sys.executable, os.path.join(HERE, "golden.py")] + args, capture_output=True, text=True)
         record(name, r.returncode == 0, r.stdout.strip())
     for b in ("DubFilter_v1.1.maxpat", "DubFilter_v1.2.maxpat"):
@@ -157,6 +157,7 @@ def run_all(record, plt, OUT, SEQ, CAT, GRID, sig):
            ", ".join(str(r["h2_db"]) for r in rows if r["bias"] == 50) + " dB", rows=rows)
 
     # ================================================================ opto (LA-2A-inspired)
+    # v1.6: criteria from the Teletronix manual and schematic C-10953 rev C (docs/independent-review/LA2A_MANUAL_CHECK.md)
     rows = []
     for mode in (0, 1):
         for pr in (50, 75):
@@ -168,9 +169,17 @@ def run_all(record, plt, OUT, SEQ, CAT, GRID, sig):
             rows.append(dict(mode=("COMP", "LIMIT")[mode], peak_reduction=pr, out_dbfs=[round(v, 1) for v in outs], ratio_top=round(ratio, 1)))
     comp_r = [r["ratio_top"] for r in rows if r["mode"] == "COMP"]
     lim_r = [r["ratio_top"] for r in rows if r["mode"] == "LIMIT"]
-    record("OPTO: static curve — COMP soft-knee ≈2–4:1, LIMIT ≥ 8:1 (sources: ~3:1 / 4:1 compress, ~∞ limit)",
-           all(1.8 <= r <= 4.5 for r in comp_r) and all(r >= 8 for r in lim_r),
-           "; ".join(f"{r['mode']} PR{r['peak_reduction']}: {r['ratio_top']}:1" for r in rows), rows=rows)
+    lv = list(range(-40, 21, 2))     # PR 100: find the 20 dB input window with the smallest output rise
+    deep = [lvl(run(tone(1000, L, 4), dyn(o_on=1, o_pr=100, o_mode=1))[-SR // 2:, 0]) for L in lv]
+    brk = next(L for L, o in zip(lv, deep) if (L - lv[0]) - (o - deep[0]) > 1.0)
+    best = min(((max(deep[i:i + 11]) - deep[i], lv[i]) for i in range(len(lv) - 10)))
+    rise, w0 = best
+    dip = max(max(deep[:j + 1]) - deep[j] for j in range(len(deep)))   # largest fall after any earlier peak
+    record("OPTO: static curve — COMP ≈2–4:1 (manual: about 3:1); LIMIT steeper than COMP and rising < 1 dB over 20 dB of input "
+           "in its limiting region (manual: < 1 dB output rise for 20 dB more input)",
+           all(1.8 <= r <= 4.5 for r in comp_r) and all(l > c for l, c in zip(lim_r, comp_r)) and rise < 1.0,
+           "; ".join(f"{r['mode']} PR{r['peak_reduction']}: {r['ratio_top']}:1" for r in rows) + f"; LIMIT PR100: best 20 dB window starts {w0 - brk:+d} dB above breakaway (manual: about +10), output rise {rise:.2f} dB; then a {dip:.1f} dB dip before the 40 dB floor (beyond Figure 1)",
+           rows=rows)
     trows = []
     for dur in (1, 10):
         nn = SR * (dur + 12)
@@ -190,9 +199,15 @@ def run_all(record, plt, OUT, SEQ, CAT, GRID, sig):
           and trows[1]["release_to_1dB_s"] > trows[0]["release_to_1dB_s"])
     record("OPTO: T4 timing — attack ≈10–20 ms, fast release ≈60 ms to 50 %, program-dependent slow release (longer after longer compression)",
            ok, "; ".join(f"{r['burst_s']} s burst: attack {r['attack_63_ms']} ms, 50 % release {r['release_50_ms']} ms, to 1 dB {r['release_to_1dB_s']} s" for r in trows), rows=trows)
-    g0 = lvl(run(tone(6000, -10, 3), dyn(o_on=1, o_pr=60, o_emph=0))[-SR // 2:, 0])
-    g1 = lvl(run(tone(6000, -10, 3), dyn(o_on=1, o_pr=60, o_emph=100))[-SR // 2:, 0])
-    record("OPTO: HF emphasis increases gain reduction on high-frequency material (6 kHz tone)", g1 < g0 - 1, f"output {g0:.1f} → {g1:.1f} dBFS")
+    # R37 (manual p. 7): raising it cuts the low-frequency side-chain, so high frequencies get more reduction than
+    # low ones; "flat" gives equal reduction at all frequencies. Compare GR at 500 Hz and 15 kHz at equal input.
+    def ogr(f, e):
+        x = tone(f, 0, 3)
+        return lvl(run(x, dyn(o_on=0))[-SR // 2:, 0]) - lvl(run(x, dyn(o_on=1, o_pr=80, o_mode=1, o_emph=e))[-SR // 2:, 0])
+    d_flat = ogr(15000, 0) - ogr(500, 0)
+    d_max = ogr(15000, 100) - ogr(500, 100)
+    record("OPTO: Emphasis (R37) — flat gives equal reduction at 500 Hz and 15 kHz (within 0.5 dB); maximum gives ≥ 6 dB more reduction at 15 kHz",
+           abs(d_flat) < 0.5 and d_max >= 6, f"GR(15 kHz) − GR(500 Hz): flat {d_flat:+.2f} dB, max {d_max:+.1f} dB")
 
     # ================================================================ VCA (API 2500-inspired)
     rows, bad = [], []

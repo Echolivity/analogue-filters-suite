@@ -8,7 +8,7 @@ def base(**kw):
     """Neutral setup: both stages off unless enabled via kw."""
     p = dict(l_on=0, h_on=0, l_cut=20000, h_cut=20, l_res=0, h_res=0, l_slope=0, h_slope=0,
              l_drive=0, h_drive=0, l_comp=100, h_comp=100, l_char=0, h_char=0, order_sel=0,
-             ovs_sel=0, out_db=0, softclip=0)
+             ovs_sel=0, out_db=0, softclip=0, eng_mode=1)   # v1.6: legacy tests run in Creative mode (user-set factor)
     p.update(kw); return p
 
 def run(x, params, sr=48000, events=(), ns=False, key=None, meters=False):
@@ -32,7 +32,7 @@ def run(x, params, sr=48000, events=(), ns=False, key=None, meters=False):
         r = subprocess.run([HARN, str(sr), fi, fo, fs] + args, capture_output=True, text=True)
         if r.returncode: raise RuntimeError(r.stderr)
         y = np.fromfile(fo, np.float32).reshape(-1, 2).astype(np.float64)
-        M = np.fromfile(fm, np.float32).reshape(-1, 12).astype(np.float64) if meters else None
+        M = np.fromfile(fm, np.float32).reshape(-1, 15).astype(np.float64) if meters else None
     if meters:
         return y, M
     return (y, float(r.stdout)) if ns else y

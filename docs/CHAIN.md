@@ -35,16 +35,27 @@ Every module has **ON** (10 ms click-free fade; a fully bypassed module is skipp
 - **Mix:** the dry path runs through the same oversampling filters without the curve, so wet and dry are phase-aligned and Mix never comb-filters. At Mix 0 the tube is a flat allpass with about 3.6 samples of phase delay at 1 kHz.
 
 ### OPTO: LA-2A-inspired optical leveller
-Published behaviour used:
-- T4 cell attack about 10 ms
-- release about 60 ms to 50 %, then 0.5–5 s (some sources say 1–15 s) to full, depending on how long and hard the cell has been lit
-- Compress about 3:1 (UA) or 4:1 soft-knee (Sound On Sound); Limit effectively ∞
-- feedback detection
-- an HF-emphasis sidechain control (R37)
+Sources (v1.6):
+- the Teletronix LA-2A operating manual (Library of Congress scan)
+- the UREI reissue manual, which includes the Teletronix schematic C-10953 rev C (6 Aug 1968)
 
-The model has an EL-panel light state, an LDR conductance with fast (40 ms) and slow (program-dependent 0.5–5 s) components, and a slow "memory" that lengthens the slow release after long compression. Gain is 1/(1 + (K·c)^p) inside a feedback loop. This gives about 2.5–3:1 soft-knee in COMP and about 9:1 in LIMIT (measured in VALIDATION.md).
+See [LA2A_MANUAL_CHECK.md](independent-review/LA2A_MANUAL_CHECK.md).
 
-Controls: PEAK RED (sidechain gain), GAIN (= Output), COMP/LIMIT, HF EMPH, SC HPF (20–500 Hz), LINK (0–100 %), SC source.
+From the schematic:
+- **Attenuator.** T1 → R6 68 kΩ → R7 (1–2.7 kΩ, selected per T4) → the T4A photocells to ground. The Peak Reduction control (R2) takes its signal from the R6/R7 junction, so detection is **feedback** (it reads the attenuated signal).
+- **COMP/LIMIT (SW3).** The switch shorts R7. In COMP the detector sees the attenuator output. In LIMIT it sees that output × (1 + R7/R_cell), which stiffens the loop as the cell resistance falls.
+- **R37 "LIM RESP".** R37 ∥ C12 (1 nF) sits in series between the V3 control amplifier (via C9) and the 1 MΩ balance pot, which is loaded by C6 + R30. Raising R37 cuts the side-chain below about 2 kHz.
+
+How the model implements this (internal detector; CHAIN/EXT keys keep their earlier law):
+- **Timing (unchanged since v1.3).** An EL-panel light state, an LDR with fast and slow components, and a memory that lengthens the release.
+- **Gain.** G = 1/(1 + (1.6·c)^p), floored at 40 dB of reduction.
+  - COMP: p = 2 (the addendum's ~3:1).
+  - LIMIT: p = 3.5, plus the R7 sense term (1 + 0.0444·q). This fits Figure 1, the manual's limiter curve, within 1.4 dB, then dips about 5 dB toward the 40 dB floor.
+- **Emphasis.** The R37 network, 3rd order.
+
+Details and measurements: V1.6_ENGINE.md §4b.
+
+Controls: PEAK RED (sidechain gain), GAIN (= Output), COMP/LIMIT, EMPHASIS (R37), SC HPF (20–500 Hz), LINK (0–100 %), SC source.
 
 ### VCA: API 2500-inspired bus compressor
 Published features used:

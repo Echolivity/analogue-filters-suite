@@ -87,10 +87,12 @@ if dups:
     problems.append(f"{dups} duplicate parameter names")
 if UI:
     oc, nc = code(old), code(new)
-    if base_name >= "DubFilter_v1.4" and oc != nc:
+    if base_name >= "DubFilter_v1.4" and oc != nc and "--allow-dsp" not in sys.argv:
         problems.append("gen~ code differs from the base: the UI release must not change DSP")
     elif oc == nc:
         notes.append("gen~ code byte-identical to the base (DSP unchanged)")
+    else:
+        notes.append("gen~ code changed (--allow-dsp: a DSP release); every base gen~ Param is still checked above")
     notes.append(f"{len(notes_ui)} boxes restyled/moved (presentation-only attributes)")
 print(f"[{base_name}] boxes checked: {len(ob)}  connections: {len(ol)}  parameters: {len(oldp)}")
 print(f"new parameters ({len(added)}): {', '.join(added)}")

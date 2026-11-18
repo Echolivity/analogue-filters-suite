@@ -1,0 +1,29 @@
+{
+ "hashes": {
+  "chain order 0": "623a32f47ba07f1b8b01ec7ff41cf020c3b58c7de14b277428838e50e0237a71",
+  "chain order 0 + filters": "cd2a929067340e3838e53a194443c5158f736be4330fd2d6e5566b71dd013d58",
+  "chain order 1": "58cdd311fda023b0bdb6bd935bda10e860aaecb47a91c5cccbaabb10e63e190f",
+  "chain order 1 + filters": "05a3c25151a07aeab1877873bac62abb136c9192558f074cff83287a33cb4bf7",
+  "chain order 2": "d4de6154226b346ff7b10afdfc04c035ff5c72853c070c1032d6cc0eb125d783",
+  "chain order 2 + filters": "548921e5aa4786b59664e5d54c9fbf3a550eba52889b6973b1de337748a43a33",
+  "chain order 3": "4fe33336deba3ce668af58e0b148b158a701d268b6c13d2aa09f8600891a5ba0",
+  "chain order 3 + filters": "32bc97ff25d520a7b1f298227874037d6e8ae7fe38740c6468a7b9b8165a463a",
+  "chain order 4": "cc99091515ab800d6cf26485074b4a564ce9aed7b80142b5763ba73eba71cea8",
+  "chain order 4 + filters": "3c00a751646ed4a155b82f6e026ed41120ca712d86eba8fea468c927a2d0ecdc",
+  "chain order 5": "f8768cfc6931d372d862076a43cae124af0d6d88ca104b138cebb273b1a40a99",
+  "chain order 5 + filters": "30cd2e95e7e5ad9dfb705eecce31d654b255a25dedd25b6a2476931c62f38df1",
+  "reorders": "4124293f4fe07eabd6043edb77601b16f202e44d9d10d9ca125adc80d458846e",
+  "bypass toggles": "532c8bf8a2785635db5733b61003e8d7f11109d55c6b306a8584b58449c1d87a",
+  "vca old/feedback soft knee": "6780ca470b48c0c971b2ff1a842ed2f1bf8d1579a7d8b58d600f72a1c63cbb4d",
+  "opto limit emph": "35ea09c897d337cd360a3ee24463670c2b15b7866878a7566d4353835da4b450",
+  "tube hot": "61460e04d1583e235bed40984bf491d2c0e0b0d10fb97bfc9a8143f05626d9bc",
+  "gate": "0052d3be0d71403b0901dd1825eede0d6c5abb74a448a3b5b9f4a113cf963903",
+  "key listen": "ed1ced61e8dff1d82c1ef1281ad3d293306a431b8fa87c1c85ca67c61e297cf0",
+  "chain-in source": "9919b114b14616c65d7b2521acec1482b5a792f539d4b5ab6ff3fcdd3a7d0b5d",
+  "chain + 2x OS": "eda600c6919a346c2f22a53b0fc178b694a94c9b51a0df32d800414f18cedd1e"
+ },
+ "changed_vs_legacy": [
+  "opto limit emph"
+ ],
+ "note": "v1.6 solver fix (Sherman, Steiner, BPF SVF limiter) and Reference-mode power-on default; legacy tests run in Creative mode (tests/dsp.py base). OPTO from the Teletronix schematic C-10953 rev C (internal detector): LIMIT senses above R7 with cell exponent 3.5 (fits manual Figure 1); Emphasis is the R37/C12 network. COMP renders are unchanged; CHAIN/EXT keep their gain law (Emphasis now uses the R37 network for every source)."
+}

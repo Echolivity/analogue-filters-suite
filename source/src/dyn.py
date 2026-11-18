@@ -54,7 +54,9 @@ PARAMS = [
 
 TUBE_ST = [f"up{p}{i}" for p in "ab" for i in range(6)] + [f"dn{p}{i}" for p in "ab" for i in range(6)] + ["ton", "dcx", "dcy"] + \
           [f"dd{p}{i}" for p in "ab" for i in range(6)]  # phase-matched dry path (same up/down filters, no shaping)
-OPTO_ST = ["lt", "cf", "cs", "mem", "yp", "hp", "he"]
+# v1.6: half-band stages 2..4 for 4x / 8x / 16x (stage 1 = the v1.3 states above)
+TUBE_ST += [f"s{g}{d}{p}{i}" for g in (2, 3, 4) for d in ("up", "dn", "dd") for p in "ab" for i in range(6)]
+OPTO_ST = ["lt", "cf", "cs", "mem", "yp", "hp", "he", "e2", "e3", "q"]   # v1.6: he/e2/e3 = R37 network, q = cell state (R7 sense)
 VCA_ST = ["hp", "t1", "t2", "ms", "gr", "yp"]
 LANE_ST = {"T": TUBE_ST, "O": OPTO_ST, "V": VCA_ST}
 GATE_ST = ["hpL", "hpR", "lpL", "lpR", "env", "open", "hold", "g"]
@@ -100,14 +102,16 @@ def register_state(SV, CV):
                  ("o_gi", 1.0), ("o_go", 1.0), ("o_mx", 1.0), ("o_w", 0.0), ("o_prz", 0.4), ("o_emz", 0.0), ("o_lkz", 1.0),
                  ("v_gi", 1.0), ("v_go", 1.0), ("v_mx", 1.0), ("v_w", 0.0), ("v_thz", -20.0), ("v_lkz", 1.0),
                  ("g_w", 0.0), ("kl_w", 0.0), ("kl_sel", 0),
-                 ("d_oP", 0), ("d_oQ", 0), ("d_act", 0), ("d_fade", 1)):
+                 ("d_oP", 0), ("d_oQ", 0), ("d_act", 0), ("d_fade", 1),
+                 ("T_dirty", 0), ("O_dirty", 0), ("V_dirty", 0), ("G_dirty", 0)):
         CV(f"H_dyn_{n}" if False else f"dz_{n}", i)
 
 
 def ctrl_names():
     return ["dz_t_gi", "dz_t_go", "dz_t_mx", "dz_t_w", "dz_t_dz", "dz_t_bz", "dz_o_gi", "dz_o_go", "dz_o_mx", "dz_o_w",
             "dz_o_prz", "dz_o_emz", "dz_o_lkz", "dz_v_gi", "dz_v_go", "dz_v_mx", "dz_v_w", "dz_v_thz", "dz_v_lkz",
-            "dz_g_w", "dz_kl_w", "dz_kl_sel", "dz_d_oP", "dz_d_oQ", "dz_d_act", "dz_d_fade"]
+            "dz_g_w", "dz_kl_w", "dz_kl_sel", "dz_d_oP", "dz_d_oQ", "dz_d_act", "dz_d_fade",
+            "dz_T_dirty", "dz_O_dirty", "dz_V_dirty", "dz_G_dirty"]
 
 
 def _sm(w, name, target, coef="a_par"):
@@ -143,7 +147,8 @@ def emit_controls(w, G):
     # (mean of the stage's positive and negative excursion at that level)
     w("t_ref = 0.5 * (abs(f_tube(0.25 * t_k, t_b, t_ib)) + abs(f_tube(-0.25 * t_k, t_b, t_ib)));")
     w("t_ko = t_auto > 0.5 ? 0.25 / max(t_ref, 1e-9) : 1 / (0.3 * sqrt(t_D));")
-    w("t_gt = tan(pi * min(clamp(t_tone, 1000, 20000), 0.45 * 2 * fs) / (2 * fs));")
+    w("t_nf = cur_tos < 1.5 ? 2 : (cur_tos < 2.5 ? 4 : (cur_tos < 3.5 ? 8 : 16));")   # v1.6: TUBE oversampling factor
+    w("t_gt = tan(pi * min(clamp(t_tone, 1000, 20000), 0.45 * t_nf * fs) / (t_nf * fs));")
     w("t_Gt = t_gt / (1 + t_gt);")
     w("t_dcr = 1 - 2 * pi * 8 / fs;")
     # opto
@@ -152,8 +157,19 @@ def emit_controls(w, G):
     _sm(w, "dz_o_lkz", "clamp(o_link, 0, 100) * 0.01")
     w("o_prg = exp(0.11512925465 * (50 * dz_o_prz - 12));")  # sidechain gain -12 .. +38 dB
     w("o_lim = o_mode > 0.5 ? 1 : 0;")
-    w("o_K = o_lim > 0.5 ? 4 : 1.6;")
-    w("o_p = o_lim > 0.5 ? 9 : 2;")
+    # v1.6 (Teletronix schematic C-10953 rev C): COMP and LIMIT share one gain law. The T4A cells shunt the
+    # signal after R6 (68k) and R7 (1k-2.7k); G = 1/(1 + q), q ~ R_th/R_cell with exponent 2, which gives COMP's ~3:1
+    # (manual addendum). SW3 shorts R7 in COMP; in LIMIT the side-chain node sits above R7, so it senses
+    # Vy * (1 + R7/R_cell) = Vy * (1 + o_a * q) and stiffens as reduction deepens. q is floored at 40 dB GR (manual: "up to 40 dB").
+    # The schematic model applies to the internal (feedback) detector only. With CHAIN or EXT keys there is no
+    # feedback, the R7 term would latch, and those sources keep their pre-v1.6 behaviour exactly (no floor).
+    w("o_int = o_src < 0.5 ? 1 : 0;")
+    w("o_K = (o_lim > 0.5 && o_int < 0.5) ? 4 : 1.6;")
+    # Cell exponent: COMP 2 (addendum ~3:1); LIMIT 3.5 (fits the manual's Figure 1, which the addendum gives as the
+    # limiter curve). One physical cell cannot do both; this follows both published curves (user's decision).
+    w("o_p = o_lim > 0.5 ? (o_int > 0.5 ? 3.5 : 9) : 2;")
+    w("o_a = (o_lim > 0.5 && o_int > 0.5) ? 0.0444 : 0;")   # R7 1.8k / (R6 68k || R2 100k = 40.5k)
+    w("o_qmax = o_int > 0.5 ? 99 : 1e30;")
     w("o_aatt = 1 - exp(-1 / (0.0045 * fs));")               # cell attack (≈10 ms overall in the feedback loop)
     w("o_aela = 1 - exp(-1 / (0.002 * fs));")                # EL panel rise
     w("o_ael = 1 - exp(-1 / (0.004 * fs));")                 # EL panel decay
@@ -163,8 +179,37 @@ def emit_controls(w, G):
     w("o_amd = 1 - exp(-1 / (20.0 * fs));")                  # memory discharge
     w("o_ghp = tan(pi * clamp(o_hpf, 20, 500) / fs);")
     w("o_Ghp = o_ghp / (1 + o_ghp);")
-    w("o_ge = tan(pi * 2500 / fs);")
-    w("o_Ge = o_ge / (1 + o_ge);")
+    # v1.6: R37 "LIM RESP" network (schematic): R37 || C12 (1 nF) in series between V3 (via C9 0.02 uF, source
+    # ~35k, assumed) and the 1M balance pot loaded by C6 0.01 uF + R30 47k. R37 = 0..1M with Emphasis 0..100 %.
+    # Relative to flat it cuts the side-chain below ~2 kHz (max about -15 dB near 200 Hz): ~+11 dB more GR at 15 kHz
+    # than at 500 Hz (manual p. 7: about 10 dB more than below 1 kHz). Bilinear, coefficients per sample.
+    w("o_r37 = 1000000 * dz_o_emz;")
+    w("o_t12 = o_r37 * 0.000000001;")
+    w("o_rc9 = o_r37 * 0.00000002;")
+    w("o_d1 = 0.03117 + o_t12;")
+    w("o_d2 = 0.000016729 + o_t12 * 0.03117;")
+    w("o_d3 = o_t12 * 0.000016729;")
+    w("o_a1 = o_d1 + o_rc9;")
+    w("o_a2 = o_d2 + o_rc9 * 0.01047;")
+    w("o_bk = 2 * fs;")
+    w("o_k1 = o_bk;")
+    w("o_k2 = o_bk * o_bk;")
+    w("o_k3 = o_k2 * o_bk;")
+    w("o_B0 = 1 + o_d1 * o_k1 + o_d2 * o_k2 + o_d3 * o_k3;")
+    w("o_B1 = 3 + o_d1 * o_k1 - o_d2 * o_k2 - 3 * o_d3 * o_k3;")
+    w("o_B2 = 3 - o_d1 * o_k1 - o_d2 * o_k2 + 3 * o_d3 * o_k3;")
+    w("o_B3 = 1 - o_d1 * o_k1 + o_d2 * o_k2 - o_d3 * o_k3;")
+    w("o_A0 = 1 + o_a1 * o_k1 + o_a2 * o_k2 + o_d3 * o_k3;")
+    w("o_A1 = 3 + o_a1 * o_k1 - o_a2 * o_k2 - 3 * o_d3 * o_k3;")
+    w("o_A2 = 3 - o_a1 * o_k1 - o_a2 * o_k2 + 3 * o_d3 * o_k3;")
+    w("o_A3 = 1 - o_a1 * o_k1 + o_a2 * o_k2 - o_d3 * o_k3;")
+    w("o_eb0 = o_B0 / o_A0;")
+    w("o_eb1 = o_B1 / o_A0;")
+    w("o_eb2 = o_B2 / o_A0;")
+    w("o_eb3 = o_B3 / o_A0;")
+    w("o_ea1 = o_A1 / o_A0;")
+    w("o_ea2 = o_A2 / o_A0;")
+    w("o_ea3 = o_A3 / o_A0;")
     # vca
     _sm(w, "dz_v_thz", "clamp(v_thr, -50, 0)")
     _sm(w, "dz_v_lkz", "clamp(v_link, 0, 100) * 0.01")
@@ -242,21 +287,27 @@ def emit_controls(w, G):
         G.ind -= 1
         w("}")
     # reset state of disabled modules (both lanes) so re-enabling starts neutral
-    for m, flag in (("T", "dz_t_w"), ("O", "dz_o_w"), ("V", "dz_v_w")):
-        w(f"if ({flag} <= 0) {{")
+    # v1.6: clear a disabled module's state once (when it has state), not on every sample;
+    # nothing writes a disabled module's state, so this is bit-exact with v1.5.
+    for m, flag in (("T", "dz_t_w"), ("O", "dz_o_w"), ("V", "dz_v_w"), ("G", "dz_g_w")):
+        dzn = f"dz_{m}_dirty"
+        w(f"{dzn} = H_{dzn};")
+        w(f"if ({flag} <= 0 && {dzn} > 0.5) {{")
         G.ind += 1
-        for ln in LANES:
-            for ch in CH:
-                for v in LANE_ST[m]:
-                    w(f"d{ln}_{m}_{ch}_{v} = 0;")
+        if m == "G":
+            for v in GATE_ST:
+                w(f"dg_{v} = 0;")
+        else:
+            for ln in LANES:
+                for ch in CH:
+                    for v in LANE_ST[m]:
+                        w(f"d{ln}_{m}_{ch}_{v} = 0;")
+        w(f"{dzn} = 0;")
         G.ind -= 1
         w("}")
-    w("if (dz_g_w <= 0) {")
-    G.ind += 1
-    for v in GATE_ST:
-        w(f"dg_{v} = 0;")
-    G.ind -= 1
-    w("}")
+        w(f"if ({flag} > 0) {{")
+        w(f"\t{dzn} = 1;")
+        w("}")
 
 
 def _src(sel, internal, ch):
@@ -264,31 +315,60 @@ def _src(sel, internal, ch):
 
 
 def emit_tube(w, G, ln, xin, xout, meter):
+    """TUBE stage at 2x / 4x / 8x / 16x (v1.6; the 2x branch is the v1.3 code path, bit-exact)."""
     s = lambda ch, v: f"d{ln}_T_{ch}_{v}"
+    cas, cbs = ", ".join(repr(c) for c in CA), ", ".join(repr(c) for c in CB)
+
+    def zs(ch, stg, d, p):
+        if stg == 1:
+            return [s(ch, f"{d}{p}{i}") for i in range(6)]
+        return [s(ch, f"s{stg}{d}{p}{i}") for i in range(6)]
+
+    def down(ch, vals, kind, stg):
+        while len(vals) > 1:
+            za, zb = zs(ch, stg, kind, "a"), zs(ch, stg, kind, "b")
+            nxt = []
+            for j in range(len(vals) // 2):
+                w(f"tpa, {', '.join(za)} = f_ap5({vals[2 * j + 1]}, {', '.join(za)}, {cas});")
+                w(f"tpb, {', '.join(zb)} = f_ap5({vals[2 * j]}, {', '.join(zb)}, {cbs});")
+                nm = f"t{kind}{stg}_{j}"
+                w(f"{nm} = 0.5 * (tpa + tpb);")
+                nxt.append(nm)
+            vals = nxt
+            stg -= 1
+        return vals[0]
+
     w("if (dz_t_w > 0) {")
     G.ind += 1
     for ch in CH:
-        za = [s(ch, f"upa{i}") for i in range(6)]
-        zb = [s(ch, f"upb{i}") for i in range(6)]
-        da = [s(ch, f"dna{i}") for i in range(6)]
-        db_ = [s(ch, f"dnb{i}") for i in range(6)]
         w(f"tu_{ch} = {xin[ch]} * dz_t_gi;")
-        w(f"tua, {', '.join(za)} = f_ap5(tu_{ch}, {', '.join(za)}, {', '.join(repr(c) for c in CA)});")
-        w(f"tub, {', '.join(zb)} = f_ap5(tu_{ch}, {', '.join(zb)}, {', '.join(repr(c) for c in CB)});")
-        w(f"tya = f_tube(tua * t_k, t_b, t_ib);")
-        w(f"tla, {s(ch, 'ton')} = f_op(tya, {s(ch, 'ton')}, t_Gt);")
-        w(f"tyb = f_tube(tub * t_k, t_b, t_ib);")
-        w(f"tlb, {s(ch, 'ton')} = f_op(tyb, {s(ch, 'ton')}, t_Gt);")
-        w(f"{s(ch, 'ton')} = fixdenorm({s(ch, 'ton')});")
-        w(f"tpa, {', '.join(da)} = f_ap5(tlb, {', '.join(da)}, {', '.join(repr(c) for c in CA)});")
-        w(f"tpb, {', '.join(db_)} = f_ap5(tla, {', '.join(db_)}, {', '.join(repr(c) for c in CB)});")
-        w(f"ty = 0.5 * (tpa + tpb) * t_ko;")
-        # dry path through the identical up/down filter pair -> wet/dry mix without comb filtering
-        dda = [s(ch, f"dda{i}") for i in range(6)]
-        ddb = [s(ch, f"ddb{i}") for i in range(6)]
-        w(f"tqa, {', '.join(dda)} = f_ap5(tub, {', '.join(dda)}, {', '.join(repr(c) for c in CA)});")
-        w(f"tqb, {', '.join(ddb)} = f_ap5(tua, {', '.join(ddb)}, {', '.join(repr(c) for c in CB)});")
-        w(f"tdr = 0.5 * (tqa + tqb) / max(dz_t_gi, 1e-9);")
+        w("ty = 0;")
+        w("tdr = 0;")
+        for idx, n in ((1, 2), (2, 4), (3, 8), (4, 16)):
+            w(("if" if idx == 1 else "} else if") + f" (cur_tos < {idx + 0.5}) {{")
+            G.ind += 1
+            level = [f"tu_{ch}"]
+            for stg in range(1, idx + 1):
+                za, zb = zs(ch, stg, "up", "a"), zs(ch, stg, "up", "b")
+                nxt = []
+                for j, v in enumerate(level):
+                    w(f"tv{stg}_{2 * j}, {', '.join(za)} = f_ap5({v}, {', '.join(za)}, {cas});")
+                    w(f"tv{stg}_{2 * j + 1}, {', '.join(zb)} = f_ap5({v}, {', '.join(zb)}, {cbs});")
+                    nxt += [f"tv{stg}_{2 * j}", f"tv{stg}_{2 * j + 1}"]
+                level = nxt
+            wet = []
+            for j, v in enumerate(level):
+                w(f"tyy = f_tube({v} * t_k, t_b, t_ib);")
+                w(f"tl_{j}, {s(ch, 'ton')} = f_op(tyy, {s(ch, 'ton')}, t_Gt);")
+                wet.append(f"tl_{j}")
+            w(f"{s(ch, 'ton')} = fixdenorm({s(ch, 'ton')});")
+            yv = down(ch, wet, "dn", idx)
+            w(f"ty = {yv} * t_ko;")
+            # dry path through the identical up/down filters -> wet/dry mix without comb filtering
+            dv = down(ch, list(level), "dd", idx)
+            w(f"tdr = {dv} / max(dz_t_gi, 1e-9);")
+            G.ind -= 1
+        w("}")
         w(f"tdy = ty - {s(ch, 'dcx')} + t_dcr * {s(ch, 'dcy')};")
         w(f"{s(ch, 'dcx')} = ty;")
         w(f"{s(ch, 'dcy')} = fixdenorm(tdy);")
@@ -306,13 +386,19 @@ def emit_opto(w, G, ln, xin, xout, meter):
     G.ind += 1
     for ch in CH:
         w(f"ou_{ch} = {xin[ch]} * dz_o_gi;")
-        w(f"osc_{ch} = {_src('o_src', s(ch, 'yp'), ch)};")
+        # LIMIT's R7 sense term scales whatever feeds the detector (internal, chain or external key), so the
+        # COMP/LIMIT switch acts with every detector source.
+        w(f"osc_{ch} = {_src('o_src', s(ch, 'yp'), ch)} * (1 + o_a * {s(ch, 'q')});")
         w(f"ohl, {s(ch, 'hp')} = f_op(osc_{ch}, {s(ch, 'hp')}, o_Ghp);")
         w(f"osc_{ch} = osc_{ch} - ohl;")
-        w(f"oel, {s(ch, 'he')} = f_op(osc_{ch}, {s(ch, 'he')}, o_Ge);")
-        w(f"osc_{ch} = osc_{ch} + 3 * dz_o_emz * (osc_{ch} - oel);")
         w(f"{s(ch, 'hp')} = fixdenorm({s(ch, 'hp')});")
-        w(f"{s(ch, 'he')} = fixdenorm({s(ch, 'he')});")
+        w("if (dz_o_emz > 0) {")
+        w(f"    oex = osc_{ch};")
+        w(f"    osc_{ch} = o_eb0 * oex + {s(ch, 'he')};")
+        w(f"    {s(ch, 'he')} = fixdenorm(o_eb1 * oex - o_ea1 * osc_{ch} + {s(ch, 'e2')});")
+        w(f"    {s(ch, 'e2')} = fixdenorm(o_eb2 * oex - o_ea2 * osc_{ch} + {s(ch, 'e3')});")
+        w(f"    {s(ch, 'e3')} = fixdenorm(o_eb3 * oex - o_ea3 * osc_{ch});")
+        w("}")
         w(f"olv_{ch} = abs(osc_{ch});")
     w("olm = max(olv_L, olv_R);")
     w("ogr = 0;")
@@ -325,7 +411,9 @@ def emit_opto(w, G, ln, xin, xout, meter):
         w(f"oasr = 1 - exp(-1 / ((0.5 + 4.5 * clamp({mem}, 0, 1)) * fs));")
         w(f"{cs} = fixdenorm({cs} + ({lt} - {cs}) * ({lt} > {cs} ? o_asa : oasr));")
         w(f"oc = o_K * (0.6 * {cf} + 0.4 * {cs});")
-        w(f"oG = 1 / (1 + pow(oc, o_p));")
+        w(f"oq = min(pow(oc, o_p), o_qmax);")
+        w(f"{s(ch, 'q')} = oq;")
+        w(f"oG = 1 / (1 + oq);")
         w(f"oy = ou_{ch} * oG;")
         w(f"{s(ch, 'yp')} = oy;")
         w(f"ogr = max(ogr, -20 * log10(oG));")
