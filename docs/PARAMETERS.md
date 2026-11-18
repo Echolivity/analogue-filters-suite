@@ -96,7 +96,7 @@ See CHAIN.md for routing, detector sourcing and gain staging. The drag grips, ED
 | Opto Mix | 0 – 100 % | 100 |
 | Opto Peak Reduction | 0 – 100 % | 40 |
 | Opto Mode | COMP / LIMIT | COMP |
-| Opto HF Emphasis | 0 – 100 % | 0 |
+| Opto HF Emphasis | 0 – 100 % | 0 | (v1.6: the LA-2A R37 network; cuts the low-frequency side-chain, 0 % = flat) |
 | Opto SC HPF | 20 – 500 Hz | 20 |
 | Opto SC Source | INT / CHAIN / EXT | INT |
 | Opto Link | 0 – 100 % | 100 |

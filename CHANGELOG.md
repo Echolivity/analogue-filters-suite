@@ -8,6 +8,11 @@ Details and before/after measurements: [docs/V1.6_ENGINE.md](docs/V1.6_ENGINE.md
 - **New:** fault containment. A stage whose output becomes non-finite or absurd resets itself and passes dry. It never activated in normal-use tests.
 - **New:** High Oversampling OFF / 4x / 8x / 16x for the filters and TUBE, using cascaded half-band stages. 2x is bit-identical to v1.5.
 - **New:** Engine Mode REFERENCE (default) / CREATIVE. REFERENCE runs each active model at least at its measured minimum factor (≤ −80 dBc aliasing at a bright test point; TUBE 8x). CREATIVE runs exactly your setting.
+- **Changed: OPTO from the Teletronix schematic** (C-10953 rev C, from the UREI manual you supplied):
+  - LIMIT now uses the hardware's R7 side-chain point with the COMP gain law, floored at 40 dB. It flattens at heavy reduction and is softer at light settings than before.
+  - Emphasis is now the R37/C12 low-frequency side-chain cut (15 kHz about 12 dB more sensitive than 500 Hz).
+  - Distortion at 100 Hz under heavy limiting: 1.8 % → 0.37 %.
+  - COMP is unchanged.
 - **New UI:** an ENGINE strip at the right edge showing the mode, the high-oversampling choice, and the factors actually running. Two new Live parameters, appended; all 79 earlier ones are unchanged.
 - **Compatibility:**
   - Earlier Sets open in REFERENCE. Choose CREATIVE to get v1.5's oversampling factor back.

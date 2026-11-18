@@ -56,7 +56,7 @@ TUBE_ST = [f"up{p}{i}" for p in "ab" for i in range(6)] + [f"dn{p}{i}" for p in 
           [f"dd{p}{i}" for p in "ab" for i in range(6)]  # phase-matched dry path (same up/down filters, no shaping)
 # v1.6: half-band stages 2..4 for 4x / 8x / 16x (stage 1 = the v1.3 states above)
 TUBE_ST += [f"s{g}{d}{p}{i}" for g in (2, 3, 4) for d in ("up", "dn", "dd") for p in "ab" for i in range(6)]
-OPTO_ST = ["lt", "cf", "cs", "mem", "yp", "hp", "he"]
+OPTO_ST = ["lt", "cf", "cs", "mem", "yp", "hp", "he", "e2", "e3", "q"]   # v1.6: he/e2/e3 = R37 network, q = cell state (R7 sense)
 VCA_ST = ["hp", "t1", "t2", "ms", "gr", "yp"]
 LANE_ST = {"T": TUBE_ST, "O": OPTO_ST, "V": VCA_ST}
 GATE_ST = ["hpL", "hpR", "lpL", "lpR", "env", "open", "hold", "g"]
@@ -157,8 +157,14 @@ def emit_controls(w, G):
     _sm(w, "dz_o_lkz", "clamp(o_link, 0, 100) * 0.01")
     w("o_prg = exp(0.11512925465 * (50 * dz_o_prz - 12));")  # sidechain gain -12 .. +38 dB
     w("o_lim = o_mode > 0.5 ? 1 : 0;")
-    w("o_K = o_lim > 0.5 ? 4 : 1.6;")
-    w("o_p = o_lim > 0.5 ? 9 : 2;")
+    # v1.6 (Teletronix schematic C-10953 rev C): COMP and LIMIT share one gain law. The T4A cells shunt the
+    # signal after R6 (68k) and R7 (1k-2.7k); G = 1/(1 + q), q ~ R_th/R_cell with exponent 2, which gives COMP's ~3:1
+    # (manual addendum). SW3 shorts R7 in COMP; in LIMIT the side-chain node sits above R7, so it senses
+    # Vy * (1 + R7/R_cell) = Vy * (1 + o_a * q) and stiffens as reduction deepens. q is floored at 40 dB GR (manual: "up to 40 dB").
+    w("o_K = 1.6;")
+    w("o_p = 2;")
+    w("o_a = o_lim > 0.5 ? 0.0444 : 0;")                    # R7 1.8k / (R6 68k || R2 100k = 40.5k)
+    w("o_qmax = 99;")
     w("o_aatt = 1 - exp(-1 / (0.0045 * fs));")               # cell attack (≈10 ms overall in the feedback loop)
     w("o_aela = 1 - exp(-1 / (0.002 * fs));")                # EL panel rise
     w("o_ael = 1 - exp(-1 / (0.004 * fs));")                 # EL panel decay
@@ -168,8 +174,37 @@ def emit_controls(w, G):
     w("o_amd = 1 - exp(-1 / (20.0 * fs));")                  # memory discharge
     w("o_ghp = tan(pi * clamp(o_hpf, 20, 500) / fs);")
     w("o_Ghp = o_ghp / (1 + o_ghp);")
-    w("o_ge = tan(pi * 2500 / fs);")
-    w("o_Ge = o_ge / (1 + o_ge);")
+    # v1.6: R37 "LIM RESP" network (schematic): R37 || C12 (1 nF) in series between V3 (via C9 0.02 uF, source
+    # ~35k, assumed) and the 1M balance pot loaded by C6 0.01 uF + R30 47k. R37 = 0..1M with Emphasis 0..100 %.
+    # Relative to flat it cuts the side-chain below ~2 kHz (max about -15 dB near 200 Hz): ~+11 dB more GR at 15 kHz
+    # than at 500 Hz (manual p. 7: about 10 dB more than below 1 kHz). Bilinear, coefficients per sample.
+    w("o_r37 = 1000000 * dz_o_emz;")
+    w("o_t12 = o_r37 * 0.000000001;")
+    w("o_rc9 = o_r37 * 0.00000002;")
+    w("o_d1 = 0.03117 + o_t12;")
+    w("o_d2 = 0.000016729 + o_t12 * 0.03117;")
+    w("o_d3 = o_t12 * 0.000016729;")
+    w("o_a1 = o_d1 + o_rc9;")
+    w("o_a2 = o_d2 + o_rc9 * 0.01047;")
+    w("o_bk = 2 * fs;")
+    w("o_k1 = o_bk;")
+    w("o_k2 = o_bk * o_bk;")
+    w("o_k3 = o_k2 * o_bk;")
+    w("o_B0 = 1 + o_d1 * o_k1 + o_d2 * o_k2 + o_d3 * o_k3;")
+    w("o_B1 = 3 + o_d1 * o_k1 - o_d2 * o_k2 - 3 * o_d3 * o_k3;")
+    w("o_B2 = 3 - o_d1 * o_k1 - o_d2 * o_k2 + 3 * o_d3 * o_k3;")
+    w("o_B3 = 1 - o_d1 * o_k1 + o_d2 * o_k2 - o_d3 * o_k3;")
+    w("o_A0 = 1 + o_a1 * o_k1 + o_a2 * o_k2 + o_d3 * o_k3;")
+    w("o_A1 = 3 + o_a1 * o_k1 - o_a2 * o_k2 - 3 * o_d3 * o_k3;")
+    w("o_A2 = 3 - o_a1 * o_k1 - o_a2 * o_k2 + 3 * o_d3 * o_k3;")
+    w("o_A3 = 1 - o_a1 * o_k1 + o_a2 * o_k2 - o_d3 * o_k3;")
+    w("o_eb0 = o_B0 / o_A0;")
+    w("o_eb1 = o_B1 / o_A0;")
+    w("o_eb2 = o_B2 / o_A0;")
+    w("o_eb3 = o_B3 / o_A0;")
+    w("o_ea1 = o_A1 / o_A0;")
+    w("o_ea2 = o_A2 / o_A0;")
+    w("o_ea3 = o_A3 / o_A0;")
     # vca
     _sm(w, "dz_v_thz", "clamp(v_thr, -50, 0)")
     _sm(w, "dz_v_lkz", "clamp(v_link, 0, 100) * 0.01")
@@ -346,13 +381,17 @@ def emit_opto(w, G, ln, xin, xout, meter):
     G.ind += 1
     for ch in CH:
         w(f"ou_{ch} = {xin[ch]} * dz_o_gi;")
-        w(f"osc_{ch} = {_src('o_src', s(ch, 'yp'), ch)};")
+        w(f"osc_{ch} = {_src('o_src', s(ch, 'yp') + ' * (1 + o_a * ' + s(ch, 'q') + ')', ch)};")
         w(f"ohl, {s(ch, 'hp')} = f_op(osc_{ch}, {s(ch, 'hp')}, o_Ghp);")
         w(f"osc_{ch} = osc_{ch} - ohl;")
-        w(f"oel, {s(ch, 'he')} = f_op(osc_{ch}, {s(ch, 'he')}, o_Ge);")
-        w(f"osc_{ch} = osc_{ch} + 3 * dz_o_emz * (osc_{ch} - oel);")
         w(f"{s(ch, 'hp')} = fixdenorm({s(ch, 'hp')});")
-        w(f"{s(ch, 'he')} = fixdenorm({s(ch, 'he')});")
+        w("if (dz_o_emz > 0) {")
+        w(f"    oex = osc_{ch};")
+        w(f"    osc_{ch} = o_eb0 * oex + {s(ch, 'he')};")
+        w(f"    {s(ch, 'he')} = fixdenorm(o_eb1 * oex - o_ea1 * osc_{ch} + {s(ch, 'e2')});")
+        w(f"    {s(ch, 'e2')} = fixdenorm(o_eb2 * oex - o_ea2 * osc_{ch} + {s(ch, 'e3')});")
+        w(f"    {s(ch, 'e3')} = fixdenorm(o_eb3 * oex - o_ea3 * osc_{ch});")
+        w("}")
         w(f"olv_{ch} = abs(osc_{ch});")
     w("olm = max(olv_L, olv_R);")
     w("ogr = 0;")
@@ -365,7 +404,9 @@ def emit_opto(w, G, ln, xin, xout, meter):
         w(f"oasr = 1 - exp(-1 / ((0.5 + 4.5 * clamp({mem}, 0, 1)) * fs));")
         w(f"{cs} = fixdenorm({cs} + ({lt} - {cs}) * ({lt} > {cs} ? o_asa : oasr));")
         w(f"oc = o_K * (0.6 * {cf} + 0.4 * {cs});")
-        w(f"oG = 1 / (1 + pow(oc, o_p));")
+        w(f"oq = min(pow(oc, o_p), o_qmax);")
+        w(f"{s(ch, 'q')} = oq;")
+        w(f"oG = 1 / (1 + oq);")
         w(f"oy = ou_{ch} * oG;")
         w(f"{s(ch, 'yp')} = oy;")
         w(f"ogr = max(ogr, -20 * log10(oG));")

@@ -70,4 +70,6 @@ See [LA2A_MANUAL_CHECK.md](LA2A_MANUAL_CHECK.md). `tests/review/la2a_manual.py` 
 | E38 | THD at ≥ 30 dB GR: 0.018 % at 1 kHz, 1.8 % at 100 Hz. The manual says < 0.5 %, frequency not stated. | P vs M | Conforms at 1 kHz |
 | E39 | Side-chain: the manual's text says input-fed. OPTO is output-fed (feedback). | P vs code | Deviates (schematic needed) |
 | E40 | Attack: the manual says 10 µs, undefined. OPTO measures 2.35–8.1 ms t63. | P vs M | Conflicts; not used |
+| E41 | Schematic C-10953 rev C: R2 is fed from the R6/R7 node, so the side-chain is feedback. SW3 shorts R7 (COMP). | P | Resolves E39; v1.6 LIMIT implements it |
+| E42 | R37 ∥ C12 network: max = LF side-chain cut; 15 kHz +12 dB vs 500 Hz, +8 dB vs 1 kHz | P (computed) | Implemented; conforms to E37's manual figure |
 
