@@ -72,4 +72,8 @@ See [LA2A_MANUAL_CHECK.md](LA2A_MANUAL_CHECK.md). `tests/review/la2a_manual.py` 
 | E40 | Attack: the manual says 10 µs, undefined. OPTO measures 2.35–8.1 ms t63. | P vs M | Conflicts; not used |
 | E41 | Schematic C-10953 rev C: R2 is fed from the R6/R7 node, so the side-chain is feedback. SW3 shorts R7 (COMP). | P | Resolves E39; v1.6 LIMIT implements it |
 | E42 | R37 ∥ C12 network: max = LF side-chain cut; 15 kHz +12 dB vs 500 Hz, +8 dB vs 1 kHz | P (computed) | Implemented; conforms to E37's manual figure |
+| E43 | Figure 1 (3-66 manual, pre-switch): output +3.4/+5.1/+5.6/+5.7 dB at 5/10/15/30 dB above breakaway | P | v1.6 LIMIT: 2.5/3.9/5.7/7.5 (PR 100). Partial match. |
+| E44 | UREI 1992 notice: the "10 µs" attack "should have been in milliseconds" | P | Supports OPTO's ms attack; supersedes E40's conflict |
+| E45 | R37 position: 3-66 text says ahead of R2; drawing rev C shows it after V3 | P vs P | The model follows the drawing; the two agree above 500 Hz |
+| E46 | Cell exponent: 2 fits the addendum's COMP; 3.5 fits Figure 1's LIMIT; no single value fits both | M (static solve) | The user chose 2 (COMP unchanged) |
 

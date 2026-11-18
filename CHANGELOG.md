@@ -8,11 +8,15 @@ Details and before/after measurements: [docs/V1.6_ENGINE.md](docs/V1.6_ENGINE.md
 - **New:** fault containment. A stage whose output becomes non-finite or absurd resets itself and passes dry. It never activated in normal-use tests.
 - **New:** High Oversampling OFF / 4x / 8x / 16x for the filters and TUBE, using cascaded half-band stages. 2x is bit-identical to v1.5.
 - **New:** Engine Mode REFERENCE (default) / CREATIVE. REFERENCE runs each active model at least at its measured minimum factor (≤ −80 dBc aliasing at a bright test point; TUBE 8x). CREATIVE runs exactly your setting.
-- **Changed: OPTO from the Teletronix schematic** (C-10953 rev C, from the UREI manual you supplied):
-  - LIMIT now uses the hardware's R7 side-chain point with the COMP gain law, floored at 40 dB. It flattens at heavy reduction and is softer at light settings than before.
-  - Emphasis is now the R37/C12 low-frequency side-chain cut (15 kHz about 12 dB more sensitive than 500 Hz).
+- **Changed: OPTO LIMIT and Emphasis**, rebuilt from the Teletronix schematic C-10953 rev C (in the UREI manual you supplied):
+  - **LIMIT is now softer at normal settings.** It uses the COMP law plus the hardware's R7 side-chain point, floored at 40 dB. It tracks COMP (about 2.4–3.8:1 at PR 50–75) and flattens only at heavy reduction.
+    - At PR 100, 0.78 dB rise over the top 20 dB (v1.5: 2.0 dB).
+    - At PR 80 it is *less* firm over that range (4.9 dB vs 2.1 dB).
+    - It no longer hunts on programme material (GR reversals 577 → 62).
+    - Sets using LIMIT may need more Peak Reduction.
+  - **Emphasis now cuts the lows going to the detector** (up to about −15 dB near 200 Hz) instead of boosting the highs. 15 kHz is levelled about 10–12 dB more than 500 Hz.
   - Distortion at 100 Hz under heavy limiting: 1.8 % → 0.37 %.
-  - COMP is unchanged.
+  - COMP is unchanged (bit-identical).
 - **New UI:** an ENGINE strip at the right edge showing the mode, the high-oversampling choice, and the factors actually running. Two new Live parameters, appended; all 79 earlier ones are unchanged.
 - **Compatibility:**
   - Earlier Sets open in REFERENCE. Choose CREATIVE to get v1.5's oversampling factor back.
@@ -20,7 +24,7 @@ Details and before/after measurements: [docs/V1.6_ENGINE.md](docs/V1.6_ENGINE.md
 
     | Baseline | v1.6 result |
     |---|---|
-    | Dynamics, 21 | Bit-identical |
+    | Dynamics, 21 | 20 bit-identical; 1 changes ("opto limit emph") |
     | LPF/HPF, 48 | 29 bit-identical; the 19 that change are the Sherman and Steiner scenarios and device power-on |
     | BPF, 35 | 34 change by at most −87 dBFS (SVF) or −115 dBFS (the startup crossfade only) |
 

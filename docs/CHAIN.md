@@ -54,7 +54,7 @@ How the model implements this:
 
 Measured:
 - **COMP:** 1.7 → 2.8:1. Unchanged; COMP renders are bit-identical to v1.3.
-- **LIMIT:** tracks COMP to about 15 dB of reduction. It then rises 0.74 dB over a 20 dB input window starting 24 dB above breakaway. The manual says < 1 dB over 20 dB, starting about 10 dB above breakaway.
+- **LIMIT:** tracks COMP to about 15 dB of reduction, then flattens. At PR 100: 0.78 dB rise over the top 20 dB, and a 0.93 dB rise over a 20 dB window starting 20 dB above breakaway. The manual's Figure 1 (pre-switch units) flattens earlier, about 10–15 dB above breakaway; see V1.6_ENGINE.md §4b for the exponent trade-off.
 - **Emphasis at 100 %:** 15 kHz is 12 dB more sensitive than 500 Hz and 8 dB more than 1 kHz. The manual says about 10 dB more than below 1 kHz.
 - **Distortion at 100 Hz** with ≥ 25 dB of reduction: 0.37 %. The manual says < 0.5 %; v1.6 before the change measured 1.8 %.
 

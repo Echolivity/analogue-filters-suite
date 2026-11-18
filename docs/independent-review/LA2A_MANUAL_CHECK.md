@@ -25,10 +25,12 @@
 
 ## What this changes in the review
 
-- **R4 (OPTO calibration)** is no longer blocked by a lack of primary data, for the **static curve** (items 3, 4) and **R37** (item 5). Those figures now have a [P] source. Attack (item 7) stays uncalibrated: the only primary figure is undefined and physically implausible for the photocell.
-- **Topology question (item 8):** this is new. If the schematic confirms an input tap, the static curve in item 4 is a feed-forward curve. In that case the right fix is a feed-forward detector with a gain law fitted to items 3 and 4, not a steeper feedback law.
-- **R5 (audio path)** gains measurement targets (item 9). It still waits on R7 and a legible schematic.
-- Unchanged: release and memory, maximum reduction, and flat response conform.
+*Written before the schematic arrived; superseded where noted.*
+
+- **R4 (OPTO calibration):** the static curve (items 3, 4) and R37 (item 5) now have a [P] source.
+- **Item 8 (topology): superseded.** The schematic shows feedback detection from the R6/R7 node, not an input tap. Feed-forward is **not** needed.
+- **Attack (item 7):** the UREI 1992 notice says the "10 µs" figure should have been milliseconds. That is consistent with OPTO's 2–8 ms.
+- **R5 (audio path)** gains measurement targets (item 9). It still waits on R7 (the review item: a validated triode model).
 
 ## Schematic findings (UREI manual, drawing C-10953 rev C)
 
@@ -46,7 +48,7 @@
   - LIMIT: the same as COMP to about 15 dB of reduction, then flat, then over-compressing until the cell bottoms out.
 - The real switch therefore changes the high-reduction behaviour, not the threshold.
 
-**R37 "LIM RESP".**
+**R37 "LIM RESP".** The 3-66 manual text (p. 7) says R37 reduces the low-frequency voltage *applied to R2*. Drawing C-10953 rev C (600 dpi) instead places R37 ∥ C12 after V3; the model follows the drawing.
 - R37 (0–1 MΩ) ∥ C12 (1 nF) sits in series from the V3 plate (via C9 0.02 µF) to the balance pot R3 (1 MΩ). That node is loaded by C6 0.01 µF + R30 47 kΩ (∥ a 50–380 pF trimmer), and also feeds the stereo-parallel terminal.
 - Relative to flat, R37 at maximum is a side-chain *cut*: −15 dB near 200 Hz, −8 dB at 1 kHz, about 0 above 5 kHz. That puts 15 kHz +12 dB vs 500 Hz and +8 dB vs 1 kHz, against the manual's ~+10 dB vs below 1 kHz.
 - The result is insensitive to the unknowns:
@@ -61,9 +63,39 @@
 | Item | Before | After |
 |---|---|---|
 | COMP | — | Unchanged (golden renders bit-identical) |
-| LIMIT | Own (4c)⁹ law; ratio 4.2 → 9.9:1; never flat | COMP law + the R7 sense term (R7 = 1.8 kΩ assumed, mid-range) + a 40 dB cell floor. Tracks COMP to about 15 dB GR, then rises 0.74 dB over a 20 dB window starting 24 dB above breakaway. Manual: < 1 dB, starting about 10 dB above breakaway. |
+| LIMIT | Own (4c)⁹ law; ratio 4.2 → 9.9:1; never flat (≥ 2 dB per 20 dB); hunted on programme | COMP law + the R7 sense term (R7 = 1.8 kΩ assumed, mid-range) + a 40 dB cell floor. See the before/after table below. |
 | Emphasis | 2.5 kHz high-frequency shelf | The R37 network (3rd-order bilinear; matches the analog response within 0.1 dB). Flat: 15 kHz vs 500 Hz within 0.25 dB. Maximum: +9 to +12 dB more reduction at 15 kHz. |
 | THD at 100 Hz, ≥ 25 dB GR (LIMIT) | 1.8 % | 0.37 % (manual < 0.5 %) |
+
+**LIMIT, before vs after on identical metrics** (1 kHz tone, 48 kHz; output rise in dB measured from the breakaway point; `tests/review/la2a_before_after.py`):
+
+| | +5 dB | +10 dB | +15 dB | +30 dB | Rise over −20…0 dBFS | Best 20 dB window |
+|---|---|---|---|---|---|---|
+| Manual Figure 1 (1966, before the switch existed) | 3.4 | 5.1 | 5.6 | 5.7 | — | < 1 dB |
+| Before, PR 80 | 1.2 | 1.8 | 2.5 | 4.0 | 2.10 | 2.01 |
+| Before, PR 100 | 0.7 | 1.2 | 1.8 | 3.3 | 2.03 | 2.00 |
+| After, PR 80 | 3.4 | 5.3 | 7.6 | 11.3 | **4.92** | 0.93 (from +28 dB) |
+| After, PR 100 | 2.5 | 3.9 | 5.7 | 7.5 | 0.78 | 0.93 (from +20 dB) |
+
+What the table shows:
+- **Near the knee, the new LIMIT is closer to Figure 1.** The old law compressed too hard just past breakaway.
+- **At heavy input it is not.** At PR 80 it is *worse* on the original "top 20 dB" metric (4.9 dB vs 2.1 dB), because it only flattens at deep reduction.
+- **Neither version matches Figure 1 over its whole range.**
+
+**Dynamics** (PR 100, LIMIT; GR meter on a 5 ms grid):
+- Programme material: GR direction reversals 577 → 62; maximum GR 77 dB → 30 dB. The old steep law hunted.
+- 1 kHz bursts: clean (3 → 1 reversals).
+- COMP: identical before and after.
+
+**Cell-exponent trade-off.** The schematic fixes the wiring, but not the T4 cell's response curve (its exponent). The static solve gives:
+
+| Exponent | LIMIT rise at +5/10/15/30 dB (Figure 1: 3.4/5.1/5.6/5.7) | COMP ratio at 6/12/18 dB GR (addendum ≈ 3:1, "100 % → 30 %" ≈ 2.6:1) |
+|---|---|---|
+| 2 | 3.6/6.5/8.9/13.7 | 2.2/2.6/2.8 |
+| 3 | 3.0/5.1/6.6/8.0 | 2.8/3.4/3.7 |
+| 3.5 | 2.8/4.7/5.9/6.0 | 3.2/3.8/4.2 |
+
+You chose **2**, so COMP stays bit-identical and matches the addendum, which describes the switch-era units this schematic shows. Figure 1 predates the switch, and the schematic allows a T4A or a T4B cell.
 
 **Remaining gaps:**
 - LIMIT flattens later than the manual's Figure 1. That figure describes the pre-switch unit, and the gain-law exponent is not measured from a T4 cell.
