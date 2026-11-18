@@ -12,8 +12,9 @@ Inside gen~, per sample:
 
 ```
 in L/R ─► [2x upsampler]¹ ─► ┌──────────── per subsample ────────────┐ ─► [2x downsampler]¹ ─► DC block (2 Hz)
-                             │ order LP>HP:  LPF stage ─► HPF stage    │      ─► Output gain ─► Soft clip ─► duck ─► out
-                             │ order HP>LP:  HPF stage ─► LPF stage    │
+                             │ [BPF if PRE] ─► order LP>HP: LPF ─► HPF │      ─► Output gain ─► Soft clip ─► duck ─► out
+                             │             or HP>LP: HPF ─► LPF        │
+                             │ ─► [BPF if POST, default]               │
                              └─────────────────────────────────────────┘
 ¹ only when Oversampling = 2x
 ```
@@ -73,3 +74,17 @@ Filter coefficients (including `tan()` prewarping) are recomputed every sample f
 | `source/device/preview.py` | Approximate PNG render of the panel layout. |
 | `source/tests/` | Harness, wrapper, validation suite, report generator. |
 | `build.sh` | Regenerates everything and reruns validation. |
+
+## v1.2: band-pass engine
+
+The BPF lives in its own module (`source/src/bpf.py`). The LPF/HPF generator received only append-only hooks:
+- parameters appended after the v1.1 parameters
+- BPF state registered after all v1.1 state
+- a controls block
+- one extra term in the stage-order/oversampling duck condition (position changes)
+- two insertion points (PRE before the chain, POST after it)
+- History write-backs
+
+Each insertion point is wrapped in `if (b_run)`, so with the BPF off no LPF/HPF variable is touched. The golden test confirms the output is bit-identical.
+
+Model and architecture changes use two **configuration slots** (A/B). A new configuration goes into the idle slot, which is reset and crossfaded in over 25 ms. Only the running slot(s) are computed. The regeneration loop (SVF, CASCADE) is solved with zero delay: every section is written in affine form (output = a·x + b for the current sample, from its secant gains), so the loop gain is known before the states are committed.

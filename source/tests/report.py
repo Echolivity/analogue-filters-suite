@@ -108,10 +108,48 @@ w("| Configuration | ns per stereo frame | % of one core at 48 kHz |\n|---|---|-
 for r in cp["rows"]:
     w(f"| {r['config']} | {r['ns_per_frame']} | {r['pct_of_one_core_48k']} % |")
 w("\nInactive models cost nothing. A stage that is off, or parked in its OPEN zone, skips all model code.\n")
+w("## v1.2 — Regression gates\n")
+w("Three gates protect the existing LPF/HPF engines and anyone's existing Live Sets:\n")
+w("1. **Bit-exact golden renders.** `tests/golden.py` stored SHA-256 hashes of 48 LPF/HPF renders made with the v1.1 engine *before* any v1.2 change: every model, slopes, self-oscillation, both stage orders, 1x/2x, sweeps, model switches, enable toggles, the output stage and power-on defaults. The v1.2 engine reproduces all 48 byte for byte.")
+w("2. **Patch compatibility.** `tests/compat.py` compares the v1.2 device with the v1.1 device snapshot. Every v1.1 object (same id, same attributes, same presentation position), every v1.1 connection, every Live parameter entry and every gen~ Param (name, default, range) is unchanged. The BPF adds 11 new parameters and no edits.")
+w("3. **BPF transparency.** Switching the BPF on at Mix 0 leaves the output bit-identical across the same 48 scenarios, in both POST and PRE positions.")
+w("\nAll 25 v1.1 checks above were rerun on the v1.2 engine and produce the same numbers as the v1.1 report (CPU timings aside).\n")
+w("## v1.2 — Band-pass engine\n")
+w("![BPF reference](validation/bpf_reference.png)\n")
+w("*Device response (thin) over the analytic transfer function (thick) for each architecture, Korg 35 model shown. All 15 model × architecture configurations are checked at three settings each.*\n")
+br = find("BPF: small-signal")
+w("| Architecture | Model | Res | BW | Q | 99th-pct error |\n|---|---|---|---|---|---|")
+for r in br["rows"]:
+    w(f"| {r['arch']} | {r['model']} | {r['res']} % | {r['bw']} | {r['q']} | {r['err_p99_db']} dB |")
+w("\n![architectures](validation/bpf_architectures.png)\n")
+bw = find("BPF: bandwidth")
+w("| Architecture | Setting | Expected width | Measured −3 dB width |\n|---|---|---|---|")
+for r in bw["rows"]:
+    w(f"| {r['arch']} | {r['setting']} | {r['expected_oct'] if r['expected_oct'] is not None else '—'} oct | {r['measured_oct']} oct |")
+w("\nCascade bands narrower than about 1.5 octaves can't get narrower at Q 0.707, because the two Butterworth edges overlap. Raise Q to sharpen narrow bands, or use SVF.\n")
+so = find("BPF: self-oscillation")
+w("### Self-oscillation (resonance 100 %, centre 700 Hz)\n")
+w("| OS | Architecture | Model | Oscillates | Peak dBFS | Error (cents) |\n|---|---|---|---|---|---|")
+for r in so["rows"]:
+    w(f"| {r['os']}x | {r['arch']} | {r['model']} | {'yes' if r['oscillates'] else 'no'} | {r['peak_dbfs']} | {r['cents'] if r['cents'] is not None else '-'} |")
+w("\n![models](validation/bpf_models_nonlinear.png)\n")
+nl = find("BPF: harmonic")
+w("| Model | Architecture | THD drive 0 % | THD drive 50 % | THD drive 100 % |\n|---|---|---|---|---|")
+for r in nl["rows"]:
+    w(f"| {r['model']} | {r['arch']} | {r['thd_pct_drive0']} % | {r['thd_pct_drive50']} % | {r['thd_pct_drive100']} % |")
+ck = find("BPF: click")
+w("\n### BPF click tests\n\n| Case | >8 kHz burst (dBFS) |\n|---|---|")
+for r in ck["rows"]:
+    w(f"| {r['case']} | {r['hf_abs_dbfs']} |")
+cp = find("CPU with BPF")
+w("\n### CPU with the BPF\n\n| Configuration | % of one core at 48 kHz |\n|---|---|")
+for r in cp["rows"]:
+    w(f"| {r['config']} | {r['pct_of_one_core_48k']} % |")
+w("")
 w("## Manual test checklist (in Live)\n")
 for item in [
     "Device loads without errors in the Max console (Max window). The gen~ object compiles (no red error bar).",
-    "All 20 parameters appear in Live's automation chooser with the names listed in PARAMETERS.md.",
+    "All 31 parameters appear in Live's automation chooser with the names listed in PARAMETERS.md.",
     "Turn LPF CUTOFF fully clockwise and HPF CUTOFF fully anticlockwise: the signal should be audibly identical to the device bypassed.",
     "MIDI-map LPF CUTOFF and HPF CUTOFF (Cmd/Ctrl+M) to a controller and sweep fast: no zipper noise.",
     "Draw automation on LPF Cutoff and play it back: smooth sweep.",
@@ -120,6 +158,9 @@ for item in [
     "Toggle the device's on/off switch during playback.",
     "Change Live's sample rate (Preferences → Audio) with the device running.",
     "Save the Set, reopen it: all parameters restored, including model selections.",
+    "Open a Live Set saved with v1.1, swap in v1.2 (or replace the file): the LPF/HPF settings, automation and MIDI maps carry over and the BPF is off.",
+    "BPF: switch it on, sweep BPF Centre, change Model and Architecture during playback (about 25 ms crossfade, no click), switch POST/PRE (8 ms dip).",
+    "BPF: MIDI-map BPF Centre and BPF Mix; automate BPF Centre.",
 ]:
     w(f"- [ ] {item}")
 open(os.path.join(D, "VALIDATION.md"), "w").write("\n".join(L) + "\n")

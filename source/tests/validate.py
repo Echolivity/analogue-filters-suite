@@ -614,6 +614,9 @@ if __name__ == "__main__":
                t_clicks, t_spec1_scenarios, t_samplerates, t_cpu, t_denormal_dc, t_longrun):
         print("==", fn.__name__)
         fn()
+    print("== v1.2 band-pass engine + regression gates")
+    import bpf_tests
+    bpf_tests.run_all(record, plt, OUT, SEQ, CAT, GRID, test_signal)
     R["summary"] = dict(total=len(R["tests"]), passed=sum(t["passed"] for t in R["tests"]),
                         seconds=round(time.time() - t0, 1))
     with open(os.path.join(OUT, "results.json"), "w") as f:

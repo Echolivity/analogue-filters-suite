@@ -4,7 +4,7 @@ import matplotlib; matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from matplotlib.patches import FancyBboxPatch, Rectangle, Arc, Circle
 P = json.load(open("build/device/DubFilter.maxpat"))["patcher"]
-W, H = 700, 169
+W, H = int(P.get("devicewidth", 700)), 169
 S = 2
 fig = plt.figure(figsize=(W * S / 100, H * S / 100), dpi=100)
 ax = fig.add_axes([0, 0, 1, 1]); ax.set_xlim(0, W); ax.set_ylim(H, 0); ax.axis("off")

@@ -2849,39 +2849,39 @@
   {
    "name": "CPU benchmark (transpiled C, gcc -O2, this machine)",
    "passed": true,
-   "detail": "Both stages off (pass-through): 1.34%; Default device (Ladder LPF 24 dB + K35 HPF), 1x: 2.19%; Diode LPF 48 dB + Sherman HPF 48 dB, 1x: 3.46%; Default device, 2x oversampling: 3.07%; Worst case: Diode+Sherman 48 dB, 2x, both mid-crossfade: 6.64%",
+   "detail": "Both stages off (pass-through): 2.34%; Default device (Ladder LPF 24 dB + K35 HPF), 1x: 3.09%; Diode LPF 48 dB + Sherman HPF 48 dB, 1x: 4.29%; Default device, 2x oversampling: 4.05%; Worst case: Diode+Sherman 48 dB, 2x, both mid-crossfade: 7.26%",
    "rows": [
     {
      "config": "Both stages off (pass-through)",
-     "ns_per_frame": 279.9,
-     "pct_of_one_core_48k": 1.34
+     "ns_per_frame": 487.6,
+     "pct_of_one_core_48k": 2.34
     },
     {
      "config": "Default device (Ladder LPF 24 dB + K35 HPF), 1x",
-     "ns_per_frame": 455.4,
-     "pct_of_one_core_48k": 2.19
+     "ns_per_frame": 644.3,
+     "pct_of_one_core_48k": 3.09
     },
     {
      "config": "Diode LPF 48 dB + Sherman HPF 48 dB, 1x",
-     "ns_per_frame": 721.2,
-     "pct_of_one_core_48k": 3.46
+     "ns_per_frame": 893.6,
+     "pct_of_one_core_48k": 4.29
     },
     {
      "config": "Default device, 2x oversampling",
-     "ns_per_frame": 640.1,
-     "pct_of_one_core_48k": 3.07
+     "ns_per_frame": 844.6,
+     "pct_of_one_core_48k": 4.05
     },
     {
      "config": "Worst case: Diode+Sherman 48 dB, 2x, both mid-crossfade",
-     "ns_per_frame": 1383.4,
-     "pct_of_one_core_48k": 6.64
+     "ns_per_frame": 1513.3,
+     "pct_of_one_core_48k": 7.26
     }
    ]
   },
   {
    "name": "Denormals: decay tails flush to zero; silence costs no more than signal",
    "passed": true,
-   "detail": "silence/signal CPU ratio 0.58"
+   "detail": "silence/signal CPU ratio 0.84"
   },
   {
    "name": "DC offset at output with asymmetric saturation (drive 100%, hot input)",
@@ -2918,11 +2918,1342 @@
    "name": "30 s stress run: random changes to every parameter, hot input, soft clip ON",
    "passed": true,
    "detail": "peak -0.00 dBFS, finite=True"
+  },
+  {
+   "name": "REGRESSION: LPF/HPF bit-exact against the v1.1 baseline (BPF off; 48 scenarios)",
+   "passed": true,
+   "detail": "48/48 bit-identical"
+  },
+  {
+   "name": "REGRESSION: v1.1 presets/automation/MIDI maps \u2014 every v1.1 object, connection and gen~ Param unchanged",
+   "passed": true,
+   "detail": "COMPATIBLE \u2014 new parameters (11): BPF On, BPF Model, BPF Architecture, BPF Centre, BPF Bandwidth, BPF Q, BPF Resonance, BPF Drive, BPF Compensation, BPF Mix, BPF Position"
+  },
+  {
+   "name": "REGRESSION: BPF switched on at Mix 0 is bit-transparent to the LPF/HPF signal (48 scenarios \u00d7 POST/PRE)",
+   "passed": true,
+   "detail": "96/96 bit-identical"
+  },
+  {
+   "name": "BPF: small-signal response of all 15 model\u00d7architecture configurations matches its analytic transfer function (99th pct < 0.5 dB)",
+   "passed": true,
+   "detail": "45 configurations, worst 0.060 dB",
+   "rows": [
+    {
+     "arch": "SVF",
+     "model": "SEM",
+     "res": 0,
+     "bw": 2.0,
+     "q": 0.707,
+     "err_p99_db": 0.015
+    },
+    {
+     "arch": "SVF",
+     "model": "SEM",
+     "res": 0,
+     "bw": 0.6,
+     "q": 3.0,
+     "err_p99_db": 0.027
+    },
+    {
+     "arch": "SVF",
+     "model": "SEM",
+     "res": 50,
+     "bw": 2.5,
+     "q": 1.2,
+     "err_p99_db": 0.021
+    },
+    {
+     "arch": "SVF",
+     "model": "Steiner-Parker",
+     "res": 0,
+     "bw": 2.0,
+     "q": 0.707,
+     "err_p99_db": 0.015
+    },
+    {
+     "arch": "SVF",
+     "model": "Steiner-Parker",
+     "res": 0,
+     "bw": 0.6,
+     "q": 3.0,
+     "err_p99_db": 0.027
+    },
+    {
+     "arch": "SVF",
+     "model": "Steiner-Parker",
+     "res": 50,
+     "bw": 2.5,
+     "q": 1.2,
+     "err_p99_db": 0.022
+    },
+    {
+     "arch": "SVF",
+     "model": "K35/MS-20",
+     "res": 0,
+     "bw": 2.0,
+     "q": 0.707,
+     "err_p99_db": 0.015
+    },
+    {
+     "arch": "SVF",
+     "model": "K35/MS-20",
+     "res": 0,
+     "bw": 0.6,
+     "q": 3.0,
+     "err_p99_db": 0.027
+    },
+    {
+     "arch": "SVF",
+     "model": "K35/MS-20",
+     "res": 50,
+     "bw": 2.5,
+     "q": 1.2,
+     "err_p99_db": 0.022
+    },
+    {
+     "arch": "SVF",
+     "model": "ARP 2600",
+     "res": 0,
+     "bw": 2.0,
+     "q": 0.707,
+     "err_p99_db": 0.015
+    },
+    {
+     "arch": "SVF",
+     "model": "ARP 2600",
+     "res": 0,
+     "bw": 0.6,
+     "q": 3.0,
+     "err_p99_db": 0.027
+    },
+    {
+     "arch": "SVF",
+     "model": "ARP 2600",
+     "res": 50,
+     "bw": 2.5,
+     "q": 1.2,
+     "err_p99_db": 0.022
+    },
+    {
+     "arch": "SVF",
+     "model": "EMS VCS3",
+     "res": 0,
+     "bw": 2.0,
+     "q": 0.707,
+     "err_p99_db": 0.015
+    },
+    {
+     "arch": "SVF",
+     "model": "EMS VCS3",
+     "res": 0,
+     "bw": 0.6,
+     "q": 3.0,
+     "err_p99_db": 0.027
+    },
+    {
+     "arch": "SVF",
+     "model": "EMS VCS3",
+     "res": 50,
+     "bw": 2.5,
+     "q": 1.2,
+     "err_p99_db": 0.022
+    },
+    {
+     "arch": "CASCADE",
+     "model": "SEM",
+     "res": 0,
+     "bw": 2.0,
+     "q": 0.707,
+     "err_p99_db": 0.029
+    },
+    {
+     "arch": "CASCADE",
+     "model": "SEM",
+     "res": 0,
+     "bw": 0.6,
+     "q": 3.0,
+     "err_p99_db": 0.057
+    },
+    {
+     "arch": "CASCADE",
+     "model": "SEM",
+     "res": 50,
+     "bw": 2.5,
+     "q": 1.2,
+     "err_p99_db": 0.034
+    },
+    {
+     "arch": "CASCADE",
+     "model": "Steiner-Parker",
+     "res": 0,
+     "bw": 2.0,
+     "q": 0.707,
+     "err_p99_db": 0.029
+    },
+    {
+     "arch": "CASCADE",
+     "model": "Steiner-Parker",
+     "res": 0,
+     "bw": 0.6,
+     "q": 3.0,
+     "err_p99_db": 0.057
+    },
+    {
+     "arch": "CASCADE",
+     "model": "Steiner-Parker",
+     "res": 50,
+     "bw": 2.5,
+     "q": 1.2,
+     "err_p99_db": 0.034
+    },
+    {
+     "arch": "CASCADE",
+     "model": "K35/MS-20",
+     "res": 0,
+     "bw": 2.0,
+     "q": 0.707,
+     "err_p99_db": 0.029
+    },
+    {
+     "arch": "CASCADE",
+     "model": "K35/MS-20",
+     "res": 0,
+     "bw": 0.6,
+     "q": 3.0,
+     "err_p99_db": 0.057
+    },
+    {
+     "arch": "CASCADE",
+     "model": "K35/MS-20",
+     "res": 50,
+     "bw": 2.5,
+     "q": 1.2,
+     "err_p99_db": 0.034
+    },
+    {
+     "arch": "CASCADE",
+     "model": "ARP 2600",
+     "res": 0,
+     "bw": 2.0,
+     "q": 0.707,
+     "err_p99_db": 0.032
+    },
+    {
+     "arch": "CASCADE",
+     "model": "ARP 2600",
+     "res": 0,
+     "bw": 0.6,
+     "q": 3.0,
+     "err_p99_db": 0.06
+    },
+    {
+     "arch": "CASCADE",
+     "model": "ARP 2600",
+     "res": 50,
+     "bw": 2.5,
+     "q": 1.2,
+     "err_p99_db": 0.037
+    },
+    {
+     "arch": "CASCADE",
+     "model": "EMS VCS3",
+     "res": 0,
+     "bw": 2.0,
+     "q": 0.707,
+     "err_p99_db": 0.029
+    },
+    {
+     "arch": "CASCADE",
+     "model": "EMS VCS3",
+     "res": 0,
+     "bw": 0.6,
+     "q": 3.0,
+     "err_p99_db": 0.057
+    },
+    {
+     "arch": "CASCADE",
+     "model": "EMS VCS3",
+     "res": 50,
+     "bw": 2.5,
+     "q": 1.2,
+     "err_p99_db": 0.034
+    },
+    {
+     "arch": "MULTIMODE",
+     "model": "SEM",
+     "res": 0,
+     "bw": 2.0,
+     "q": 0.707,
+     "err_p99_db": 0.018
+    },
+    {
+     "arch": "MULTIMODE",
+     "model": "SEM",
+     "res": 0,
+     "bw": 0.6,
+     "q": 3.0,
+     "err_p99_db": 0.03
+    },
+    {
+     "arch": "MULTIMODE",
+     "model": "SEM",
+     "res": 50,
+     "bw": 2.5,
+     "q": 1.2,
+     "err_p99_db": 0.023
+    },
+    {
+     "arch": "MULTIMODE",
+     "model": "Steiner-Parker",
+     "res": 0,
+     "bw": 2.0,
+     "q": 0.707,
+     "err_p99_db": 0.018
+    },
+    {
+     "arch": "MULTIMODE",
+     "model": "Steiner-Parker",
+     "res": 0,
+     "bw": 0.6,
+     "q": 3.0,
+     "err_p99_db": 0.03
+    },
+    {
+     "arch": "MULTIMODE",
+     "model": "Steiner-Parker",
+     "res": 50,
+     "bw": 2.5,
+     "q": 1.2,
+     "err_p99_db": 0.028
+    },
+    {
+     "arch": "MULTIMODE",
+     "model": "K35/MS-20",
+     "res": 0,
+     "bw": 2.0,
+     "q": 0.707,
+     "err_p99_db": 0.018
+    },
+    {
+     "arch": "MULTIMODE",
+     "model": "K35/MS-20",
+     "res": 0,
+     "bw": 0.6,
+     "q": 3.0,
+     "err_p99_db": 0.03
+    },
+    {
+     "arch": "MULTIMODE",
+     "model": "K35/MS-20",
+     "res": 50,
+     "bw": 2.5,
+     "q": 1.2,
+     "err_p99_db": 0.028
+    },
+    {
+     "arch": "MULTIMODE",
+     "model": "ARP 2600",
+     "res": 0,
+     "bw": 2.0,
+     "q": 0.707,
+     "err_p99_db": 0.018
+    },
+    {
+     "arch": "MULTIMODE",
+     "model": "ARP 2600",
+     "res": 0,
+     "bw": 0.6,
+     "q": 3.0,
+     "err_p99_db": 0.031
+    },
+    {
+     "arch": "MULTIMODE",
+     "model": "ARP 2600",
+     "res": 50,
+     "bw": 2.5,
+     "q": 1.2,
+     "err_p99_db": 0.028
+    },
+    {
+     "arch": "MULTIMODE",
+     "model": "EMS VCS3",
+     "res": 0,
+     "bw": 2.0,
+     "q": 0.707,
+     "err_p99_db": 0.018
+    },
+    {
+     "arch": "MULTIMODE",
+     "model": "EMS VCS3",
+     "res": 0,
+     "bw": 0.6,
+     "q": 3.0,
+     "err_p99_db": 0.03
+    },
+    {
+     "arch": "MULTIMODE",
+     "model": "EMS VCS3",
+     "res": 50,
+     "bw": 2.5,
+     "q": 1.2,
+     "err_p99_db": 0.028
+    }
+   ]
+  },
+  {
+   "name": "BPF: bandwidth control (CASCADE \u22123 dB width tracks BW setting; SVF width follows Q)",
+   "passed": true,
+   "detail": "CASCADE BW 1 oct: 1.49 oct; CASCADE BW 2 oct: 2.15 oct; CASCADE BW 3 oct: 3.03 oct; CASCADE BW 4 oct: 3.99 oct; SVF Q 0.707: 1.88 oct; SVF Q 2: 0.7 oct; SVF Q 5: 0.28 oct; MULTIMODE BW 0.5 (pole-mix order): 1.73 oct; MULTIMODE BW 2 (pole-mix order): 1.88 oct; MULTIMODE BW 3 (pole-mix order): 2.52 oct",
+   "rows": [
+    {
+     "arch": "CASCADE",
+     "setting": "BW 1 oct",
+     "expected_oct": 1,
+     "measured_oct": 1.49
+    },
+    {
+     "arch": "CASCADE",
+     "setting": "BW 2 oct",
+     "expected_oct": 2,
+     "measured_oct": 2.15
+    },
+    {
+     "arch": "CASCADE",
+     "setting": "BW 3 oct",
+     "expected_oct": 3,
+     "measured_oct": 3.03
+    },
+    {
+     "arch": "CASCADE",
+     "setting": "BW 4 oct",
+     "expected_oct": 4,
+     "measured_oct": 3.99
+    },
+    {
+     "arch": "SVF",
+     "setting": "Q 0.707",
+     "expected_oct": 1.9,
+     "measured_oct": 1.88
+    },
+    {
+     "arch": "SVF",
+     "setting": "Q 2",
+     "expected_oct": 0.71,
+     "measured_oct": 0.7
+    },
+    {
+     "arch": "SVF",
+     "setting": "Q 5",
+     "expected_oct": 0.29,
+     "measured_oct": 0.28
+    },
+    {
+     "arch": "MULTIMODE",
+     "setting": "BW 0.5 (pole-mix order)",
+     "expected_oct": null,
+     "measured_oct": 1.73
+    },
+    {
+     "arch": "MULTIMODE",
+     "setting": "BW 2 (pole-mix order)",
+     "expected_oct": null,
+     "measured_oct": 1.88
+    },
+    {
+     "arch": "MULTIMODE",
+     "setting": "BW 3 (pole-mix order)",
+     "expected_oct": null,
+     "measured_oct": 2.52
+    }
+   ]
+  },
+  {
+   "name": "BPF: resonant peak tracks the centre frequency within \u00b1100 cents (res 85%, all configurations)",
+   "passed": true,
+   "detail": "worst 75 c above 200 Hz",
+   "rows": [
+    {
+     "arch": "SVF",
+     "model": "SEM",
+     "fc": 100,
+     "cents": -7
+    },
+    {
+     "arch": "SVF",
+     "model": "SEM",
+     "fc": 400,
+     "cents": -32
+    },
+    {
+     "arch": "SVF",
+     "model": "SEM",
+     "fc": 1500,
+     "cents": 13
+    },
+    {
+     "arch": "SVF",
+     "model": "SEM",
+     "fc": 5000,
+     "cents": 1
+    },
+    {
+     "arch": "SVF",
+     "model": "Steiner-Parker",
+     "fc": 100,
+     "cents": -7
+    },
+    {
+     "arch": "SVF",
+     "model": "Steiner-Parker",
+     "fc": 400,
+     "cents": -7
+    },
+    {
+     "arch": "SVF",
+     "model": "Steiner-Parker",
+     "fc": 1500,
+     "cents": 0
+    },
+    {
+     "arch": "SVF",
+     "model": "Steiner-Parker",
+     "fc": 5000,
+     "cents": 1
+    },
+    {
+     "arch": "SVF",
+     "model": "K35/MS-20",
+     "fc": 100,
+     "cents": -7
+    },
+    {
+     "arch": "SVF",
+     "model": "K35/MS-20",
+     "fc": 400,
+     "cents": -7
+    },
+    {
+     "arch": "SVF",
+     "model": "K35/MS-20",
+     "fc": 1500,
+     "cents": 0
+    },
+    {
+     "arch": "SVF",
+     "model": "K35/MS-20",
+     "fc": 5000,
+     "cents": 1
+    },
+    {
+     "arch": "SVF",
+     "model": "ARP 2600",
+     "fc": 100,
+     "cents": -7
+    },
+    {
+     "arch": "SVF",
+     "model": "ARP 2600",
+     "fc": 400,
+     "cents": -7
+    },
+    {
+     "arch": "SVF",
+     "model": "ARP 2600",
+     "fc": 1500,
+     "cents": 0
+    },
+    {
+     "arch": "SVF",
+     "model": "ARP 2600",
+     "fc": 5000,
+     "cents": -1
+    },
+    {
+     "arch": "SVF",
+     "model": "EMS VCS3",
+     "fc": 100,
+     "cents": -7
+    },
+    {
+     "arch": "SVF",
+     "model": "EMS VCS3",
+     "fc": 400,
+     "cents": -7
+    },
+    {
+     "arch": "SVF",
+     "model": "EMS VCS3",
+     "fc": 1500,
+     "cents": 0
+    },
+    {
+     "arch": "SVF",
+     "model": "EMS VCS3",
+     "fc": 5000,
+     "cents": 1
+    },
+    {
+     "arch": "CASCADE",
+     "model": "SEM",
+     "fc": 100,
+     "cents": -7
+    },
+    {
+     "arch": "CASCADE",
+     "model": "SEM",
+     "fc": 400,
+     "cents": -32
+    },
+    {
+     "arch": "CASCADE",
+     "model": "SEM",
+     "fc": 1500,
+     "cents": 13
+    },
+    {
+     "arch": "CASCADE",
+     "model": "SEM",
+     "fc": 5000,
+     "cents": 75
+    },
+    {
+     "arch": "CASCADE",
+     "model": "Steiner-Parker",
+     "fc": 100,
+     "cents": -7
+    },
+    {
+     "arch": "CASCADE",
+     "model": "Steiner-Parker",
+     "fc": 400,
+     "cents": -7
+    },
+    {
+     "arch": "CASCADE",
+     "model": "Steiner-Parker",
+     "fc": 1500,
+     "cents": 13
+    },
+    {
+     "arch": "CASCADE",
+     "model": "Steiner-Parker",
+     "fc": 5000,
+     "cents": 75
+    },
+    {
+     "arch": "CASCADE",
+     "model": "K35/MS-20",
+     "fc": 100,
+     "cents": -7
+    },
+    {
+     "arch": "CASCADE",
+     "model": "K35/MS-20",
+     "fc": 400,
+     "cents": -7
+    },
+    {
+     "arch": "CASCADE",
+     "model": "K35/MS-20",
+     "fc": 1500,
+     "cents": 13
+    },
+    {
+     "arch": "CASCADE",
+     "model": "K35/MS-20",
+     "fc": 5000,
+     "cents": 75
+    },
+    {
+     "arch": "CASCADE",
+     "model": "ARP 2600",
+     "fc": 100,
+     "cents": -7
+    },
+    {
+     "arch": "CASCADE",
+     "model": "ARP 2600",
+     "fc": 400,
+     "cents": -7
+    },
+    {
+     "arch": "CASCADE",
+     "model": "ARP 2600",
+     "fc": 1500,
+     "cents": 13
+    },
+    {
+     "arch": "CASCADE",
+     "model": "ARP 2600",
+     "fc": 5000,
+     "cents": 75
+    },
+    {
+     "arch": "CASCADE",
+     "model": "EMS VCS3",
+     "fc": 100,
+     "cents": -7
+    },
+    {
+     "arch": "CASCADE",
+     "model": "EMS VCS3",
+     "fc": 400,
+     "cents": -7
+    },
+    {
+     "arch": "CASCADE",
+     "model": "EMS VCS3",
+     "fc": 1500,
+     "cents": 13
+    },
+    {
+     "arch": "CASCADE",
+     "model": "EMS VCS3",
+     "fc": 5000,
+     "cents": 75
+    },
+    {
+     "arch": "MULTIMODE",
+     "model": "SEM",
+     "fc": 100,
+     "cents": -7
+    },
+    {
+     "arch": "MULTIMODE",
+     "model": "SEM",
+     "fc": 400,
+     "cents": -32
+    },
+    {
+     "arch": "MULTIMODE",
+     "model": "SEM",
+     "fc": 1500,
+     "cents": -7
+    },
+    {
+     "arch": "MULTIMODE",
+     "model": "SEM",
+     "fc": 5000,
+     "cents": -5
+    },
+    {
+     "arch": "MULTIMODE",
+     "model": "Steiner-Parker",
+     "fc": 100,
+     "cents": -7
+    },
+    {
+     "arch": "MULTIMODE",
+     "model": "Steiner-Parker",
+     "fc": 400,
+     "cents": -7
+    },
+    {
+     "arch": "MULTIMODE",
+     "model": "Steiner-Parker",
+     "fc": 1500,
+     "cents": 0
+    },
+    {
+     "arch": "MULTIMODE",
+     "model": "Steiner-Parker",
+     "fc": 5000,
+     "cents": -1
+    },
+    {
+     "arch": "MULTIMODE",
+     "model": "K35/MS-20",
+     "fc": 100,
+     "cents": -7
+    },
+    {
+     "arch": "MULTIMODE",
+     "model": "K35/MS-20",
+     "fc": 400,
+     "cents": -7
+    },
+    {
+     "arch": "MULTIMODE",
+     "model": "K35/MS-20",
+     "fc": 1500,
+     "cents": 0
+    },
+    {
+     "arch": "MULTIMODE",
+     "model": "K35/MS-20",
+     "fc": 5000,
+     "cents": -1
+    },
+    {
+     "arch": "MULTIMODE",
+     "model": "ARP 2600",
+     "fc": 100,
+     "cents": -7
+    },
+    {
+     "arch": "MULTIMODE",
+     "model": "ARP 2600",
+     "fc": 400,
+     "cents": -7
+    },
+    {
+     "arch": "MULTIMODE",
+     "model": "ARP 2600",
+     "fc": 1500,
+     "cents": 0
+    },
+    {
+     "arch": "MULTIMODE",
+     "model": "ARP 2600",
+     "fc": 5000,
+     "cents": -1
+    },
+    {
+     "arch": "MULTIMODE",
+     "model": "EMS VCS3",
+     "fc": 100,
+     "cents": -7
+    },
+    {
+     "arch": "MULTIMODE",
+     "model": "EMS VCS3",
+     "fc": 400,
+     "cents": -7
+    },
+    {
+     "arch": "MULTIMODE",
+     "model": "EMS VCS3",
+     "fc": 1500,
+     "cents": 0
+    },
+    {
+     "arch": "MULTIMODE",
+     "model": "EMS VCS3",
+     "fc": 5000,
+     "cents": -1
+    }
+   ]
+  },
+  {
+   "name": "BPF: self-oscillation stable, bounded (<+2 dBFS) and on centre; SEM never self-oscillates (1x and 2x)",
+   "passed": true,
+   "detail": "ok",
+   "rows": [
+    {
+     "os": 1,
+     "arch": "SVF",
+     "model": "SEM",
+     "oscillates": false,
+     "peak_dbfs": -240.0,
+     "cents": null
+    },
+    {
+     "os": 1,
+     "arch": "SVF",
+     "model": "Steiner-Parker",
+     "oscillates": true,
+     "peak_dbfs": -6.2,
+     "cents": 2
+    },
+    {
+     "os": 1,
+     "arch": "SVF",
+     "model": "K35/MS-20",
+     "oscillates": true,
+     "peak_dbfs": -4.5,
+     "cents": 0
+    },
+    {
+     "os": 1,
+     "arch": "SVF",
+     "model": "ARP 2600",
+     "oscillates": true,
+     "peak_dbfs": -4.5,
+     "cents": -5
+    },
+    {
+     "os": 1,
+     "arch": "SVF",
+     "model": "EMS VCS3",
+     "oscillates": true,
+     "peak_dbfs": -4.5,
+     "cents": 2
+    },
+    {
+     "os": 1,
+     "arch": "CASCADE",
+     "model": "SEM",
+     "oscillates": false,
+     "peak_dbfs": -240.0,
+     "cents": null
+    },
+    {
+     "os": 1,
+     "arch": "CASCADE",
+     "model": "Steiner-Parker",
+     "oscillates": true,
+     "peak_dbfs": -6.1,
+     "cents": 2
+    },
+    {
+     "os": 1,
+     "arch": "CASCADE",
+     "model": "K35/MS-20",
+     "oscillates": true,
+     "peak_dbfs": -4.4,
+     "cents": 0
+    },
+    {
+     "os": 1,
+     "arch": "CASCADE",
+     "model": "ARP 2600",
+     "oscillates": true,
+     "peak_dbfs": -4.4,
+     "cents": -5
+    },
+    {
+     "os": 1,
+     "arch": "CASCADE",
+     "model": "EMS VCS3",
+     "oscillates": true,
+     "peak_dbfs": -4.5,
+     "cents": 2
+    },
+    {
+     "os": 1,
+     "arch": "MULTIMODE",
+     "model": "SEM",
+     "oscillates": false,
+     "peak_dbfs": -240.0,
+     "cents": null
+    },
+    {
+     "os": 1,
+     "arch": "MULTIMODE",
+     "model": "Steiner-Parker",
+     "oscillates": true,
+     "peak_dbfs": -2.9,
+     "cents": -35
+    },
+    {
+     "os": 1,
+     "arch": "MULTIMODE",
+     "model": "K35/MS-20",
+     "oscillates": true,
+     "peak_dbfs": -2.9,
+     "cents": -38
+    },
+    {
+     "os": 1,
+     "arch": "MULTIMODE",
+     "model": "ARP 2600",
+     "oscillates": true,
+     "peak_dbfs": -3.8,
+     "cents": -38
+    },
+    {
+     "os": 1,
+     "arch": "MULTIMODE",
+     "model": "EMS VCS3",
+     "oscillates": true,
+     "peak_dbfs": -2.9,
+     "cents": -35
+    },
+    {
+     "os": 2,
+     "arch": "SVF",
+     "model": "SEM",
+     "oscillates": false,
+     "peak_dbfs": -240.0,
+     "cents": null
+    },
+    {
+     "os": 2,
+     "arch": "SVF",
+     "model": "Steiner-Parker",
+     "oscillates": true,
+     "peak_dbfs": -6.2,
+     "cents": 0
+    },
+    {
+     "os": 2,
+     "arch": "SVF",
+     "model": "K35/MS-20",
+     "oscillates": true,
+     "peak_dbfs": -4.5,
+     "cents": -2
+    },
+    {
+     "os": 2,
+     "arch": "SVF",
+     "model": "ARP 2600",
+     "oscillates": true,
+     "peak_dbfs": -4.5,
+     "cents": -7
+    },
+    {
+     "os": 2,
+     "arch": "SVF",
+     "model": "EMS VCS3",
+     "oscillates": true,
+     "peak_dbfs": -4.5,
+     "cents": 0
+    },
+    {
+     "os": 2,
+     "arch": "CASCADE",
+     "model": "SEM",
+     "oscillates": false,
+     "peak_dbfs": -240.0,
+     "cents": null
+    },
+    {
+     "os": 2,
+     "arch": "CASCADE",
+     "model": "Steiner-Parker",
+     "oscillates": true,
+     "peak_dbfs": -6.2,
+     "cents": 0
+    },
+    {
+     "os": 2,
+     "arch": "CASCADE",
+     "model": "K35/MS-20",
+     "oscillates": true,
+     "peak_dbfs": -4.4,
+     "cents": -2
+    },
+    {
+     "os": 2,
+     "arch": "CASCADE",
+     "model": "ARP 2600",
+     "oscillates": true,
+     "peak_dbfs": -4.4,
+     "cents": -7
+    },
+    {
+     "os": 2,
+     "arch": "CASCADE",
+     "model": "EMS VCS3",
+     "oscillates": true,
+     "peak_dbfs": -4.5,
+     "cents": 0
+    },
+    {
+     "os": 2,
+     "arch": "MULTIMODE",
+     "model": "SEM",
+     "oscillates": false,
+     "peak_dbfs": -240.0,
+     "cents": null
+    },
+    {
+     "os": 2,
+     "arch": "MULTIMODE",
+     "model": "Steiner-Parker",
+     "oscillates": true,
+     "peak_dbfs": -2.9,
+     "cents": -35
+    },
+    {
+     "os": 2,
+     "arch": "MULTIMODE",
+     "model": "K35/MS-20",
+     "oscillates": true,
+     "peak_dbfs": -2.9,
+     "cents": -38
+    },
+    {
+     "os": 2,
+     "arch": "MULTIMODE",
+     "model": "ARP 2600",
+     "oscillates": true,
+     "peak_dbfs": -3.7,
+     "cents": -38
+    },
+    {
+     "os": 2,
+     "arch": "MULTIMODE",
+     "model": "EMS VCS3",
+     "oscillates": true,
+     "peak_dbfs": -2.8,
+     "cents": -35
+    }
+   ]
+  },
+  {
+   "name": "BPF: harmonic content rises with drive for every model; models are distinct (min RMS harmonic-profile distance > 1 dB)",
+   "passed": true,
+   "detail": "monotonic=True, closest pair differs by 7.4 dB RMS",
+   "rows": [
+    {
+     "model": "SEM",
+     "arch": "SVF",
+     "thd_pct_drive0": 0.31,
+     "thd_pct_drive50": 1.87,
+     "thd_pct_drive100": 4.68
+    },
+    {
+     "model": "Steiner-Parker",
+     "arch": "SVF",
+     "thd_pct_drive0": 0.545,
+     "thd_pct_drive50": 2.02,
+     "thd_pct_drive100": 6.63
+    },
+    {
+     "model": "K35/MS-20",
+     "arch": "CASCADE",
+     "thd_pct_drive0": 0.398,
+     "thd_pct_drive50": 1.53,
+     "thd_pct_drive100": 7.49
+    },
+    {
+     "model": "ARP 2600",
+     "arch": "MULTIMODE",
+     "thd_pct_drive0": 2.228,
+     "thd_pct_drive50": 22.31,
+     "thd_pct_drive100": 33.99
+    },
+    {
+     "model": "EMS VCS3",
+     "arch": "MULTIMODE",
+     "thd_pct_drive0": 1.391,
+     "thd_pct_drive50": 18.43,
+     "thd_pct_drive100": 31.43
+    }
+   ]
+  },
+  {
+   "name": "BPF: click/zipper \u2014 >8 kHz burst after every abrupt BPF change below \u221260 dBFS (\u22126 dBFS sine)",
+   "passed": true,
+   "detail": "18 cases, worst -87.8 dBFS",
+   "rows": [
+    {
+     "case": "centre 200 Hz \u2192 5 kHz",
+     "hf_abs_dbfs": -122.0,
+     "finite": true
+    },
+    {
+     "case": "centre 5 kHz \u2192 200 Hz",
+     "hf_abs_dbfs": -116.3,
+     "finite": true
+    },
+    {
+     "case": "bandwidth 0.2 \u2192 6 oct",
+     "hf_abs_dbfs": -97.5,
+     "finite": true
+    },
+    {
+     "case": "Q 0.5 \u2192 10",
+     "hf_abs_dbfs": -93.3,
+     "finite": true
+    },
+    {
+     "case": "resonance 0 \u2192 100%",
+     "hf_abs_dbfs": -132.7,
+     "finite": true
+    },
+    {
+     "case": "drive 0 \u2192 100%",
+     "hf_abs_dbfs": -93.2,
+     "finite": true
+    },
+    {
+     "case": "mix 0 \u2192 100%",
+     "hf_abs_dbfs": -107.7,
+     "finite": true
+    },
+    {
+     "case": "BPF on",
+     "hf_abs_dbfs": -123.6,
+     "finite": true
+    },
+    {
+     "case": "BPF off",
+     "hf_abs_dbfs": -105.7,
+     "finite": true
+    },
+    {
+     "case": "position POST \u2192 PRE",
+     "hf_abs_dbfs": -87.8,
+     "finite": true
+    },
+    {
+     "case": "model switch SEM \u2192 Steiner-Parker",
+     "hf_abs_dbfs": -101.7,
+     "finite": true
+    },
+    {
+     "case": "model switch Steiner-Parker \u2192 K35/MS-20",
+     "hf_abs_dbfs": -100.6,
+     "finite": true
+    },
+    {
+     "case": "model switch K35/MS-20 \u2192 ARP 2600",
+     "hf_abs_dbfs": -100.3,
+     "finite": true
+    },
+    {
+     "case": "model switch ARP 2600 \u2192 EMS VCS3",
+     "hf_abs_dbfs": -100.4,
+     "finite": true
+    },
+    {
+     "case": "model switch EMS VCS3 \u2192 SEM",
+     "hf_abs_dbfs": -100.3,
+     "finite": true
+    },
+    {
+     "case": "architecture switch SVF \u2192 CASCADE",
+     "hf_abs_dbfs": -101.7,
+     "finite": true
+    },
+    {
+     "case": "architecture switch CASCADE \u2192 MULTIMODE",
+     "hf_abs_dbfs": -99.9,
+     "finite": true
+    },
+    {
+     "case": "architecture switch MULTIMODE \u2192 SVF",
+     "hf_abs_dbfs": -99.2,
+     "finite": true
+    }
+   ]
+  },
+  {
+   "name": "BPF: stereo \u2014 identical L/R \u2192 bit-identical out, zero crosstalk, independent channels (15 configurations)",
+   "passed": true,
+   "detail": "ok"
+  },
+  {
+   "name": "COMBINED: LPF + HPF + BPF all active and sweeping, POST/PRE \u00d7 1x/2x",
+   "passed": true,
+   "detail": "POST/1x peak -12.7 dBFS, POST/2x peak -12.8 dBFS, PRE/1x peak -12.6 dBFS, PRE/2x peak -12.6 dBFS"
+  },
+  {
+   "name": "COMBINED: 30 s stress \u2014 random changes to every LPF, HPF, BPF and global parameter, hot input",
+   "passed": true,
+   "detail": "peak 0.00 dBFS, finite=True"
+  },
+  {
+   "name": "BPF automation: Live block-rate (64-sample) centre ramp vs sample-accurate",
+   "passed": true,
+   "detail": "difference -54.3 dB, >8 kHz energy +0.00 dB"
+  },
+  {
+   "name": "BPF MIDI: 7-bit CC stepping of the centre (one step per 8 ms) \u2014 no zipper",
+   "passed": true,
+   "detail": "worst >8 kHz burst -134.8 dBFS"
+  },
+  {
+   "name": "BPF: sample-rate independence 44.1\u2013192 kHz (centre tracking)",
+   "passed": true,
+   "detail": "ok",
+   "rows": [
+    {
+     "sr": 44100,
+     "arch": "SVF",
+     "cents": 2
+    },
+    {
+     "sr": 44100,
+     "arch": "CASCADE",
+     "cents": 12
+    },
+    {
+     "sr": 44100,
+     "arch": "MULTIMODE",
+     "cents": -2
+    },
+    {
+     "sr": 48000,
+     "arch": "SVF",
+     "cents": -7
+    },
+    {
+     "sr": 48000,
+     "arch": "CASCADE",
+     "cents": 18
+    },
+    {
+     "sr": 48000,
+     "arch": "MULTIMODE",
+     "cents": -7
+    },
+    {
+     "sr": 96000,
+     "arch": "SVF",
+     "cents": 3
+    },
+    {
+     "sr": 96000,
+     "arch": "CASCADE",
+     "cents": 3
+    },
+    {
+     "sr": 96000,
+     "arch": "MULTIMODE",
+     "cents": 3
+    },
+    {
+     "sr": 192000,
+     "arch": "SVF",
+     "cents": -7
+    },
+    {
+     "sr": 192000,
+     "arch": "CASCADE",
+     "cents": -7
+    },
+    {
+     "sr": 192000,
+     "arch": "MULTIMODE",
+     "cents": -7
+    }
+   ]
+  },
+  {
+   "name": "BPF: decay tails flush to zero (no denormals)",
+   "passed": true,
+   "detail": "max tail 0.0e+00"
+  },
+  {
+   "name": "CPU with BPF (transpiled C, gcc -O2, this machine)",
+   "passed": true,
+   "detail": "v1.1 default device (LPF+HPF), BPF off: 3.11%; + BPF SVF: 3.46%; + BPF CASCADE: 3.7%; + BPF MULTIMODE (ARP): 4.18%; worst: all three, 48 dB slopes, 2x, BPF mid-crossfade: 9.21%",
+   "rows": [
+    {
+     "config": "v1.1 default device (LPF+HPF), BPF off",
+     "ns_per_frame": 647.8,
+     "pct_of_one_core_48k": 3.11
+    },
+    {
+     "config": "+ BPF SVF",
+     "ns_per_frame": 720.9,
+     "pct_of_one_core_48k": 3.46
+    },
+    {
+     "config": "+ BPF CASCADE",
+     "ns_per_frame": 769.9,
+     "pct_of_one_core_48k": 3.7
+    },
+    {
+     "config": "+ BPF MULTIMODE (ARP)",
+     "ns_per_frame": 870.2,
+     "pct_of_one_core_48k": 4.18
+    },
+    {
+     "config": "worst: all three, 48 dB slopes, 2x, BPF mid-crossfade",
+     "ns_per_frame": 1918.8,
+     "pct_of_one_core_48k": 9.21
+    }
+   ]
   }
  ],
  "summary": {
-  "total": 25,
-  "passed": 25,
-  "seconds": 53.9
+  "total": 42,
+  "passed": 42,
+  "seconds": 112.0
  }
 }

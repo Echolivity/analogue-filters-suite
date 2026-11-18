@@ -1,5 +1,7 @@
 # Filter models: circuits, capability matrix and sources
 
+*This file covers the LPF and HPF engines. The v1.2 band-pass engine and its five models are documented in [BPF.md](BPF.md).*
+
 Each model is a separate DSP implementation derived from the published circuit, or circuit analysis, of the instrument it is named after. For each model this file gives three things:
 
 1. **The circuit facts the model is built on**, with sources.

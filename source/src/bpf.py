@@ -22,10 +22,10 @@ BPF_MODELS = [
     # element scale, regeneration saturator (0 tanh, 1 hard-knee amplifier clip), max regeneration r,
     # max ladder k, ARP 4072 roll-off, native architecture
     dict(name="Oberheim SEM", typ=0, sc=0.6, rg=0, rmax=0.9, kmax=3.6, roll=0, native=0),
-    dict(name="Steiner-Parker", typ=0, sc=0.7, rg=1, rmax=1.06, kmax=4.3, roll=0, native=2),
+    dict(name="Steiner-Parker", typ=0, sc=0.7, rg=1, rmax=1.06, kmax=4.3, roll=0, native=0),
     dict(name="Korg 35 / MS-20", typ=0, sc=1.0, rg=0, rmax=1.06, kmax=4.3, roll=0, native=1),
     dict(name="ARP 2600", typ=1, sc=1.4, rg=0, rmax=1.06, kmax=4.3, roll=1, native=None),
-    dict(name="EMS VCS3", typ=0, sc=0.5, rg=0, rmax=1.06, kmax=4.3, roll=0, native=2),
+    dict(name="EMS VCS3", typ=0, sc=0.5, rg=0, rmax=1.06, kmax=4.3, roll=0, native=None),
 ]
 ARCHS = ["SVF", "CASCADE", "MULTIMODE"]
 CH = ["L", "R"]
@@ -159,7 +159,11 @@ def emit_controls(w, G):
     w("b_rz = H_b_rz + a_par * (clamp(b_res, 0, 100) * 0.01 - H_b_rz);")
     w("b_drv = H_b_drv + a_par * (clamp(b_drive, 0, 100) * 0.01 - H_b_drv);")
     w("b_cmp = H_b_cmp + a_par * (clamp(b_comp, 0, 100) * 0.01 - H_b_cmp);")
-    w("b_mx = H_b_mx + a_mix * (clamp(b_mix, 0, 100) * 0.01 - H_b_mx);")
+    w("b_mxt = clamp(b_mix, 0, 100) * 0.01;")
+    w("b_mx = H_b_mx + a_mix * (b_mxt - H_b_mx);")
+    w("if (abs(b_mx - b_mxt) < 0.0001 && (b_mxt < 0.0001 || b_mxt > 0.9999)) {")
+    w("\tb_mx = b_mxt;")
+    w("}")
     w("b_ent = b_on > 0.5 ? 1 : 0;")
     w("b_en = H_b_en + a_mix * (b_ent - H_b_en);")
     w("if (b_ent < 0.5 && b_en < 0.0001) {")

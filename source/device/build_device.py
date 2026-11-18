@@ -242,6 +242,52 @@ tab("ovs_sel", "Oversampling", "OS", [312, 76, 76, 15], ["1x", "2x"], 0, CREAM)
 dial("out_db", "Output", "Output", [323, 94, 54, 50], -24, 12, 0, 4, CREAM)
 toggle("softclip", "Soft Clip", "Soft Clip", [312, 147, 76, 14], "SOFT CLIP", 1, CREAM)
 
+# ------------------------------------------------- v1.2: BAND-PASS section
+# Appended after every v1.1 object so all existing object ids, parameters and
+# presentation rects stay exactly as they were (checked by tests/compat.py).
+BRASS = [0.851, 0.729, 0.333, 1.0]
+BX = 702
+W_TOTAL = BX + 360 + 4
+panel([W, 0, W_TOTAL - W, H], BG, rounded=0)
+panel([BX, 4, 360, 161], PANEL, border=[BRASS[0] * 0.55, BRASS[1] * 0.55, BRASS[2] * 0.55, 1])
+box("panel", [BX, 1200, 348, 3], [BX + 6, 22, 348, 2], bgcolor=BRASS, rounded=0, numinlets=1, numoutlets=0)
+comment("BAND-PASS", [BX + 6, 5, 160, 16], BRASS, 11.0, 1)
+toggle("b_on", "BPF On", "BPF On", [BX + 314, 6, 40, 14], "ON", 0, BRASS)
+BP_ITEMS = ["01 Oberheim SEM", "02 Steiner-Parker", "03 Korg 35 / MS-20", "04 ARP 2600 - derived", "05 EMS VCS3 - derived"]
+bm = menu("b_model", "BPF Model", "BPF Model", [BX + 6, 28, 196, 16], BP_ITEMS, 0, BRASS)
+ba = tab("b_arch", "BPF Architecture", "BPF Arch", [BX + 206, 28, 148, 16], ["SVF", "CASC", "MULTI"], 0, BRASS)
+dial("b_freq", "BPF Centre", "BPF Freq", [BX + 4, 48, 108, 100], 30, 12000, 1000, 3, BRASS, exponent=4.39, big=True)
+comment("30 Hz  ·  CENTRE  ·  12k", [BX + 4, 148, 110, 12], MUTED, 8.0, 0, 1)
+dial("b_bw", "BPF Bandwidth", "BPF BW", [BX + 118, 48, 54, 50], 0.2, 6, 2, 9, BRASS, units="%0.1f oct")
+dial("b_q", "BPF Q", "BPF Q", [BX + 176, 48, 54, 50], 0.5, 10, 0.707, 1, BRASS, exponent=2.0)
+dial("b_res", "BPF Resonance", "BPF Res", [BX + 234, 48, 54, 50], 0, 100, 0, 5, BRASS)
+dial("b_drive", "BPF Drive", "BPF Drive", [BX + 292, 48, 54, 50], 0, 100, 0, 5, BRASS)
+dial("b_comp", "BPF Compensation", "BPF Comp", [BX + 118, 102, 54, 46], 0, 100, 100, 5, BRASS)
+dial("b_mix", "BPF Mix", "BPF Mix", [BX + 176, 102, 54, 46], 0, 100, 100, 5, BRASS)
+comment("POSITION", [BX + 236, 101, 118, 11], MUTED, 8.0, 0)
+tab("b_pos", "BPF Position", "BPF Pos", [BX + 236, 113, 118, 15], ["POST", "PRE"], 0, BRASS)
+# native/derived + active-control info, from model x architecture
+B_INFO = {
+    (0, 0): "NATIVE: SEM BP MODE | Q = WIDTH", (0, 1): "DERIVED: SEM HP>LP | BW + EDGE Q", (0, 2): "DERIVED: OTA LADDER | BW = ORDER",
+    (1, 0): "NATIVE RESPONSE: SK BP | Q = WIDTH", (1, 1): "DERIVED: HP>LP | BW + EDGE Q", (1, 2): "DERIVED: DIODE LADDER | BW = ORDER",
+    (2, 0): "DERIVED: K35 SVF | Q = WIDTH", (2, 1): "NATIVE: MS-20 HP>LP | BW + EDGE Q", (2, 2): "DERIVED: LADDER | BW = ORDER",
+    (3, 0): "DERIVED: 2600 HAS NO BP | Q = WIDTH", (3, 1): "DERIVED: 2600 HAS NO BP | BW + Q", (3, 2): "CLOSEST: 2600 LADDER | BW = ORDER",
+    (4, 0): "DERIVED: VCS3 HAS NO BP | Q = WIDTH", (4, 1): "DERIVED: VCS3 HAS NO BP | BW + Q", (4, 2): "CLOSEST: VCS3 LADDER | BW = ORDER",
+}
+binfo = comment(B_INFO[(0, 0)], [BX + 236, 131, 120, 30], MUTED, 7.5, 0)
+pk = newobj("pak 0 0", [bid_x[bm], 440, 60, 22], 2, 1, [""])
+ex = newobj("expr $i1 * 3 + $i2", [bid_x[bm], 465, 110, 22], 2, 1, [""])
+bsel = newobj("sel " + " ".join(str(i) for i in range(15)), [bid_x[bm], 490, 200, 22], 2, 16, ["bang"] * 15 + [""])
+connect(bm, 0, pk, 0)
+connect(ba, 0, pk, 1)
+connect(pk, 0, ex, 0)
+connect(ex, 0, bsel, 0)
+for i in range(15):
+    mb = box("message", [bid_x[bm] + i * 12, 520 + i * 3, 120, 22], text="set " + B_INFO[(i // 3, i % 3)],
+             numinlets=2, numoutlets=1, outlettype=[""])
+    connect(bsel, i, mb, 0)
+    connect(mb, 0, binfo, 0)
+
 # ---------------------------------------------------------------- patcher
 patcher = {
     "patcher": {
@@ -249,7 +295,7 @@ patcher = {
         "appversion": {"major": 8, "minor": 6, "revision": 2, "architecture": "x64", "modernui": 1},
         "classnamespace": "box",
         "rect": [60, 80, 1500, 900],
-        "openrect": [0, 0, W, H],
+        "openrect": [0, 0, W_TOTAL, H],
         "bglocked": 0,
         "openinpresentation": 1,
         "default_fontsize": 10.0,
@@ -270,8 +316,8 @@ patcher = {
         "boxanimatetime": 500,
         "enablehscroll": 1,
         "enablevscroll": 1,
-        "devicewidth": float(W),
-        "description": "Dub Filter - dual multi-model analogue-inspired LPF/HPF",
+        "devicewidth": float(W_TOTAL),
+        "description": "Dub Filter - multi-model analogue-inspired LPF/HPF/BPF",
         "digest": "",
         "tags": "",
         "style": "",

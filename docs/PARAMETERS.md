@@ -1,6 +1,6 @@
 # Parameters, automation and MIDI mapping
 
-All 20 controls are Live parameters. Every one can be automated, MIDI-mapped (Cmd/Ctrl+M, click the control, move a controller) and key-mapped, and all are stored with the Live Set. Names below are the exact names in Live's automation chooser.
+All 31 controls are Live parameters: the 20 from v1.1, unchanged, plus 11 for the v1.2 band-pass engine. Every one can be automated, MIDI-mapped (Cmd/Ctrl+M, click the control, move a controller) and key-mapped, and all are stored with the Live Set. Names below are the exact names in Live's automation chooser.
 
 ## Low-pass stage (amber)
 
@@ -53,3 +53,23 @@ The other HPF parameters (Resonance, Drive, Compensation, Character, On) match t
 - For a "bass drop" button, map **HPF Cutoff** to a pad and set the mapping's Min/Max in Live's Mapping Browser (for example 20 Hz to 600 Hz). Press: the bass vanishes. Release: it returns instantly, click-free.
 - **LPF Model / HPF Model** can be mapped to an encoder or to buttons; each value is one model.
 - Live's Macro knobs work as expected. Map a Macro to LPF Cutoff and HPF Cutoff with inverted ranges to get a single band-sweep control.
+
+## Band-pass stage (brass, v1.2)
+
+Full details, including what BW and Q do in each architecture, are in BPF.md.
+
+| Live name | Short | Range | Default |
+|---|---|---|---|
+| BPF On | BPF On | off / on | off |
+| BPF Model | BPF Model | 01 Oberheim SEM · 02 Steiner-Parker · 03 Korg 35 / MS-20 · 04 ARP 2600 (derived) · 05 EMS VCS3 (derived) | SEM |
+| BPF Architecture | BPF Arch | SVF / CASC / MULTI | SVF |
+| BPF Centre | BPF Freq | 30 Hz – 12 kHz (exponent 4.39, so the knob centre is about 600 Hz) | 1 kHz |
+| BPF Bandwidth | BPF BW | 0.2 – 6 oct | 2 oct |
+| BPF Q | BPF Q | 0.5 – 10 | 0.707 |
+| BPF Resonance | BPF Res | 0 – 100 % | 0 % |
+| BPF Drive | BPF Drive | 0 – 100 % | 0 % |
+| BPF Compensation | BPF Comp | 0 – 100 % | 100 % |
+| BPF Mix | BPF Mix | 0 – 100 % | 100 % |
+| BPF Position | BPF Pos | POST / PRE | POST |
+
+**MIDI tip:** map BPF Centre to a knob and BPF Mix to a fader. With CASCADE, BW about 1.5 oct and Mix about 60 %, you get the classic dub "telephone" mid band riding over the full mix.
