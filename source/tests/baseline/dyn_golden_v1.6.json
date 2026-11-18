@@ -1,21 +1,21 @@
 {
  "hashes": {
   "chain order 0": "623a32f47ba07f1b8b01ec7ff41cf020c3b58c7de14b277428838e50e0237a71",
-  "chain order 0 + filters": "ab14e3e92fbe440ff16af1e0312b047ef645785213a1050f7594429e6fa848fa",
+  "chain order 0 + filters": "02191bc5e877c228ee4300330a1cfc5fd9d8b2c2a9df8c9027b70014a2bd0df0",
   "chain order 1": "58cdd311fda023b0bdb6bd935bda10e860aaecb47a91c5cccbaabb10e63e190f",
-  "chain order 1 + filters": "55579f7ce896dbadad8711a85401d3866fbe9b2ada98519ce439c8c3078f0d75",
+  "chain order 1 + filters": "0e7587e47c52e82b0a7f5f1a3dc4fd209e7f580bb31b81817b6330073a1a30ee",
   "chain order 2": "d4de6154226b346ff7b10afdfc04c035ff5c72853c070c1032d6cc0eb125d783",
-  "chain order 2 + filters": "e92d351e8f6c6d807ddca6b63d9f0102c1175b30d6d44a9737fea652bdb3b1fa",
+  "chain order 2 + filters": "792c985e4341e7924787f3e5c33622cf0dcbd5f7feaee3012f091a6268b9e565",
   "chain order 3": "4fe33336deba3ce668af58e0b148b158a701d268b6c13d2aa09f8600891a5ba0",
-  "chain order 3 + filters": "976fa88065d717852ea8edd1b75c2fbc470b70d5e873474fddf07c78b16e0ac6",
+  "chain order 3 + filters": "44c482aefa3f3442251d442a958e7a7efcc484f108f3c33f6f8b6f5e0a302c87",
   "chain order 4": "cc99091515ab800d6cf26485074b4a564ce9aed7b80142b5763ba73eba71cea8",
-  "chain order 4 + filters": "8cd565d1ed4bac1c1961d375f320441764533c23240bb7a506927e3726878a6e",
+  "chain order 4 + filters": "88fbdd559b7aeaf1f04a3587d594e976a830d89d6f78d2fabcd08bfefea5fb2b",
   "chain order 5": "f8768cfc6931d372d862076a43cae124af0d6d88ca104b138cebb273b1a40a99",
-  "chain order 5 + filters": "3f3212493f57dda2b3cd1a621b62ac61f990ee2decc263a207d80c604072ec8f",
+  "chain order 5 + filters": "d4b501dc408877452a6b32bb5c39cd0efd4eb79926dfad4c3452360250e6a95e",
   "reorders": "4124293f4fe07eabd6043edb77601b16f202e44d9d10d9ca125adc80d458846e",
   "bypass toggles": "532c8bf8a2785635db5733b61003e8d7f11109d55c6b306a8584b58449c1d87a",
   "vca old/feedback soft knee": "6780ca470b48c0c971b2ff1a842ed2f1bf8d1579a7d8b58d600f72a1c63cbb4d",
-  "opto limit emph": "35ea09c897d337cd360a3ee24463670c2b15b7866878a7566d4353835da4b450",
+  "opto limit emph": "abc727b5f1f9cd967874aa26b143620926d117c3d0dfa7a81f3fb364019d530e",
   "tube hot": "61460e04d1583e235bed40984bf491d2c0e0b0d10fb97bfc9a8143f05626d9bc",
   "gate": "0052d3be0d71403b0901dd1825eede0d6c5abb74a448a3b5b9f4a113cf963903",
   "key listen": "ed1ced61e8dff1d82c1ef1281ad3d293306a431b8fa87c1c85ca67c61e297cf0",
@@ -31,5 +31,5 @@
   "chain order 5 + filters",
   "opto limit emph"
  ],
- "note": "v1.6 solver fix (Sherman, Steiner, BPF SVF limiter) and Reference-mode power-on default; legacy tests run in Creative mode (tests/dsp.py base); K35 high-pass is the MS-20 circuit (6 dB/oct, Stinchcombe 2006 s.7). Because the HPF powers on as K35, every HPF scenario changes during its start-up crossfade (residual decays to 0 within 2 s)"
+ "note": "v1.6 solver fix (Sherman, Steiner, BPF SVF limiter) and Reference-mode power-on default; legacy tests run in Creative mode (tests/dsp.py base); K35 HP stage-2 OTA input saturation (secant re-solve); K35 Mk1 scenarios added (v1.6 capture only)"
 }

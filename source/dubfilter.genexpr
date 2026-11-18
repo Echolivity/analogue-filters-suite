@@ -1416,13 +1416,19 @@ f_k35hp(x, s1, s2, s3, yp, g, K0, L) {
 	G = g / (1 + g);
 	ig = 1 / (1 + g);
 	K = K0 * f_tg(K0 * yp / L);
+	// linear solve, then the stage-2 OTA saturates its differential input d = V2 - V3 = u - y, which carries the
+	// input signal through the lifted capacitor (this is where Drive saturates the HP). Secant gain at the linear
+	// solution, then re-solve (one fixed-point step, as the v1.6 solver fix).
 	y = ig * (x - G * s3 + s2) / (1 - K * G * ig);
 	u = ig * (K * y - s3);
-	u = 0.85 * tanh(u * 1.17647058824);
-	l2, n2 = f_op(u - x, s2, G);
-	y = x + l2;
+	tau = f_tg((u - y) * 1.17647058824);
+	a = g * tau / (1 + g * tau);
+	b = s2 / (1 + g * tau);
+	y = (x * (1 - a) + b - a * ig * s3) / (1 - a * ig * K);
+	u = ig * (K * y - s3);
+	vc = y - x;
 	l3, n3 = f_op(K * y, s3, G);
-	return y, fixdenorm(s1), fixdenorm(n2), fixdenorm(n3), y;
+	return y, fixdenorm(s1), fixdenorm(2 * vc - s2), fixdenorm(n3), y;
 }
 
 // ================= MODEL 02b: Korg35 (MS-10 / early MS-20, "Mk1") Sallen-Key =================
@@ -1431,10 +1437,10 @@ f_k35hp(x, s1, s2, s3, yp, g, K0, L) {
 // Forward-path X1 stage: gain 1 + 270k/4.7k = 58.45 with back-to-back diodes across 270k, so it is
 // v = Vf/57.45 + c sinh(Vf/nVt) with Vo = v + Vf (Fig. 17 fit: nVt = 52 mV, c = 1.617e-5 V).
 // Units are volts: x * A is the voltage at the core input (A = 5 V peak per unit x R59/(R57+R59), times
-// CHARACTER drive). HP variant (section 7): signal into C2's lifted end, k1 s(s + 4/3) / (same).
+// CHARACTER drive; output makeup follows Drive's level compensation). HP variant (section 7): signal into C2's lifted end, k1 s(s + 4/3) / (same).
 // Each sample is one scalar monotone equation in Vf, solved by four step-limited Newton iterations from a
 // closed-form start (offline worst relative residual 1.2e-5, about -98 dB; tests/review/ms20/solver.py). returns y, s1, s2, Vf, yprev
-f_k35m1(x, s1, s2, s3, yp, g, K0, A, hp) {
+f_k35m1(x, s1, s2, s3, yp, g, K0, A, Am, hp) {
 	k2 = K0 * 0.0203116;          // (7/6) K0 / 57.4385 (small-signal X1 gain incl. diode leakage, Fig. 17 fit)
 	xin = x * A;
 	xl = hp > 0.5 ? 0 : xin;
@@ -1458,7 +1464,7 @@ f_k35m1(x, s1, s2, s3, yp, g, K0, A, hp) {
 	v2 = (s1 + g * xl + 0.333333333333 * g * v3 + k2 * vo) / D;
 	n1 = 2 * (v2 - k2 * vo) - s1;
 	n2 = 2 * (v3 - xh) - s2;
-	y = vo / (57.4385 * A);
+	y = vo / Am;
 	return y, fixdenorm(n1), fixdenorm(n2), V, y;
 }
 
@@ -3500,6 +3506,7 @@ l_k3_g = l_gw;
 l_k3_K = 0.05 + 2.03 * pow(l_rz, 1.1);
 l_k3_L = 4 * exp2(-4 * l_chr);
 l_k3_A = 0.0195084 * exp2(4 * l_chr);
+l_k3_Am = 1.12052 * exp2(2 * l_chr * l_cmp);
 // coefficients: Moog transistor ladder-inspired
 l_ld_g = l_gw;
 l_ld_k = 4.3 * pow(l_rz, 1.3);
@@ -3737,6 +3744,7 @@ h_k3_g = h_gw;
 h_k3_K = 0.05 + 2.03 * pow(h_rz, 1.1);
 h_k3_L = 4 * exp2(-4 * h_chr);
 h_k3_A = 0.0195084 * exp2(4 * h_chr);
+h_k3_Am = 1.12052 * exp2(2 * h_chr * h_cmp);
 // coefficients: Moog transistor ladder-inspired
 h_ld_g = h_gw;
 h_ld_k = 4.3 * pow(h_rz, 1.3);
@@ -4676,7 +4684,7 @@ for (k = 0; k < ovs; k += 1) {
 			if (h_ak3 > 0.5) {
 				o1 = 0;
 				if (cur_k35 > 0.5) {
-				    o1, h_L_k3_s1, h_L_k3_s2, h_L_k3_s3, h_L_k3_yp = f_k35m1(hi_L, h_L_k3_s1, h_L_k3_s2, h_L_k3_s3, h_L_k3_yp, h_k3_g, h_k3_K, h_k3_A, 1);
+				    o1, h_L_k3_s1, h_L_k3_s2, h_L_k3_s3, h_L_k3_yp = f_k35m1(hi_L, h_L_k3_s1, h_L_k3_s2, h_L_k3_s3, h_L_k3_yp, h_k3_g, h_k3_K, h_k3_A, h_k3_Am, 1);
 				} else {
 				    o1, h_L_k3_s1, h_L_k3_s2, h_L_k3_s3, h_L_k3_yp = f_k35hp(hi_L, h_L_k3_s1, h_L_k3_s2, h_L_k3_s3, h_L_k3_yp, h_k3_g, h_k3_K, h_k3_L);
 				}
@@ -4767,7 +4775,7 @@ for (k = 0; k < ovs; k += 1) {
 			if (h_ak3 > 0.5) {
 				o1 = 0;
 				if (cur_k35 > 0.5) {
-				    o1, h_R_k3_s1, h_R_k3_s2, h_R_k3_s3, h_R_k3_yp = f_k35m1(hi_R, h_R_k3_s1, h_R_k3_s2, h_R_k3_s3, h_R_k3_yp, h_k3_g, h_k3_K, h_k3_A, 1);
+				    o1, h_R_k3_s1, h_R_k3_s2, h_R_k3_s3, h_R_k3_yp = f_k35m1(hi_R, h_R_k3_s1, h_R_k3_s2, h_R_k3_s3, h_R_k3_yp, h_k3_g, h_k3_K, h_k3_A, h_k3_Am, 1);
 				} else {
 				    o1, h_R_k3_s1, h_R_k3_s2, h_R_k3_s3, h_R_k3_yp = f_k35hp(hi_R, h_R_k3_s1, h_R_k3_s2, h_R_k3_s3, h_R_k3_yp, h_k3_g, h_k3_K, h_k3_L);
 				}
@@ -4866,7 +4874,7 @@ for (k = 0; k < ovs; k += 1) {
 		if (l_ak3 > 0.5) {
 			o1 = 0;
 			if (cur_k35 > 0.5) {
-			    o1, l_L_k3_s1, l_L_k3_s2, l_L_k3_s3, l_L_k3_yp = f_k35m1(li_L, l_L_k3_s1, l_L_k3_s2, l_L_k3_s3, l_L_k3_yp, l_k3_g, l_k3_K, l_k3_A, 0);
+			    o1, l_L_k3_s1, l_L_k3_s2, l_L_k3_s3, l_L_k3_yp = f_k35m1(li_L, l_L_k3_s1, l_L_k3_s2, l_L_k3_s3, l_L_k3_yp, l_k3_g, l_k3_K, l_k3_A, l_k3_Am, 0);
 			} else {
 			    o1, l_L_k3_s1, l_L_k3_s2, l_L_k3_s3, l_L_k3_yp = f_k35lp(li_L, l_L_k3_s1, l_L_k3_s2, l_L_k3_s3, l_L_k3_yp, l_k3_g, l_k3_K, l_k3_L);
 			}
@@ -4971,7 +4979,7 @@ for (k = 0; k < ovs; k += 1) {
 		if (l_ak3 > 0.5) {
 			o1 = 0;
 			if (cur_k35 > 0.5) {
-			    o1, l_R_k3_s1, l_R_k3_s2, l_R_k3_s3, l_R_k3_yp = f_k35m1(li_R, l_R_k3_s1, l_R_k3_s2, l_R_k3_s3, l_R_k3_yp, l_k3_g, l_k3_K, l_k3_A, 0);
+			    o1, l_R_k3_s1, l_R_k3_s2, l_R_k3_s3, l_R_k3_yp = f_k35m1(li_R, l_R_k3_s1, l_R_k3_s2, l_R_k3_s3, l_R_k3_yp, l_k3_g, l_k3_K, l_k3_A, l_k3_Am, 0);
 			} else {
 			    o1, l_R_k3_s1, l_R_k3_s2, l_R_k3_s3, l_R_k3_yp = f_k35lp(li_R, l_R_k3_s1, l_R_k3_s2, l_R_k3_s3, l_R_k3_yp, l_k3_g, l_k3_K, l_k3_L);
 			}
@@ -5086,7 +5094,7 @@ for (k = 0; k < ovs; k += 1) {
 			if (h_ak3 > 0.5) {
 				o1 = 0;
 				if (cur_k35 > 0.5) {
-				    o1, h_L_k3_s1, h_L_k3_s2, h_L_k3_s3, h_L_k3_yp = f_k35m1(hi_L, h_L_k3_s1, h_L_k3_s2, h_L_k3_s3, h_L_k3_yp, h_k3_g, h_k3_K, h_k3_A, 1);
+				    o1, h_L_k3_s1, h_L_k3_s2, h_L_k3_s3, h_L_k3_yp = f_k35m1(hi_L, h_L_k3_s1, h_L_k3_s2, h_L_k3_s3, h_L_k3_yp, h_k3_g, h_k3_K, h_k3_A, h_k3_Am, 1);
 				} else {
 				    o1, h_L_k3_s1, h_L_k3_s2, h_L_k3_s3, h_L_k3_yp = f_k35hp(hi_L, h_L_k3_s1, h_L_k3_s2, h_L_k3_s3, h_L_k3_yp, h_k3_g, h_k3_K, h_k3_L);
 				}
@@ -5177,7 +5185,7 @@ for (k = 0; k < ovs; k += 1) {
 			if (h_ak3 > 0.5) {
 				o1 = 0;
 				if (cur_k35 > 0.5) {
-				    o1, h_R_k3_s1, h_R_k3_s2, h_R_k3_s3, h_R_k3_yp = f_k35m1(hi_R, h_R_k3_s1, h_R_k3_s2, h_R_k3_s3, h_R_k3_yp, h_k3_g, h_k3_K, h_k3_A, 1);
+				    o1, h_R_k3_s1, h_R_k3_s2, h_R_k3_s3, h_R_k3_yp = f_k35m1(hi_R, h_R_k3_s1, h_R_k3_s2, h_R_k3_s3, h_R_k3_yp, h_k3_g, h_k3_K, h_k3_A, h_k3_Am, 1);
 				} else {
 				    o1, h_R_k3_s1, h_R_k3_s2, h_R_k3_s3, h_R_k3_yp = f_k35hp(hi_R, h_R_k3_s1, h_R_k3_s2, h_R_k3_s3, h_R_k3_yp, h_k3_g, h_k3_K, h_k3_L);
 				}

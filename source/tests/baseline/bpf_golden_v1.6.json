@@ -30,8 +30,8 @@
   "BPF m4 a1 selfosc": "e48b5777abc89f7fb10017b04e81820c35dfb3c31da4f06ea1087d42b41b167a",
   "BPF m4 a2": "48f5301aebcd28549f8894de228843517e0e31f60aae0de7b873203a8b9bba82",
   "BPF m4 a2 selfosc": "e58b7c706ca7f8d1f34257233e4aa567b619605116ab46c677f56372968769bc",
-  "all three pos0": "851b837cf4d56484cd97ff51059888729612ee3586d3dc3d8468c0cb9d266dc1",
-  "all three pos1": "3de00c8dabd0429381c79f903db22c767d6bef0f4006abea8017a4cc5bcdd600",
+  "all three pos0": "f921251956b010b6d0bc0a4ca96e7e33a7d288c1c5b085b92aae20b43e821da3",
+  "all three pos1": "a46df07d1746a60b7df5a54c0aafbe912e6f955cd93a9b2e3d12200f1455698e",
   "BPF sweep": "d8d132591f249bd1573a520b319d9bd4bab3af8d358ba14c70d7f5b6defb079d",
   "BPF switches": "7ebe259c5def47ea969c2d60ea9476a60c352c45635d034f11ae07d368f607a3",
   "BPF on/off/mix": "f7a51cdd05d6eb60c25a195c57370197fb405f88278ddec35781cfebdf56e5be"
@@ -72,5 +72,5 @@
   "all three pos0",
   "all three pos1"
  ],
- "note": "v1.6 solver fix (Sherman, Steiner, BPF SVF limiter) and Reference-mode power-on default; legacy tests run in Creative mode (tests/dsp.py base); K35 high-pass is the MS-20 circuit (6 dB/oct, Stinchcombe 2006 s.7). Because the HPF powers on as K35, every HPF scenario changes during its start-up crossfade (residual decays to 0 within 2 s)"
+ "note": "v1.6 solver fix (Sherman, Steiner, BPF SVF limiter) and Reference-mode power-on default; legacy tests run in Creative mode (tests/dsp.py base); K35 HP stage-2 OTA input saturation (secant re-solve); K35 Mk1 scenarios added (v1.6 capture only)"
 }

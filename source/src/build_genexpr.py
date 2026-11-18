@@ -146,13 +146,19 @@ f_k35hp(x, s1, s2, s3, yp, g, K0, L) {
 	G = g / (1 + g);
 	ig = 1 / (1 + g);
 	K = K0 * f_tg(K0 * yp / L);
+	// linear solve, then the stage-2 OTA saturates its differential input d = V2 - V3 = u - y, which carries the
+	// input signal through the lifted capacitor (this is where Drive saturates the HP). Secant gain at the linear
+	// solution, then re-solve (one fixed-point step, as the v1.6 solver fix).
 	y = ig * (x - G * s3 + s2) / (1 - K * G * ig);
 	u = ig * (K * y - s3);
-	u = 0.85 * tanh(u * 1.17647058824);
-	l2, n2 = f_op(u - x, s2, G);
-	y = x + l2;
+	tau = f_tg((u - y) * 1.17647058824);
+	a = g * tau / (1 + g * tau);
+	b = s2 / (1 + g * tau);
+	y = (x * (1 - a) + b - a * ig * s3) / (1 - a * ig * K);
+	u = ig * (K * y - s3);
+	vc = y - x;
 	l3, n3 = f_op(K * y, s3, G);
-	return y, fixdenorm(s1), fixdenorm(n2), fixdenorm(n3), y;
+	return y, fixdenorm(s1), fixdenorm(2 * vc - s2), fixdenorm(n3), y;
 }
 
 // ================= MODEL 02b: Korg35 (MS-10 / early MS-20, "Mk1") Sallen-Key =================
@@ -161,10 +167,10 @@ f_k35hp(x, s1, s2, s3, yp, g, K0, L) {
 // Forward-path X1 stage: gain 1 + 270k/4.7k = 58.45 with back-to-back diodes across 270k, so it is
 // v = Vf/57.45 + c sinh(Vf/nVt) with Vo = v + Vf (Fig. 17 fit: nVt = 52 mV, c = 1.617e-5 V).
 // Units are volts: x * A is the voltage at the core input (A = 5 V peak per unit x R59/(R57+R59), times
-// CHARACTER drive). HP variant (section 7): signal into C2's lifted end, k1 s(s + 4/3) / (same).
+// CHARACTER drive; output makeup follows Drive's level compensation). HP variant (section 7): signal into C2's lifted end, k1 s(s + 4/3) / (same).
 // Each sample is one scalar monotone equation in Vf, solved by four step-limited Newton iterations from a
 // closed-form start (offline worst relative residual 1.2e-5, about -98 dB; tests/review/ms20/solver.py). returns y, s1, s2, Vf, yprev
-f_k35m1(x, s1, s2, s3, yp, g, K0, A, hp) {
+f_k35m1(x, s1, s2, s3, yp, g, K0, A, Am, hp) {
 	k2 = K0 * 0.0203116;          // (7/6) K0 / 57.4385 (small-signal X1 gain incl. diode leakage, Fig. 17 fit)
 	xin = x * A;
 	xl = hp > 0.5 ? 0 : xin;
@@ -188,7 +194,7 @@ f_k35m1(x, s1, s2, s3, yp, g, K0, A, hp) {
 	v2 = (s1 + g * xl + 0.333333333333 * g * v3 + k2 * vo) / D;
 	n1 = 2 * (v2 - k2 * vo) - s1;
 	n2 = 2 * (v3 - xh) - s2;
-	y = vo / (57.4385 * A);
+	y = vo / Am;
 	return y, fixdenorm(n1), fixdenorm(n2), V, y;
 }
 
@@ -368,10 +374,11 @@ MODELS = [
          coef=["{p}_g = {s}_gw;",
                "{p}_K = 0.05 + 2.03 * pow({r}, 1.1);",
                "{p}_L = 4 * exp2(-4 * {c});",
-               "{p}_A = 0.0195084 * exp2(4 * {c});"],                 # v1.6 Mk1: 5 V peak x 47/12047, +0..24 dB drive
+               "{p}_A = 0.0195084 * exp2(4 * {c});",                  # v1.6 Mk1: 5 V peak x 47/12047, +0..24 dB drive
+               "{p}_Am = 1.12052 * exp2(2 * {c} * {s}_cmp);"],        # 57.4385 x 0.0195084, makeup = half the drive in dB at full level compensation (as Drive)
          call=["o1 = 0;",
                "if (cur_k35 > 0.5) {{",
-               "    o1, {sv} = f_k35m1({x}, {sv}, {p}_g, {p}_K, {p}_A, {hp});",
+               "    o1, {sv} = f_k35m1({x}, {sv}, {p}_g, {p}_K, {p}_A, {p}_Am, {hp});",
                "}} else {{",
                "    o1, {sv} = {k35fn}({x}, {sv}, {p}_g, {p}_K, {p}_L);",
                "}}",

@@ -19,7 +19,7 @@ DESC = {
     "h_drive": "Input level into the high-pass model's nonlinear stages.",
     "h_comp": "Level compensation for resonance-related passband loss.",
     "h_char": "Model-specific control; its name (below the knob) changes with the model.",
-    "h_slope": "Filter slope in dB/oct. Slopes beyond the model's native order add extension stages.",
+    "h_slope": "Filter slope in dB/oct. Slopes beyond the model's native order add extension stages. The Korg 35 / MS-20 and Steiner-Parker high-passes are 6 dB/oct natively, as on the hardware, so on those models the settings give about 6, 18, 30 and 42 dB/oct.",
     # DUB FILTER centre
     "order_sel": "Series order of the low-pass and high-pass stages. Not used in PARALLEL routing.",
     "ovs_sel": "Oversampling for the filter engines and TUBE: 1x or 2x (see High Oversampling for 4x-16x). In REFERENCE mode this is a minimum: the engine runs at least at each active model's measured minimum.",

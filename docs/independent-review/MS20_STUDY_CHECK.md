@@ -80,7 +80,7 @@ The review's R9 assumed the opposite (that the current model is Mk1 and Mk2 was 
 Diode stage fitted to Figure 17: n·Vt = 52 mV, Is = 1.72 nA. Solver: one scalar monotone equation in the diode voltage. The offline check (`ms20/solver.py`) gives a worst relative residual of 1.2e-5 with four Newton steps.
 
 **Assumptions:**
-- 0 dBFS = 5 V peak at the filter input.
+- 5 V peak per unit inside the filter, after Drive (−12 dB at Drive 0), so the knee is at about +2 dBFS input at Drive 0. CHARACTER adds 0 to +24 dB of drive, with makeup gain as Drive. The Reference minimums hold at the default CHARACTER.
 - R1 = R2/3, which the study itself doubts; equal resistances would move self-oscillation to k = 5/3.
 - The JFET buffer is ×1.1, so maximum loop gain is about 2.4.
 - MS-10 values are used for the MS-20.

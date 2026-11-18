@@ -53,7 +53,7 @@ Rules: no silent substitution (the HPF menu has five entries), the one alternati
 | CHARACTER | sets the feedback clip level (FB CLIP) | drives the diode stage, 0 to +24 dB above the reference |
 | Reference oversampling | 2x | 8x (LPF), 4x (HPF) |
 
-**High-pass (v1.6).** Both real high-pass variants are 6 dB/oct, not 12. Korg grounds the low-pass input and feeds the signal into stage 2's lifted capacitor. The result is a 12 dB high-pass plus a band-pass term, so the slope below cutoff is 6 dB/oct. Up to v1.5 this model used s²/(…), at 12 dB/oct.
+**High-pass (v1.6).** Both real high-pass variants are 6 dB/oct, not 12. In the built circuit the input reaches the output through stage 2's capacitor, so the high-pass passband is essentially clean: Drive mostly shapes the region around cutoff. v1.5's structure ran the input through a saturator, giving 32.7 % THD at Drive 100; v1.6 gives 0.13 %. Korg grounds the low-pass input and feeds the signal into stage 2's lifted capacitor. The result is a 12 dB high-pass plus a band-pass term, so the slope below cutoff is 6 dB/oct. Up to v1.5 this model used s²/(…), at 12 dB/oct.
 
 **Mk2 model (unchanged except the high-pass).**
 - LP1 → Σ → LP2, with K·y fed back through HP1.
@@ -62,7 +62,9 @@ Rules: no silent substitution (the HPF menu has five entries), the one alternati
 **Mk1 model (new in v1.6).**
 - A Sallen-Key core solved zero-delay from both capacitor states.
 - The X1 diode stage is fitted to the study's Figure 17 (n·Vt = 52 mV, Is ≈ 1.7 nA). Each sample solves the stage as one scalar monotone equation (four Newton steps, worst relative residual about 1e-5).
-- **Level reference (assumption):** 0 dBFS = 5 V peak at the filter input. The diode knee then sits about 7 dB below full scale, and CHARACTER drives it harder.
+- **Level reference (assumption):** 5 V peak per unit of signal inside the filter, after Drive. Drive feeds every model at −12 dB at Drive 0 and up to +18 dB at Drive 100, so the diode knee is reached at about +2 dBFS input at Drive 0 and about −16 dBFS at Drive 60.
+- **CHARACTER** drives the diode stage by 0 to +24 dB. Makeup gain follows Drive's level compensation (half the drive in dB at the default 100 %). At CHARACTER 100, quiet signals come out +11.6 dB and 0 dBFS −6.6 dB, and self-oscillation drops from −6.8 to −18.8 dBFS.
+- **Reference minimums (8x LPF / 4x HPF) are measured at the default CHARACTER,** as for every model. Heavy CHARACTER aliases more: −67.9 dBc at 8x at CHARACTER 50, and −44.5 at 100.
 - Resonance reaches a small-signal loop gain of about 2.4, which assumes the study's ×1.1 JFET buffer. So Mk1 self-oscillates only near maximum resonance (it does at 100 %, not at 90 %).
 - **Not modelled:** the Korg35's asymmetric resonance. The study shows it in simulation only, and its magnitude is unverified. The MS-20's own component values may also differ from the MS-10's, which the study used.
 

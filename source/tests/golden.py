@@ -50,6 +50,10 @@ def battery():
     cases.append(("output stage", base(l_on=1, l_cut=3000, l_res=90, out_db=9, softclip=1), [(E, "out_db", -12), (E, "softclip", 0)]))
     cases.append(("defaults (device power-on)", {}, []))
     cases.append(("open zones", base(l_on=1, h_on=1, l_cut=19000, h_cut=22, l_res=50, h_res=50), [(E, "l_cut", 20000), (E, "h_cut", 20)]))
+    # v1.6: K35 Circuit = KORG-35 (Mk1); not in the legacy baselines, checked against the v1.6 capture only
+    cases.append(("K35 Mk1 LPF res 80", dict(base(l_on=1, l_model=1, l_cut=900, l_res=80, l_drive=40), k35_circ=1), []))
+    cases.append(("K35 Mk1 HPF res 60 char 50", dict(base(h_on=1, h_model=1, h_cut=150, h_res=60, h_char=50), k35_circ=1), []))
+    cases.append(("K35 circuit switch", base(l_on=1, h_on=1, l_model=1, h_model=1, l_cut=1200, h_cut=120, l_res=70), [(E // 2, "k35_circ", 1), (3 * E // 2, "l_char", 80)]))
     return cases, signal(n)
 
 def battery_bpf():
