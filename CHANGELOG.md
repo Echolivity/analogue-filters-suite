@@ -19,6 +19,13 @@ Details and before/after measurements: [docs/V1.6_ENGINE.md](docs/V1.6_ENGINE.md
 - **Changed: the K35 high-pass is now 6 dB/oct, as on the MS-20** (Stinchcombe 2006, §7). The real circuit grounds the low-pass input and drives stage 2's lifted capacitor, which gives s(s + 1)/(s² + (2 − K)s + 1); v1.5 used s²/(…), 12 dB/oct. Measured within 0.11 dB of that function at resonance 0, 50 and 80.
   - Sets that use the K35 high-pass get a gentler low cut, and up to +2.9 dB more level at the resonant peak (+0.1 dB at res 0, +2.1 at 50, +2.9 at 80).
   - Because the HPF powers on as K35, every HPF reference render changes during its start-up crossfade. The residual is exactly zero within 2 s.
+- **New: K35 Circuit, OTA (Mk2) / KORG-35 (Mk1).** Stinchcombe's study shows the existing K35 model is the later LM13600 OTA circuit. It is now labelled as such, and its sound is unchanged (the default). KORG-35 adds the original MS-10/early MS-20 circuit:
+  - a Sallen-Key core (C1 = 3·C2, 1/(s² + (7/3 − k)s + 1));
+  - the ×58 diode stage in the signal path (fitted to the study's Figure 17), so loud signals distort at every frequency, and CHARACTER sets the drive;
+  - measured: transfer functions within 0.23 dB; passband THD rising from 0.009 % to 4.5 % with level in the study's test; self-oscillation only at maximum resonance; worst fs/4 peak −3.9 dBFS;
+  - Reference mode runs it at 8x (LPF) / 4x (HPF). It costs about 2.3× the OTA circuit's CPU at the same factor.
+  - **Assumptions:** 0 dBFS = 5 V peak at the filter input; the study's R1 = R2/3 and ×1.1 buffer gain; MS-10 component values. The study's asymmetric resonance is not modelled (simulation only).
+  - A new K35 strip sits at the right edge, and the parameter is appended (82 in total).
 - **New UI:** an ENGINE strip at the right edge showing the mode, the high-oversampling choice, and the factors actually running. Two new Live parameters, appended; all 79 earlier ones are unchanged.
 - **Compatibility:**
   - Earlier Sets open in REFERENCE. Choose CREATIVE to get v1.5's oversampling factor back.

@@ -806,6 +806,24 @@ for j, (lab, outlet, vn) in enumerate((("FILTERS", 14, "os_now_filters"), ("TUBE
     connect(gen, outlet, sn, 0); connect(sn, 0, ii, 0); connect(ii, 0, ch_, 0); connect(ch_, 0, sp, 0); connect(sp, 0, rd_, 0)
 comment("REF = MODEL MINIMUMS", [EX + 6, 152, EW - 12, 10], T.TEXT_DIM, 6.5, 0)
 
+# ------------------------------------------------- v1.6: K35 CIRCUIT strip (Stinchcombe 2006)
+KX = W_TOTAL
+KW = 92
+W_TOTAL = KX + KW + 4
+panel([KX - 2, 0, W_TOTAL - KX + 2, H], BG, rounded=0)
+panel([KX, 4, KW, 161], STRIP, border=T.BEVEL)
+plate([KX + 1, 5, KW - 2, 17], T.HEADER)
+comment("K35", [KX + 8, 6, 76, 14], T.TEXT, T.F_TITLE, 1)
+comment("CIRCUIT", [KX + 6, 25, KW - 12, 10], T.AMBER, T.F_TINY, 1)
+kc = box("live.tab", [3400, 700, 90, 30], [KX + 6, 36, KW - 12, 32], numinlets=1, numoutlets=3, outlettype=["", "", "float"],
+         parameter_enable=1, varname="k35_circ", num_lines_patching=2, num_lines_presentation=2, fontsize=8.0, fontface=1,
+         **SEG_COLOURS, saved_attribute_attributes=valueof("K35 Circuit", "K35 Circ", 2, 0, 1, 0, 9, enum=["OTA (Mk2)", "KORG-35 (Mk1)"]))
+bid_x[kc] = 3400
+param_ids[kc] = ("K35 Circuit", "K35 Circ")
+wire(kc, "k35_circ")
+for j, ln in enumerate(("OTA: LM13600, diodes", "in the feedback path", "", "KORG-35: diodes in", "the signal path:", "all frequencies clip", "", "applies to LPF + HPF")):
+    comment(ln, [KX + 6, 74 + 10 * j, KW - 10, 10], T.TEXT_DIM if ln else MUTED, 6.5, 0)
+
 # Info View / hint text on every parameter and on the jsui controls
 for b in boxes:
     bb = b["box"]

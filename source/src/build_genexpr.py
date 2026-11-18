@@ -118,7 +118,9 @@ f_sherman(x, s1a, s2a, ba, s1b, s2b, bb, yp, g, R1, Rt, fb, ti, hp) {
 	return o2, o2, fixdenorm(n1a), fixdenorm(n2a), b1, fixdenorm(n1b), fixdenorm(n2b), b2, ynext;
 }
 
-// ================= MODEL 02: Korg 35 (MS-20 Mk1)-inspired =================
+// ================= MODEL 02: Korg 35 / MS-20, OTA (LM13600, "Mk2") circuit =================
+// v1.6: relabelled. Stinchcombe 2006 shows this structure (two buffered one-poles, 1/(s^2+(2-K)s+1),
+// clipping in the feedback path) is the later OTA circuit, not the original Korg35 (see f_k35m1).
 // Sallen-Key style: LP1 -> sum -> LP2 -> y ; y*K -> HP1 -> sum   (lowpass)
 //                   HP1 -> sum -> HP2 -> y ; y*K -> LP1 -> sum   (highpass)
 // Zero-delay-feedback solve, tanh in the loop, and diode-style limiting of
@@ -151,6 +153,43 @@ f_k35hp(x, s1, s2, s3, yp, g, K0, L) {
 	y = x + l2;
 	l3, n3 = f_op(K * y, s3, G);
 	return y, fixdenorm(s1), fixdenorm(n2), fixdenorm(n3), y;
+}
+
+// ================= MODEL 02b: Korg35 (MS-10 / early MS-20, "Mk1") Sallen-Key =================
+// v1.6, from Stinchcombe 2006 (Figures 1, 3, 17; sections 2.2, 5, 7). Sallen-Key low-pass with C1 = 3 C2 and
+// R1 = R2/3 (the study's assumption; equal section frequencies): 1 / (s^2 + (7/3 - k)s + 1).
+// Forward-path X1 stage: gain 1 + 270k/4.7k = 58.45 with back-to-back diodes across 270k, so it is
+// v = Vf/57.45 + c sinh(Vf/nVt) with Vo = v + Vf (Fig. 17 fit: nVt = 52 mV, c = 1.617e-5 V).
+// Units are volts: x * A is the voltage at the core input (A = 5 V peak per unit x R59/(R57+R59), times
+// CHARACTER drive). HP variant (section 7): signal into C2's lifted end, k1 s(s + 4/3) / (same).
+// Each sample is one scalar monotone equation in Vf, solved by four step-limited Newton iterations from a
+// closed-form start (offline worst relative residual 1.2e-5, about -98 dB; tests/review/ms20/solver.py). returns y, s1, s2, Vf, yprev
+f_k35m1(x, s1, s2, s3, yp, g, K0, A, hp) {
+	k2 = K0 * 0.0203116;          // (7/6) K0 / 57.4385 (small-signal X1 gain incl. diode leakage, Fig. 17 fit)
+	xin = x * A;
+	xl = hp > 0.5 ? 0 : xin;
+	xh = hp > 0.5 ? xin : 0;
+	D = 1 + 1.33333333333 * g;
+	E = (1 + g) - g * g / (3 * D);
+	Aa = (s2 + xh + g * (s1 + g * xl) / D) / E;
+	B = g * k2 / (D * E);
+	vt = Aa / (1 - B);
+	av = abs(vt);
+	V = (vt < 0 ? -1 : 1) * min(av * 57.4468, 0.052 * log(av / 0.00001617 + sqrt(av * av / 0.000000000261469 + 1)));
+	for (i = 0; i < 4; i += 1) {
+		ex = exp(V * 19.2307692308);
+		fv = (1 - B) * (V * 0.0174074 + 0.00001617 * 0.5 * (ex - 1 / ex)) - B * V - Aa;
+		dv = (1 - B) * (0.0174074 + 0.000310962 * 0.5 * (ex + 1 / ex)) - B;
+		V = V - clamp(fv / dv, -0.05, 0.05);
+	}
+	ex = exp(V * 19.2307692308);
+	v3 = V * 0.0174074 + 0.00001617 * 0.5 * (ex - 1 / ex);
+	vo = v3 + V;
+	v2 = (s1 + g * xl + 0.333333333333 * g * v3 + k2 * vo) / D;
+	n1 = 2 * (v2 - k2 * vo) - s1;
+	n2 = 2 * (v3 - xh) - s2;
+	y = vo / (57.4385 * A);
+	return y, fixdenorm(n1), fixdenorm(n2), V, y;
 }
 
 // ================= MODEL 03: Moog transistor ladder-inspired =================
@@ -324,12 +363,18 @@ MODELS = [
                "{p}_fb = 0.92 * {c};"],
          call=["o12, o24, {sv} = f_sherman({x}, {sv}, {p}_g, {p}_R1, {p}_R, {p}_fb, {s}_ti, {hp});",
                "{acc} = {acc} + {mix} * (o12 + {s}_ti * (o24 - o12));"]),
-    dict(id=1, key="k3", name="Korg 35 (MS-20 Mk1)-inspired", taps="12",
+    dict(id=1, key="k3", name="Korg 35 / MS-20 (OTA Mk2, or KORG-35 Mk1 via K35 Circuit)", taps="12",
          states=["s1", "s2", "s3", "yp"], lp="native", hp="native", char="FB CLIP",
          coef=["{p}_g = {s}_gw;",
                "{p}_K = 0.05 + 2.03 * pow({r}, 1.1);",
-               "{p}_L = 4 * exp2(-4 * {c});"],
-         call=["o1, {sv} = {k35fn}({x}, {sv}, {p}_g, {p}_K, {p}_L);",
+               "{p}_L = 4 * exp2(-4 * {c});",
+               "{p}_A = 0.0195084 * exp2(4 * {c});"],                 # v1.6 Mk1: 5 V peak x 47/12047, +0..24 dB drive
+         call=["o1 = 0;",
+               "if (cur_k35 > 0.5) {{",
+               "    o1, {sv} = f_k35m1({x}, {sv}, {p}_g, {p}_K, {p}_A, {hp});",
+               "}} else {{",
+               "    o1, {sv} = {k35fn}({x}, {sv}, {p}_g, {p}_K, {p}_L);",
+               "}}",
                "{acc} = {acc} + {mix} * o1;"]),
     dict(id=2, key="ld", name="Moog transistor ladder-inspired", taps="12/24",
          states=["s1", "s2", "s3", "s4", "p0", "p1", "p2", "p3", "p4"], lp="native", hp="alt", char="STAGE SAT",
@@ -366,6 +411,8 @@ MODELS = [
 # from the independent review's factor study (verify.json OS_filters, test C1, target -80 dBc)
 # and tests/v16_tests.py for HPF / BPF.
 OS_MIN_LP = [1, 1, 2, 2, 0, 1]      # Sherman, K35, Ladder, Steiner, SEM, TB-303
+OS_MIN_K35M1_LP = 3                  # v1.6 Korg35 (Mk1) LPF: 8x (4x -76.5, 8x -105.3 dBc at the bright test point)
+OS_MIN_K35M1_HP = 2                  # v1.6 Korg35 (Mk1) HPF: 4x (-86.9 dBc)
 OS_MIN_HP = [1, 1, 1, 1, 1]         # Sherman, K35, Ladder ALT, Steiner, SEM (HPF at fc 2 kHz: all pass at 2x)
 OS_MIN_BPF = [2, 2, 2]              # SVF, CASCADE, MULTIMODE (all about -70 dBc at 2x, < -116 at 4x)
 TUBE_OS_MIN_REF = 3                 # TUBE in Reference mode: 8x
@@ -444,6 +491,7 @@ def build():
     # v1.6: engine mode (0 = Reference, 1 = Creative) and high oversampling factors (appended)
     P("eng_mode", 0, 0, 1)
     P("ovs_hi", 0, 0, 3)
+    P("k35_circ", 0, 0, 1)   # v1.6: K35 circuit, 0 = LM13600 OTA (Mk2, as v1.5), 1 = Korg35 (Mk1)
 
     # ----- state declarations -----
     statevars = []   # local names mirrored from histories
@@ -502,6 +550,7 @@ def build():
                     for z in range(6):
                         SV(f"os_{c}_s{stg}{d}{p}{z}")
     CV("cur_tos", 1)  # v1.6: TUBE oversampling index (1 = 2x, as v1.3-v1.5)
+    CV("cur_k35", 0)  # v1.6: K35 circuit in use (switches at the duck bottom)
 
     dirty = []   # v1.6 has-state flags (stored at the end)
 
@@ -522,6 +571,7 @@ def build():
     w("cur_order = H_cur_order;")
     w("cur_os = H_cur_os;")
     w("cur_tos = H_cur_tos;")
+    w("cur_k35 = H_cur_k35;")
     w("ovs = cur_os < 0.5 ? 1 : (cur_os < 1.5 ? 2 : (cur_os < 2.5 ? 4 : (cur_os < 3.5 ? 8 : 16)));")
     w("fso = fs * ovs;")
     w("a_cut = 1 - exp(-1 / (0.006 * fs));")
@@ -667,14 +717,15 @@ def build():
     # measured minimum of every active model (<= -80 dBc aliasing at the bright test point).
     w("os_user = ovs_hi > 0.5 ? clamp(floor(ovs_hi + 0.5), 1, 3) + 1 : (ovs_sel > 0.5 ? 1 : 0);")
     w("ref_mode = eng_mode < 0.5 ? 1 : 0;")
-    w(f"os_ml = l_on > 0.5 ? {tbl('clamp(floor(l_model + 0.5), 0, 5)', OS_MIN_LP)} : 0;")
-    w(f"os_mh = h_on > 0.5 ? {tbl('clamp(floor(h_model + 0.5), 0, 4)', OS_MIN_HP)} : 0;")
+    w("cfg_k = k35_circ > 0.5 ? 1 : 0;")
+    w(f"os_ml = l_on > 0.5 ? ((cfg_k > 0.5 && abs(l_model - 1) < 0.5) ? {OS_MIN_K35M1_LP} : {tbl('clamp(floor(l_model + 0.5), 0, 5)', OS_MIN_LP)}) : 0;")
+    w(f"os_mh = h_on > 0.5 ? ((cfg_k > 0.5 && abs(h_model - 1) < 0.5) ? {OS_MIN_K35M1_HP} : {tbl('clamp(floor(h_model + 0.5), 0, 4)', OS_MIN_HP)}) : 0;")
     w(f"os_mb = b_on > 0.5 ? {tbl('clamp(floor(b_arch + 0.5), 0, 2)', OS_MIN_BPF)} : 0;")
     w("cfg_s = ref_mode > 0.5 ? max(os_user, max(os_ml, max(os_mh, os_mb))) : os_user;")
     w(f"cfg_t = ref_mode > 0.5 ? max(os_user, {TUBE_OS_MIN_REF}) : max(os_user, 1);")
     w("cfg_p = b_pos > 0.5 ? 1 : 0;")
     w("b_cur_pos = H_b_cur_pos;")
-    w("pend = (cfg_o != cur_order || cfg_s != cur_os || cfg_p != b_cur_pos || cfg_r != cur_route || cfg_t != cur_tos) ? 1 : 0;")
+    w("pend = (cfg_o != cur_order || cfg_s != cur_os || cfg_p != b_cur_pos || cfg_r != cur_route || cfg_t != cur_tos || cfg_k != cur_k35) ? 1 : 0;")
     w("duck = H_duck;")
     w("duck = pend > 0.5 ? max(0, duck - dstep) : min(1, duck + dstep);")
     w("new_order = cur_order;")
@@ -682,6 +733,7 @@ def build():
     w("new_pos = b_cur_pos;")
     w("new_route = cur_route;")
     w("new_tos = cur_tos;")
+    w("new_k35 = cur_k35;")
     w("rst = 0;")
     w("if (pend > 0.5 && duck <= 0) {")
     w("\tnew_order = cfg_o;")
@@ -689,7 +741,8 @@ def build():
     w("\tnew_pos = cfg_p;")
     w("\tnew_route = cfg_r;")
     w("\tnew_tos = cfg_t;")
-    w("\trst = (cfg_s != cur_os || cfg_t != cur_tos) ? 1 : 0;")
+    w("\tnew_k35 = cfg_k;")
+    w("\trst = (cfg_s != cur_os || cfg_t != cur_tos || cfg_k != cur_k35) ? 1 : 0;")
     w("}")
     w()
 
@@ -947,6 +1000,7 @@ def build():
     w("H_b_cur_pos = new_pos;")
     w("H_cur_route = new_route;")
     w("H_cur_tos = new_tos;")
+    w("H_cur_k35 = new_k35;")
     for n in routing.ctrl_names():
         w(f"H_{n} = {n};")
     for n in dyn.ctrl_names():

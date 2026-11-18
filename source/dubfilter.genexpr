@@ -83,6 +83,7 @@ Param par_h(0, min=-40, max=6);
 Param par_b(0, min=-40, max=6);
 Param eng_mode(0, min=0, max=1);
 Param ovs_hi(0, min=0, max=3);
+Param k35_circ(0, min=0, max=1);
 
 History H_l_L_sh_s1a(0.0);
 History H_l_L_sh_s2a(0.0);
@@ -1275,6 +1276,7 @@ History H_os_R_s4dnb3(0.0);
 History H_os_R_s4dnb4(0.0);
 History H_os_R_s4dnb5(0.0);
 History H_cur_tos(1);
+History H_cur_k35(0);
 History H_l_dzsh(0.0);
 History H_l_dzk3(0.0);
 History H_l_dzld(0.0);
@@ -1386,7 +1388,9 @@ f_sherman(x, s1a, s2a, ba, s1b, s2b, bb, yp, g, R1, Rt, fb, ti, hp) {
 	return o2, o2, fixdenorm(n1a), fixdenorm(n2a), b1, fixdenorm(n1b), fixdenorm(n2b), b2, ynext;
 }
 
-// ================= MODEL 02: Korg 35 (MS-20 Mk1)-inspired =================
+// ================= MODEL 02: Korg 35 / MS-20, OTA (LM13600, "Mk2") circuit =================
+// v1.6: relabelled. Stinchcombe 2006 shows this structure (two buffered one-poles, 1/(s^2+(2-K)s+1),
+// clipping in the feedback path) is the later OTA circuit, not the original Korg35 (see f_k35m1).
 // Sallen-Key style: LP1 -> sum -> LP2 -> y ; y*K -> HP1 -> sum   (lowpass)
 //                   HP1 -> sum -> HP2 -> y ; y*K -> LP1 -> sum   (highpass)
 // Zero-delay-feedback solve, tanh in the loop, and diode-style limiting of
@@ -1419,6 +1423,43 @@ f_k35hp(x, s1, s2, s3, yp, g, K0, L) {
 	y = x + l2;
 	l3, n3 = f_op(K * y, s3, G);
 	return y, fixdenorm(s1), fixdenorm(n2), fixdenorm(n3), y;
+}
+
+// ================= MODEL 02b: Korg35 (MS-10 / early MS-20, "Mk1") Sallen-Key =================
+// v1.6, from Stinchcombe 2006 (Figures 1, 3, 17; sections 2.2, 5, 7). Sallen-Key low-pass with C1 = 3 C2 and
+// R1 = R2/3 (the study's assumption; equal section frequencies): 1 / (s^2 + (7/3 - k)s + 1).
+// Forward-path X1 stage: gain 1 + 270k/4.7k = 58.45 with back-to-back diodes across 270k, so it is
+// v = Vf/57.45 + c sinh(Vf/nVt) with Vo = v + Vf (Fig. 17 fit: nVt = 52 mV, c = 1.617e-5 V).
+// Units are volts: x * A is the voltage at the core input (A = 5 V peak per unit x R59/(R57+R59), times
+// CHARACTER drive). HP variant (section 7): signal into C2's lifted end, k1 s(s + 4/3) / (same).
+// Each sample is one scalar monotone equation in Vf, solved by four step-limited Newton iterations from a
+// closed-form start (offline worst relative residual 1.2e-5, about -98 dB; tests/review/ms20/solver.py). returns y, s1, s2, Vf, yprev
+f_k35m1(x, s1, s2, s3, yp, g, K0, A, hp) {
+	k2 = K0 * 0.0203116;          // (7/6) K0 / 57.4385 (small-signal X1 gain incl. diode leakage, Fig. 17 fit)
+	xin = x * A;
+	xl = hp > 0.5 ? 0 : xin;
+	xh = hp > 0.5 ? xin : 0;
+	D = 1 + 1.33333333333 * g;
+	E = (1 + g) - g * g / (3 * D);
+	Aa = (s2 + xh + g * (s1 + g * xl) / D) / E;
+	B = g * k2 / (D * E);
+	vt = Aa / (1 - B);
+	av = abs(vt);
+	V = (vt < 0 ? -1 : 1) * min(av * 57.4468, 0.052 * log(av / 0.00001617 + sqrt(av * av / 0.000000000261469 + 1)));
+	for (i = 0; i < 4; i += 1) {
+		ex = exp(V * 19.2307692308);
+		fv = (1 - B) * (V * 0.0174074 + 0.00001617 * 0.5 * (ex - 1 / ex)) - B * V - Aa;
+		dv = (1 - B) * (0.0174074 + 0.000310962 * 0.5 * (ex + 1 / ex)) - B;
+		V = V - clamp(fv / dv, -0.05, 0.05);
+	}
+	ex = exp(V * 19.2307692308);
+	v3 = V * 0.0174074 + 0.00001617 * 0.5 * (ex - 1 / ex);
+	vo = v3 + V;
+	v2 = (s1 + g * xl + 0.333333333333 * g * v3 + k2 * vo) / D;
+	n1 = 2 * (v2 - k2 * vo) - s1;
+	n2 = 2 * (v3 - xh) - s2;
+	y = vo / (57.4385 * A);
+	return y, fixdenorm(n1), fixdenorm(n2), V, y;
 }
 
 // ================= MODEL 03: Moog transistor ladder-inspired =================
@@ -1681,6 +1722,7 @@ fs = samplerate;
 cur_order = H_cur_order;
 cur_os = H_cur_os;
 cur_tos = H_cur_tos;
+cur_k35 = H_cur_k35;
 ovs = cur_os < 0.5 ? 1 : (cur_os < 1.5 ? 2 : (cur_os < 2.5 ? 4 : (cur_os < 3.5 ? 8 : 16)));
 fso = fs * ovs;
 a_cut = 1 - exp(-1 / (0.006 * fs));
@@ -3453,10 +3495,11 @@ l_sh_g = l_gw;
 l_sh_R1 = 0.3 + 0.7 * (1 - l_rz) * (1 - l_rz);
 l_sh_R = 0.8 * (1 - l_rz) * (1 - l_rz) - 0.08 * pow(l_rz, 30);
 l_sh_fb = 0.92 * l_chr;
-// coefficients: Korg 35 (MS-20 Mk1)-inspired
+// coefficients: Korg 35 / MS-20 (OTA Mk2, or KORG-35 Mk1 via K35 Circuit)
 l_k3_g = l_gw;
 l_k3_K = 0.05 + 2.03 * pow(l_rz, 1.1);
 l_k3_L = 4 * exp2(-4 * l_chr);
+l_k3_A = 0.0195084 * exp2(4 * l_chr);
 // coefficients: Moog transistor ladder-inspired
 l_ld_g = l_gw;
 l_ld_k = 4.3 * pow(l_rz, 1.3);
@@ -3689,10 +3732,11 @@ h_sh_g = h_gw;
 h_sh_R1 = 0.3 + 0.7 * (1 - h_rz) * (1 - h_rz);
 h_sh_R = 0.8 * (1 - h_rz) * (1 - h_rz) - 0.08 * pow(h_rz, 30);
 h_sh_fb = 0.92 * h_chr;
-// coefficients: Korg 35 (MS-20 Mk1)-inspired
+// coefficients: Korg 35 / MS-20 (OTA Mk2, or KORG-35 Mk1 via K35 Circuit)
 h_k3_g = h_gw;
 h_k3_K = 0.05 + 2.03 * pow(h_rz, 1.1);
 h_k3_L = 4 * exp2(-4 * h_chr);
+h_k3_A = 0.0195084 * exp2(4 * h_chr);
 // coefficients: Moog transistor ladder-inspired
 h_ld_g = h_gw;
 h_ld_k = 4.3 * pow(h_rz, 1.3);
@@ -4050,14 +4094,15 @@ cfg_r = clamp(floor(flt_route + 0.5), 0, 2);
 cfg_o = order_sel > 0.5 ? 1 : 0;
 os_user = ovs_hi > 0.5 ? clamp(floor(ovs_hi + 0.5), 1, 3) + 1 : (ovs_sel > 0.5 ? 1 : 0);
 ref_mode = eng_mode < 0.5 ? 1 : 0;
-os_ml = l_on > 0.5 ? (clamp(floor(l_model + 0.5), 0, 5) < 0.5 ? 1.0 : (clamp(floor(l_model + 0.5), 0, 5) < 1.5 ? 1.0 : (clamp(floor(l_model + 0.5), 0, 5) < 2.5 ? 2.0 : (clamp(floor(l_model + 0.5), 0, 5) < 3.5 ? 2.0 : (clamp(floor(l_model + 0.5), 0, 5) < 4.5 ? 0.0 : 1.0))))) : 0;
-os_mh = h_on > 0.5 ? (clamp(floor(h_model + 0.5), 0, 4) < 0.5 ? 1.0 : (clamp(floor(h_model + 0.5), 0, 4) < 1.5 ? 1.0 : (clamp(floor(h_model + 0.5), 0, 4) < 2.5 ? 1.0 : (clamp(floor(h_model + 0.5), 0, 4) < 3.5 ? 1.0 : 1.0)))) : 0;
+cfg_k = k35_circ > 0.5 ? 1 : 0;
+os_ml = l_on > 0.5 ? ((cfg_k > 0.5 && abs(l_model - 1) < 0.5) ? 3 : (clamp(floor(l_model + 0.5), 0, 5) < 0.5 ? 1.0 : (clamp(floor(l_model + 0.5), 0, 5) < 1.5 ? 1.0 : (clamp(floor(l_model + 0.5), 0, 5) < 2.5 ? 2.0 : (clamp(floor(l_model + 0.5), 0, 5) < 3.5 ? 2.0 : (clamp(floor(l_model + 0.5), 0, 5) < 4.5 ? 0.0 : 1.0)))))) : 0;
+os_mh = h_on > 0.5 ? ((cfg_k > 0.5 && abs(h_model - 1) < 0.5) ? 2 : (clamp(floor(h_model + 0.5), 0, 4) < 0.5 ? 1.0 : (clamp(floor(h_model + 0.5), 0, 4) < 1.5 ? 1.0 : (clamp(floor(h_model + 0.5), 0, 4) < 2.5 ? 1.0 : (clamp(floor(h_model + 0.5), 0, 4) < 3.5 ? 1.0 : 1.0))))) : 0;
 os_mb = b_on > 0.5 ? (clamp(floor(b_arch + 0.5), 0, 2) < 0.5 ? 2.0 : (clamp(floor(b_arch + 0.5), 0, 2) < 1.5 ? 2.0 : 2.0)) : 0;
 cfg_s = ref_mode > 0.5 ? max(os_user, max(os_ml, max(os_mh, os_mb))) : os_user;
 cfg_t = ref_mode > 0.5 ? max(os_user, 3) : max(os_user, 1);
 cfg_p = b_pos > 0.5 ? 1 : 0;
 b_cur_pos = H_b_cur_pos;
-pend = (cfg_o != cur_order || cfg_s != cur_os || cfg_p != b_cur_pos || cfg_r != cur_route || cfg_t != cur_tos) ? 1 : 0;
+pend = (cfg_o != cur_order || cfg_s != cur_os || cfg_p != b_cur_pos || cfg_r != cur_route || cfg_t != cur_tos || cfg_k != cur_k35) ? 1 : 0;
 duck = H_duck;
 duck = pend > 0.5 ? max(0, duck - dstep) : min(1, duck + dstep);
 new_order = cur_order;
@@ -4065,6 +4110,7 @@ new_os = cur_os;
 new_pos = b_cur_pos;
 new_route = cur_route;
 new_tos = cur_tos;
+new_k35 = cur_k35;
 rst = 0;
 if (pend > 0.5 && duck <= 0) {
 	new_order = cfg_o;
@@ -4072,7 +4118,8 @@ if (pend > 0.5 && duck <= 0) {
 	new_pos = cfg_p;
 	new_route = cfg_r;
 	new_tos = cfg_t;
-	rst = (cfg_s != cur_os || cfg_t != cur_tos) ? 1 : 0;
+	new_k35 = cfg_k;
+	rst = (cfg_s != cur_os || cfg_t != cur_tos || cfg_k != cur_k35) ? 1 : 0;
 }
 
 // ================= input: up-sampling cascade (v1.6) =================
@@ -4627,7 +4674,12 @@ for (k = 0; k < ovs; k += 1) {
 				hb_L = hb_L + h_msh * (o12 + h_ti * (o24 - o12));
 			}
 			if (h_ak3 > 0.5) {
-				o1, h_L_k3_s1, h_L_k3_s2, h_L_k3_s3, h_L_k3_yp = f_k35hp(hi_L, h_L_k3_s1, h_L_k3_s2, h_L_k3_s3, h_L_k3_yp, h_k3_g, h_k3_K, h_k3_L);
+				o1 = 0;
+				if (cur_k35 > 0.5) {
+				    o1, h_L_k3_s1, h_L_k3_s2, h_L_k3_s3, h_L_k3_yp = f_k35m1(hi_L, h_L_k3_s1, h_L_k3_s2, h_L_k3_s3, h_L_k3_yp, h_k3_g, h_k3_K, h_k3_A, 1);
+				} else {
+				    o1, h_L_k3_s1, h_L_k3_s2, h_L_k3_s3, h_L_k3_yp = f_k35hp(hi_L, h_L_k3_s1, h_L_k3_s2, h_L_k3_s3, h_L_k3_yp, h_k3_g, h_k3_K, h_k3_L);
+				}
 				hb_L = hb_L + h_mk3 * o1;
 			}
 			if (h_ald > 0.5) {
@@ -4713,7 +4765,12 @@ for (k = 0; k < ovs; k += 1) {
 				hb_R = hb_R + h_msh * (o12 + h_ti * (o24 - o12));
 			}
 			if (h_ak3 > 0.5) {
-				o1, h_R_k3_s1, h_R_k3_s2, h_R_k3_s3, h_R_k3_yp = f_k35hp(hi_R, h_R_k3_s1, h_R_k3_s2, h_R_k3_s3, h_R_k3_yp, h_k3_g, h_k3_K, h_k3_L);
+				o1 = 0;
+				if (cur_k35 > 0.5) {
+				    o1, h_R_k3_s1, h_R_k3_s2, h_R_k3_s3, h_R_k3_yp = f_k35m1(hi_R, h_R_k3_s1, h_R_k3_s2, h_R_k3_s3, h_R_k3_yp, h_k3_g, h_k3_K, h_k3_A, 1);
+				} else {
+				    o1, h_R_k3_s1, h_R_k3_s2, h_R_k3_s3, h_R_k3_yp = f_k35hp(hi_R, h_R_k3_s1, h_R_k3_s2, h_R_k3_s3, h_R_k3_yp, h_k3_g, h_k3_K, h_k3_L);
+				}
 				hb_R = hb_R + h_mk3 * o1;
 			}
 			if (h_ald > 0.5) {
@@ -4807,7 +4864,12 @@ for (k = 0; k < ovs; k += 1) {
 			lb_L = lb_L + l_msh * (o12 + l_ti * (o24 - o12));
 		}
 		if (l_ak3 > 0.5) {
-			o1, l_L_k3_s1, l_L_k3_s2, l_L_k3_s3, l_L_k3_yp = f_k35lp(li_L, l_L_k3_s1, l_L_k3_s2, l_L_k3_s3, l_L_k3_yp, l_k3_g, l_k3_K, l_k3_L);
+			o1 = 0;
+			if (cur_k35 > 0.5) {
+			    o1, l_L_k3_s1, l_L_k3_s2, l_L_k3_s3, l_L_k3_yp = f_k35m1(li_L, l_L_k3_s1, l_L_k3_s2, l_L_k3_s3, l_L_k3_yp, l_k3_g, l_k3_K, l_k3_A, 0);
+			} else {
+			    o1, l_L_k3_s1, l_L_k3_s2, l_L_k3_s3, l_L_k3_yp = f_k35lp(li_L, l_L_k3_s1, l_L_k3_s2, l_L_k3_s3, l_L_k3_yp, l_k3_g, l_k3_K, l_k3_L);
+			}
 			lb_L = lb_L + l_mk3 * o1;
 		}
 		if (l_ald > 0.5) {
@@ -4907,7 +4969,12 @@ for (k = 0; k < ovs; k += 1) {
 			lb_R = lb_R + l_msh * (o12 + l_ti * (o24 - o12));
 		}
 		if (l_ak3 > 0.5) {
-			o1, l_R_k3_s1, l_R_k3_s2, l_R_k3_s3, l_R_k3_yp = f_k35lp(li_R, l_R_k3_s1, l_R_k3_s2, l_R_k3_s3, l_R_k3_yp, l_k3_g, l_k3_K, l_k3_L);
+			o1 = 0;
+			if (cur_k35 > 0.5) {
+			    o1, l_R_k3_s1, l_R_k3_s2, l_R_k3_s3, l_R_k3_yp = f_k35m1(li_R, l_R_k3_s1, l_R_k3_s2, l_R_k3_s3, l_R_k3_yp, l_k3_g, l_k3_K, l_k3_A, 0);
+			} else {
+			    o1, l_R_k3_s1, l_R_k3_s2, l_R_k3_s3, l_R_k3_yp = f_k35lp(li_R, l_R_k3_s1, l_R_k3_s2, l_R_k3_s3, l_R_k3_yp, l_k3_g, l_k3_K, l_k3_L);
+			}
 			lb_R = lb_R + l_mk3 * o1;
 		}
 		if (l_ald > 0.5) {
@@ -5017,7 +5084,12 @@ for (k = 0; k < ovs; k += 1) {
 				hb_L = hb_L + h_msh * (o12 + h_ti * (o24 - o12));
 			}
 			if (h_ak3 > 0.5) {
-				o1, h_L_k3_s1, h_L_k3_s2, h_L_k3_s3, h_L_k3_yp = f_k35hp(hi_L, h_L_k3_s1, h_L_k3_s2, h_L_k3_s3, h_L_k3_yp, h_k3_g, h_k3_K, h_k3_L);
+				o1 = 0;
+				if (cur_k35 > 0.5) {
+				    o1, h_L_k3_s1, h_L_k3_s2, h_L_k3_s3, h_L_k3_yp = f_k35m1(hi_L, h_L_k3_s1, h_L_k3_s2, h_L_k3_s3, h_L_k3_yp, h_k3_g, h_k3_K, h_k3_A, 1);
+				} else {
+				    o1, h_L_k3_s1, h_L_k3_s2, h_L_k3_s3, h_L_k3_yp = f_k35hp(hi_L, h_L_k3_s1, h_L_k3_s2, h_L_k3_s3, h_L_k3_yp, h_k3_g, h_k3_K, h_k3_L);
+				}
 				hb_L = hb_L + h_mk3 * o1;
 			}
 			if (h_ald > 0.5) {
@@ -5103,7 +5175,12 @@ for (k = 0; k < ovs; k += 1) {
 				hb_R = hb_R + h_msh * (o12 + h_ti * (o24 - o12));
 			}
 			if (h_ak3 > 0.5) {
-				o1, h_R_k3_s1, h_R_k3_s2, h_R_k3_s3, h_R_k3_yp = f_k35hp(hi_R, h_R_k3_s1, h_R_k3_s2, h_R_k3_s3, h_R_k3_yp, h_k3_g, h_k3_K, h_k3_L);
+				o1 = 0;
+				if (cur_k35 > 0.5) {
+				    o1, h_R_k3_s1, h_R_k3_s2, h_R_k3_s3, h_R_k3_yp = f_k35m1(hi_R, h_R_k3_s1, h_R_k3_s2, h_R_k3_s3, h_R_k3_yp, h_k3_g, h_k3_K, h_k3_A, 1);
+				} else {
+				    o1, h_R_k3_s1, h_R_k3_s2, h_R_k3_s3, h_R_k3_yp = f_k35hp(hi_R, h_R_k3_s1, h_R_k3_s2, h_R_k3_s3, h_R_k3_yp, h_k3_g, h_k3_K, h_k3_L);
+				}
 				hb_R = hb_R + h_mk3 * o1;
 			}
 			if (h_ald > 0.5) {
@@ -14196,6 +14273,7 @@ H_b_fade = b_fade;
 H_b_cur_pos = new_pos;
 H_cur_route = new_route;
 H_cur_tos = new_tos;
+H_cur_k35 = new_k35;
 H_rt_rl = rt_rl;
 H_rt_rh = rt_rh;
 H_rt_rb = rt_rb;

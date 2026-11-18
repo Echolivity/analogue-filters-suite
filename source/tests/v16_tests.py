@@ -219,6 +219,57 @@ cpu["everything off"] = round(min(run(xn, base(l_on=0, h_on=0), ns=True)[1] for 
 data["cpu_ns_per_sample"] = cpu
 check("CPU measured per factor (offline harness, informational)", True, str(cpu))
 
+# ------------------------------------------------------------------ K35 Circuit: Korg35 (Mk1), Stinchcombe 2006
+M1 = lambda **k: dict(base(**k), k35_circ=1)
+fits = {}
+for st, nm in (("l", "LP"), ("h", "HP")):
+    for r in (0, 50, 80):
+        k = (7 / 6) * (0.05 + 2.03 * (r / 100) ** 1.1)
+        f, H = tf(M1(**{f"{st}_on": 1, f"{st}_model": 1, f"{st}_cut": 1000, f"{st}_res": r}))
+        sel = (f > 60) & (f < 3000); s_ = 1j * f[sel] / 1000; den = s_ * s_ + (7 / 3 - k) * s_ + 1
+        Hm = 1 / den if st == "l" else s_ * (s_ + 4 / 3) / den
+        fits[f"{nm} res {r}"] = round(float(np.max(np.abs(20 * np.log10(np.abs(H[sel]) / np.abs(Hm))))), 2)
+data["k35_mk1_fits"] = fits
+check("K35 Mk1: small-signal LP 1/(s^2+(7/3-k)s+1) and HP s(s+4/3)/(...) (Korg35 Sallen-Key, C1 = 3 C2) within 0.5 dB, 60 Hz-3 kHz",
+      max(fits.values()) < 0.5, ", ".join(f"{a} {b} dB" for a, b in fits.items()))
+tt = np.arange(SR * 2) / SR
+def thd500(y):
+    y = y[SR:]; w = np.hanning(len(y)); Y = np.abs(np.fft.rfft(y * w)); fr = np.fft.rfftfreq(len(y), 1 / SR)
+    pk = lambda h: Y[np.argmin(abs(fr - h * 500)) - 3:np.argmin(abs(fr - h * 500)) + 4].max()
+    return 100 * np.sqrt(sum(pk(h) ** 2 for h in range(2, 12))) / pk(1)
+th = {}
+for L in (-24, -12, 0):
+    xx = 10 ** (L / 20) * np.sin(2 * np.pi * 500 * tt)
+    th[L] = (round(thd500(run(xx, M1(l_on=1, l_model=1, l_cut=7000, l_res=50))[:, 0]), 3),
+             round(thd500(run(xx, base(l_on=1, l_model=1, l_cut=7000, l_res=50))[:, 0]), 3))
+data["k35_passband_thd"] = th
+check("K35 Mk1 vs Mk2, Stinchcombe's detection test (500 Hz, fc 7 kHz, res 50): Mk1 passband THD rises with level and exceeds Mk2 at every level",
+      th[0][0] > 10 * th[-24][0] and all(a > b for a, b in th.values()), "; ".join(f"{L:+d} dBFS: Mk1 {a} % / Mk2 {b} %" for L, (a, b) in th.items()))
+xi = np.zeros(SR * 2); xi[4800:5000] = np.random.default_rng(1).standard_normal(200) * 0.3
+osc = {r: run(xi, M1(l_on=1, l_model=1, l_cut=800, l_res=r))[:, 0] for r in (90, 100)}
+lv = {r: round(db(np.std(y[-SR // 2:]) + 1e-15), 1) for r, y in osc.items()}
+check("K35 Mk1: self-oscillates at res 100 (bounded by the diode stage), not at res 90",
+      -20 < lv[100] < 0 and lv[90] < -100 and all(np.isfinite(y).all() for y in osc.values()), f"level 1.5-2 s: res 90 {lv[90]} dBFS, res 100 {lv[100]} dBFS")
+worst = -999.0
+for sr_ in (44100, 48000):
+    q = sr_ / 4
+    for c in range(-100, 101, 10):
+        for res in (92, 96, 100):
+            xq = np.zeros(int(0.7 * sr_)); xq[int(0.3 * sr_):int(0.3 * sr_) + 64] = 0.05
+            yq = run(xq, M1(l_on=1, l_model=1, l_cut=q * 2 ** (c / 1200), l_res=res, l_comp=0), sr_)[:, 0]
+            worst = max(worst, db(np.max(np.abs(yq[int(0.4 * sr_):]))))
+check("K35 Mk1 fs/4 sweep: ±100 cents, res 92-100 %, 44.1 + 48 kHz, 1x: peak <= +6 dBFS", worst <= 6, f"126 runs, worst {worst:.1f} dBFS")
+xr = 0.5 * np.sin(2 * np.pi * 5003 * np.arange(int(1.6 * SR)) / SR)
+refk = {}
+for st, kw in (("LPF", dict(l_on=1, l_model=1, l_cut=16000, l_res=50, l_drive=60)), ("HPF", dict(h_on=1, h_model=1, h_cut=2000, h_res=50, h_drive=60))):
+    y, M = run(xr, dict(M1(**kw), eng_mode=0), meters=True)
+    refk[st] = (round(alias(y[int(0.5 * SR):int(1.5 * SR), 0], SR, 5003.0), 1), int(M[-1, 12]))
+check("K35 Mk1 in Reference mode: LPF runs at 8x and HPF at 4x, both <= -80 dBc at the bright test point",
+      refk["LPF"][1] == 8 and refk["HPF"][1] == 4 and all(a <= -80 for a, _ in refk.values()), "; ".join(f"{k} {a} dBc @ {n}x" for k, (a, n) in refk.items()))
+cpu["K35 Mk1 LPF 8x"] = round(min(run(xn, M1(l_on=1, l_model=1, l_cut=1000, ovs_hi=2), ns=True)[1] for _ in range(3)), 1)
+cpu["K35 Mk2 LPF 8x"] = round(min(run(xn, base(l_on=1, l_model=1, l_cut=1000, ovs_hi=2), ns=True)[1] for _ in range(3)), 1)
+data["cpu_ns_per_sample"] = cpu
+
 n_ok = sum(r["ok"] for r in results)
 json.dump(dict(results=results, data=data), open(os.path.join(ROOT, "build", "v16_results.json"), "w"), indent=1, default=float)
 print(f"\nv1.6 tests: {n_ok}/{len(results)} passed")
