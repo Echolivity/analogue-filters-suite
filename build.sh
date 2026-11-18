@@ -9,11 +9,13 @@ python3 tools/genexpr2c.py build/dubfilter.genexpr build/engine.c
 cc -O2 -o build/harness tests/harness.c build/engine.c -lm
 python3 tests/golden.py check          # gate: LPF/HPF bit-exact vs v1.1 baseline
 python3 tests/golden.py check-bpf      # gate: BPF bit-exact vs v1.2 baseline
+python3 tests/golden.py check-dyn      # gate: dynamics chain bit-exact vs v1.3 baseline
 python3 tests/validate.py
 python3 tests/report.py
 python3 device/build_device.py
 python3 tests/compat.py build/device/DubFilter.maxpat   # gate: v1.1 presets/automation/MIDI intact
 python3 tests/compat.py build/device/DubFilter.maxpat --base=DubFilter_v1.2.maxpat   # gate: v1.2 intact
+python3 tests/compat.py build/device/DubFilter.maxpat --base=DubFilter_v1.3.maxpat   # gate: v1.3 intact
 python3 device/preview.py build/device/preview.png
 cp build/device/DubFilter.amxd build/device/DubFilter.maxpat "$ROOT/"
 cp build/dubfilter.genexpr "$ROOT/source/dubfilter.genexpr"

@@ -19,7 +19,7 @@ The .amxd was assembled by a script, not saved from Max's editor. If Live refuse
 1. In Live, drag **Max Audio Effect** (Max for Live → Max Audio Effect) onto a track, then click its **Edit** button.
 2. In the Max editor that opens, select all and delete (this removes the default `plugin~`/`plugout~`).
 3. In the same Max application, choose **File → Open** and open `DubFilter.maxpat`. Select all (Cmd/Ctrl+A), copy, close it, and paste into the device editor.
-4. Open **View → Patcher Inspector** and set **Open in Presentation** = on and **Device Width** = 1774.
+4. Open **View → Patcher Inspector** and set **Open in Presentation** = on and **Device Width** = 1948.
 5. Choose **File → Save As…**, name it `DubFilter.amxd`, and save it in the User Library path above.
 
 To rebuild every file from source (for example after editing a model), run `./build.sh` (Python 3 with numpy, scipy and matplotlib, plus a C compiler). It regenerates the GenExpr, transpiles and checks it, runs the validation suite, and rebuilds the .maxpat and .amxd.

@@ -17,6 +17,7 @@ sys.path.insert(0, os.path.join(HERE, "..", "tools"))
 from hiir_design import coefs as hiir_coefs
 import bpf  # v1.2 band-pass engine (separate module)
 import dyn  # v1.3 dynamics chain (separate module)
+import routing  # v1.4 filter routing (series / parallel / hybrid)
 
 HIIR = hiir_coefs(10, 0.0227)
 
@@ -400,6 +401,9 @@ def build():
     # v1.3: dynamics chain parameters (appended)
     for (n, d, lo, hi) in dyn.params():
         P(n, d, lo, hi)
+    # v1.4: filter routing parameters (appended)
+    for (n, d, lo, hi) in routing.params():
+        P(n, d, lo, hi)
 
     # ----- state declarations -----
     statevars = []   # local names mirrored from histories
@@ -450,6 +454,7 @@ def build():
     dyn.register_state(lambda n: dyn_sv.append(n), CV)  # v1.3 (after all existing state)
     for v in dyn_sv:
         SV(v)
+    routing.register_state(CV)  # v1.4
 
     # ======================= main body ==========================
     w = G.w
@@ -566,6 +571,7 @@ def build():
         w()
 
     bpf.emit_controls(w, G)
+    routing.emit_controls(w)  # v1.4
 
     # ---- duck / config switching ----
     w("// ================= order / oversampling switching (duck) =================")
@@ -573,17 +579,19 @@ def build():
     w("cfg_s = ovs_sel > 0.5 ? 1 : 0;")
     w("cfg_p = b_pos > 0.5 ? 1 : 0;")
     w("b_cur_pos = H_b_cur_pos;")
-    w("pend = (cfg_o != cur_order || cfg_s != cur_os || cfg_p != b_cur_pos) ? 1 : 0;")
+    w("pend = (cfg_o != cur_order || cfg_s != cur_os || cfg_p != b_cur_pos || cfg_r != cur_route) ? 1 : 0;")
     w("duck = H_duck;")
     w("duck = pend > 0.5 ? max(0, duck - dstep) : min(1, duck + dstep);")
     w("new_order = cur_order;")
     w("new_os = cur_os;")
     w("new_pos = b_cur_pos;")
+    w("new_route = cur_route;")
     w("rst = 0;")
     w("if (pend > 0.5 && duck <= 0) {")
     w("\tnew_order = cfg_o;")
     w("\tnew_os = cfg_s;")
     w("\tnew_pos = cfg_p;")
+    w("\tnew_route = cfg_r;")
     w("\trst = cfg_s != cur_os ? 1 : 0;")
     w("}")
     w()
@@ -664,31 +672,34 @@ def build():
             w("if (ovs > 1.5) {")
             G.ind += 1
         w(f"// ================= processing chain, subsample {sub} =================")
-        w("if (b_cur_pos > 0.5) {")  # v1.2: BPF before the LPF/HPF chain
+        w("if (b_cur_pos > 0.5 && cur_route < 0.5) {")  # v1.2: BPF before the LPF/HPF chain (v1.4: SERIES only)
         G.ind += 1
         bpf.emit_process(w, G, {ch: f"x{sub}_{ch}" for ch in CH}, {ch: f"x{sub}_{ch}" for ch in CH})
         G.ind -= 1
         w("}")
         for ch in CH:
             w(f"hy{sub}_{ch} = 0;")
-        w("if (cur_order > 0.5) {")
+        w("if (cur_order > 0.5 && r_par < 0.5) {")  # v1.4: PARALLEL feeds the HPF below from the input
         G.ind += 1
         emit_stage(hst, sub, {ch: f"x{sub}_{ch}" for ch in CH})
         G.ind -= 1
         w("}")
         for ch in CH:
-            w(f"lsrc_{ch} = cur_order > 0.5 ? hy{sub}_{ch} : x{sub}_{ch};")
+            w(f"lsrc_{ch} = (cur_order > 0.5 && r_par < 0.5) ? hy{sub}_{ch} : x{sub}_{ch};")
         emit_stage(lst, sub, {ch: f"lsrc_{ch}" for ch in CH})
         for ch in CH:
             w(f"z{sub}_{ch} = ly{sub}_{ch};")
-        w("if (cur_order < 0.5) {")
+        for ch in CH:
+            w(f"hsrc_{ch} = r_par > 0.5 ? x{sub}_{ch} : ly{sub}_{ch};")
+        w("if (cur_order < 0.5 || r_par > 0.5) {")
         G.ind += 1
-        emit_stage(hst, sub, {ch: f"ly{sub}_{ch}" for ch in CH})
+        emit_stage(hst, sub, {ch: f"hsrc_{ch}" for ch in CH})
         for ch in CH:
             w(f"z{sub}_{ch} = hy{sub}_{ch};")
         G.ind -= 1
         w("}")
-        w("if (b_cur_pos < 0.5) {")  # v1.2: BPF after the LPF/HPF chain (default)
+        routing.emit_combine(w, G, sub, bpf.emit_process)  # v1.4: PARALLEL sum / HYBRID add
+        w("if (b_cur_pos < 0.5 && cur_route < 0.5) {")  # v1.2: BPF after the LPF/HPF chain (default; v1.4: SERIES only)
         G.ind += 1
         bpf.emit_process(w, G, {ch: f"z{sub}_{ch}" for ch in CH}, {ch: f"z{sub}_{ch}" for ch in CH})
         G.ind -= 1
@@ -762,6 +773,9 @@ def build():
     for n in bpf.ctrl_names():
         w(f"H_{n} = {n};")
     w("H_b_cur_pos = new_pos;")
+    w("H_cur_route = new_route;")
+    for n in routing.ctrl_names():
+        w(f"H_{n} = {n};")
     for n in dyn.ctrl_names():
         w(f"H_{n} = {n};")
 

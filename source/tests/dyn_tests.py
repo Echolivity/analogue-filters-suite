@@ -446,8 +446,11 @@ def run_all(record, plt, OUT, SEQ, CAT, GRID, sig):
     ui_only = [b for b in bx.values() if b.get("maxclass") in ("live.slider", "live.numbox") or str(b.get("varname", "")).startswith(("preset_", "edit_page"))]
     if any(b.get("parameter_enable") for b in ui_only):
         probs.append("UI-only control registered as a parameter")
-    record("DEVICE: chain UI wiring — every scripted object exists, all connections in range, drag LUT moves exactly the dragged block, 75 unique stored parameters, drag/edit/preset controls are not parameters",
-           not probs and len(longs) == 75 and len(set(longs)) == 75, "ok" if not probs else "; ".join(probs[:8]))
+    v13 = json.load(open(os.path.join(HERE, "baseline", "DubFilter_v1.3.maxpat")))["patcher"]
+    v13p = {x["box"]["saved_attribute_attributes"]["valueof"]["parameter_longname"] for x in v13["boxes"] if x["box"].get("parameter_enable")}
+    missing = v13p - set(longs)
+    record("DEVICE: chain UI wiring — every scripted object exists, all connections in range, drag LUT moves exactly the dragged block, all 75 v1.3 parameters present and every parameter name unique, drag/edit/preset controls are not parameters",
+           not probs and not missing and len(longs) == len(set(longs)), ("ok" if not probs else "; ".join(probs[:8])) + f" ({len(longs)} parameters)")
 
 
 def dyn(**kw):

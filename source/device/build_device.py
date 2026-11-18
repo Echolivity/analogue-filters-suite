@@ -578,6 +578,47 @@ for pg in range(4):
     connect(esel, pg, mb, 0)
     connect(mb, 0, thisp, 0)
 
+
+# ------------------------------------------------- v1.4: FILTER ROUTING strip
+# Appended after every v1.3 object; existing objects, ids and rects are unchanged.
+RX = W_TOTAL
+W_TOTAL = RX + 170 + 4
+panel([RX - 2, 0, W_TOTAL - RX + 2, H], BG, rounded=0)
+panel([RX, 4, 170, 161], STRIP, border=DIM)
+comment("FILTER ROUTING", [RX + 6, 5, 160, 14], CREAM, 10.0, 1)
+comment("LP · HP · BP", [RX + 104, 6, 62, 12], MUTED, 7.5, 0)
+rt = box("live.tab", [1900, 700, 74, 48], [RX + 6, 24, 74, 48], numinlets=1, numoutlets=3, outlettype=["", "", "float"],
+         parameter_enable=1, varname="flt_route", num_lines_patching=3, num_lines_presentation=3, fontsize=8.0,
+         textcolor=MUTED, textoncolor=BG, bgcolor=PANEL, bgoncolor=CREAM, activebgcolor=PANEL, activebgoncolor=CREAM,
+         bordercolor=DIM, focusbordercolor=CREAM,
+         saved_attribute_attributes=valueof("Filter Routing", "Routing", 2, 0, 2, 0, 9, enum=["SERIES", "PARALLEL", "HYBRID"]))
+bid_x[rt] = 1900
+param_ids[rt] = ("Filter Routing", "Routing")
+wire(rt, "flt_route")
+FLOW = ["IN > LP > HP > BP > OUT", "IN > BP > LP > HP > OUT", "IN > HP > LP > BP > OUT", "IN > BP > HP > LP > OUT",
+        "IN > ( LP + HP + BP ) > OUT", "IN > ( LP > HP ) + BP > OUT", "IN > ( HP > LP ) + BP > OUT"]
+flow = comment(FLOW[0], [RX + 84, 26, 82, 46], CREAM, 8.0, 1)
+named(flow, "route_flow")
+ob = next(b["box"]["id"] for b in boxes if b["box"].get("varname") == "order_sel")
+pb = next(b["box"]["id"] for b in boxes if b["box"].get("varname") == "b_pos")
+rpk = newobj("pak 0 0 0", [1900, 760, 80, 22], 3, 1, [""])
+rex = newobj("expr ($i1 == 0) * ($i2 * 2 + $i3) + ($i1 == 1) * 4 + ($i1 == 2) * (5 + $i2)", [1900, 790, 300, 22], 3, 1, [""])
+rsel = newobj("sel 0 1 2 3 4 5 6", [1900, 820, 130, 22], 2, 8, ["bang"] * 7 + [""])
+connect(rt, 0, rpk, 0)
+connect(ob, 0, rpk, 1)
+connect(pb, 0, rpk, 2)
+connect(rpk, 0, rex, 0)
+connect(rex, 0, rsel, 0)
+for i, t in enumerate(FLOW):
+    mb = box("message", [1900 + 15 * i, 850 + 4 * i, 160, 22], text="set " + t, numinlets=2, numoutlets=1, outlettype=[""])
+    connect(rsel, i, mb, 0)
+    connect(mb, 0, flow, 0)
+comment("PARALLEL LEVELS", [RX + 6, 76, 160, 10], MUTED, 7.5, 0)
+dial("par_l", "Parallel LPF Level", "LP Lvl", [RX + 6, 88, 52, 50], -40, 6, 0, 4, AMBER)
+dial("par_h", "Parallel HPF Level", "HP Lvl", [RX + 60, 88, 52, 50], -40, 6, 0, 4, COPPER)
+dial("par_b", "Parallel BPF Level", "BP Lvl", [RX + 114, 88, 52, 50], -40, 6, 0, 4, BRASS)
+comment("PARALLEL: ALL THREE | HYBRID: BP LVL", [RX + 6, 146, 162, 12], MUTED, 7.0, 0)
+
 # ---------------------------------------------------------------- patcher
 patcher = {
     "patcher": {
@@ -607,7 +648,7 @@ patcher = {
         "enablehscroll": 1,
         "enablevscroll": 1,
         "devicewidth": float(W_TOTAL),
-        "description": "Dub Filter - multi-model analogue-inspired LPF/HPF/BPF + dynamics chain",
+        "description": "Dub Filter - multi-model analogue-inspired LPF/HPF/BPF (series/parallel) + dynamics chain",
         "digest": "",
         "tags": "",
         "style": "",

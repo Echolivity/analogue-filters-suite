@@ -12,6 +12,7 @@ A performance filter for dub mixing in the Ariwa tradition: big resonant low-pas
 | `DubFilter.amxd` | The device. Drag onto an audio track. |
 | `DubFilter.maxpat` | Editable Max patch (identical content). |
 | `docs/INSTALL.md` | Installation, plus a fallback procedure if the .amxd will not load. |
+| `docs/ROUTING.md` | v1.4 filter routing: SERIES / PARALLEL / HYBRID, parallel levels, how the sum works. |
 | `docs/CHAIN.md` | v1.3 processing chain: modules, reordering, detector sourcing, gain staging, latency, limitations. |
 | `docs/BPF.md` | v1.2 band-pass engine: architectures, models, native/derived matrix, sources. |
 | `docs/MODELS.md` | The six models, the capability matrix, approximations and limitations, and how to add a model. |
@@ -26,6 +27,7 @@ A performance filter for dub mixing in the Ariwa tradition: big resonant low-pas
 - **Models:** 01 Sherman Filterbank · 02 Korg 35 / MS-20 · 03 Moog-style Ladder · 04 Steiner-Parker · 05 Oberheim SEM · 06 TB-303 Diode (LPF only). Each is built from the published circuit or circuit analysis of its namesake (sources in MODELS.md), and each matches its circuit's transfer function to within 0.05 dB. The HPF menu has no 303, and the ladder's highpass is labelled "ALT pole-mix" in the menu.
 - **BAND-PASS** (brass, v1.2): Model (SEM, Steiner-Parker, Korg 35/MS-20, ARP 2600, EMS VCS3), Architecture (SVF / CASCADE / MULTIMODE), CENTRE, BW, Q, RES, DRIVE, COMP, MIX, POST/PRE position. Off by default.
 - **PROCESSING CHAIN** (v1.3): three draggable blocks (TUBE, OPTO, VCA) with ON, IN/OUT meters and GR, any of the six orders (WARM DUB / PUNCH & COLOUR / FINAL COLOUR as starting points), a GATE, KEY LISTEN, a KEY FROM external key, and an EDIT page for each module's controls. Everything is off by default.
+- **FILTER ROUTING** (v1.4): run the LPF, HPF and BPF in SERIES (default), PARALLEL (summed, with a level per path) or HYBRID (LP/HP in series, BPF in parallel). A live signal-flow readout shows the result.
 - **Centre strip:** stage ORDER (LP>HP / HP>LP), 1x/2x OVERSAMPLE, OUTPUT, SOFT CLIP.
 - **OPEN zones:** LPF fully clockwise or HPF fully anticlockwise crossfades that stage to the dry signal, so "both open" is transparent.
 - Every control is smoothed per sample. Model, slope, order and oversampling changes are click-free during playback.
@@ -37,6 +39,6 @@ A performance filter for dub mixing in the Ariwa tradition: big resonant low-pas
 - **MS-20 rig:** both stages on K35, Order HP>LP, resonance up on both. Narrow the band and sweep.
 
 ## Status
-The DSP was validated offline by running the exact gen~ code: 77 of 77 checks pass. They include bit-exact regression of the v1.1 LPF/HPF and v1.2 BPF engines, all six chain orders and all 30 live reorders, and sidechain and gate behaviour (see VALIDATION.md). The chain UI's drag/move/page logic is verified statically, not yet run in Max. The device file itself has **not yet been opened in Max or Live**. Please run the short manual checklist at the end of VALIDATION.md on first use.
+The DSP was validated offline by running the exact gen~ code: 95 of 95 checks pass. They include bit-exact regression of the v1.1 LPF/HPF, v1.2 BPF and v1.3 dynamics engines, exact parallel/hybrid filter sums, all six chain orders and all 30 live reorders, and sidechain and gate behaviour (see VALIDATION.md). The chain UI's drag/move/page logic is verified statically, not yet run in Max. The device file itself has **not yet been opened in Max or Live**. Please run the short manual checklist at the end of VALIDATION.md on first use.
 
 The models are inspired by the named instruments. They are not affiliated with, endorsed by, or claimed to be equivalent to products of Sherman, Korg, Moog, Steiner-Parker, Oberheim, Roland, ARP, EMS, Teletronix/Universal Audio or API.

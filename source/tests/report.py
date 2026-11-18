@@ -175,10 +175,21 @@ w("### Latency\n")
 table("LATENCY", ["module", "peak_offset_samples", "group_delay_1k_samples"], ["Item", "Impulse peak offset (samples)", "Group delay at 1 kHz (samples) / value"])
 w("### CPU with the dynamics chain\n")
 table("CPU with the dynamics", ["config", "pct_of_one_core_48k"], ["Configuration", "% of one core at 48 kHz"])
+w("## v1.4 — Filter routing\n")
+w("![routing](validation/routing_examples.png)\n")
+rt = find("PARALLEL: response equals")
+w("| Combination | LPF level | Max error vs sum of filters |\n|---|---|---|")
+for r in rt["rows"]:
+    w(f"| {r['combination']} | {r['lpf_level_db']} dB | {r['max_error_db']} dB |")
+sw = find("ROUTING: switching")
+w("\n| Switch | >8 kHz burst (dBFS) |\n|---|---|")
+for r in sw["rows"]:
+    w(f"| {r['transition']} | {r['hf_burst_dbfs']} |")
+w("")
 w("## Manual test checklist (in Live)\n")
 for item in [
     "Device loads without errors in the Max console (Max window). The gen~ object compiles (no red error bar).",
-    "All 75 parameters appear in Live's automation chooser with the names listed in PARAMETERS.md.",
+    "All 79 parameters appear in Live's automation chooser with the names listed in PARAMETERS.md.",
     "Turn LPF CUTOFF fully clockwise and HPF CUTOFF fully anticlockwise: the signal should be audibly identical to the device bypassed.",
     "MIDI-map LPF CUTOFF and HPF CUTOFF (Cmd/Ctrl+M) to a controller and sweep fast: no zipper noise.",
     "Draw automation on LPF Cutoff and play it back: smooth sweep.",
@@ -196,6 +207,7 @@ for item in [
     "EDIT page tabs show the TUBE / OPTO / VCA / GATE controls; hidden pages stay automatable.",
     "External key: choose a track in the KEY FROM selector; set Opto, VCA or Gate source to EXT; the EXT KEY meter moves; KEY LISTEN plays the detector signal.",
     "Meters: block IN/OUT meters and GR readouts respond; GATE OPEN meter follows the gate.",
+    "FILTER ROUTING: switch SERIES / PARALLEL / HYBRID during playback (8 ms dip); the flow readout follows the mode, ORDER and BPF POSITION; balance the bands with the parallel levels.",
 ]:
     w(f"- [ ] {item}")
 open(os.path.join(D, "VALIDATION.md"), "w").write("\n".join(L) + "\n")

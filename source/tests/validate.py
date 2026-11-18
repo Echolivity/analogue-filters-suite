@@ -620,6 +620,9 @@ if __name__ == "__main__":
     print("== v1.3 dynamics chain + regression gates")
     import dyn_tests
     dyn_tests.run_all(record, plt, OUT, SEQ, CAT, GRID, test_signal)
+    print("== v1.4 filter routing + regression gates")
+    import routing_tests
+    routing_tests.run_all(record, plt, OUT, SEQ, CAT, GRID, test_signal)
     R["summary"] = dict(total=len(R["tests"]), passed=sum(t["passed"] for t in R["tests"]),
                         seconds=round(time.time() - t0, 1))
     with open(os.path.join(OUT, "results.json"), "w") as f:

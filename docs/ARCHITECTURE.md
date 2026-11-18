@@ -94,3 +94,13 @@ Model and architecture changes use two **configuration slots** (A/B). A new conf
 The chain lives in `source/src/dyn.py`. The generator gained append-only hooks: parameters, state, one insertion point between the filter section's output and the DC blocker, and the meter outlets (gen~ `out3`…`out14`). The gen~ object now has 4 inlets: `in3`/`in4` are the external key from `plugin~ 3 4`. With every dynamics module and the gate off, none of this code touches the signal; the v1.1 and v1.2 golden renders prove it bit for bit.
 
 Reordering uses two lane copies of the module states. See CHAIN.md for the state-copy crossfade, detector sourcing and latency.
+
+## v1.4: filter routing
+
+Filter routing lives in `source/src/routing.py`. Inside the LPF/HPF/BPF block the generator received only routing conditions, written so that SERIES selects exactly the v1.3 signals:
+- the HPF-first branch runs only when not PARALLEL
+- the HPF's source is the input in PARALLEL, otherwise the LPF output
+- the PRE/POST BPF blocks run only in SERIES
+- a combine block, running only when the mode is not SERIES, forms the parallel sum or the hybrid band
+
+The duck condition gained the routing term. In SERIES mode all 104 golden renders (v1.1, v1.2, v1.3) are bit-identical.

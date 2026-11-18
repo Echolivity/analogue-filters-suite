@@ -1,6 +1,6 @@
 # Parameters, automation and MIDI mapping
 
-All 75 controls are Live parameters: the 20 from v1.1 and the 11 from v1.2, all unchanged, plus 44 for the v1.3 processing chain. Every one can be automated, MIDI-mapped (Cmd/Ctrl+M, click the control, move a controller) and key-mapped, and all are stored with the Live Set. Names below are the exact names in Live's automation chooser.
+All 79 controls are Live parameters: the 20 from v1.1, 11 from v1.2 and 44 from v1.3, all unchanged, plus 4 for v1.4 filter routing. Every one can be automated, MIDI-mapped (Cmd/Ctrl+M, click the control, move a controller) and key-mapped, and all are stored with the Live Set. Names below are the exact names in Live's automation chooser.
 
 ## Low-pass stage (amber)
 
@@ -124,3 +124,14 @@ See CHAIN.md for routing, detector sourcing and gain staging. The drag grips, ED
 | Gate Key Source | INT / CHAIN / EXT | INT |
 | Gate Key HPF | 20 – 2000 Hz | 20 |
 | Gate Key LPF | 200 – 20000 Hz | 20000 |
+
+## Filter routing (v1.4)
+
+See ROUTING.md.
+
+| Live name | Range | Default |
+|---|---|---|
+| Filter Routing | SERIES / PARALLEL / HYBRID | SERIES |
+| Parallel LPF Level | −40 – +6 dB (PARALLEL) | 0 dB |
+| Parallel HPF Level | −40 – +6 dB (PARALLEL) | 0 dB |
+| Parallel BPF Level | −40 – +6 dB (PARALLEL and HYBRID) | 0 dB |
