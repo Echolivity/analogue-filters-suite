@@ -1,0 +1,75 @@
+#!/usr/bin/env python3
+"""Bit-exact regression guard for the LPF/HPF engine.
+
+capture: renders a fixed battery of LPF/HPF scenarios and stores the SHA-256 of
+         every float32 output (tests/baseline/lpf_hpf_golden.json).
+check:   re-renders the same battery with the current engine and requires
+         byte-identical output. Any change in LPF/HPF DSP, smoothing, routing,
+         oversampling or output stage shows up here."""
+import sys, os, json, hashlib
+import numpy as np
+HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, HERE)
+from dsp import run, base
+GOLD = os.path.join(HERE, "baseline", "lpf_hpf_golden.json")
+SR = 48000
+
+def signal(n, seed=3):
+    rng = np.random.default_rng(seed)
+    t = np.arange(n) / SR
+    l = 0.3 * np.sin(2 * np.pi * 55 * t) + 0.15 * np.sin(2 * np.pi * 330 * t) + 0.05 * rng.standard_normal(n)
+    r = 0.25 * np.sin(2 * np.pi * 82 * t + 1) + 0.1 * np.sin(2 * np.pi * 660 * t) + 0.05 * rng.standard_normal(n)
+    return np.stack([l, r], 1)
+
+def battery():
+    n = SR * 2 // 5
+    E = n // 2
+    cases = []
+    for m in range(6):
+        for sl in (0, 1, 3):
+            cases.append((f"LPF m{m} slope{sl}", base(l_on=1, l_model=m, l_cut=900, l_res=75, l_slope=sl, l_drive=40), []))
+    for m in range(5):
+        for sl in (0, 2):
+            cases.append((f"HPF m{m} slope{sl}", base(h_on=1, h_model=m, h_cut=250, h_res=70, h_slope=sl, h_drive=30), []))
+    for m in range(6):
+        cases.append((f"LPF m{m} selfosc char", base(l_on=1, l_model=m, l_cut=400, l_res=100, l_char=60, l_comp=30), []))
+    for o in (0, 1):
+        for os_ in (0, 1):
+            cases.append((f"both order{o} os{os_}", base(l_on=1, h_on=1, l_model=0, h_model=3, l_cut=1500, h_cut=120,
+                                                         l_res=80, h_res=60, order_sel=o, ovs_sel=os_, softclip=1), []))
+    cases.append(("LPF sweep", base(l_on=1, l_model=2, l_res=60), [(i * 400, "l_cut", 20000 * 0.01 ** (i / 48)) for i in range(48)]))
+    cases.append(("HPF sweep", base(h_on=1, h_model=1, h_res=60), [(i * 400, "h_cut", 20 * 50 ** (i / 48)) for i in range(48)]))
+    cases.append(("LPF model switches", base(l_on=1, l_cut=700, l_res=70), [(E // 2 * i, "l_model", i % 6) for i in range(1, 4)]))
+    cases.append(("HPF model switches", base(h_on=1, h_cut=200, h_res=70), [(E // 2 * i, "h_model", i % 5) for i in range(1, 4)]))
+    cases.append(("enable toggles", base(l_on=1, h_on=1, l_cut=800, h_cut=150, l_res=50), [(E // 2, "l_on", 0), (E, "h_on", 0), (3 * E // 2, "l_on", 1)]))
+    cases.append(("order+os switch", base(l_on=1, h_on=1, l_cut=800, h_cut=150, l_res=50), [(E // 2, "order_sel", 1), (E, "ovs_sel", 1)]))
+    cases.append(("slope+drive+char moves", base(l_on=1, h_on=1, l_model=5, h_model=2, l_cut=600, h_cut=90, l_res=80),
+                  [(E // 3, "l_slope", 3), (E // 2, "l_drive", 90), (E, "h_char", 80), (E, "l_char", 50), (3 * E // 2, "h_slope", 3)]))
+    cases.append(("output stage", base(l_on=1, l_cut=3000, l_res=90, out_db=9, softclip=1), [(E, "out_db", -12), (E, "softclip", 0)]))
+    cases.append(("defaults (device power-on)", {}, []))
+    cases.append(("open zones", base(l_on=1, h_on=1, l_cut=19000, h_cut=22, l_res=50, h_res=50), [(E, "l_cut", 20000), (E, "h_cut", 20)]))
+    return cases, signal(n)
+
+def render_all(extra=None):
+    cases, x = battery()
+    out = {}
+    for name, p, ev in cases:
+        p = dict(p); p.update(extra or {})
+        y = run(x, p, SR, events=ev).astype(np.float32)
+        out[name] = hashlib.sha256(y.tobytes()).hexdigest()
+    return out
+
+if __name__ == "__main__":
+    mode = sys.argv[1]
+    if mode == "capture":
+        h = render_all()
+        os.makedirs(os.path.dirname(GOLD), exist_ok=True)
+        json.dump(h, open(GOLD, "w"), indent=1)
+        print(f"captured {len(h)} golden renders")
+    else:
+        extra = json.loads(sys.argv[2]) if len(sys.argv) > 2 else None
+        gold = json.load(open(GOLD))
+        h = render_all(extra)
+        bad = [k for k in gold if h.get(k) != gold[k]]
+        print(f"{len(gold) - len(bad)}/{len(gold)} bit-identical" + (" — MISMATCH: " + ", ".join(bad) if bad else ""))
+        sys.exit(1 if bad else 0)
