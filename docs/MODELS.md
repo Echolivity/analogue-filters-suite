@@ -53,7 +53,7 @@ Rules: no silent substitution (the HPF menu has five entries), the one alternati
 | CHARACTER | sets the feedback clip level (FB CLIP) | drives the diode stage, 0 to +24 dB above the reference |
 | Reference oversampling | 2x | 8x (LPF), 4x (HPF) |
 
-**High-pass (v1.6).** Both real high-pass variants are 6 dB/oct, not 12. In the built circuit the input reaches the output through stage 2's capacitor, so the high-pass passband is essentially clean: Drive mostly shapes the region around cutoff. v1.5's structure ran the input through a saturator, giving 32.7 % THD at Drive 100; v1.6 gives 0.13 %. Korg grounds the low-pass input and feeds the signal into stage 2's lifted capacitor. The result is a 12 dB high-pass plus a band-pass term, so the slope below cutoff is 6 dB/oct. Up to v1.5 this model used s²/(…), at 12 dB/oct.
+**High-pass (v1.6).** Both real high-pass variants are 6 dB/oct, not 12. In the built circuit the input reaches the output through stage 2's capacitor, so the high-pass passband is essentially clean: Drive mostly shapes the region around cutoff. v1.5's structure ran the input through a saturator, giving 32.7 % THD at Drive 100; v1.6 gives 0.18 %. Korg grounds the low-pass input and feeds the signal into stage 2's lifted capacitor. The result is a 12 dB high-pass plus a band-pass term, so the slope below cutoff is 6 dB/oct. Up to v1.5 this model used s²/(…), at 12 dB/oct.
 
 **Mk2 model (unchanged except the high-pass).**
 - LP1 → Σ → LP2, with K·y fed back through HP1.

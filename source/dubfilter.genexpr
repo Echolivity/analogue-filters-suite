@@ -1416,19 +1416,17 @@ f_k35hp(x, s1, s2, s3, yp, g, K0, L) {
 	G = g / (1 + g);
 	ig = 1 / (1 + g);
 	K = K0 * f_tg(K0 * yp / L);
-	// linear solve, then the stage-2 OTA saturates its differential input d = V2 - V3 = u - y, which carries the
-	// input signal through the lifted capacitor (this is where Drive saturates the HP). Secant gain at the linear
-	// solution, then re-solve (one fixed-point step, as the v1.6 solver fix).
+	// The input reaches the output through stage 2's capacitor, so the passband is clean in the circuit.
+	// The OTA saturation is kept on the feedback signal, as in v1.5. (Saturating stage 2's differential
+	// input instead was tried and rejected: it detuned self-oscillation by up to +39 cents and let it
+	// reach +4 dBFS, for no passband benefit.)
 	y = ig * (x - G * s3 + s2) / (1 - K * G * ig);
 	u = ig * (K * y - s3);
-	tau = f_tg((u - y) * 1.17647058824);
-	a = g * tau / (1 + g * tau);
-	b = s2 / (1 + g * tau);
-	y = (x * (1 - a) + b - a * ig * s3) / (1 - a * ig * K);
-	u = ig * (K * y - s3);
-	vc = y - x;
+	u = 0.85 * tanh(u * 1.17647058824);
+	l2, n2 = f_op(u - x, s2, G);
+	y = x + l2;
 	l3, n3 = f_op(K * y, s3, G);
-	return y, fixdenorm(s1), fixdenorm(2 * vc - s2), fixdenorm(n3), y;
+	return y, fixdenorm(s1), fixdenorm(n2), fixdenorm(n3), y;
 }
 
 // ================= MODEL 02b: Korg35 (MS-10 / early MS-20, "Mk1") Sallen-Key =================
