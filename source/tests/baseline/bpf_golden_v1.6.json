@@ -72,5 +72,5 @@
   "all three pos0",
   "all three pos1"
  ],
- "note": "v1.6 solver fix (Sherman, Steiner, BPF SVF limiter) and Reference-mode power-on default; legacy tests run in Creative mode (tests/dsp.py base); Steiner diode law is the mirrored-string sinh law (Steiner 1974), bounded by the 2k feed resistors"
+ "note": "v1.6 solver fix (Sherman, Steiner, BPF SVF limiter) and Reference-mode power-on default; legacy tests run in Creative mode (tests/dsp.py base)"
 }

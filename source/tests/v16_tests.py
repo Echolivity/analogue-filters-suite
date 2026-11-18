@@ -129,8 +129,8 @@ check("Reference mode: every LPF model <= -80 dBc at the bright test point (5 kH
 check("4x / 8x / 16x reach <= -110 dBc for every LPF model at the bright test point",
       all(v[N] <= -110 for v in tab.values() for N in (4, 8, 16)), "min over models per factor: " +
       ", ".join(f"{N}x {max(v[N] for v in tab.values())}" for N in (4, 8, 16)))
-check("1x and 2x unchanged from v1.5 for models not affected by the solver fix (K35, Ladder, SEM, 303)",
-      all(tab[k][N] == v for k, d in {"K35": {1: -50.3, 2: -115.6}, "Ladder": {1: -32.8, 2: -61.2}, "SEM": {1: -89.0, 2: -145.7},
+check("1x and 2x unchanged from v1.5 for models not affected by the solver fix (K35, Ladder, 303; SEM changed by the SEM-1A schematic fix, 1x now -140 dBc)",
+      all(tab[k][N] == v for k, d in {"K35": {1: -50.3, 2: -115.6}, "Ladder": {1: -32.8, 2: -61.2},
                                           "TB-303": {1: -52.0, 2: -118.5}}.items() for N, v in d.items()), "vs independent-review data")
 # effective factor readout
 eff = {}
@@ -284,6 +284,25 @@ st = {L: round(f3db(L)) for L in (-40, -10, 0)}
 data["steiner_cutoff_vs_level"] = st
 check("Steiner: the mirrored diode string's sinh law raises cutoff with level (Drive 100, res 0), small-signal unchanged",
       st[-10] > st[-40] and st[0] > 1.5 * st[-40] and abs(st[-40] - 760) < 40, "; ".join(f"{L:+d} dBFS: -3 dB at {v} Hz" for L, v in st.items()))
+
+# ------------------------------------------------------------------ SEM (Oberheim SEM-1A schematic)
+semfit = {}
+for r in (0, 50, 90, 100):
+    R_ = 0.05 + 1.515 * (1 - r / 100)
+    f, H = tf(base(l_on=1, l_model=4, l_cut=1000, l_res=r)); sel = (f > 60) & (f < 3000); s_ = 1j * f[sel] / 1000
+    semfit[r] = round(float(np.max(np.abs(20 * np.log10(np.abs(H[sel]) / np.abs(1 / (s_ * s_ + 2 * R_ * s_ + 1)))))), 2)
+ts2 = np.arange(SR * 2) / SR
+semg = {}
+for L in (-30, 0):
+    xx = 10 ** (L / 20) * np.sin(2 * np.pi * 1000 * ts2)
+    yy = run(xx, base(l_on=1, l_model=4, l_cut=1000, l_res=100))[SR:, 0]
+    semg[L] = round(db(np.std(yy) / np.std(xx[SR:])), 1)
+xi = np.zeros(SR * 2); xi[4800:5000] = np.random.default_rng(1).standard_normal(200) * 0.5
+semosc = round(db(np.std(run(xi, base(l_on=1, l_model=4, l_cut=800, l_res=100))[-SR // 2:, 0]) + 1e-15), 1)
+data["sem_schematic"] = dict(fit=semfit, res100_gain=semg, selfosc_level=semosc)
+check("SEM (SEM-1A schematic): RES-pot damping law 2R = 0.1 + 3.03(1 - res) within 0.5 dB; D11/D12 limiter compresses the resonant peak; no self-oscillation",
+      max(semfit.values()) < 0.5 and semg[-30] - semg[0] > 5 and semosc < -100,
+      f"fit {semfit} dB; res 100 gain at 1 kHz: {semg[-30]} dB (-30 dBFS) -> {semg[0]} dB (0 dBFS); after impulse {semosc} dBFS")
 
 n_ok = sum(r["ok"] for r in results)
 json.dump(dict(results=results, data=data), open(os.path.join(ROOT, "build", "v16_results.json"), "w"), indent=1, default=float)

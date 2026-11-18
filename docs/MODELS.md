@@ -103,6 +103,12 @@ It self-oscillates at K = 3. The model solves the two capacitor states with a 2�
 
 **The model.** A zero-delay SVF with each integrator's gain replaced by its OTA secant gain, using tanh on that integrator's input from the previous sample. The previous version used a linear SVF with an ad-hoc limiter. Damping never reaches zero (Q ≤ 10), so the model does not self-oscillate. SEM clones are reported to oscillate raspily in some builds, so this is a conservative choice. CHARACTER (NOTCH MORPH) is the mode knob.
 
+
+**v1.6, from the Oberheim SEM-1A schematic** ([check](independent-review/SEM_SCHEMATIC_CHECK.md)):
+- **Damping:** the RES-pot law, 2R = 0.1 + 3.03·(1 − res), with a linear taper assumed, so Q runs 0.32 to 10. The floor of 0.1 means no self-oscillation, as SEM owners report.
+- **Diode limiter:** the D11/D12 path adds damping once the band-pass output exceeds about 2.6 V, which compresses the resonant peak on loud signals.
+- **Input:** linear, as the A12 summer is; the op-amp rails limit the outputs at ±13 V.
+- **Unchanged:** the notch (HP↔LP crossfade) and band-pass routing, which already matched the schematic.
 ## 06 Roland TB-303-inspired, rebuilt on Stinchcombe's analysis
 
 **Circuit.**

@@ -1567,13 +1567,36 @@ f_steiner(xl, xb, xh, s1, s2, d1p, d2p, vbp, g, K, rho) {
 // Secant-linearised OTA gains (g1, g2) inside a zero-delay SVF solve.
 // m: LP->notch (LPF stage) or HP->notch (HPF stage)
 // returns y, s1, s2, hprev, bprev
+// SEM op-amp / buffer rails: +-13 V = 2.6 units at 5 V/unit, sharp knee (|x| = 0.5 -> error ~1e-7)
+f_rail(x) {
+	r = x * 0.384615385;
+	r = r * r; r = r * r; r = r * r;
+	return x / sqrt(sqrt(sqrt(1 + r)));
+}
+
+// SEM D11/D12 limiter: extra half-damping 0.5 * 0.926 * smoothmax(0, 0.175 |BP| - 0.45 V) / |BP|, BP in volts (5 V/unit)
+f_semd(bp) {
+	bv = abs(bp) * 5 + 0.000001;
+	ex = 0.175 * bv - 0.45;
+	sm = 0.5 * (ex + sqrt(ex * ex + 0.0004)) - 0.000222;      // smooth max(0, ex), exactly 0 at bv = 0
+	return 0.463 * max(sm, 0) / bv;
+}
+
 f_sem(x, s1, s2, hpp, bpp, g, R, m, hp) {
-	u = 2 * tanh(0.5 * x);
+	// v1.6 (Oberheim SEM-1A schematic): the input summer A12 is a linear op-amp stage (the old 2*tanh(x/2)
+	// had no circuit origin). Damping 2R comes from the RES pot (linear) plus the D11/D12 limiter: buffered BP ->
+	// 47k/10k (x0.175) -> antiparallel 1N4148 -> 100k into the summer, adding damping once |BP| > ~2.6 V
+	// (level reference 5 V per unit). Evaluated at the lagged BP, then re-solved at the current BP.
+	u = x;
 	g1 = g * f_tg(hpp * 0.6);
 	g2 = g * f_tg(bpp * 0.6);
-	h = (u - (2 * R + g2) * s1 - s2) / (1 + 2 * R * g1 + g1 * g2);
+	Rt = R + f_semd(bpp);
+	h = (u - (2 * Rt + g2) * s1 - s2) / (1 + 2 * Rt * g1 + g1 * g2);
 	b = g1 * h + s1;
-	l = g2 * b + s2;
+	Rt = R + f_semd(b);
+	h = f_rail((u - (2 * Rt + g2) * s1 - s2) / (1 + 2 * Rt * g1 + g1 * g2));
+	b = f_rail(g1 * h + s1);
+	l = f_rail(g2 * b + s2);
 	y = hp > 0.5 ? h + m * l : l + m * h;
 	return y, fixdenorm(2 * b - s1), fixdenorm(2 * l - s2), h, b;
 }
@@ -3529,7 +3552,7 @@ l_st_kd = 1 / pow(l_st_K, l_cmp);
 l_st_rho = 0.0000590619 * l_fcc;
 // coefficients: Oberheim SEM-inspired
 l_se_g = l_gw;
-l_se_R = pow(20, -l_rz);
+l_se_R = 0.05 + 1.515 * (1 - l_rz);
 // coefficients: Roland TB-303-inspired (diode ladder)
 l_di_k = 19.549999999999997 * pow(l_rz, 1.8);
 l_di_g = l_gw / (0.1494 + 1.2648 * sqrt(min(l_di_k / 17.0, 1.06)));
@@ -3768,7 +3791,7 @@ h_st_kd = 1 / pow(h_st_K, h_cmp);
 h_st_rho = 0.0000590619 * h_fcc;
 // coefficients: Oberheim SEM-inspired
 h_se_g = h_gw;
-h_se_R = pow(20, -h_rz);
+h_se_R = 0.05 + 1.515 * (1 - h_rz);
 h_dzsh = H_h_dzsh;
 if (h_ash < 0.5 && h_dzsh > 0.5) {
 	h_L_sh_s1a = 0;

@@ -164,13 +164,19 @@ def t_tracking():
                     f, H = tf(dict(stage_p(st, m, cut=fc, res=85, slope=0), ovs_sel=ovs), n=1 << 17)
                     sel = (f > fc / 3) & (f < fc * 3)
                     pk = f[sel][np.argmax(np.abs(H[sel]))]
-                    err = 1200 * np.log2(pk / fc)
+                    fexp = fc
+                    if "SEM" in nm:
+                        # v1.6: SEM-1A RES law gives Q ~1.8 at res 85; a 2-pole peak then sits at fc*sqrt(1-2R^2) (LP)
+                        # or fc/sqrt(1-2R^2) (HP), not at fc
+                        R_ = 0.05 + 1.515 * 0.15
+                        fexp = fc * np.sqrt(1 - 2 * R_ * R_) ** (1 if st == "l" else -1)
+                    err = 1200 * np.log2(pk / fexp)
                     rows.append(dict(os=ovs + 1, stage=st, model=nm, fc=fc, peak=round(float(pk), 1), cents=round(float(err), 0)))
                     # frequency resolution of the estimate is 5.9 Hz -> allow that at low fc
                     tol = max(100, 1200 * np.log2((fc + 6) / fc))
                     if fc / (SR * (ovs + 1)) < 0.2 and abs(err) > tol:
                         bad.append(f"os{ovs + 1} {st}/{nm} fc{fc}: {err:+.0f} c")
-    record("Cutoff tracking: resonant peak within ±100 cents of the set cutoff (res 85%)",
+    record("Cutoff tracking: resonant peak within ±100 cents of the set cutoff (res 85%; SEM: of its circuit-Q peak position)",
            not bad, "ok" if not bad else "; ".join(bad), rows=rows)
 
 
@@ -564,7 +570,7 @@ def t_circuit_reference():
             lambda s, K=Ks: K / (s * s + (3 - K) * s + 1))
         add(f"Steiner-Parker HP injection — K s(s+2)/(s^2+(3-K)s+1), res {res}%", "h", 3, 300, res, 0,
             lambda s, K=Ks: K * s * (s + 2) / (s * s + (3 - K) * s + 1))
-        R = 20 ** (-res / 100)
+        R = 0.05 + 1.515 * (1 - res / 100)   # v1.6: SEM-1A RES pot law (2R = 0.1 + 3.03 (1 - res))
         add(f"SEM LP — SVF 1/(s^2+2Rs+1), res {res}%", "l", 4, 1000, res, 0, lambda s, R=R: 1 / (s * s + 2 * R * s + 1))
         add(f"SEM HP — SVF s^2/(s^2+2Rs+1), res {res}%", "h", 4, 300, res, 0, lambda s, R=R: s * s / (s * s + 2 * R * s + 1))
         kd = 17.0 * 1.15 * (res / 100) ** 1.8
