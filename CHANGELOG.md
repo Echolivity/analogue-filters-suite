@@ -48,8 +48,9 @@ Details and before/after measurements: [docs/V1.6_ENGINE.md](docs/V1.6_ENGINE.md
   - a two-integrator filter with LP/BP/HP and Peak (Q 0.6 → 16; gain rises with Q, as in the patent);
   - Range LO/HI (1.8 nF + 2.2 nF), Sweep UP/DOWN, Mix and Output.
   - **Routing:** the same sweep moves the LPF, HPF and BPF cutoffs by up to ±5 octaves at full sweep (with the envelope filter on or off).
-  - **Measured:** the BP peak rises 340 Hz → 1.24 kHz → 6.4 kHz at −40/−20/0 dBFS. DOWN goes 6.4 kHz → 240 Hz. LO sits about 1.1 octaves lower. The output is bounded by the ±7.5 V op-amp rails.
-  - **Assumptions** (no production schematic): the LDR law and lags (VTL5C3-like, 2.5/35 ms), the 1 MΩ parallel and 3.3 kΩ series resistors, the Q range, the DOWN reference, and 1 unit = 1 V. See docs/independent-review/ENVELOPE_FILTER_SOURCES.md.
+  - **Measured:** the sweep rests at about 400 Hz (HI) / 180 Hz (LO), set by Neutron R8/R9 = 220 kΩ. The BP peak rises 632 Hz → 1.65 kHz → 6.4 kHz at −40/−20/0 dBFS. DOWN goes 7 kHz → 240 Hz. LO sits about 1.2 octaves lower. The output is bounded by the ±7.5 V op-amp rails.
+  - **From the Neutron guide (user-supplied):** C6/C8 1.8 nF, C5/C7 2.2 nF, R8/R9 220 kΩ across each LDR, Peak 150 k log, Gain ×0.12–×36, envelope capacitor C9 4.7 µF.
+  - **Assumptions** (its schematic page was not in the copy): the LDR law and lags (VTL5C3-like, 2.5/35 ms), the 3.3 kΩ series resistor, the attack/decay resistors (adjustable here), the Q range, the DOWN reference, and 1 unit = 1 V. See docs/independent-review/ENVELOPE_FILTER_SOURCES.md.
 - **New: Sherman Filterbank 2 features** (from the manual you supplied; the model stays behavioural). A new SHERMAN strip has six appended parameters, and the defaults are bit-identical:
   - **Modes STAGE / PANEL:** PANEL engages the Filterbank's **Balance** (Lp → Bp → Hp) and **Correction** (−Bp … 0 … −Bp + Lp + Hp) knobs. Bp − Bp is silent, and Bp with full Correction is a notch, as the manual describes.
   - **Harmonics:** filter 2 at the cutoff ÷ 1–16 for twin resonant peaks (24 dB). Ratio changes glide over about 3 ms.

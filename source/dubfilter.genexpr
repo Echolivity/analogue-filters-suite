@@ -1973,9 +1973,9 @@ if (ef_en > 0 || ef_to_l != 0 || ef_to_h != 0 || ef_to_b != 0) {
 	ef_lt = ef_up > 0.5 ? ef_e : max(1 - 2 * ef_e, 0);   // LED drive (DOWN: reference - 2 x envelope)
 	ef_lg = pow(min(ef_lt, 8), 0.8);                       // LDR conductance (x 1/10k) vs light
 	ef_ld = ef_ld + (ef_lg > ef_ld ? 1 - exp(-400 / fs) : 1 - exp(-28.5714286 / fs)) * (ef_lg - ef_ld);   // 2.5 / 35 ms
-	ef_rx = 3300.0 + 1 / (1e-06 + ef_ld * 0.0001);   // series R + (parallel R || LDR)
+	ef_rx = 3300.0 + 1 / (4.5454545454545455e-06 + ef_ld * 0.0001);   // series R + (parallel R || LDR)
 	ef_fr = 1 / (6.28318531 * ef_rx * (ef_range > 0.5 ? 1.8e-9 : 4.0e-9));
-	ef_ps = log2(1003300.0 / ef_rx) * 0.1601740117316415;          // sweep position: 0 at rest, 1 at light 1
+	ef_ps = log2(223300.0 / ef_rx) * 0.24414326055063104;          // sweep position: 0 at rest, 1 at light 1
 	ef_ps = ef_up > 0.5 ? ef_ps : 1 - ef_ps;
 	ef_ps = clamp(ef_ps, 0, 1.5) * (ef_up > 0.5 ? 1 : -1);
 	ef_rl = ef_to_l * ef_ps;

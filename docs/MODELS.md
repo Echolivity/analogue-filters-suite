@@ -158,12 +158,12 @@ The previous version used an equal-capacitor, resistively driven ladder. That co
 
 The integrator capacitors (1.8 nF, plus 2.2 nF in LO) and the 150k audio Peak pot are from R. G. Keen's Neutron, a Mu-tron III work-alike.
 
-**The model.** That chain at the base rate, before the filter section. The filter is a TPT state-variable filter whose frequency comes from the photoresistor network, f = 1/(2π·R·C) with R = 3.3 k + (1 M ∥ R_LDR). The preamp and filter outputs saturate at ±7.5 V op-amp rails. The sweep position is also routed, in octaves, to the LPF, HPF and BPF cutoffs.
+**The model.** That chain at the base rate, before the filter section. The filter is a TPT state-variable filter whose frequency comes from the photoresistor network, f = 1/(2π·R·C) with R = 3.3 k + (220 k ∥ R_LDR). Neutron R8/R9 = 220 k sets the sweep floor at 402 Hz (HI) / 181 Hz (LO). The preamp and filter outputs saturate at ±7.5 V op-amp rails. The sweep position is also routed, in octaves, to the LPF, HPF and BPF cutoffs.
 
 **Assumed (no production schematic available):**
 - the LDR law (conductance ∝ light^0.8, 10 kΩ at 1 V of envelope);
 - the LDR lags (2.5 ms on, 35 ms off; the original Hamamatsu part has no available data);
-- the 1 MΩ and 3.3 kΩ resistors;
+- the 3.3 kΩ series resistor, and the attack/decay resistors around the 4.7 µF envelope capacitor;
 - Q from 0.6 to 16;
 - the DOWN reference (1 − 2·envelope);
 - 1 unit = 1 V.

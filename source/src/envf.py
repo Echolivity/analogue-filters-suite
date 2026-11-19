@@ -7,12 +7,16 @@ Topology from M. L. Beigel, US patent 3,911,776 (1975), "Sound effects generator
   by a variable resistor, gain proportional to Q). DOWN subtracts the envelope from a reference (and doubles
   the rectifier gain). RANGE adds a capacitor across each integrator.
 
-Values: integrator capacitors 1.8 nF, +2.2 nF in LO, Peak pot 150 k audio (R. G. Keen, Neutron, a Mu-tron III
-work-alike). EVERY OTHER CONSTANT IS AN ASSUMPTION (no production schematic was available):
+Values from R. G. Keen's Neutron (a Mu-tron III work-alike; construction guide v1.01d): integrator capacitors
+C6/C8 1.8 nF, +2.2 nF (C5/C7) in LO; R8/R9 220 k across each LDR (so the sweep bottoms out at 402 Hz HI / 181 Hz LO);
+Peak pot 150 k log (positive feedback); Gain R3 120 k / (R1 3.3 k + 1 M rev-log), about x0.12..x36; envelope
+capacitor C9 4.7 uF. The guide's schematic page was not in the copy supplied, so THE REST IS ASSUMED:
   - 1 model unit = 1 V at the Mu-tron input; op-amp rails +/-7.5 V (RC4558 on +/-9 V);
   - LDR: conductance proportional to light^0.8, 10 k at an envelope of 1 V, on/off lags 2.5 / 35 ms
     (VTL5C3-like; the original used a Hamamatsu dual-LDR whose data is not available);
-  - 1 M in parallel with each LDR (lowest frequency), 3.3 k in series (highest);
+  - 3.3 k in series with each LDR (highest frequency); the LED sensitivity (Neutron: Rx 560 R..4.7 k, set by ear)
+    is represented by the LDR scale;
+  - the attack / decay resistors around C9 (adjustable here instead);
   - Peak: Q from 0.6 to 16 (log), the patent gives no range;
   - DOWN: LED drive = 1 - 2 x envelope.
 Runs at the base rate before the filter section. Off (and all routing amounts 0) is bit-transparent.
@@ -34,7 +38,7 @@ PARAMS = [
     ("ef_to_b", 0, -5, 5),     # envelope -> BPF centre
 ]
 
-RP, RS, RL = 1e6, 3300.0, 10000.0          # parallel resistor, series resistor, LDR at light 1 (assumed)
+RP, RS, RL = 220e3, 3300.0, 10000.0        # R8/R9 220k across each LDR (Neutron); series R and LDR at light 1 assumed
 QMIN, QMAX = 0.6, 16.0
 RAIL = 7.5
 
