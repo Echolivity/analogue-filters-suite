@@ -1,8 +1,8 @@
 {
  "hashes": {
-  "LPF m0 slope0": "3a01ff4bc80565a3f6b173189c100a067d2d9a9fd3150a32fdddc669f8b5ea52",
-  "LPF m0 slope1": "71647cb061f29a433ba9223c96ad85f0a6e8e0a17aee8b1fc870c60df16da23b",
-  "LPF m0 slope3": "16ca0fb27526ec36fcb64ab67fc21ea41abb555f827c4758a19af83710eb723d",
+  "LPF m0 slope0": "b9c813c8d6a64e2825eb5d547e6c1c378949c43f74421f6b6fe07818175fe190",
+  "LPF m0 slope1": "99bf7ca40b534f37767ce9cca1ec42547455e8fd87858b4c500fde307aa0ae99",
+  "LPF m0 slope3": "8c898422042a18718da31036907009c6ddcca20018d2c5edb8d33059c6dc8418",
   "LPF m1 slope0": "3d891fe0f272f904bf1c803e049ccd29c4e6e9c8d958800efb9db9fe929683a6",
   "LPF m1 slope1": "1e564f53294587f20f9ebf3c3c0ab38d7f4ef2c9b2551c6d797cd7bba0e6542b",
   "LPF m1 slope3": "0dd0581d9045e2aa7fe750326af9f06861f0f085f8c1585099f29748068e5118",
@@ -18,8 +18,8 @@
   "LPF m5 slope0": "9849b05d9175cc3769cb4cc5e98c28b8913f0e5e4c232f6dd335671abfc4ca8e",
   "LPF m5 slope1": "e027bbd1e011bd10e0e23d49815f46df68fbab384d77654d033225c23fb2052f",
   "LPF m5 slope3": "e73b0028857035dadd5dc71726eeb2342178d0b984bf790d5184f081fdb9f9ae",
-  "HPF m0 slope0": "0b7b0459edac2c68774e34bd5b5a42360fb95e8945f04cecdf049e320b08e01e",
-  "HPF m0 slope2": "100c3beca7f8c5e29ce88cade939cc986e2decace4620ac53bbcd72a3b8a3c8e",
+  "HPF m0 slope0": "e5c34f0f3291276281070059d45152019a16aa98522fe63ab411dcd49441d903",
+  "HPF m0 slope2": "b23e1b93b0aaa4ed5dcf059daada91548f7719aa4c0795eafd66cc0f692e46cb",
   "HPF m1 slope0": "69f2682b9078beaa21c131fbcd09958daa75a136f9f2de3023e720603d1981b1",
   "HPF m1 slope2": "9ec80113dcb1658e12a95143df6933cec2b651c9338adbc585398ad5cab52c18",
   "HPF m2 slope0": "5a7dbb6f87677f58749e3b7fafcf170813e79439dd86ff11b15335f6a02008a6",
@@ -28,16 +28,16 @@
   "HPF m3 slope2": "f97b31f338dacc0359a9f45ca2de9bcbf4f6c417b7a96c36ed8185623456ff07",
   "HPF m4 slope0": "d6989a43249b2234aa5221b49657e9c6c57c0055e44999cb1ffd111555db401c",
   "HPF m4 slope2": "eb66ab4a8843ddf99c70aedd6423ba0710ddd6895ee995f4e658d2248cff51e4",
-  "LPF m0 selfosc char": "d96db1303e352a9529d2c3759d5d6fb3b975c67e6b0114f3e3cd90345f6d7927",
+  "LPF m0 selfosc char": "c5b6520f18b586600b9240824a2bb2b7fabe92ea0a4baefb75c66dc16d9f1aaa",
   "LPF m1 selfosc char": "e3462e65877c3ca0189e1a2e2c345d43627387f5b646db100a0ce7b5a8ff7fe8",
   "LPF m2 selfosc char": "1f8d61d99c47673d75ff0415992570705bff6f6af5a173678adf00309100f777",
   "LPF m3 selfosc char": "af4ec70e666465dcadc29faa15b0190921a81e84b52a169269c890065cbd7d05",
   "LPF m4 selfosc char": "bfd38a9fc6cffe10498672b2a3278c018f8424ce61952a66807c54cd6bc4a701",
   "LPF m5 selfosc char": "3f442e94940a4cc397b7ba23d19ff8669a83d8e47ebbbb1acdb4a1426f9e10b9",
-  "both order0 os0": "209652c3773389744d95752e613b4e49a0c38cf6a701e136ea622221654f3c21",
-  "both order0 os1": "ba6e08e26b1fd7be259aeab960aa9402115aca3413c76d52bd7cb26ae455983a",
-  "both order1 os0": "0736170efa98c67446fed34cf72362d9f39357bee7193617a2a7f16568cc01d4",
-  "both order1 os1": "fc034bdad201d2392cabaa30483ef9d8dee496207fc965263385949355137a73",
+  "both order0 os0": "4ec8fde1fd70637d63b14a3070664d7835c844ea2bd0d87c509317a21b6a00c9",
+  "both order0 os1": "4fe5433769c1012b99af91298266e3ad220d94c04ebc2625a667b64a7e9344ca",
+  "both order1 os0": "968e40444afa147187a5db8b97311dc5816c84f2c12aae197edb68a6068f9673",
+  "both order1 os1": "43b2cbe5e98ae6b4cce762217fa7255bd2427e3bd9fe3028c1b64f446ca438ee",
   "LPF sweep": "5d8be172871fa1e6594fa15cb01603676617e9e359b96d13d9aa56f92b6b40de",
   "HPF sweep": "35cf40783a262c620244feb25e0c5f06816d7b9f9beb1da51672c99d0e59207d",
   "LPF model switches": "0f0d84f563e1da78aee4d0ec3c57b0e851e1d759dd4ee6285dbbe0465281049c",
@@ -88,5 +88,5 @@
   "order+os switch",
   "slope+drive+char moves"
  ],
- "note": "v1.6 solver fix (Sherman, Steiner, BPF SVF limiter) and Reference-mode power-on default; legacy tests run in Creative mode (tests/dsp.py base)"
+ "note": "v1.6 solver fix (Sherman, Steiner, BPF SVF limiter), Sherman partial self-oscillation (damping floor + resonance limiter) and Reference-mode power-on default; legacy tests run in Creative mode (tests/dsp.py base)"
 }

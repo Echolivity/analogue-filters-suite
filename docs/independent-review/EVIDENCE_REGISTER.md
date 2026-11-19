@@ -110,3 +110,15 @@ See [SEM_SCHEMATIC_CHECK.md](SEM_SCHEMATIC_CHECK.md).
 | E57 | Diode limiter (47k/10k, D11/D12, 100k) adds damping above about 2.6 V BP | P | Missing in the model |
 | E58 | Input path is a linear op-amp summer (gain 0.45) | P | The model's 2·tanh(x/2) has no origin |
 
+## Added 2026-11-19: Sherman Filterbank 2 manual [P], VCF-4 and Shermanik write-ups [S]
+
+See [SHERMAN_MANUAL_CHECK.md](SHERMAN_MANUAL_CHECK.md).
+
+| ID | Finding | Class | Verdict |
+|---|---|---|---|
+| E59 | Two 12 dB filters; series = 24 dB; filter 2 has more resonance | P | Conforms |
+| E60 | Lp/Bp/Hp balance plus the correction knob (−Bp … −Bp+Lp+Hp); harmonics ÷1–16; continuous PAR↔SER | P | Missing in the model |
+| E61 | Clock noise and the low-frequency "eee" (clocked / switched-capacitor filters likely) | P (behaviour) | Not modelled |
+| E62 | Overdrive "can push away the resonance peaks"; Limit switch | P | Not modelled |
+| E63 | No output-to-input feedback path described | P | The model's FEEDBACK is undocumented |
+

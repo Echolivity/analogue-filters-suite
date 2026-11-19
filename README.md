@@ -138,7 +138,7 @@ flowchart LR
 |---|---|
 | **The drop** | HPF to about 300–600 Hz on the downbeat, back to OPEN on the "one". Map it to a pad. |
 | **The long sweep** | Ladder or Sherman LPF, Resonance 60–80 %. Sweep slowly from OPEN down to 200 Hz over a few bars. |
-| **The scream** | Sherman with Feedback at 40–70 % and resonance just under self-oscillation. Ride the cutoff. |
+| **The scream** | Sherman with Feedback at 40–70 % and resonance at 85–100 % (it rings but no longer sustains on its own). Ride the cutoff. |
 | **MS-20 rig** | Both stages on K35, order HP>LP, resonance up on both. Narrow the band and sweep. |
 | **Dub split** | PARALLEL: the LPF on the bass weight, and the BPF swept through the mids at −6 dB. |
 | **Warm bus** | WARM DUB order: tube colour, then the opto gently levelling, then the VCA catching peaks. |
@@ -189,7 +189,7 @@ The device is generated, not hand-patched. `./build.sh` regenerates everything a
 
 | Area | State |
 |---|---|
-| DSP engine | 95/95 + 22/22 (v1.6) offline checks pass, running the exact gen~ code. v1.6 changes Sherman, Steiner and the BPF SVF slightly (a stability fix); every other render is bit-exact against v1.1–v1.5. See [V1.6_ENGINE.md](docs/V1.6_ENGINE.md). |
+| DSP engine | 95/95 + 28/28 (v1.6) offline checks pass, running the exact gen~ code. v1.6 changes Sherman, Steiner and the BPF SVF slightly (a stability fix); every other render is bit-exact against v1.1–v1.5. See [V1.6_ENGINE.md](docs/V1.6_ENGINE.md). |
 | Compatibility | Every parameter, connection and gen~ Param is intact against all earlier releases. |
 | Interface (v1.5, plus the v1.6 ENGINE strip) | 47/47 offline checks pass: structure, wiring, layout, contrast, and the component code run outside Max. |
 | **In Max / Live** | **Not yet opened in Max or Live.** v1.6's GenExpr is about 14,000 lines; please report its compile time. Please run the checklists in [VALIDATION.md](docs/VALIDATION.md) and [UI_VALIDATION.md](docs/UI_VALIDATION.md) on first use, and open an issue with what you find. |

@@ -824,6 +824,41 @@ wire(kc, "k35_circ")
 for j, ln in enumerate(("OTA: LM13600, diodes", "in the feedback path", "", "KORG-35: diodes in", "the signal path:", "all frequencies clip", "", "applies to LPF + HPF")):
     comment(ln, [KX + 6, 74 + 10 * j, KW - 10, 10], T.TEXT_DIM if ln else MUTED, 6.5, 0)
 
+# ------------------------------------------------- v1.6: SHERMAN strip (Filterbank 2 manual features)
+SX = W_TOTAL
+SW = 150
+W_TOTAL = SX + SW + 4
+panel([SX - 2, 0, W_TOTAL - SX + 2, H], BG, rounded=0)
+panel([SX, 4, SW, 161], STRIP, border=T.BEVEL)
+plate([SX + 1, 5, SW - 2, 17], T.HEADER)
+comment("SHERMAN", [SX + 8, 6, 120, 14], T.TEXT, T.F_TITLE, 1)
+sm = box("live.tab", [3520, 700, 100, 15], [SX + 6, 26, SW - 12, 15], numinlets=1, numoutlets=3, outlettype=["", "", "float"],
+         parameter_enable=1, varname="sh_mode", num_lines_patching=1, num_lines_presentation=1, fontsize=8.0, fontface=1,
+         **SEG_COLOURS, saved_attribute_attributes=valueof("Sherman Modes", "Sh Modes", 2, 0, 1, 0, 9, enum=["STAGE", "PANEL"]))
+bid_x[sm] = 3520
+param_ids[sm] = ("Sherman Modes", "Sh Modes")
+wire(sm, "sh_mode")
+dial("sh_bal", "Sherman Balance", "Sh Bal", [SX + 6, 46, 44, 48], 0, 100, 0, 5, T.AMBER)
+dial("sh_corr", "Sherman Correction", "Sh Corr", [SX + 53, 46, 44, 48], -100, 100, 0, 5, T.AMBER)
+comment("HARMONICS", [SX + 100, 46, 46, 10], MUTED, T.F_TINY, 0)
+menu("sh_harm", "Sherman Harmonics", "Sh Harm", [SX + 100, 58, 44, 16], ["1", "1.5", "2", "3", "4", "5", "6", "7", "8", "9", "16"], 0, T.AMBER)
+comment("LP  BP  HP", [SX + 6, 95, 44, 10], T.TEXT_DIM, 6.5, 1)
+comment("-B  0  -B+LH", [SX + 53, 95, 46, 10], T.TEXT_DIM, 6.5, 1)
+sl = box("live.tab", [3640, 700, 60, 15], [SX + 6, 112, 66, 15], numinlets=1, numoutlets=3, outlettype=["", "", "float"],
+         parameter_enable=1, varname="sh_limit", num_lines_patching=1, num_lines_presentation=1, fontsize=8.0, fontface=1,
+         **SEG_COLOURS, saved_attribute_attributes=valueof("Sherman Limit", "Sh Limit", 2, 0, 1, 0, 9, enum=["NORMAL", "LIMIT"]))
+bid_x[sl] = 3640
+param_ids[sl] = ("Sherman Limit", "Sh Limit")
+wire(sl, "sh_limit")
+sc = box("live.tab", [3720, 700, 60, 15], [SX + 78, 112, 66, 15], numinlets=1, numoutlets=3, outlettype=["", "", "float"],
+         parameter_enable=1, varname="sh_clock", num_lines_patching=1, num_lines_presentation=1, fontsize=8.0, fontface=1,
+         **SEG_COLOURS, saved_attribute_attributes=valueof("Sherman Clock", "Sh Clock", 2, 0, 1, 0, 9, enum=["SMOOTH", "CLOCK"]))
+bid_x[sc] = 3720
+param_ids[sc] = ("Sherman Clock", "Sh Clock")
+wire(sc, "sh_clock")
+for j, ln in enumerate(("applies to model 01 in", "either stage; balance /", "correction need PANEL;", "harmonics: 24 dB only")):
+    comment(ln, [SX + 6, 130 + 8 * j, SW - 10, 9], T.TEXT_DIM, 6.0, 0)
+
 # Info View / hint text on every parameter and on the jsui controls
 for b in boxes:
     bb = b["box"]

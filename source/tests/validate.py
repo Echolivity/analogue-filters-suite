@@ -230,10 +230,10 @@ def t_self_osc():
                     rows.append(dict(os=ovs + 1, stage=st, model=nm, fc=fc, oscillates=bool(osc),
                                      peak_dbfs=round(float(db(pk)), 1), freq=round(float(fr), 1),
                                      cents=None if cents is None else round(float(cents))))
-                    expect = not nm.startswith("SEM")
+                    expect = not (nm.startswith("SEM") or nm == "Sherman")   # v1.6: Sherman partial self-oscillation (rings, no sustain)
                     if not fin or pk > 1.25 or osc != expect or (osc and abs(cents) > 100):
                         bad.append(f"os{ovs + 1} {st}/{nm} fc{fc}: osc={osc} pk={db(pk):.1f}dBFS f={fr:.0f}")
-    record("Self-oscillation: stable, bounded (<+2 dBFS), on pitch (±100 c); SEM does not self-oscillate (by design)",
+    record("Self-oscillation: stable, bounded (<+2 dBFS), on pitch (±100 c); SEM and Sherman do not sustain it (by design)",
            not bad, "ok" if not bad else "; ".join(bad), rows=rows)
 
 
