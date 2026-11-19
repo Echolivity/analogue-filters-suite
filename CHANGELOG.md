@@ -52,9 +52,10 @@ Details and before/after measurements: [docs/V1.6_ENGINE.md](docs/V1.6_ENGINE.md
   - **Controls:** On, Mode LP/BP/HP, Peak, Gain, Range LO/HI, Sweep UP/DOWN, Attack/Release (circuit values by default), Mix, Output.
   - **Routing:** the same sweep moves the LPF, HPF and BPF cutoffs by up to ±5 octaves at full sweep (with the envelope filter on or off).
   - **Measured:**
-    - HI sweeps 402 Hz → 7 kHz (497 Hz / 924 Hz / 4.5 kHz at −60/−40/−20 dBFS, Gain 0 dB); LO 214 Hz → 3.1 kHz.
+    - HI sweeps 402 Hz → 6.7 kHz (408 Hz / 563 Hz / 4.85 kHz at −60/−40/−20 dBFS, Gain 0 dB; the dark cell barely moves below about −50 dBFS); LO 201 Hz → 3.0 kHz.
     - Band-pass peak +8.2 / +15.2 / +30.4 dB at Peak 0/50/100 (derived from the schematic: +8.1 / +15.2 / +30.7).
-  - **Assumptions:** the LDR law (and therefore R23 and the top of the sweep), the LDR lags (VTL5C3 class, 2.5/35 ms), ±7.5 V rails (applied at the preamp, envelope and output only), and 1 unit = 1 V. The original's polarity inversions are not modelled. See docs/independent-review/ENVELOPE_FILTER_SOURCES.md.
+  - **Photocell (Hamamatsu P873-13 technical data, supplied by you):** resistance against LED current from fig. 5 (280 k @ 0.1 mA … 2.0 k @ 20 mA). Dynamics follow the CdS recombination law dG/dt = k(G_eq² − G²), with k set by the 4/6 ms rise/fall at 20 mA. So the cell is fast when bright and slow when dim, with a hyperbolic recovery tail: after a note, the peak drifts back from 1.36 kHz to 0.54 kHz over about 1.5 s.
+  - **Assumptions:** R23 = 3.9 kΩ (the schematic leaves it to the opto; chosen for a sweep top of about 7 kHz on HI), ±7.5 V rails (applied at the preamp, envelope and output only), and 1 unit = 1 V. The original's polarity inversions are not modelled. See docs/independent-review/ENVELOPE_FILTER_SOURCES.md.
 - **New: Sherman Filterbank 2 features** (from the manual you supplied; the model stays behavioural). A new SHERMAN strip has six appended parameters, and the defaults are bit-identical:
   - **Modes STAGE / PANEL:** PANEL engages the Filterbank's **Balance** (Lp → Bp → Hp) and **Correction** (−Bp … 0 … −Bp + Lp + Hp) knobs. Bp − Bp is silent, and Bp with full Correction is a notch, as the manual describes.
   - **Harmonics:** filter 2 at the cutoff ÷ 1–16 for twin resonant peaks (24 dB). Ratio changes glide over about 3 ms.

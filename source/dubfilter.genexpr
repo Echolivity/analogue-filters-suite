@@ -1975,11 +1975,13 @@ if (ef_en > 0 || ef_to_l != 0 || ef_to_h != 0 || ef_to_b != 0) {
 		ef_e = max(ef_tg, (ef_e + 9) * exp(-1 / (ef_td * fs)) - 9);        // drains through R18 toward -9 V
 	}
 	ef_lt = ef_up > 0.5 ? ef_e : max(7.2 - ef_e, 0);                  // A6: LED current x R23
-	ef_lg = pow(min(ef_lt, 8), 0.8) * 1.4925373134328359e-05;                           // LDR conductance (assumed law)
-	ef_ld = ef_ld + (ef_lg > ef_ld ? 1 - exp(-400 / fs) : 1 - exp(-28.5714286 / fs)) * (ef_lg - ef_ld);   // 2.5 / 35 ms
+	ef_lq = log10(max(min(ef_lt, 5.6) * 0.2564102564102564, 0.000001));   // log10(LED mA)
+	ef_lk = ef_lq >= -1 ? 1.30166519 - 0.99354299 * ef_lq + 0.16560469 * ef_lq * ef_lq : 2.46081287 - 1.32475236 * (ef_lq + 1);
+	ef_lg = 1 / (1000 * exp(2.30258509 * ef_lk)) + 0.0000001;                        // P873-13 equilibrium conductance (fig. 5)
+	ef_ld = max(ef_ld + 454545.45454545453 * (ef_lg * ef_lg - ef_ld * ef_ld) / fs, 0.0000001);   // CdS recombination: dG/dt = k (Geq^2 - G^2)
 	ef_rx = 1 / (4.5454545454545455e-06 + ef_ld);                                   // R10 / R12 220k || LDR
 	ef_fr = 1 / (6.28318531 * ef_rx * (ef_range > 0.5 ? 1.8e-9 : 4.0e-9));
-	ef_ps = clamp(log2(220000.0 / ef_rx) * 0.24237262495696069, 0, 1);              // 0 at rest, 1 at the rail
+	ef_ps = clamp(log2(220000.0 / ef_rx) * 0.2466735228647925, 0, 1);              // 0 at rest, 1 at the rail
 	ef_ps = ef_up > 0.5 ? ef_ps : -(1 - ef_ps);
 	ef_rl = ef_to_l * ef_ps;
 	ef_rh = ef_to_h * ef_ps;

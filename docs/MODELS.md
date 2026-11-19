@@ -162,9 +162,12 @@ The previous version used an equal-capacitor, resistively driven ladder. That co
 
 The model runs at the base rate, before the filter section, using a TPT SVF. The sweep position is also routed, in octaves, to the LPF, HPF and BPF cutoffs.
 
-**Assumed** (the schematic leaves R23 to the 0805 opto, which has no data):
-- the LDR law (conductance = V^0.8/67 k);
-- the LDR lags (2.5 ms on, 35 ms off);
+**Photocell** (Hamamatsu P873-13 technical data):
+- resistance against LED current from fig. 5;
+- dynamics from the CdS recombination law dG/dt = k(G_eq² − G²), with k from the 4/6 ms rise/fall at 20 mA. Fast when bright, slow when dim, with a hyperbolic recovery tail.
+
+**Assumed:**
+- R23 = 3.9 kΩ (the schematic leaves it to the opto), which puts the sweep top at about 7 kHz on HI;
 - ±7.5 V rails at the preamp, envelope and output only;
 - 1 unit = 1 V.
 

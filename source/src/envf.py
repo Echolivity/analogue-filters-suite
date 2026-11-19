@@ -15,11 +15,15 @@ From the schematic:
       fall, held at the rectifier output (rest ~0 V). Between the peaks of a held note the ripple modulates the
       LED (part of the Mu-tron growl).
   A6 V-to-I LED driver: I = Vc9 / R23 (UP); I = (7.2 V - Vc9) / R23 (DOWN, 7.2 V = 2 x the R19/R20 divider).
-ASSUMED (the schematic leaves them to the 0805 part, which has no data): R23 and the LDR law, here
-conductance = (V/1 V)^0.8 / 67k (sweep top 7.0 kHz HI / 3.2 kHz LO at the rail), LDR lags 2.5 / 35 ms (VTL5C3
-class); +/-7.5 V op-amp rails (4558 on +/-9 V); 1 model unit = 1 V; rails applied at the preamp, rectifier,
-envelope and selected output only. Polarity inversions of the original (inverted dry, inverted BP) are not
-modelled. Attack / release are the circuit's 1.55 ms / 221 ms by default and adjustable.
+Photocell (Hamamatsu P873-13, the 0805's catalogue number; technical data supplied by the user):
+  equilibrium ON resistance vs LED current from fig. 5 (280 k @ 0.1 mA ... 2.0 k @ 20 mA; quadratic log-log fit,
+  within 9 %); dynamics from the CdS recombination law dG/dt = k (Geq^2 - G^2), k set by the table's 4 / 6 ms
+  rise / fall at 20 mA (tau 4.4 ms at 2 k). This makes it fast when bright and slow when dim, with the hyperbolic
+  recovery tail of fig. 6 (measured there on the sister part P873-G35-911).
+ASSUMED: R23 = 3.9 k (the schematic: "value depends on characteristics of 0805"; chosen so the sweep tops out at
+about 7 kHz on HI), A6 limited to ~5.6 V across R23; +/-7.5 V op-amp rails (4558 on +/-9 V) at the preamp,
+rectifier, envelope and selected output only; 1 model unit = 1 V. Polarity inversions of the original (inverted
+dry, inverted BP) are not modelled. Attack / release are the circuit's 1.55 ms / 221 ms by default and adjustable.
 """
 
 PARAMS = [
@@ -39,8 +43,19 @@ PARAMS = [
 ]
 
 RP = 220e3            # R10 / R12 across each LDR
-GL = 1 / 67000.0      # LDR conductance at 1 V of LED drive (assumed; R23 / 0805 dependent)
+R23 = 3900.0          # LED current-sense resistor: "value depends on characteristics of 0805" (calibration, assumed)
+VLMAX = 5.6           # most A6 can put across R23: ~7.5 V swing minus the LED's ~1.9 V
+KREC = 1 / (0.0044 * (1 / 2000.0))   # CdS recombination constant: tau 4.4 ms at 20 mA / 2.0 k (P873-13 table)
 RAIL = 7.5
+
+
+def ldr_r(i_ma):
+    """P873-13 ON resistance (ohm) vs LED current (mA): Hamamatsu technical data, fig. 5, quadratic fit in log-log
+    (within 9 %, 0.1..20 mA); below 0.1 mA continued at the end slope; 10 M dark floor."""
+    import math
+    L = math.log10(max(i_ma, 1e-6))
+    lk = 1.30166519 - 0.99354299 * L + 0.16560469 * L * L if L >= -1 else 2.46081287 - 1.32475236 * (L + 1)
+    return 1 / (1 / (1000 * 10 ** lk) + 1e-7)
 
 
 def params():
@@ -61,7 +76,7 @@ def emit(w):
     """Per-sample code, placed right after x_L / x_R are read. Defines ef_rl, ef_rh, ef_rb (octaves) used by
     the stage and BPF cutoff code; they are exactly 0 when the routing amounts are 0."""
     import math
-    rtop = 1 / (1 / RP + GL * RAIL ** 0.8)
+    rtop = 1 / (1 / RP + 1 / ldr_r(VLMAX / R23 * 1000))
     gr = math.log2(RP / rtop)                     # log2(R at rest / R at the rail): sweep span
     w("// ================= v1.6 envelope filter (Mu-Tron III, 1975 schematic) =================")
     w("ef_ent = ef_on > 0.5 ? 1 : 0;")
@@ -95,8 +110,10 @@ def emit(w):
     w("\t\tef_e = max(ef_tg, (ef_e + 9) * exp(-1 / (ef_td * fs)) - 9);        // drains through R18 toward -9 V")
     w("\t}")
     w("\tef_lt = ef_up > 0.5 ? ef_e : max(7.2 - ef_e, 0);                  // A6: LED current x R23")
-    w(f"\tef_lg = pow(min(ef_lt, 8), 0.8) * {GL!r};                           // LDR conductance (assumed law)")
-    w("\tef_ld = ef_ld + (ef_lg > ef_ld ? 1 - exp(-400 / fs) : 1 - exp(-28.5714286 / fs)) * (ef_lg - ef_ld);   // 2.5 / 35 ms")
+    w(f"\tef_lq = log10(max(min(ef_lt, {VLMAX}) * {1000 / R23!r}, 0.000001));   // log10(LED mA)")
+    w("\tef_lk = ef_lq >= -1 ? 1.30166519 - 0.99354299 * ef_lq + 0.16560469 * ef_lq * ef_lq : 2.46081287 - 1.32475236 * (ef_lq + 1);")
+    w("\tef_lg = 1 / (1000 * exp(2.30258509 * ef_lk)) + 0.0000001;                        // P873-13 equilibrium conductance (fig. 5)")
+    w(f"\tef_ld = max(ef_ld + {KREC!r} * (ef_lg * ef_lg - ef_ld * ef_ld) / fs, 0.0000001);   // CdS recombination: dG/dt = k (Geq^2 - G^2)")
     w(f"\tef_rx = 1 / ({1 / RP!r} + ef_ld);                                   // R10 / R12 220k || LDR")
     w("\tef_fr = 1 / (6.28318531 * ef_rx * (ef_range > 0.5 ? 1.8e-9 : 4.0e-9));")
     w(f"\tef_ps = clamp(log2({RP!r} / ef_rx) * {1 / gr!r}, 0, 1);              // 0 at rest, 1 at the rail")
