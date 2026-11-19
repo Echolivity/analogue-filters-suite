@@ -5,6 +5,8 @@ ROOT="$(cd "$(dirname "$0")" && pwd)"
 cd "$ROOT/source"
 mkdir -p build
 python3 src/build_genexpr.py
+python3 tests/genexpr_lint.py build/dubfilter.genexpr tests/baseline/DubFilter_v1.5.maxpat   # gate: gen~ scoping / names / literals vs v1.5
+python3 device/build_device.py         # before validate: routing_tests reads the freshly built device
 python3 tools/genexpr2c.py build/dubfilter.genexpr build/engine.c
 cc -O2 -o build/harness tests/harness.c build/engine.c -lm
 python3 tools/genexpr2c.py tests/baseline/dubfilter_v1.5.genexpr build/engine_v15.c
@@ -14,7 +16,6 @@ python3 tests/golden.py check-v16      # gate: bit-exact vs v1.6 baseline; the s
 python3 tests/v16_tests.py             # gate: v1.6 stability, containment, oversampling, Reference mode
 python3 tests/validate.py
 python3 tests/report.py
-python3 device/build_device.py
 for v in 1.1 1.2 1.3 1.4 1.5; do   # gate: presets/automation/MIDI of every release intact (v1.6 is a DSP release)
   python3 tests/compat.py build/device/DubFilter.maxpat --base=DubFilter_v$v.maxpat --ui --allow-dsp
 done
