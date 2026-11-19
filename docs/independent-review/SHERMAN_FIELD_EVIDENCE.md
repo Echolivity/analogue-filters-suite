@@ -55,3 +55,21 @@ All measurements use model 01, 24 dB, Reference mode, 48 kHz.
 4. **The clock is the character, per Tape Op.** That argues for the clock option. Whether it should be on by default is your call.
 
 None of this is a measurement of a real unit. A recording session would settle the self-oscillation, headroom and harmonics-level questions.
+
+## Addendum: Kassian Troyer's Reaktor reconstruction (user-supplied `hermanFilterBank.ens`)
+This is a Reaktor 4 ensemble, "heRman FilTERbANk v0.1" (12/2004), which calls itself "a reconstruction of the sherman-filterbank 2". It was read as text only, since Reaktor is not available here. **It is another behavioural model, not evidence about the hardware.** Its author says it is built from parts of NI's library (Analogic Filter Box).
+
+- **It agrees with ours** on these points, which all trace back to the manual:
+  - the Harmonics table: free, ÷1, 1.5, 2, 3, 4, 5, 6, 7, 8, 9, 16;
+  - the Correction knob (−B … 0 … −B + LH, with a notch from BP);
+  - the LP–BP–HP morph;
+  - the input stage with high boost/cut and "valve" distortion.
+- **It has things ours lacks:**
+  - a continuous par ↔ ser blend;
+  - pseudo-stereo (filter 1 → L, filter 2 → R);
+  - an output amp with its own valve distortion;
+  - AM fed from filter 2's output when nothing else is patched;
+  - an LFO whose rate runs from slow into the audio range, retriggered by the audio input together with an AR VCA;
+  - a bipolar ADSR sustain and an envelope follower.
+- **Resonance:** each filter is a 2-pole filter with a **resonance limiter**. When the band-pass level exceeds a threshold, resonance is pulled back for all modes, with an adjustable release. The threshold can fall at −6 dB/oct with frequency, so the resonance stays strong without the low end turning "boomy". This is the same family as our amplitude-dependent damping, but it acts as a limiter with a release time rather than as an instantaneous law. A limiter like this is one plausible way to get the *partial* self-oscillation that the reviews describe.
+- No clock or switched-capacitor behaviour is modelled.
