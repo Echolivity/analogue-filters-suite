@@ -44,7 +44,9 @@ You chose all four: modes and correction, harmonics, clocked character, overdriv
 | **Overdrive buries resonance** | already present in v1.5 through the amplitude-dependent damping | −12 dBFS noise, res 85, 24 dB: peak +24.4 dB above passband at Drive 0, +12.1 dB at Drive 100 |
 | **Limit** | ×0.25 into the filters after the overdrive, ×2.7 after. The **mechanism is invented**; only the effect is documented. | Drive 100: resonance prominence +12.1 → +19.5 dB; level −13.2 → −11.6 dBFS |
 
-**Clocked character:** a separate change, off by default (below).
+| **Clock** SMOOTH / CLOCK (separate commit, off by default) | Each filter updates only on clock ticks, at 100 × its cutoff (LTC1060-style 100:1, **assumed**), using the SVF with g = tan(π/100). Its outputs are held between ticks (staircase). A clock-feedthrough sine of 0.0005 (−66 dBFS, **assumed**) per filter, only while the clock is below Nyquist. Filter 2's clock follows its own (Harmonics-lowered) cutoff, so it carries more clock noise, matching the manual's remark. When the clock would exceed the engine rate it runs continuous. At that boundary the clocked and continuous filters coincide (one tick per sample with g = tan(π/100)). Reference mode: at least 8x for Sherman while on. | Silent input at fc 60 Hz: tone at 6000 Hz. 48 kHz Reference, 1x vs 8x: bit-identical. 15–22 kHz noise rises well above clock-off (staircase images). fs/4 sweep with the clock on: bounded (≤ +6 dBFS). 48 vs 96 kHz spectra agree to estimator noise (median 2.4 dB; the same comparison with the clock off: 2.9 dB). Images land on the engine-rate grid, so their fine structure differs between rates. |
+
+Not implemented: the sub-1 Hz cutoff range, clock jitter, and the separate PAR ↔ SER control (not among the options).
 
 
 
@@ -57,5 +59,5 @@ You chose all four: modes and correction, harmonics, clocked character, overdriv
 | Modes | LP (LPF stage) or HP (HPF stage) | LP/BP/HP balance plus the correction knob (−Bp … notch … all-pass) | **Missing** |
 | Harmonics (f2 = f1 ÷ n) | f2 = f1 only | 11 ratios, or free | **Missing** |
 | Parallel / continuous PAR↔SER | series only | continuous | **Missing** |
-| Clocked character | none (ideal continuous-time) | clock noise, low-frequency "eee", sub-1 Hz range | **Missing** |
+| Clocked character | none (ideal continuous-time); v1.6 adds an optional behavioural clock | clock noise, low-frequency "eee", sub-1 Hz range | **Behavioural (optional)** |
 | FEEDBACK (CHARACTER) | output → input saturated loop | not described | **Not documented** (a design choice from the spec) |

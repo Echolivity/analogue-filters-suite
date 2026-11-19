@@ -89,6 +89,7 @@ Param sh_bal(0, min=0, max=100);
 Param sh_corr(0, min=-100, max=100);
 Param sh_harm(0, min=0, max=10);
 Param sh_limit(0, min=0, max=1);
+Param sh_clock(0, min=0, max=1);
 
 History H_l_L_sh_s1a(0.0);
 History H_l_L_sh_s2a(0.0);
@@ -97,6 +98,14 @@ History H_l_L_sh_s1b(0.0);
 History H_l_L_sh_s2b(0.0);
 History H_l_L_sh_bb(0.0);
 History H_l_L_sh_yp(0.0);
+History H_l_L_sh_pa(0.0);
+History H_l_L_sh_pb(0.0);
+History H_l_L_sh_hha(0.0);
+History H_l_L_sh_hba(0.0);
+History H_l_L_sh_hla(0.0);
+History H_l_L_sh_hhb(0.0);
+History H_l_L_sh_hbb(0.0);
+History H_l_L_sh_hlb(0.0);
 History H_l_R_sh_s1a(0.0);
 History H_l_R_sh_s2a(0.0);
 History H_l_R_sh_ba(0.0);
@@ -104,6 +113,14 @@ History H_l_R_sh_s1b(0.0);
 History H_l_R_sh_s2b(0.0);
 History H_l_R_sh_bb(0.0);
 History H_l_R_sh_yp(0.0);
+History H_l_R_sh_pa(0.0);
+History H_l_R_sh_pb(0.0);
+History H_l_R_sh_hha(0.0);
+History H_l_R_sh_hba(0.0);
+History H_l_R_sh_hla(0.0);
+History H_l_R_sh_hhb(0.0);
+History H_l_R_sh_hbb(0.0);
+History H_l_R_sh_hlb(0.0);
 History H_l_L_k3_s1(0.0);
 History H_l_L_k3_s2(0.0);
 History H_l_L_k3_s3(0.0);
@@ -187,6 +204,14 @@ History H_h_L_sh_s1b(0.0);
 History H_h_L_sh_s2b(0.0);
 History H_h_L_sh_bb(0.0);
 History H_h_L_sh_yp(0.0);
+History H_h_L_sh_pa(0.0);
+History H_h_L_sh_pb(0.0);
+History H_h_L_sh_hha(0.0);
+History H_h_L_sh_hba(0.0);
+History H_h_L_sh_hla(0.0);
+History H_h_L_sh_hhb(0.0);
+History H_h_L_sh_hbb(0.0);
+History H_h_L_sh_hlb(0.0);
 History H_h_R_sh_s1a(0.0);
 History H_h_R_sh_s2a(0.0);
 History H_h_R_sh_ba(0.0);
@@ -194,6 +219,14 @@ History H_h_R_sh_s1b(0.0);
 History H_h_R_sh_s2b(0.0);
 History H_h_R_sh_bb(0.0);
 History H_h_R_sh_yp(0.0);
+History H_h_R_sh_pa(0.0);
+History H_h_R_sh_pb(0.0);
+History H_h_R_sh_hha(0.0);
+History H_h_R_sh_hba(0.0);
+History H_h_R_sh_hla(0.0);
+History H_h_R_sh_hhb(0.0);
+History H_h_R_sh_hbb(0.0);
+History H_h_R_sh_hlb(0.0);
 History H_h_L_k3_s1(0.0);
 History H_h_L_k3_s2(0.0);
 History H_h_L_k3_s3(0.0);
@@ -1398,30 +1431,68 @@ f_shout(h, b, l, hp, pm, bal, cor) {
 	return o;
 }
 
-f_sherman(x, s1a, s2a, ba, s1b, s2b, bb, yp, g, g2, R1, Rt, fb, ti, hp, pm, bal, cor, lk) {
+// v1.6 Sherman CLOCK (behavioural; all constants are assumptions): switched-capacitor filters run on a clock
+// fclk = SC_N x fc (SC_N = 100, the LTC1060 100:1 mode). While fclk < the engine rate, the filter updates only
+// on clock ticks with its fixed switched-capacitor coefficient tan(pi / SC_N) and holds its outputs in between
+// (staircase / stepping at low cutoff). Otherwise the continuous filter runs (same in-band response).
+f_svfclk(u, s1, s2, g, R, fr, ph, hh, hb, hl) {
+	h = hh; b = hb; l = hl; n1 = s1; n2 = s2;
+	np = ph + fr;
+	if (np >= 1) {
+		np = np - floor(np);
+		h, b, l, n1, n2 = f_svf(u, s1, s2, 0.0314262660, R);
+	}
+	return h, b, l, n1, n2, np;
+}
+
+f_sherman(x, s1a, s2a, ba, s1b, s2b, bb, yp, pa, pb, hha, hba, hla, hhb, hbb, hlb, g, g2, R1, Rt, fb, ti, hp, pm, bal, cor, lk, ck) {
 	u = f_asym(1.6 * (x + fb * yp)) * 0.625;
 	if (lk < 0.999) {
 		u = u * lk;
 	}
 	Ra = 1 - (1 - R1) * f_tg(ba);
-	h1, b1, l1, n1a, n2a = f_svf(u, s1a, s2a, g, Ra);
-	o1 = f_shout(h1, b1, l1, hp, pm, bal, cor);
-	Rb = 1 - (1 - Rt) * f_ag(bb * 2);
-	i2 = u + ti * (o1 - u);
 	ge = g + ti * (g2 - g);
-	h2, b2, l2, n1b, n2b = f_svf(i2, s1b, s2b, ge, Rb);
-	// v1.6: re-evaluate the amplitude-dependent damping at the CURRENT band value
-	// (one fixed-point step). The lagged value alone lets the limiter sample an
-	// oscillation near fs/4 at its zero crossings and pump it (period-2 parametric
-	// instability, docs/independent-review/INDEPENDENT_AUDIT_REVIEW.md section 3.1).
-	Rb = 1 - (1 - Rt) * f_ag(b2 * 2);
-	h2, b2, l2, n1b, n2b = f_svf(i2, s1b, s2b, ge, Rb);
+	fra = 31.8309886 * atan(g);
+	frb = 31.8309886 * atan(ge);
+	npa = pa; npb = pb; ft = 0;
+	h1 = 0; b1 = 0; l1 = 0; n1a = s1a; n2a = s2a;
+	if (ck > 0.5 && fra < 1) {
+		h1, b1, l1, n1a, n2a, npa = f_svfclk(u, s1a, s2a, g, Ra, fra, pa, hha, hba, hla);
+		ft = fra < 0.5 ? ft + sin(6.28318531 * npa) : ft;
+	} else {
+		h1, b1, l1, n1a, n2a = f_svf(u, s1a, s2a, g, Ra);
+	}
+	o1 = f_shout(h1, b1, l1, hp, pm, bal, cor);
+	i2 = u + ti * (o1 - u);
+	h2 = hhb; b2 = hbb; l2 = hlb; n1b = s1b; n2b = s2b;
+	gs = ge;
+	tick = 1;
+	if (ck > 0.5 && frb < 1) {
+		gs = 0.0314262660;
+		npb = pb + frb;
+		tick = npb >= 1 ? 1 : 0;
+		npb = npb - floor(npb);
+		ft = frb < 0.5 ? ft + sin(6.28318531 * npb) : ft;
+	}
+	if (tick > 0.5) {
+		Rb = 1 - (1 - Rt) * f_ag(bb * 2);
+		h2, b2, l2, n1b, n2b = f_svf(i2, s1b, s2b, gs, Rb);
+		// v1.6: re-evaluate the amplitude-dependent damping at the CURRENT band value
+		// (one fixed-point step). The lagged value alone lets the limiter sample an
+		// oscillation near fs/4 at its zero crossings and pump it (period-2 parametric
+		// instability, docs/independent-review/INDEPENDENT_AUDIT_REVIEW.md section 3.1).
+		Rb = 1 - (1 - Rt) * f_ag(b2 * 2);
+		h2, b2, l2, n1b, n2b = f_svf(i2, s1b, s2b, gs, Rb);
+	}
 	o2 = f_shout(h2, b2, l2, hp, pm, bal, cor);
 	if (lk < 0.999) {
 		o2 = o2 * 2.7;          // makeup (not 1/lk): keeps the output level within ~1.5 dB of Limit off
 	}
+	if (ck > 0.5) {
+		o2 = o2 + 0.0005 * ft;  // clock feedthrough (-66 dBFS per filter, assumed): the manual's low-frequency "eee"
+	}
 	ynext = tanh(o2);
-	return o2, o2, fixdenorm(n1a), fixdenorm(n2a), b1, fixdenorm(n1b), fixdenorm(n2b), b2, ynext;
+	return o2, o2, fixdenorm(n1a), fixdenorm(n2a), b1, fixdenorm(n1b), fixdenorm(n2b), b2, ynext, npa, npb, h1, b1, l1, h2, b2, l2;
 }
 
 // ================= MODEL 02: Korg 35 / MS-20, OTA (LM13600, "Mk2") circuit =================
@@ -1796,6 +1867,7 @@ sh_lr = H_sh_lr + (sh_ht - H_sh_lr) * min(1, 300 / samplerate);
 sh_lr = abs(sh_lr - sh_ht) < 0.000001 ? sh_ht : sh_lr;
 sh_hr = exp2(sh_lr);
 sh_lk = sh_limit > 0.5 ? 0.25 : 1;
+sh_ck = sh_clock > 0.5 ? 1 : 0;
 ovs = cur_os < 0.5 ? 1 : (cur_os < 1.5 ? 2 : (cur_os < 2.5 ? 4 : (cur_os < 3.5 ? 8 : 16)));
 fso = fs * ovs;
 a_cut = 1 - exp(-1 / (0.006 * fs));
@@ -1815,6 +1887,14 @@ l_L_sh_s1b = H_l_L_sh_s1b;
 l_L_sh_s2b = H_l_L_sh_s2b;
 l_L_sh_bb = H_l_L_sh_bb;
 l_L_sh_yp = H_l_L_sh_yp;
+l_L_sh_pa = H_l_L_sh_pa;
+l_L_sh_pb = H_l_L_sh_pb;
+l_L_sh_hha = H_l_L_sh_hha;
+l_L_sh_hba = H_l_L_sh_hba;
+l_L_sh_hla = H_l_L_sh_hla;
+l_L_sh_hhb = H_l_L_sh_hhb;
+l_L_sh_hbb = H_l_L_sh_hbb;
+l_L_sh_hlb = H_l_L_sh_hlb;
 l_R_sh_s1a = H_l_R_sh_s1a;
 l_R_sh_s2a = H_l_R_sh_s2a;
 l_R_sh_ba = H_l_R_sh_ba;
@@ -1822,6 +1902,14 @@ l_R_sh_s1b = H_l_R_sh_s1b;
 l_R_sh_s2b = H_l_R_sh_s2b;
 l_R_sh_bb = H_l_R_sh_bb;
 l_R_sh_yp = H_l_R_sh_yp;
+l_R_sh_pa = H_l_R_sh_pa;
+l_R_sh_pb = H_l_R_sh_pb;
+l_R_sh_hha = H_l_R_sh_hha;
+l_R_sh_hba = H_l_R_sh_hba;
+l_R_sh_hla = H_l_R_sh_hla;
+l_R_sh_hhb = H_l_R_sh_hhb;
+l_R_sh_hbb = H_l_R_sh_hbb;
+l_R_sh_hlb = H_l_R_sh_hlb;
 l_L_k3_s1 = H_l_L_k3_s1;
 l_L_k3_s2 = H_l_L_k3_s2;
 l_L_k3_s3 = H_l_L_k3_s3;
@@ -1905,6 +1993,14 @@ h_L_sh_s1b = H_h_L_sh_s1b;
 h_L_sh_s2b = H_h_L_sh_s2b;
 h_L_sh_bb = H_h_L_sh_bb;
 h_L_sh_yp = H_h_L_sh_yp;
+h_L_sh_pa = H_h_L_sh_pa;
+h_L_sh_pb = H_h_L_sh_pb;
+h_L_sh_hha = H_h_L_sh_hha;
+h_L_sh_hba = H_h_L_sh_hba;
+h_L_sh_hla = H_h_L_sh_hla;
+h_L_sh_hhb = H_h_L_sh_hhb;
+h_L_sh_hbb = H_h_L_sh_hbb;
+h_L_sh_hlb = H_h_L_sh_hlb;
 h_R_sh_s1a = H_h_R_sh_s1a;
 h_R_sh_s2a = H_h_R_sh_s2a;
 h_R_sh_ba = H_h_R_sh_ba;
@@ -1912,6 +2008,14 @@ h_R_sh_s1b = H_h_R_sh_s1b;
 h_R_sh_s2b = H_h_R_sh_s2b;
 h_R_sh_bb = H_h_R_sh_bb;
 h_R_sh_yp = H_h_R_sh_yp;
+h_R_sh_pa = H_h_R_sh_pa;
+h_R_sh_pb = H_h_R_sh_pb;
+h_R_sh_hha = H_h_R_sh_hha;
+h_R_sh_hba = H_h_R_sh_hba;
+h_R_sh_hla = H_h_R_sh_hla;
+h_R_sh_hhb = H_h_R_sh_hhb;
+h_R_sh_hbb = H_h_R_sh_hbb;
+h_R_sh_hlb = H_h_R_sh_hlb;
 h_L_k3_s1 = H_h_L_k3_s1;
 h_L_k3_s2 = H_h_L_k3_s2;
 h_L_k3_s3 = H_h_L_k3_s3;
@@ -3602,6 +3706,14 @@ if (l_ash < 0.5 && l_dzsh > 0.5) {
 	l_L_sh_s2b = 0;
 	l_L_sh_bb = 0;
 	l_L_sh_yp = 0;
+	l_L_sh_pa = 0;
+	l_L_sh_pb = 0;
+	l_L_sh_hha = 0;
+	l_L_sh_hba = 0;
+	l_L_sh_hla = 0;
+	l_L_sh_hhb = 0;
+	l_L_sh_hbb = 0;
+	l_L_sh_hlb = 0;
 	l_R_sh_s1a = 0;
 	l_R_sh_s2a = 0;
 	l_R_sh_ba = 0;
@@ -3609,6 +3721,14 @@ if (l_ash < 0.5 && l_dzsh > 0.5) {
 	l_R_sh_s2b = 0;
 	l_R_sh_bb = 0;
 	l_R_sh_yp = 0;
+	l_R_sh_pa = 0;
+	l_R_sh_pb = 0;
+	l_R_sh_hha = 0;
+	l_R_sh_hba = 0;
+	l_R_sh_hla = 0;
+	l_R_sh_hhb = 0;
+	l_R_sh_hbb = 0;
+	l_R_sh_hlb = 0;
 	l_dzsh = 0;
 }
 if (l_ash > 0.5) {
@@ -3837,6 +3957,14 @@ if (h_ash < 0.5 && h_dzsh > 0.5) {
 	h_L_sh_s2b = 0;
 	h_L_sh_bb = 0;
 	h_L_sh_yp = 0;
+	h_L_sh_pa = 0;
+	h_L_sh_pb = 0;
+	h_L_sh_hha = 0;
+	h_L_sh_hba = 0;
+	h_L_sh_hla = 0;
+	h_L_sh_hhb = 0;
+	h_L_sh_hbb = 0;
+	h_L_sh_hlb = 0;
 	h_R_sh_s1a = 0;
 	h_R_sh_s2a = 0;
 	h_R_sh_ba = 0;
@@ -3844,6 +3972,14 @@ if (h_ash < 0.5 && h_dzsh > 0.5) {
 	h_R_sh_s2b = 0;
 	h_R_sh_bb = 0;
 	h_R_sh_yp = 0;
+	h_R_sh_pa = 0;
+	h_R_sh_pb = 0;
+	h_R_sh_hha = 0;
+	h_R_sh_hba = 0;
+	h_R_sh_hla = 0;
+	h_R_sh_hhb = 0;
+	h_R_sh_hbb = 0;
+	h_R_sh_hlb = 0;
 	h_dzsh = 0;
 }
 if (h_ash > 0.5) {
@@ -4176,6 +4312,8 @@ ref_mode = eng_mode < 0.5 ? 1 : 0;
 cfg_k = k35_circ > 0.5 ? 1 : 0;
 os_ml = l_on > 0.5 ? ((cfg_k > 0.5 && abs(l_model - 1) < 0.5) ? 3 : (clamp(floor(l_model + 0.5), 0, 5) < 0.5 ? 1.0 : (clamp(floor(l_model + 0.5), 0, 5) < 1.5 ? 1.0 : (clamp(floor(l_model + 0.5), 0, 5) < 2.5 ? 2.0 : (clamp(floor(l_model + 0.5), 0, 5) < 3.5 ? 2.0 : (clamp(floor(l_model + 0.5), 0, 5) < 4.5 ? 0.0 : 1.0)))))) : 0;
 os_mh = h_on > 0.5 ? ((cfg_k > 0.5 && abs(h_model - 1) < 0.5) ? 2 : (clamp(floor(h_model + 0.5), 0, 4) < 0.5 ? 1.0 : (clamp(floor(h_model + 0.5), 0, 4) < 1.5 ? 1.0 : (clamp(floor(h_model + 0.5), 0, 4) < 2.5 ? 1.0 : (clamp(floor(h_model + 0.5), 0, 4) < 3.5 ? 1.0 : 1.0))))) : 0;
+os_ml = (l_on > 0.5 && l_model < 0.5 && sh_ck > 0.5) ? max(os_ml, 3) : os_ml;
+os_mh = (h_on > 0.5 && h_model < 0.5 && sh_ck > 0.5) ? max(os_mh, 3) : os_mh;
 os_mb = b_on > 0.5 ? (clamp(floor(b_arch + 0.5), 0, 2) < 0.5 ? 2.0 : (clamp(floor(b_arch + 0.5), 0, 2) < 1.5 ? 2.0 : 2.0)) : 0;
 cfg_s = ref_mode > 0.5 ? max(os_user, max(os_ml, max(os_mh, os_mb))) : os_user;
 cfg_t = ref_mode > 0.5 ? max(os_user, 3) : max(os_user, 1);
@@ -4749,7 +4887,7 @@ for (k = 0; k < ovs; k += 1) {
 			hi_L = xa_L * h_d;
 			hb_L = 0;
 			if (h_ash > 0.5) {
-				o12, o24, h_L_sh_s1a, h_L_sh_s2a, h_L_sh_ba, h_L_sh_s1b, h_L_sh_s2b, h_L_sh_bb, h_L_sh_yp = f_sherman(hi_L, h_L_sh_s1a, h_L_sh_s2a, h_L_sh_ba, h_L_sh_s1b, h_L_sh_s2b, h_L_sh_bb, h_L_sh_yp, h_sh_g, h_sh_g2, h_sh_R1, h_sh_R, h_sh_fb, h_ti, 1, sh_pm, sh_b, sh_c, sh_lk);
+				o12, o24, h_L_sh_s1a, h_L_sh_s2a, h_L_sh_ba, h_L_sh_s1b, h_L_sh_s2b, h_L_sh_bb, h_L_sh_yp, h_L_sh_pa, h_L_sh_pb, h_L_sh_hha, h_L_sh_hba, h_L_sh_hla, h_L_sh_hhb, h_L_sh_hbb, h_L_sh_hlb = f_sherman(hi_L, h_L_sh_s1a, h_L_sh_s2a, h_L_sh_ba, h_L_sh_s1b, h_L_sh_s2b, h_L_sh_bb, h_L_sh_yp, h_L_sh_pa, h_L_sh_pb, h_L_sh_hha, h_L_sh_hba, h_L_sh_hla, h_L_sh_hhb, h_L_sh_hbb, h_L_sh_hlb, h_sh_g, h_sh_g2, h_sh_R1, h_sh_R, h_sh_fb, h_ti, 1, sh_pm, sh_b, sh_c, sh_lk, sh_ck);
 				hb_L = hb_L + h_msh * (o12 + h_ti * (o24 - o12));
 			}
 			if (h_ak3 > 0.5) {
@@ -4805,6 +4943,14 @@ for (k = 0; k < ovs; k += 1) {
 				h_L_sh_s2b = 0;
 				h_L_sh_bb = 0;
 				h_L_sh_yp = 0;
+				h_L_sh_pa = 0;
+				h_L_sh_pb = 0;
+				h_L_sh_hha = 0;
+				h_L_sh_hba = 0;
+				h_L_sh_hla = 0;
+				h_L_sh_hhb = 0;
+				h_L_sh_hbb = 0;
+				h_L_sh_hlb = 0;
 				h_L_k3_s1 = 0;
 				h_L_k3_s2 = 0;
 				h_L_k3_s3 = 0;
@@ -4840,7 +4986,7 @@ for (k = 0; k < ovs; k += 1) {
 			hi_R = xa_R * h_d;
 			hb_R = 0;
 			if (h_ash > 0.5) {
-				o12, o24, h_R_sh_s1a, h_R_sh_s2a, h_R_sh_ba, h_R_sh_s1b, h_R_sh_s2b, h_R_sh_bb, h_R_sh_yp = f_sherman(hi_R, h_R_sh_s1a, h_R_sh_s2a, h_R_sh_ba, h_R_sh_s1b, h_R_sh_s2b, h_R_sh_bb, h_R_sh_yp, h_sh_g, h_sh_g2, h_sh_R1, h_sh_R, h_sh_fb, h_ti, 1, sh_pm, sh_b, sh_c, sh_lk);
+				o12, o24, h_R_sh_s1a, h_R_sh_s2a, h_R_sh_ba, h_R_sh_s1b, h_R_sh_s2b, h_R_sh_bb, h_R_sh_yp, h_R_sh_pa, h_R_sh_pb, h_R_sh_hha, h_R_sh_hba, h_R_sh_hla, h_R_sh_hhb, h_R_sh_hbb, h_R_sh_hlb = f_sherman(hi_R, h_R_sh_s1a, h_R_sh_s2a, h_R_sh_ba, h_R_sh_s1b, h_R_sh_s2b, h_R_sh_bb, h_R_sh_yp, h_R_sh_pa, h_R_sh_pb, h_R_sh_hha, h_R_sh_hba, h_R_sh_hla, h_R_sh_hhb, h_R_sh_hbb, h_R_sh_hlb, h_sh_g, h_sh_g2, h_sh_R1, h_sh_R, h_sh_fb, h_ti, 1, sh_pm, sh_b, sh_c, sh_lk, sh_ck);
 				hb_R = hb_R + h_msh * (o12 + h_ti * (o24 - o12));
 			}
 			if (h_ak3 > 0.5) {
@@ -4896,6 +5042,14 @@ for (k = 0; k < ovs; k += 1) {
 				h_R_sh_s2b = 0;
 				h_R_sh_bb = 0;
 				h_R_sh_yp = 0;
+				h_R_sh_pa = 0;
+				h_R_sh_pb = 0;
+				h_R_sh_hha = 0;
+				h_R_sh_hba = 0;
+				h_R_sh_hla = 0;
+				h_R_sh_hhb = 0;
+				h_R_sh_hbb = 0;
+				h_R_sh_hlb = 0;
 				h_R_k3_s1 = 0;
 				h_R_k3_s2 = 0;
 				h_R_k3_s3 = 0;
@@ -4939,7 +5093,7 @@ for (k = 0; k < ovs; k += 1) {
 		li_L = lsrc_L * l_d;
 		lb_L = 0;
 		if (l_ash > 0.5) {
-			o12, o24, l_L_sh_s1a, l_L_sh_s2a, l_L_sh_ba, l_L_sh_s1b, l_L_sh_s2b, l_L_sh_bb, l_L_sh_yp = f_sherman(li_L, l_L_sh_s1a, l_L_sh_s2a, l_L_sh_ba, l_L_sh_s1b, l_L_sh_s2b, l_L_sh_bb, l_L_sh_yp, l_sh_g, l_sh_g2, l_sh_R1, l_sh_R, l_sh_fb, l_ti, 0, sh_pm, sh_b, sh_c, sh_lk);
+			o12, o24, l_L_sh_s1a, l_L_sh_s2a, l_L_sh_ba, l_L_sh_s1b, l_L_sh_s2b, l_L_sh_bb, l_L_sh_yp, l_L_sh_pa, l_L_sh_pb, l_L_sh_hha, l_L_sh_hba, l_L_sh_hla, l_L_sh_hhb, l_L_sh_hbb, l_L_sh_hlb = f_sherman(li_L, l_L_sh_s1a, l_L_sh_s2a, l_L_sh_ba, l_L_sh_s1b, l_L_sh_s2b, l_L_sh_bb, l_L_sh_yp, l_L_sh_pa, l_L_sh_pb, l_L_sh_hha, l_L_sh_hba, l_L_sh_hla, l_L_sh_hhb, l_L_sh_hbb, l_L_sh_hlb, l_sh_g, l_sh_g2, l_sh_R1, l_sh_R, l_sh_fb, l_ti, 0, sh_pm, sh_b, sh_c, sh_lk, sh_ck);
 			lb_L = lb_L + l_msh * (o12 + l_ti * (o24 - o12));
 		}
 		if (l_ak3 > 0.5) {
@@ -4999,6 +5153,14 @@ for (k = 0; k < ovs; k += 1) {
 			l_L_sh_s2b = 0;
 			l_L_sh_bb = 0;
 			l_L_sh_yp = 0;
+			l_L_sh_pa = 0;
+			l_L_sh_pb = 0;
+			l_L_sh_hha = 0;
+			l_L_sh_hba = 0;
+			l_L_sh_hla = 0;
+			l_L_sh_hhb = 0;
+			l_L_sh_hbb = 0;
+			l_L_sh_hlb = 0;
 			l_L_k3_s1 = 0;
 			l_L_k3_s2 = 0;
 			l_L_k3_s3 = 0;
@@ -5044,7 +5206,7 @@ for (k = 0; k < ovs; k += 1) {
 		li_R = lsrc_R * l_d;
 		lb_R = 0;
 		if (l_ash > 0.5) {
-			o12, o24, l_R_sh_s1a, l_R_sh_s2a, l_R_sh_ba, l_R_sh_s1b, l_R_sh_s2b, l_R_sh_bb, l_R_sh_yp = f_sherman(li_R, l_R_sh_s1a, l_R_sh_s2a, l_R_sh_ba, l_R_sh_s1b, l_R_sh_s2b, l_R_sh_bb, l_R_sh_yp, l_sh_g, l_sh_g2, l_sh_R1, l_sh_R, l_sh_fb, l_ti, 0, sh_pm, sh_b, sh_c, sh_lk);
+			o12, o24, l_R_sh_s1a, l_R_sh_s2a, l_R_sh_ba, l_R_sh_s1b, l_R_sh_s2b, l_R_sh_bb, l_R_sh_yp, l_R_sh_pa, l_R_sh_pb, l_R_sh_hha, l_R_sh_hba, l_R_sh_hla, l_R_sh_hhb, l_R_sh_hbb, l_R_sh_hlb = f_sherman(li_R, l_R_sh_s1a, l_R_sh_s2a, l_R_sh_ba, l_R_sh_s1b, l_R_sh_s2b, l_R_sh_bb, l_R_sh_yp, l_R_sh_pa, l_R_sh_pb, l_R_sh_hha, l_R_sh_hba, l_R_sh_hla, l_R_sh_hhb, l_R_sh_hbb, l_R_sh_hlb, l_sh_g, l_sh_g2, l_sh_R1, l_sh_R, l_sh_fb, l_ti, 0, sh_pm, sh_b, sh_c, sh_lk, sh_ck);
 			lb_R = lb_R + l_msh * (o12 + l_ti * (o24 - o12));
 		}
 		if (l_ak3 > 0.5) {
@@ -5104,6 +5266,14 @@ for (k = 0; k < ovs; k += 1) {
 			l_R_sh_s2b = 0;
 			l_R_sh_bb = 0;
 			l_R_sh_yp = 0;
+			l_R_sh_pa = 0;
+			l_R_sh_pb = 0;
+			l_R_sh_hha = 0;
+			l_R_sh_hba = 0;
+			l_R_sh_hla = 0;
+			l_R_sh_hhb = 0;
+			l_R_sh_hbb = 0;
+			l_R_sh_hlb = 0;
 			l_R_k3_s1 = 0;
 			l_R_k3_s2 = 0;
 			l_R_k3_s3 = 0;
@@ -5159,7 +5329,7 @@ for (k = 0; k < ovs; k += 1) {
 			hi_L = hsrc_L * h_d;
 			hb_L = 0;
 			if (h_ash > 0.5) {
-				o12, o24, h_L_sh_s1a, h_L_sh_s2a, h_L_sh_ba, h_L_sh_s1b, h_L_sh_s2b, h_L_sh_bb, h_L_sh_yp = f_sherman(hi_L, h_L_sh_s1a, h_L_sh_s2a, h_L_sh_ba, h_L_sh_s1b, h_L_sh_s2b, h_L_sh_bb, h_L_sh_yp, h_sh_g, h_sh_g2, h_sh_R1, h_sh_R, h_sh_fb, h_ti, 1, sh_pm, sh_b, sh_c, sh_lk);
+				o12, o24, h_L_sh_s1a, h_L_sh_s2a, h_L_sh_ba, h_L_sh_s1b, h_L_sh_s2b, h_L_sh_bb, h_L_sh_yp, h_L_sh_pa, h_L_sh_pb, h_L_sh_hha, h_L_sh_hba, h_L_sh_hla, h_L_sh_hhb, h_L_sh_hbb, h_L_sh_hlb = f_sherman(hi_L, h_L_sh_s1a, h_L_sh_s2a, h_L_sh_ba, h_L_sh_s1b, h_L_sh_s2b, h_L_sh_bb, h_L_sh_yp, h_L_sh_pa, h_L_sh_pb, h_L_sh_hha, h_L_sh_hba, h_L_sh_hla, h_L_sh_hhb, h_L_sh_hbb, h_L_sh_hlb, h_sh_g, h_sh_g2, h_sh_R1, h_sh_R, h_sh_fb, h_ti, 1, sh_pm, sh_b, sh_c, sh_lk, sh_ck);
 				hb_L = hb_L + h_msh * (o12 + h_ti * (o24 - o12));
 			}
 			if (h_ak3 > 0.5) {
@@ -5215,6 +5385,14 @@ for (k = 0; k < ovs; k += 1) {
 				h_L_sh_s2b = 0;
 				h_L_sh_bb = 0;
 				h_L_sh_yp = 0;
+				h_L_sh_pa = 0;
+				h_L_sh_pb = 0;
+				h_L_sh_hha = 0;
+				h_L_sh_hba = 0;
+				h_L_sh_hla = 0;
+				h_L_sh_hhb = 0;
+				h_L_sh_hbb = 0;
+				h_L_sh_hlb = 0;
 				h_L_k3_s1 = 0;
 				h_L_k3_s2 = 0;
 				h_L_k3_s3 = 0;
@@ -5250,7 +5428,7 @@ for (k = 0; k < ovs; k += 1) {
 			hi_R = hsrc_R * h_d;
 			hb_R = 0;
 			if (h_ash > 0.5) {
-				o12, o24, h_R_sh_s1a, h_R_sh_s2a, h_R_sh_ba, h_R_sh_s1b, h_R_sh_s2b, h_R_sh_bb, h_R_sh_yp = f_sherman(hi_R, h_R_sh_s1a, h_R_sh_s2a, h_R_sh_ba, h_R_sh_s1b, h_R_sh_s2b, h_R_sh_bb, h_R_sh_yp, h_sh_g, h_sh_g2, h_sh_R1, h_sh_R, h_sh_fb, h_ti, 1, sh_pm, sh_b, sh_c, sh_lk);
+				o12, o24, h_R_sh_s1a, h_R_sh_s2a, h_R_sh_ba, h_R_sh_s1b, h_R_sh_s2b, h_R_sh_bb, h_R_sh_yp, h_R_sh_pa, h_R_sh_pb, h_R_sh_hha, h_R_sh_hba, h_R_sh_hla, h_R_sh_hhb, h_R_sh_hbb, h_R_sh_hlb = f_sherman(hi_R, h_R_sh_s1a, h_R_sh_s2a, h_R_sh_ba, h_R_sh_s1b, h_R_sh_s2b, h_R_sh_bb, h_R_sh_yp, h_R_sh_pa, h_R_sh_pb, h_R_sh_hha, h_R_sh_hba, h_R_sh_hla, h_R_sh_hhb, h_R_sh_hbb, h_R_sh_hlb, h_sh_g, h_sh_g2, h_sh_R1, h_sh_R, h_sh_fb, h_ti, 1, sh_pm, sh_b, sh_c, sh_lk, sh_ck);
 				hb_R = hb_R + h_msh * (o12 + h_ti * (o24 - o12));
 			}
 			if (h_ak3 > 0.5) {
@@ -5306,6 +5484,14 @@ for (k = 0; k < ovs; k += 1) {
 				h_R_sh_s2b = 0;
 				h_R_sh_bb = 0;
 				h_R_sh_yp = 0;
+				h_R_sh_pa = 0;
+				h_R_sh_pb = 0;
+				h_R_sh_hha = 0;
+				h_R_sh_hba = 0;
+				h_R_sh_hla = 0;
+				h_R_sh_hhb = 0;
+				h_R_sh_hbb = 0;
+				h_R_sh_hlb = 0;
 				h_R_k3_s1 = 0;
 				h_R_k3_s2 = 0;
 				h_R_k3_s3 = 0;
@@ -12061,6 +12247,14 @@ if (rst > 0.5) {
 	l_L_sh_s2b = 0;
 	l_L_sh_bb = 0;
 	l_L_sh_yp = 0;
+	l_L_sh_pa = 0;
+	l_L_sh_pb = 0;
+	l_L_sh_hha = 0;
+	l_L_sh_hba = 0;
+	l_L_sh_hla = 0;
+	l_L_sh_hhb = 0;
+	l_L_sh_hbb = 0;
+	l_L_sh_hlb = 0;
 	l_R_sh_s1a = 0;
 	l_R_sh_s2a = 0;
 	l_R_sh_ba = 0;
@@ -12068,6 +12262,14 @@ if (rst > 0.5) {
 	l_R_sh_s2b = 0;
 	l_R_sh_bb = 0;
 	l_R_sh_yp = 0;
+	l_R_sh_pa = 0;
+	l_R_sh_pb = 0;
+	l_R_sh_hha = 0;
+	l_R_sh_hba = 0;
+	l_R_sh_hla = 0;
+	l_R_sh_hhb = 0;
+	l_R_sh_hbb = 0;
+	l_R_sh_hlb = 0;
 	l_L_k3_s1 = 0;
 	l_L_k3_s2 = 0;
 	l_L_k3_s3 = 0;
@@ -12151,6 +12353,14 @@ if (rst > 0.5) {
 	h_L_sh_s2b = 0;
 	h_L_sh_bb = 0;
 	h_L_sh_yp = 0;
+	h_L_sh_pa = 0;
+	h_L_sh_pb = 0;
+	h_L_sh_hha = 0;
+	h_L_sh_hba = 0;
+	h_L_sh_hla = 0;
+	h_L_sh_hhb = 0;
+	h_L_sh_hbb = 0;
+	h_L_sh_hlb = 0;
 	h_R_sh_s1a = 0;
 	h_R_sh_s2a = 0;
 	h_R_sh_ba = 0;
@@ -12158,6 +12368,14 @@ if (rst > 0.5) {
 	h_R_sh_s2b = 0;
 	h_R_sh_bb = 0;
 	h_R_sh_yp = 0;
+	h_R_sh_pa = 0;
+	h_R_sh_pb = 0;
+	h_R_sh_hha = 0;
+	h_R_sh_hba = 0;
+	h_R_sh_hla = 0;
+	h_R_sh_hhb = 0;
+	h_R_sh_hbb = 0;
+	h_R_sh_hlb = 0;
 	h_L_k3_s1 = 0;
 	h_L_k3_s2 = 0;
 	h_L_k3_s3 = 0;
@@ -13172,6 +13390,14 @@ H_l_L_sh_s1b = l_L_sh_s1b;
 H_l_L_sh_s2b = l_L_sh_s2b;
 H_l_L_sh_bb = l_L_sh_bb;
 H_l_L_sh_yp = l_L_sh_yp;
+H_l_L_sh_pa = l_L_sh_pa;
+H_l_L_sh_pb = l_L_sh_pb;
+H_l_L_sh_hha = l_L_sh_hha;
+H_l_L_sh_hba = l_L_sh_hba;
+H_l_L_sh_hla = l_L_sh_hla;
+H_l_L_sh_hhb = l_L_sh_hhb;
+H_l_L_sh_hbb = l_L_sh_hbb;
+H_l_L_sh_hlb = l_L_sh_hlb;
 H_l_R_sh_s1a = l_R_sh_s1a;
 H_l_R_sh_s2a = l_R_sh_s2a;
 H_l_R_sh_ba = l_R_sh_ba;
@@ -13179,6 +13405,14 @@ H_l_R_sh_s1b = l_R_sh_s1b;
 H_l_R_sh_s2b = l_R_sh_s2b;
 H_l_R_sh_bb = l_R_sh_bb;
 H_l_R_sh_yp = l_R_sh_yp;
+H_l_R_sh_pa = l_R_sh_pa;
+H_l_R_sh_pb = l_R_sh_pb;
+H_l_R_sh_hha = l_R_sh_hha;
+H_l_R_sh_hba = l_R_sh_hba;
+H_l_R_sh_hla = l_R_sh_hla;
+H_l_R_sh_hhb = l_R_sh_hhb;
+H_l_R_sh_hbb = l_R_sh_hbb;
+H_l_R_sh_hlb = l_R_sh_hlb;
 H_l_L_k3_s1 = l_L_k3_s1;
 H_l_L_k3_s2 = l_L_k3_s2;
 H_l_L_k3_s3 = l_L_k3_s3;
@@ -13262,6 +13496,14 @@ H_h_L_sh_s1b = h_L_sh_s1b;
 H_h_L_sh_s2b = h_L_sh_s2b;
 H_h_L_sh_bb = h_L_sh_bb;
 H_h_L_sh_yp = h_L_sh_yp;
+H_h_L_sh_pa = h_L_sh_pa;
+H_h_L_sh_pb = h_L_sh_pb;
+H_h_L_sh_hha = h_L_sh_hha;
+H_h_L_sh_hba = h_L_sh_hba;
+H_h_L_sh_hla = h_L_sh_hla;
+H_h_L_sh_hhb = h_L_sh_hhb;
+H_h_L_sh_hbb = h_L_sh_hbb;
+H_h_L_sh_hlb = h_L_sh_hlb;
 H_h_R_sh_s1a = h_R_sh_s1a;
 H_h_R_sh_s2a = h_R_sh_s2a;
 H_h_R_sh_ba = h_R_sh_ba;
@@ -13269,6 +13511,14 @@ H_h_R_sh_s1b = h_R_sh_s1b;
 H_h_R_sh_s2b = h_R_sh_s2b;
 H_h_R_sh_bb = h_R_sh_bb;
 H_h_R_sh_yp = h_R_sh_yp;
+H_h_R_sh_pa = h_R_sh_pa;
+H_h_R_sh_pb = h_R_sh_pb;
+H_h_R_sh_hha = h_R_sh_hha;
+H_h_R_sh_hba = h_R_sh_hba;
+H_h_R_sh_hla = h_R_sh_hla;
+H_h_R_sh_hhb = h_R_sh_hhb;
+H_h_R_sh_hbb = h_R_sh_hbb;
+H_h_R_sh_hlb = h_R_sh_hlb;
 H_h_L_k3_s1 = h_L_k3_s1;
 H_h_L_k3_s2 = h_L_k3_s2;
 H_h_L_k3_s3 = h_L_k3_s3;

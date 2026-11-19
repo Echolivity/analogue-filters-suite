@@ -122,30 +122,68 @@ f_shout(h, b, l, hp, pm, bal, cor) {
 	return o;
 }
 
-f_sherman(x, s1a, s2a, ba, s1b, s2b, bb, yp, g, g2, R1, Rt, fb, ti, hp, pm, bal, cor, lk) {
+// v1.6 Sherman CLOCK (behavioural; all constants are assumptions): switched-capacitor filters run on a clock
+// fclk = SC_N x fc (SC_N = 100, the LTC1060 100:1 mode). While fclk < the engine rate, the filter updates only
+// on clock ticks with its fixed switched-capacitor coefficient tan(pi / SC_N) and holds its outputs in between
+// (staircase / stepping at low cutoff). Otherwise the continuous filter runs (same in-band response).
+f_svfclk(u, s1, s2, g, R, fr, ph, hh, hb, hl) {
+	h = hh; b = hb; l = hl; n1 = s1; n2 = s2;
+	np = ph + fr;
+	if (np >= 1) {
+		np = np - floor(np);
+		h, b, l, n1, n2 = f_svf(u, s1, s2, 0.0314262660, R);
+	}
+	return h, b, l, n1, n2, np;
+}
+
+f_sherman(x, s1a, s2a, ba, s1b, s2b, bb, yp, pa, pb, hha, hba, hla, hhb, hbb, hlb, g, g2, R1, Rt, fb, ti, hp, pm, bal, cor, lk, ck) {
 	u = f_asym(1.6 * (x + fb * yp)) * 0.625;
 	if (lk < 0.999) {
 		u = u * lk;
 	}
 	Ra = 1 - (1 - R1) * f_tg(ba);
-	h1, b1, l1, n1a, n2a = f_svf(u, s1a, s2a, g, Ra);
-	o1 = f_shout(h1, b1, l1, hp, pm, bal, cor);
-	Rb = 1 - (1 - Rt) * f_ag(bb * 2);
-	i2 = u + ti * (o1 - u);
 	ge = g + ti * (g2 - g);
-	h2, b2, l2, n1b, n2b = f_svf(i2, s1b, s2b, ge, Rb);
-	// v1.6: re-evaluate the amplitude-dependent damping at the CURRENT band value
-	// (one fixed-point step). The lagged value alone lets the limiter sample an
-	// oscillation near fs/4 at its zero crossings and pump it (period-2 parametric
-	// instability, docs/independent-review/INDEPENDENT_AUDIT_REVIEW.md section 3.1).
-	Rb = 1 - (1 - Rt) * f_ag(b2 * 2);
-	h2, b2, l2, n1b, n2b = f_svf(i2, s1b, s2b, ge, Rb);
+	fra = 31.8309886 * atan(g);
+	frb = 31.8309886 * atan(ge);
+	npa = pa; npb = pb; ft = 0;
+	h1 = 0; b1 = 0; l1 = 0; n1a = s1a; n2a = s2a;
+	if (ck > 0.5 && fra < 1) {
+		h1, b1, l1, n1a, n2a, npa = f_svfclk(u, s1a, s2a, g, Ra, fra, pa, hha, hba, hla);
+		ft = fra < 0.5 ? ft + sin(6.28318531 * npa) : ft;
+	} else {
+		h1, b1, l1, n1a, n2a = f_svf(u, s1a, s2a, g, Ra);
+	}
+	o1 = f_shout(h1, b1, l1, hp, pm, bal, cor);
+	i2 = u + ti * (o1 - u);
+	h2 = hhb; b2 = hbb; l2 = hlb; n1b = s1b; n2b = s2b;
+	gs = ge;
+	tick = 1;
+	if (ck > 0.5 && frb < 1) {
+		gs = 0.0314262660;
+		npb = pb + frb;
+		tick = npb >= 1 ? 1 : 0;
+		npb = npb - floor(npb);
+		ft = frb < 0.5 ? ft + sin(6.28318531 * npb) : ft;
+	}
+	if (tick > 0.5) {
+		Rb = 1 - (1 - Rt) * f_ag(bb * 2);
+		h2, b2, l2, n1b, n2b = f_svf(i2, s1b, s2b, gs, Rb);
+		// v1.6: re-evaluate the amplitude-dependent damping at the CURRENT band value
+		// (one fixed-point step). The lagged value alone lets the limiter sample an
+		// oscillation near fs/4 at its zero crossings and pump it (period-2 parametric
+		// instability, docs/independent-review/INDEPENDENT_AUDIT_REVIEW.md section 3.1).
+		Rb = 1 - (1 - Rt) * f_ag(b2 * 2);
+		h2, b2, l2, n1b, n2b = f_svf(i2, s1b, s2b, gs, Rb);
+	}
 	o2 = f_shout(h2, b2, l2, hp, pm, bal, cor);
 	if (lk < 0.999) {
 		o2 = o2 * 2.7;          // makeup (not 1/lk): keeps the output level within ~1.5 dB of Limit off
 	}
+	if (ck > 0.5) {
+		o2 = o2 + 0.0005 * ft;  // clock feedthrough (-66 dBFS per filter, assumed): the manual's low-frequency "eee"
+	}
 	ynext = tanh(o2);
-	return o2, o2, fixdenorm(n1a), fixdenorm(n2a), b1, fixdenorm(n1b), fixdenorm(n2b), b2, ynext;
+	return o2, o2, fixdenorm(n1a), fixdenorm(n2a), b1, fixdenorm(n1b), fixdenorm(n2b), b2, ynext, npa, npb, h1, b1, l1, h2, b2, l2;
 }
 
 // ================= MODEL 02: Korg 35 / MS-20, OTA (LM13600, "Mk2") circuit =================
@@ -414,14 +452,14 @@ f_ap5(x, z0, z1, z2, z3, z4, z5, c1, c2, c3, c4, c5) {
 #        explicitly labelled alternative ("alt") or not at all (None)
 MODELS = [
     dict(id=0, key="sh", name="Sherman Filterbank-inspired", taps="12/24",
-         states=["s1a", "s2a", "ba", "s1b", "s2b", "bb", "yp"], lp="native", hp="native",
+         states=["s1a", "s2a", "ba", "s1b", "s2b", "bb", "yp", "pa", "pb", "hha", "hba", "hla", "hhb", "hbb", "hlb"], lp="native", hp="native",
          char="FEEDBACK",
          coef=["{p}_g = {s}_gw;",
                "{p}_R1 = 0.3 + 0.7 * (1 - {r}) * (1 - {r});",
                "{p}_R = 0.8 * (1 - {r}) * (1 - {r}) - 0.08 * pow({r}, 30);",
                "{p}_fb = 0.92 * {c};",
                "{p}_g2 = sh_hr > 1.000001 ? tan(pi * {s}_fcc / (sh_hr * fso)) : {s}_gw;"],   # v1.6 harmonics: filter 2 at f1 / n
-         call=["o12, o24, {sv} = f_sherman({x}, {sv}, {p}_g, {p}_g2, {p}_R1, {p}_R, {p}_fb, {s}_ti, {hp}, sh_pm, sh_b, sh_c, sh_lk);",
+         call=["o12, o24, {sv} = f_sherman({x}, {sv}, {p}_g, {p}_g2, {p}_R1, {p}_R, {p}_fb, {s}_ti, {hp}, sh_pm, sh_b, sh_c, sh_lk, sh_ck);",
                "{acc} = {acc} + {mix} * (o12 + {s}_ti * (o24 - o12));"]),
     dict(id=1, key="k3", name="Korg 35 / MS-20 (OTA Mk2, or KORG-35 Mk1 via K35 Circuit)", taps="12",
          states=["s1", "s2", "s3", "yp"], lp="native", hp="native", char="FB CLIP",
@@ -558,7 +596,8 @@ def build():
     P("sh_bal", 0, 0, 100)     # Lp (0) - Bp (50) - Hp (100), PANEL only
     P("sh_corr", 0, -100, 100) # correction: -Bp (-100) ... 0 ... -Bp+Lp+Hp (+100), PANEL only
     P("sh_harm", 0, 0, 10)     # harmonics: filter 2 = f1 / {1, 1.5, 2, 3, 4, 5, 6, 7, 8, 9, 16} (24 dB only)
-    P("sh_limit", 0, 0, 1)     # Limit: more headroom for resonance when the input is overdriven   # v1.6: K35 circuit, 0 = LM13600 OTA (Mk2, as v1.5), 1 = Korg35 (Mk1)
+    P("sh_limit", 0, 0, 1)     # Limit: more headroom for resonance when the input is overdriven
+    P("sh_clock", 0, 0, 1)     # clocked (switched-capacitor) character, behavioural   # v1.6: K35 circuit, 0 = LM13600 OTA (Mk2, as v1.5), 1 = Korg35 (Mk1)
 
     # ----- state declarations -----
     statevars = []   # local names mirrored from histories
@@ -648,6 +687,7 @@ def build():
     w("sh_lr = abs(sh_lr - sh_ht) < 0.000001 ? sh_ht : sh_lr;")
     w("sh_hr = exp2(sh_lr);")
     w("sh_lk = sh_limit > 0.5 ? 0.25 : 1;")
+    w("sh_ck = sh_clock > 0.5 ? 1 : 0;")
     w("ovs = cur_os < 0.5 ? 1 : (cur_os < 1.5 ? 2 : (cur_os < 2.5 ? 4 : (cur_os < 3.5 ? 8 : 16)));")
     w("fso = fs * ovs;")
     w("a_cut = 1 - exp(-1 / (0.006 * fs));")
@@ -796,6 +836,8 @@ def build():
     w("cfg_k = k35_circ > 0.5 ? 1 : 0;")
     w(f"os_ml = l_on > 0.5 ? ((cfg_k > 0.5 && abs(l_model - 1) < 0.5) ? {OS_MIN_K35M1_LP} : {tbl('clamp(floor(l_model + 0.5), 0, 5)', OS_MIN_LP)}) : 0;")
     w(f"os_mh = h_on > 0.5 ? ((cfg_k > 0.5 && abs(h_model - 1) < 0.5) ? {OS_MIN_K35M1_HP} : {tbl('clamp(floor(h_model + 0.5), 0, 4)', OS_MIN_HP)}) : 0;")
+    w("os_ml = (l_on > 0.5 && l_model < 0.5 && sh_ck > 0.5) ? max(os_ml, 3) : os_ml;")   # clocked Sherman: staircase images alias below 8x
+    w("os_mh = (h_on > 0.5 && h_model < 0.5 && sh_ck > 0.5) ? max(os_mh, 3) : os_mh;")
     w(f"os_mb = b_on > 0.5 ? {tbl('clamp(floor(b_arch + 0.5), 0, 2)', OS_MIN_BPF)} : 0;")
     w("cfg_s = ref_mode > 0.5 ? max(os_user, max(os_ml, max(os_mh, os_mb))) : os_user;")
     w(f"cfg_t = ref_mode > 0.5 ? max(os_user, {TUBE_OS_MIN_REF}) : max(os_user, 1);")

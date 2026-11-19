@@ -39,6 +39,7 @@ Rules: no silent substitution (the HPF menu has five entries), the one alternati
 - **Modes:** STAGE/PANEL. PANEL engages the manual's Balance (Lp/Bp/Hp) and Correction (−Bp … −Bp + Lp + Hp) knobs, shared by both filters (the hardware has a pair per filter).
 - **Harmonics:** filter 2 at f1 ÷ 1–16, at 24 dB.
 - **Limit:** more resonance headroom when overdriven. The mechanism is invented.
+- **Clock:** clocked (switched-capacitor) character: hold-between-ticks staircase at a 100 × cutoff clock, plus clock feedthrough. The ratio and level are assumptions.
 
 **Not modelled:** the continuous PAR ↔ SER routing (and parallel mode), separate Balance/Correction per filter, the envelopes, LFO, ring modulator and pitch tracking.
 

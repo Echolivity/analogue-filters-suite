@@ -342,6 +342,28 @@ jump = float(np.abs(np.diff(ys[SR // 2 - 200:SR // 2 + 200], 2)).max()); steady 
 check("Sherman harmonics: fs/4 sweep at ratios 1/2/16 (24 dB, res 100) peak <= +6 dBFS; a ratio change is click-free",
       worst <= 6 and jump < 4 * steady + 1e-3, f"worst {worst:.1f} dBFS; 2nd-difference at the switch {jump:.4f} vs steady {steady:.4f}")
 
+# clocked (switched-capacitor) character: behavioural, off by default (goldens prove the off path is bit-exact)
+z = np.zeros(SR * 2); yz = run(z, SHP(l_cut=60, sh_clock=1, ovs_hi=2))[SR:, 0]
+fw, Pz = welch(yz, SR, nperseg=16384); tone = round(float(fw[np.argmax(Pz)]))
+xc = np.random.default_rng(7).standard_normal(SR * 2) * 0.1
+c1 = run(xc, SHP(l_cut=200, l_res=40, l_slope=1, sh_clock=1, eng_mode=0, ovs_sel=0, ovs_hi=0))[:, 0]
+c8 = run(xc, SHP(l_cut=200, l_res=40, l_slope=1, sh_clock=1, eng_mode=0, ovs_hi=2))[:, 0]
+same18 = float(np.abs(c1 - c8).max())
+c0 = run(xc, SHP(l_cut=200, l_res=40, l_slope=1))[SR:, 0]
+fw, Pc = welch(c8[SR:], SR, nperseg=8192); fw, P0 = welch(c0, SR, nperseg=8192)
+img = round(float(np.mean(10 * np.log10(Pc[(fw > 15000) & (fw < 22000)] / P0[(fw > 15000) & (fw < 22000)]))), 1)
+worstc = -999.0
+for sr_ in (44100, 48000):
+    q = sr_ / 4
+    for c in range(-100, 101, 20):
+        xq = np.zeros(int(0.7 * sr_)); xq[int(0.3 * sr_):int(0.3 * sr_) + 64] = 0.05
+        yq = run(xq, base(l_on=1, l_model=0, l_cut=q * 2 ** (c / 1200), l_res=100, l_slope=1, sh_clock=1), sr_)[:, 0]
+        worstc = max(worstc, db(np.max(np.abs(yq[int(0.4 * sr_):]))))
+data["sherman_clock"] = dict(feedthrough_hz=tone, ref_1x_vs_8x=same18, image_rise_db=img, fs4_worst=worstc)
+check("Sherman clock (behavioural, 100:1 assumed): feedthrough at 100 x fc; Reference forces 8x (1x == 8x); staircase images above the passband; fs/4 sweep bounded",
+      abs(tone - 6000) < 20 and same18 == 0 and img > 10 and worstc <= 6,
+      f"silent input, fc 60 Hz: tone {tone} Hz; 1x vs 8x max diff {same18}; 15-22 kHz {img:+.1f} dB vs clock off; fs/4 worst {worstc:.1f} dBFS")
+
 n_ok = sum(r["ok"] for r in results)
 json.dump(dict(results=results, data=data), open(os.path.join(ROOT, "build", "v16_results.json"), "w"), indent=1, default=float)
 print(f"\nv1.6 tests: {n_ok}/{len(results)} passed")

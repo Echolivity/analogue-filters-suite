@@ -850,6 +850,12 @@ sl = box("live.tab", [3640, 700, 60, 15], [SX + 6, 112, 66, 15], numinlets=1, nu
 bid_x[sl] = 3640
 param_ids[sl] = ("Sherman Limit", "Sh Limit")
 wire(sl, "sh_limit")
+sc = box("live.tab", [3720, 700, 60, 15], [SX + 78, 112, 66, 15], numinlets=1, numoutlets=3, outlettype=["", "", "float"],
+         parameter_enable=1, varname="sh_clock", num_lines_patching=1, num_lines_presentation=1, fontsize=8.0, fontface=1,
+         **SEG_COLOURS, saved_attribute_attributes=valueof("Sherman Clock", "Sh Clock", 2, 0, 1, 0, 9, enum=["SMOOTH", "CLOCK"]))
+bid_x[sc] = 3720
+param_ids[sc] = ("Sherman Clock", "Sh Clock")
+wire(sc, "sh_clock")
 for j, ln in enumerate(("applies to model 01 in", "either stage; balance /", "correction need PANEL;", "harmonics: 24 dB only")):
     comment(ln, [SX + 6, 130 + 8 * j, SW - 10, 9], T.TEXT_DIM, 6.0, 0)
 

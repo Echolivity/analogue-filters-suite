@@ -30,6 +30,7 @@ DESC = {
     "sh_corr": "Filterbank 2 correction knob: adds -Bp at -100, nothing at 0, -Bp+Lp+Hp at +100. With Balance on Bp: -100 is silent, +100 is a notch, +50 passes everything at about half level. PANEL mode only.",
     "sh_harm": "Filterbank 2 harmonics: filter 2 tuned to the cutoff divided by 1, 1.5, 2, 3, 4, 5, 6, 7, 8, 9 or 16, for twin resonant peaks. Applies at 24 dB (series); at 12 dB filter 2 plays alone at the cutoff.",
     "sh_limit": "Filterbank 2 Limit switch: leaves the filters more room to resonate when the input is heavily overdriven. Behavioural: the manual describes the effect, not the circuit.",
+    "sh_clock": "Clocked character: runs both filters as clocked (switched-capacitor) stages, clock at 100 x cutoff, with a faint clock whine and staircase grain that grows at low cutoffs. Behavioural: clock ratio and feedthrough level are assumptions. Above about cutoff = engine rate / 100 the filter runs smooth. Reference mode runs at least 8x while it is on.",
     "ovs_hi": "Optional 4x, 8x or 16x oversampling for the filter engines and TUBE. Overrides the 1x/2x switch when not OFF. Higher factors cost CPU.",
     "out_db": "Device output level after all processing.",
     "softclip": "Gentle output soft clipper that catches peaks from resonance and drive.",

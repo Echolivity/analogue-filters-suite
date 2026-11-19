@@ -2853,39 +2853,39 @@
   {
    "name": "CPU benchmark (transpiled C, gcc -O2, this machine)",
    "passed": true,
-   "detail": "Both stages off (pass-through): 4.13%; Default device (Ladder LPF 24 dB + K35 HPF), 1x: 4.95%; Diode LPF 48 dB + Sherman HPF 48 dB, 1x: 6.37%; Default device, 2x oversampling: 5.89%; Worst case: Diode+Sherman 48 dB, 2x, both mid-crossfade: 9.73%",
+   "detail": "Both stages off (pass-through): 8.18%; Default device (Ladder LPF 24 dB + K35 HPF), 1x: 9.51%; Diode LPF 48 dB + Sherman HPF 48 dB, 1x: 11.51%; Default device, 2x oversampling: 11.06%; Worst case: Diode+Sherman 48 dB, 2x, both mid-crossfade: 17.15%",
    "rows": [
     {
      "config": "Both stages off (pass-through)",
-     "ns_per_frame": 860.7,
-     "pct_of_one_core_48k": 4.13
+     "ns_per_frame": 1704.1,
+     "pct_of_one_core_48k": 8.18
     },
     {
      "config": "Default device (Ladder LPF 24 dB + K35 HPF), 1x",
-     "ns_per_frame": 1032.2,
-     "pct_of_one_core_48k": 4.95
+     "ns_per_frame": 1981.5,
+     "pct_of_one_core_48k": 9.51
     },
     {
      "config": "Diode LPF 48 dB + Sherman HPF 48 dB, 1x",
-     "ns_per_frame": 1326.1,
-     "pct_of_one_core_48k": 6.37
+     "ns_per_frame": 2398.2,
+     "pct_of_one_core_48k": 11.51
     },
     {
      "config": "Default device, 2x oversampling",
-     "ns_per_frame": 1228.0,
-     "pct_of_one_core_48k": 5.89
+     "ns_per_frame": 2303.2,
+     "pct_of_one_core_48k": 11.06
     },
     {
      "config": "Worst case: Diode+Sherman 48 dB, 2x, both mid-crossfade",
-     "ns_per_frame": 2027.5,
-     "pct_of_one_core_48k": 9.73
+     "ns_per_frame": 3573.9,
+     "pct_of_one_core_48k": 17.15
     }
    ]
   },
   {
    "name": "Denormals: decay tails flush to zero; silence costs no more than signal",
    "passed": true,
-   "detail": "silence/signal CPU ratio 0.89"
+   "detail": "silence/signal CPU ratio 0.88"
   },
   {
    "name": "DC offset at output with asymmetric saturation (drive 100%, hot input)",
@@ -2931,7 +2931,7 @@
   {
    "name": "REGRESSION: v1.1 presets/automation/MIDI maps \u2014 every v1.1 object, connection and gen~ Param unchanged",
    "passed": true,
-   "detail": "COMPATIBLE \u2014 new parameters (67): BPF On, BPF Model, BPF Architecture, BPF Centre, BPF Bandwidth, BPF Q, BPF Resonance, BPF Drive, BPF Compensation, BPF Mix, BPF Position, Chain Order, Key Listen, Tube On, Opto On, VCA On, Gate On, Tube Input, Tube Drive, Tube Bias, Tube Tone, Tube Mix, Tube Output, Tube Auto Gain, Opto Input, Opto Peak Reduction, Opto HF Emphasis, Opto SC HPF, Opto Link, Opto Mix, Opto Gain, Opto Mode, Opto SC Source, VCA Input, VCA Threshold, VCA Release, VCA SC HPF, VCA Link, VCA Mix, VCA Output, VCA Ratio, VCA Attack, VCA Knee, VCA Thrust, VCA Type, VCA Auto Makeup, VCA SC Source, Gate Threshold, Gate Attack, Gate Hold, Gate Release, Gate Range, Gate Key HPF, Gate Key LPF, Gate Key Source, Filter Routing, Parallel LPF Level, Parallel HPF Level, Parallel BPF Level, Engine Mode, High Oversampling, K35 Circuit, Sherman Modes, Sherman Balance, Sherman Correction, Sherman Harmonics, Sherman Limit"
+   "detail": "COMPATIBLE \u2014 new parameters (68): BPF On, BPF Model, BPF Architecture, BPF Centre, BPF Bandwidth, BPF Q, BPF Resonance, BPF Drive, BPF Compensation, BPF Mix, BPF Position, Chain Order, Key Listen, Tube On, Opto On, VCA On, Gate On, Tube Input, Tube Drive, Tube Bias, Tube Tone, Tube Mix, Tube Output, Tube Auto Gain, Opto Input, Opto Peak Reduction, Opto HF Emphasis, Opto SC HPF, Opto Link, Opto Mix, Opto Gain, Opto Mode, Opto SC Source, VCA Input, VCA Threshold, VCA Release, VCA SC HPF, VCA Link, VCA Mix, VCA Output, VCA Ratio, VCA Attack, VCA Knee, VCA Thrust, VCA Type, VCA Auto Makeup, VCA SC Source, Gate Threshold, Gate Attack, Gate Hold, Gate Release, Gate Range, Gate Key HPF, Gate Key LPF, Gate Key Source, Filter Routing, Parallel LPF Level, Parallel HPF Level, Parallel BPF Level, Engine Mode, High Oversampling, K35 Circuit, Sherman Modes, Sherman Balance, Sherman Correction, Sherman Harmonics, Sherman Limit, Sherman Clock"
   },
   {
    "name": "REGRESSION: BPF switched on at Mix 0 is bit-transparent to the LPF/HPF signal (48 scenarios \u00d7 POST/PRE)",
@@ -4225,32 +4225,32 @@
   {
    "name": "CPU with BPF (transpiled C, gcc -O2, this machine)",
    "passed": true,
-   "detail": "v1.1 default device (LPF+HPF), BPF off: 5.15%; + BPF SVF: 5.82%; + BPF CASCADE: 5.81%; + BPF MULTIMODE (ARP): 6.19%; worst: all three, 48 dB slopes, 2x, BPF mid-crossfade: 11.34%",
+   "detail": "v1.1 default device (LPF+HPF), BPF off: 9.63%; + BPF SVF: 10.46%; + BPF CASCADE: 11.19%; + BPF MULTIMODE (ARP): 11.67%; worst: all three, 48 dB slopes, 2x, BPF mid-crossfade: 19.08%",
    "rows": [
     {
      "config": "v1.1 default device (LPF+HPF), BPF off",
-     "ns_per_frame": 1072.7,
-     "pct_of_one_core_48k": 5.15
+     "ns_per_frame": 2006.7,
+     "pct_of_one_core_48k": 9.63
     },
     {
      "config": "+ BPF SVF",
-     "ns_per_frame": 1212.9,
-     "pct_of_one_core_48k": 5.82
+     "ns_per_frame": 2178.7,
+     "pct_of_one_core_48k": 10.46
     },
     {
      "config": "+ BPF CASCADE",
-     "ns_per_frame": 1210.2,
-     "pct_of_one_core_48k": 5.81
+     "ns_per_frame": 2331.0,
+     "pct_of_one_core_48k": 11.19
     },
     {
      "config": "+ BPF MULTIMODE (ARP)",
-     "ns_per_frame": 1289.0,
-     "pct_of_one_core_48k": 6.19
+     "ns_per_frame": 2432.0,
+     "pct_of_one_core_48k": 11.67
     },
     {
      "config": "worst: all three, 48 dB slopes, 2x, BPF mid-crossfade",
-     "ns_per_frame": 2362.8,
-     "pct_of_one_core_48k": 11.34
+     "ns_per_frame": 3975.3,
+     "pct_of_one_core_48k": 19.08
     }
    ]
   },
@@ -4920,37 +4920,37 @@
   {
    "name": "CPU with the dynamics chain (transpiled C, gcc -O2, this machine)",
    "passed": true,
-   "detail": "v1.2 device, dynamics off: 4.89%; + TUBE: 5.93%; + OPTO: 6.08%; + VCA: 5.69%; + all three + gate: 7.19%; worst: LPF+HPF+BPF 2x + all dynamics, reordering every 20 ms: 13.68%",
+   "detail": "v1.2 device, dynamics off: 9.86%; + TUBE: 11.11%; + OPTO: 10.86%; + VCA: 10.57%; + all three + gate: 12.6%; worst: LPF+HPF+BPF 2x + all dynamics, reordering every 20 ms: 21.68%",
    "rows": [
     {
      "config": "v1.2 device, dynamics off",
-     "ns_per_frame": 1019.4,
-     "pct_of_one_core_48k": 4.89
+     "ns_per_frame": 2054.1,
+     "pct_of_one_core_48k": 9.86
     },
     {
      "config": "+ TUBE",
-     "ns_per_frame": 1234.8,
-     "pct_of_one_core_48k": 5.93
+     "ns_per_frame": 2315.2,
+     "pct_of_one_core_48k": 11.11
     },
     {
      "config": "+ OPTO",
-     "ns_per_frame": 1266.7,
-     "pct_of_one_core_48k": 6.08
+     "ns_per_frame": 2262.1,
+     "pct_of_one_core_48k": 10.86
     },
     {
      "config": "+ VCA",
-     "ns_per_frame": 1186.3,
-     "pct_of_one_core_48k": 5.69
+     "ns_per_frame": 2201.6,
+     "pct_of_one_core_48k": 10.57
     },
     {
      "config": "+ all three + gate",
-     "ns_per_frame": 1497.3,
-     "pct_of_one_core_48k": 7.19
+     "ns_per_frame": 2624.3,
+     "pct_of_one_core_48k": 12.6
     },
     {
      "config": "worst: LPF+HPF+BPF 2x + all dynamics, reordering every 20 ms",
-     "ns_per_frame": 2849.6,
-     "pct_of_one_core_48k": 13.68
+     "ns_per_frame": 4517.3,
+     "pct_of_one_core_48k": 21.68
     }
    ]
   },
@@ -4967,7 +4967,7 @@
   {
    "name": "DEVICE: chain UI wiring \u2014 every scripted object exists, all connections in range, drag LUT moves exactly the dragged block, all 75 v1.3 parameters present and every parameter name unique, drag/edit/preset controls are not parameters",
    "passed": true,
-   "detail": "ok (87 parameters)"
+   "detail": "ok (88 parameters)"
   },
   {
    "name": "REGRESSION v1.4: SERIES routing bit-exact (except documented v1.6 changes) \u2014 LPF/HPF vs v1.1 (48)",
@@ -5151,24 +5151,24 @@
   {
    "name": "CPU by routing mode (LPF + HPF + BPF on)",
    "passed": true,
-   "detail": "LPF + HPF + BPF, SERIES: 5.91%; LPF + HPF + BPF, PARALLEL: 5.9%; LPF + HPF + BPF, HYBRID: 5.91%",
+   "detail": "LPF + HPF + BPF, SERIES: 10.8%; LPF + HPF + BPF, PARALLEL: 11.04%; LPF + HPF + BPF, HYBRID: 10.93%",
    "rows": [
     {
      "config": "LPF + HPF + BPF, SERIES",
-     "pct_of_one_core_48k": 5.91
+     "pct_of_one_core_48k": 10.8
     },
     {
      "config": "LPF + HPF + BPF, PARALLEL",
-     "pct_of_one_core_48k": 5.9
+     "pct_of_one_core_48k": 11.04
     },
     {
      "config": "LPF + HPF + BPF, HYBRID",
-     "pct_of_one_core_48k": 5.91
+     "pct_of_one_core_48k": 10.93
     }
    ]
   },
   {
-   "name": "DEVICE: Filter Routing + 3 parallel levels are stored parameters; signal-flow readout correct for all 12 routing \u00d7 order \u00d7 position combinations; 87 unique parameters (v1.6 appends Engine Mode, High Oversampling, K35 Circuit and 5 Sherman controls)",
+   "name": "DEVICE: Filter Routing + 3 parallel levels are stored parameters; signal-flow readout correct for all 12 routing \u00d7 order \u00d7 position combinations; 88 unique parameters (v1.6 appends Engine Mode, High Oversampling, K35 Circuit and 6 Sherman controls)",
    "passed": true,
    "detail": "ok"
   }
@@ -5176,6 +5176,6 @@
  "summary": {
   "total": 95,
   "passed": 95,
-  "seconds": 233.2
+  "seconds": 427.9
  }
 }
