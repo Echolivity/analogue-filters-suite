@@ -304,6 +304,81 @@ check("SEM (SEM-1A schematic): RES-pot damping law 2R = 0.1 + 3.03(1 - res) with
       max(semfit.values()) < 0.5 and semg[-30] - semg[0] > 5 and semosc < -100,
       f"fit {semfit} dB; res 100 gain at 1 kHz: {semg[-30]} dB (-30 dBFS) -> {semg[0]} dB (0 dBFS); after impulse {semosc} dBFS")
 
+# ------------------------------------------------------------------ Sherman: Filterbank 2 manual features
+SHP = lambda **k: base(**dict(dict(l_on=1, l_model=0, l_cut=1000, l_res=0, l_slope=0), **k))
+f, Hs = tf(SHP(sh_mode=1, sh_bal=50, sh_corr=-100)); sil = db(np.abs(Hs).max())
+f, Hn = tf(SHP(sh_mode=1, sh_bal=50, sh_corr=100)); ntc = db(Hn[np.argmin(abs(f - 1000))]); pbd = db(Hn[np.argmin(abs(f - 100))])
+f, Hl = tf(SHP(sh_mode=1, sh_bal=0)); f, H0 = tf(SHP()); same = float(np.abs(Hl - H0).max())
+check("Sherman PANEL modes (manual p. 8-10): Bp + correction -Bp is silent, + correction -Bp+Lp+Hp is a notch at fc, Balance Lp equals STAGE",
+      sil < -90 and ntc < -40 and abs(pbd) < 1 and same == 0, f"Bp-Bp {sil:.0f} dB; notch at fc {ntc:.0f} dB, 100 Hz {pbd:+.1f} dB; Lp vs STAGE max diff {same}")
+xh = np.random.default_rng(1).standard_normal(SR * 3) * 0.03
+pk = {}
+for hm, n_ in ((2, 2), (4, 4)):
+    yh = run(xh, SHP(l_slope=1, l_res=85, sh_harm=hm))[SR:, 0]
+    from scipy.signal import welch
+    fw, Py = welch(yh, SR, nperseg=16384); Px = welch(xh[SR:], SR, nperseg=16384)[1]; Hh = 10 * np.log10(Py / Px)
+    band = (fw > 1000 / n_ * 0.7) & (fw < 1000 / n_ * 1.4); pk[n_] = round(float(fw[band][np.argmax(Hh[band])]))
+check("Sherman harmonics (24 dB): filter 2 resonates at f1 / n", all(abs(1200 * np.log2(v * n_ / 1000)) < 50 for n_, v in pk.items()),
+      "; ".join(f"/{n_}: peak {v} Hz" for n_, v in pk.items()))
+xl = np.random.default_rng(3).standard_normal(SR * 3) * 10 ** (-12 / 20)
+prom = {}
+for lim in (0, 1):
+    yl = run(xl, SHP(l_slope=1, l_res=85, l_drive=100, sh_limit=lim))[SR:, 0]
+    fw, Py = welch(yl, SR, nperseg=8192); Px = welch(xl[SR:], SR, nperseg=8192)[1]; Hh = 10 * np.log10(Py / Px)
+    prom[lim] = (round(float(Hh[(fw > 700) & (fw < 1400)].max() - np.median(Hh[(fw > 100) & (fw < 300)])), 1), round(db(np.std(yl)), 1))
+check("Sherman Limit: more resonance prominence under heavy drive, output level within 3 dB", prom[1][0] > prom[0][0] + 3 and abs(prom[1][1] - prom[0][1]) < 3,
+      f"Drive 100: peak {prom[0][0]} -> {prom[1][0]} dB above passband; level {prom[0][1]} -> {prom[1][1]} dBFS")
+worst = -999.0
+for hm in (0, 2, 10):
+    for sr_ in (44100, 48000):
+        q = sr_ / 4
+        for c in range(-100, 101, 20):
+            xq = np.zeros(int(0.7 * sr_)); xq[int(0.3 * sr_):int(0.3 * sr_) + 64] = 0.05
+            yq = run(xq, base(l_on=1, l_model=0, l_cut=q * 2 ** (c / 1200), l_res=100, l_slope=1, sh_harm=hm), sr_)[:, 0]
+            worst = max(worst, db(np.max(np.abs(yq[int(0.4 * sr_):]))))
+tt3 = np.arange(SR) / SR; xs = 0.3 * np.sin(2 * np.pi * 220 * tt3)
+ys = run(xs, SHP(l_slope=1, l_res=60), events=[(SR // 2, "sh_harm", 4)])[:, 0]
+jump = float(np.abs(np.diff(ys[SR // 2 - 200:SR // 2 + 200], 2)).max()); steady = float(np.abs(np.diff(ys[SR // 4:SR // 4 + 400], 2)).max())
+check("Sherman harmonics: fs/4 sweep at ratios 1/2/16 (24 dB, res 100) peak <= +6 dBFS; a ratio change is click-free",
+      worst <= 6 and jump < 4 * steady + 1e-3, f"worst {worst:.1f} dBFS; 2nd-difference at the switch {jump:.4f} vs steady {steady:.4f}")
+
+# clocked (switched-capacitor) character: behavioural, off by default (goldens prove the off path is bit-exact)
+z = np.zeros(SR * 2); yz = run(z, SHP(l_cut=60, sh_clock=1, ovs_hi=2))[SR:, 0]
+fw, Pz = welch(yz, SR, nperseg=16384); tone = round(float(fw[np.argmax(Pz)]))
+xc = np.random.default_rng(7).standard_normal(SR * 2) * 0.1
+c1 = run(xc, SHP(l_cut=200, l_res=40, l_slope=1, sh_clock=1, eng_mode=0, ovs_sel=0, ovs_hi=0))[:, 0]
+c8 = run(xc, SHP(l_cut=200, l_res=40, l_slope=1, sh_clock=1, eng_mode=0, ovs_hi=2))[:, 0]
+same18 = float(np.abs(c1 - c8).max())
+c0 = run(xc, SHP(l_cut=200, l_res=40, l_slope=1))[SR:, 0]
+fw, Pc = welch(c8[SR:], SR, nperseg=8192); fw, P0 = welch(c0, SR, nperseg=8192)
+img = round(float(np.mean(10 * np.log10(Pc[(fw > 15000) & (fw < 22000)] / P0[(fw > 15000) & (fw < 22000)]))), 1)
+worstc = -999.0
+for sr_ in (44100, 48000):
+    q = sr_ / 4
+    for c in range(-100, 101, 20):
+        xq = np.zeros(int(0.7 * sr_)); xq[int(0.3 * sr_):int(0.3 * sr_) + 64] = 0.05
+        yq = run(xq, base(l_on=1, l_model=0, l_cut=q * 2 ** (c / 1200), l_res=100, l_slope=1, sh_clock=1), sr_)[:, 0]
+        worstc = max(worstc, db(np.max(np.abs(yq[int(0.4 * sr_):]))))
+data["sherman_clock"] = dict(feedthrough_hz=tone, ref_1x_vs_8x=same18, image_rise_db=img, fs4_worst=worstc)
+check("Sherman clock (behavioural, 100:1 assumed): feedthrough at 100 x fc; Reference forces 8x (1x == 8x); staircase images above the passband; fs/4 sweep bounded",
+      abs(tone - 6000) < 20 and same18 == 0 and img > 10 and worstc <= 6,
+      f"silent input, fc 60 Hz: tone {tone} Hz; 1x vs 8x max diff {same18}; 15-22 kHz {img:+.1f} dB vs clock off; fs/4 worst {worstc:.1f} dBFS")
+
+# Sherman partial self-oscillation (reviews: SOS 1997 "refuses to go into full self-oscillation"; Tape Op 2025 "partial")
+SO = lambda **k: base(**dict(dict(l_on=1, l_model=0, l_cut=1000, l_res=100, l_slope=1, eng_mode=0), **k))
+tails, pks = {}, {}
+for fc in (100, 1000, 5000):
+    xk = np.zeros(SR * 3); xk[2400:2464] = 0.3
+    tails[fc] = round(db(np.std(run(xk, SO(l_cut=fc))[int(2.5 * SR):, 0]) + 1e-15), 1)
+ts = np.arange(SR * 2) / SR
+whistle = round(db(np.std(run(10 ** (-30 / 20) * np.sin(2 * np.pi * 1000 * ts), SO(l_slope=0))[SR:, 0]) * np.sqrt(2)), 1)
+f, Hr = tf(SO(l_slope=0)); pkc = round(float(1200 * np.log2(f[np.argmax(np.abs(Hr))] / 1000)))
+f, Hr9 = tf(SO(l_slope=0, l_res=90)); g100, g90 = db(np.abs(Hr).max()), db(np.abs(Hr9).max())
+data["sherman_partial_selfosc"] = dict(tail_dbfs_after_2s=tails, whistle_dbfs=whistle, peak_cents=pkc, peak_db_res100=round(g100, 1), peak_db_res90=round(g90, 1))
+check("Sherman partial self-oscillation: res 100 rings and dies (< -50 dBFS 2 s after a click, any cutoff), still whistles on input (> -12 dBFS from -30 dBFS at fc), peak on pitch, resonance still rising to the top of the knob",
+      max(tails.values()) < -50 and whistle > -12 and abs(pkc) < 30 and g100 > g90 + 3,
+      f"tails {tails}; whistle {whistle} dBFS; peak {pkc:+d} c; peak gain res 90 {g90:.1f} -> res 100 {g100:.1f} dB")
+
 n_ok = sum(r["ok"] for r in results)
 json.dump(dict(results=results, data=data), open(os.path.join(ROOT, "build", "v16_results.json"), "w"), indent=1, default=float)
 print(f"\nv1.6 tests: {n_ok}/{len(results)} passed")

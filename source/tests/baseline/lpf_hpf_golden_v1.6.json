@@ -1,8 +1,8 @@
 {
  "hashes": {
-  "LPF m0 slope0": "e49b5083998b9421b0f998519a7087ab5314560c9c331e73cacd9281dc0df02c",
-  "LPF m0 slope1": "6387822a2721da526085e26428ad1a21fd733dcbfed06844489bd8a2a953ddf1",
-  "LPF m0 slope3": "50f85e88d900730fe9adfe6744876c7b04663494e1aab2d94e0baa499b6f2b32",
+  "LPF m0 slope0": "939d72d167f95190512f041189a826d1752fe8a1840139290ee98dcdde252f4e",
+  "LPF m0 slope1": "b75a171cb45f45150f395505e9cbfc5edf513bd4d77c4fa244288a63086d85f4",
+  "LPF m0 slope3": "d99427608212d129b33fe75467dac8f95550eeffb91491146d7e34996b2855bf",
   "LPF m1 slope0": "375640038de6bbd79c6077afec8c2a6cf538b1058b56a9f44449d031e5f26ad2",
   "LPF m1 slope1": "0a876d4d37647729d0f8478bf068ef7f26a4e7bf32c2ef2a6998b03d6cecd60d",
   "LPF m1 slope3": "1d861939ba9790163742024ce1298fd9bce53cd7174699ac5732131cdc4c8960",
@@ -18,8 +18,8 @@
   "LPF m5 slope0": "fbafd8f5d0f0a4e9ddf41dda0f2caf36baf6e05445c345e20be8f31c1e052798",
   "LPF m5 slope1": "5faa175e4564d80e7df7c94c8bc30712ac62d1e193331c7a7f7585b08c352b68",
   "LPF m5 slope3": "0ee1a47a0d24158d8e0d9d06b8f71aa8b55545f9b56504e7e6812a5a9f3375be",
-  "HPF m0 slope0": "0b7b0459edac2c68774e34bd5b5a42360fb95e8945f04cecdf049e320b08e01e",
-  "HPF m0 slope2": "100c3beca7f8c5e29ce88cade939cc986e2decace4620ac53bbcd72a3b8a3c8e",
+  "HPF m0 slope0": "e5c34f0f3291276281070059d45152019a16aa98522fe63ab411dcd49441d903",
+  "HPF m0 slope2": "b23e1b93b0aaa4ed5dcf059daada91548f7719aa4c0795eafd66cc0f692e46cb",
   "HPF m1 slope0": "69f2682b9078beaa21c131fbcd09958daa75a136f9f2de3023e720603d1981b1",
   "HPF m1 slope2": "9ec80113dcb1658e12a95143df6933cec2b651c9338adbc585398ad5cab52c18",
   "HPF m2 slope0": "5a7dbb6f87677f58749e3b7fafcf170813e79439dd86ff11b15335f6a02008a6",
@@ -28,16 +28,16 @@
   "HPF m3 slope2": "f97b31f338dacc0359a9f45ca2de9bcbf4f6c417b7a96c36ed8185623456ff07",
   "HPF m4 slope0": "d6989a43249b2234aa5221b49657e9c6c57c0055e44999cb1ffd111555db401c",
   "HPF m4 slope2": "eb66ab4a8843ddf99c70aedd6423ba0710ddd6895ee995f4e658d2248cff51e4",
-  "LPF m0 selfosc char": "12eb3de33cdeb6b8eb52755eb3d6f5c263237dcf40feb8ac41ddcef9de5e0de6",
+  "LPF m0 selfosc char": "3a4eae18946f234672096f4225958d928381de9e4b057fbd9417ecdba2b7d179",
   "LPF m1 selfosc char": "efeafa22f0512d37dcbd3d4f458c3a08d9c6ca575155a9a0d6dd912355d7d716",
   "LPF m2 selfosc char": "15bf7fc2be3e0fa602915c39f00f6ede89cdfcf0a7f16f682d8a798f68bb4a1c",
   "LPF m3 selfosc char": "560f4dca13c62aaf7e558af47c7ac7027e2fdebc3e6fc29a371ca2d1dc68d7e0",
   "LPF m4 selfosc char": "91f06022811f5fd9191a03ab55dbe77504279f00be5131e2517877477ba68ffa",
   "LPF m5 selfosc char": "64797def081082df5a63650496ce5696f1ecaf60cbeac5b2f5a3f8a022621ee5",
-  "both order0 os0": "1858a852341bc37e0cb23fe22f5dcd4c82e3f0d5cf03a57b9eec496dbf49c318",
-  "both order0 os1": "85b4488b32460857cdf712896547a5d53c742144fcc79c250c95fdb8f67a6137",
-  "both order1 os0": "5a95ae9df84233cfb931cc3bf7a1051779f3c56cb8686441c9b0277a692b33cc",
-  "both order1 os1": "f62a639f5c53dd4cd1b3f6c3a2ce480c75868addc598e897f07c9a88affe0504",
+  "both order0 os0": "90ce81fff80bc98528d2569a0586513b00562ba28016418b4214ccb59543dbfd",
+  "both order0 os1": "852ab422f0902187a7df6edf486c403367b88c60ced11c11e71a1f245718db5a",
+  "both order1 os0": "1ebee632af40511beeb20a3d41903f3daaf18fabba1e4ebc75c35207c0e8ab4f",
+  "both order1 os1": "962d5a20dbcb4291864b18ddb0ce05fb738f2a09667406a85c679e117f672afd",
   "LPF sweep": "5d73adc09bc6fad6d5fec715c962d02ef2aab493996c45a2157defedf9a54490",
   "HPF sweep": "35cf40783a262c620244feb25e0c5f06816d7b9f9beb1da51672c99d0e59207d",
   "LPF model switches": "534ba35bf4f597b0eaa942e1ef847218d697d07ddccfbda09837335dbfdcd125",
@@ -102,5 +102,5 @@
   "output stage",
   "slope+drive+char moves"
  ],
- "note": "v1.6 solver fix (Sherman, Steiner, BPF SVF limiter), Ladder on the Minimoog filter board (Emphasis law, C5/C1/C10 couplings, gain-recovery pair; also the power-on fade from the default Ladder) and Reference-mode power-on default; legacy tests run in Creative mode (tests/dsp.py base)"
+ "note": "v1.6 solver fix (Sherman, Steiner, BPF SVF limiter), Sherman partial self-oscillation (damping floor + resonance limiter), Ladder on the Minimoog filter board (Emphasis law, C5/C1/C10 couplings, gain-recovery pair; also the power-on fade from the default Ladder) and Reference-mode power-on default; legacy tests run in Creative mode (tests/dsp.py base)"
 }

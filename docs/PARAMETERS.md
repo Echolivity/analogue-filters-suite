@@ -1,6 +1,6 @@
 # Parameters, automation and MIDI mapping
 
-All 82 controls are Live parameters: the 20 from v1.1, 11 from v1.2 and 44 from v1.3, all unchanged, plus 4 for v1.4 filter routing and 3 for v1.6 (Engine Mode, High Oversampling, K35 Circuit). Every one can be automated, MIDI-mapped (Cmd/Ctrl+M, click the control, move a controller) and key-mapped, and all are stored with the Live Set. Names below are the exact names in Live's automation chooser.
+All 88 controls are Live parameters: the 20 from v1.1, 11 from v1.2 and 44 from v1.3, all unchanged, plus 4 for v1.4 filter routing and 8 for v1.6 (Engine Mode, High Oversampling, K35 Circuit, and 6 Sherman controls). Every one can be automated, MIDI-mapped (Cmd/Ctrl+M, click the control, move a controller) and key-mapped, and all are stored with the Live Set. Names below are the exact names in Live's automation chooser.
 
 ## Low-pass stage (amber)
 
@@ -147,4 +147,17 @@ See V1.6_ENGINE.md.
 
 The ENGINE strip's RUNNING AT readout shows the factors in effect.
 | K35 Circuit | OTA (Mk2) / KORG-35 (Mk1) | OTA (Mk2) | Which MS-20 filter circuit model 02 uses, for both the LPF and the HPF. OTA is the v1.5 sound. KORG-35 puts the clipping diodes in the signal path, and CHARACTER drives them. A change ducks for 8 ms and resets the filter states. See MODELS.md. |
+
+## Sherman (v1.6, Filterbank 2 manual)
+
+These apply to model 01 in either stage. They are behavioural, matching documented behaviour rather than a verified circuit.
+
+| Live name | Range | Default | Behaviour |
+|---|---|---|---|
+| Sherman Modes | STAGE / PANEL | STAGE | STAGE gives LP in the LPF stage and HP in the HPF stage (as v1.5). PANEL uses Balance and Correction. |
+| Sherman Balance | 0–100 % | 0 | Lp (0) → Bp (50) → Hp (100). PANEL only. |
+| Sherman Correction | −100 to +100 % | 0 | −Bp (−100) … 0 … −Bp + Lp + Hp (+100). PANEL only. |
+| Sherman Harmonics | 1, 1.5, 2, 3, 4, 5, 6, 7, 8, 9, 16 | 1 | Filter 2 at the cutoff ÷ n, at 24 dB only; changes glide over about 3 ms. |
+| Sherman Limit | NORMAL / LIMIT | NORMAL | Keeps the resonance alive under heavy Drive (mechanism invented). |
+| Sherman Clock | SMOOTH / CLOCK | SMOOTH | Clocked (switched-capacitor) character: clock at 100 × cutoff, staircase grain and a faint whine. Smooth above cutoff ≈ engine rate ÷ 100. Reference mode forces at least 8x while on. Constants assumed. |
 
