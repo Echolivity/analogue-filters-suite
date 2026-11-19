@@ -27,8 +27,8 @@
 |---|---|---|
 | R23 | 3.9 kΩ | the schematic: "value depends on characteristics of 0805"; chosen so full drive (about 5.6 V, A6 swing minus the LED's about 1.9 V) gives 1.44 mA, 13 kΩ and a sweep top of about 7 kHz on HI. A factory calibration spec or a measured unit would replace it. |
 | Photocell temperature, unit spread | not modelled | fig. 7: about ±20 % over 0–50 °C |
-| Rails | ±7.5 V soft (tanh), at the preamp, rectifier, envelope and selected output | 4558 on ±9 V; the integrators and summer are not clipped internally |
+| Rails | ±7.5 V soft (tanh) at the preamp, rectifier and envelope, and at the summer (A2) and both integrators (A3/A4), whose states follow the clipped outputs | 4558 on ±9 V; the exact swing of a 1975 4558 is not known |
 | Level | 1 model unit = 1 V | no reference level |
-| Polarity | not modelled | the original inverts the dry (A1) and the BP output |
+| Polarity | not modelled (by choice) | the original inverts the dry (A1) and the BP output; copying it would make Mix cancel in BP mode |
 
 Not resolved: the label of the 12 k DOWN resistor (R14/R34) is illegible in the scan; its value is clear.

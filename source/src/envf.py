@@ -22,7 +22,7 @@ Photocell (Hamamatsu P873-13, the 0805's catalogue number; technical data suppli
   recovery tail of fig. 6 (measured there on the sister part P873-G35-911).
 ASSUMED: R23 = 3.9 k (the schematic: "value depends on characteristics of 0805"; chosen so the sweep tops out at
 about 7 kHz on HI), A6 limited to ~5.6 V across R23; +/-7.5 V op-amp rails (4558 on +/-9 V) at the preamp,
-rectifier, envelope and selected output only; 1 model unit = 1 V. Polarity inversions of the original (inverted
+rectifier, envelope, summer (A2) and both integrators (A3, A4; states follow the clipped outputs); 1 model unit = 1 V. Polarity inversions of the original (inverted
 dry, inverted BP) are not modelled. Attack / release are the circuit's 1.55 ms / 221 ms by default and adjustable.
 """
 
@@ -129,10 +129,18 @@ def emit(w):
     w("\tef_R = 4700 / (4700 + ef_rf);                 // b = 1/(2Q)")
     w("\tef_a2 = 2 * ef_rf / (4700 + ef_rf);           // 2a: summer gain")
     w("\tef_og = exp2(clamp(ef_out, -24, 12) * 0.166096405);")
+    w("\tef_sn = 1 / (1 + 2 * ef_R * ef_gq + ef_gq * ef_gq);")
     for c in ("L", "R"):
-        w(f"\tefh_{c}, efb_{c}, efl_{c}, ef_{c}1, ef_{c}2 = f_svf(ef_p{c} * ef_a2, H_ef_{c}1, H_ef_{c}2, ef_gq, ef_R);")
-        w(f"\tefo_{c} = ef_mode < 0.5 ? efl_{c} : (ef_mode < 1.5 ? efb_{c} : efh_{c});")
-        w(f"\tefo_{c} = {RAIL} * tanh(efo_{c} * {1 / RAIL!r}) * ef_og;")
+        # TPT state-variable filter with the op-amp rails INSIDE the loop: A2 (HP), A3 (BP) and A4 (LP) each
+        # saturate at +/-7.5 V, and the integrator states follow the clipped outputs (an integrator cannot
+        # hold more than its rail). Linear below the rails; at high Peak the hot band-pass clips as on the pedal.
+        w(f"\tefh_{c} = (ef_p{c} * ef_a2 - (2 * ef_R + ef_gq) * H_ef_{c}1 - H_ef_{c}2) * ef_sn;")
+        w(f"\tefh_{c} = {RAIL} * tanh(efh_{c} * {1 / RAIL!r});")
+        w(f"\tefb_{c} = {RAIL} * tanh((ef_gq * efh_{c} + H_ef_{c}1) * {1 / RAIL!r});")
+        w(f"\tefl_{c} = {RAIL} * tanh((ef_gq * efb_{c} + H_ef_{c}2) * {1 / RAIL!r});")
+        w(f"\tef_{c}1 = 2 * efb_{c} - H_ef_{c}1;")
+        w(f"\tef_{c}2 = 2 * efl_{c} - H_ef_{c}2;")
+        w(f"\tefo_{c} = (ef_mode < 0.5 ? efl_{c} : (ef_mode < 1.5 ? efb_{c} : efh_{c})) * ef_og;")
         w(f"\tefo_{c} = efo_{c} == efo_{c} ? efo_{c} : 0;")
         w(f"\tx_{c} = x_{c} + ef_en * ef_mx * (efo_{c} - x_{c});")
         w(f"\tH_ef_{c}1 = fixdenorm(ef_{c}1);")

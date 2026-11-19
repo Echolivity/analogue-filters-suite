@@ -168,7 +168,7 @@ The model runs at the base rate, before the filter section, using a TPT SVF. The
 
 **Assumed:**
 - R23 = 3.9 kΩ (the schematic leaves it to the opto), which puts the sweep top at about 7 kHz on HI;
-- ±7.5 V rails at the preamp, envelope and output only;
+- ±7.5 V rails (4558 on ±9 V) at the preamp, rectifier and envelope, and inside the filter loop (summer and both integrators; the states follow the clipped outputs);
 - 1 unit = 1 V.
 
 The original's polarity inversions are not modelled. [Sources](independent-review/ENVELOPE_FILTER_SOURCES.md).
