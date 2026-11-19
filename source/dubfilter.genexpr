@@ -84,6 +84,11 @@ Param par_b(0, min=-40, max=6);
 Param eng_mode(0, min=0, max=1);
 Param ovs_hi(0, min=0, max=3);
 Param k35_circ(0, min=0, max=1);
+Param sh_mode(0, min=0, max=1);
+Param sh_bal(0, min=0, max=100);
+Param sh_corr(0, min=-100, max=100);
+Param sh_harm(0, min=0, max=10);
+Param sh_limit(0, min=0, max=1);
 
 History H_l_L_sh_s1a(0.0);
 History H_l_L_sh_s2a(0.0);
@@ -1277,6 +1282,7 @@ History H_os_R_s4dnb4(0.0);
 History H_os_R_s4dnb5(0.0);
 History H_cur_tos(1);
 History H_cur_k35(0);
+History H_sh_lr(0);
 History H_l_dzsh(0.0);
 History H_l_dzk3(0.0);
 History H_l_dzld(0.0);
@@ -1379,21 +1385,41 @@ f_tri4(d1, d2, d3, d4, B1, C1, A2, B2, C2, A3, B3, C3, A4, B4) {
 // R1: filter-1 damping (mild); Rt: filter-2 damping (to self-oscillation).
 // ti: 0 = filter 2 alone (12 dB), 1 = filter 1 -> filter 2 (24 dB)
 // returns y, y, s1a, s2a, ba, s1b, s2b, bb, yprev
-f_sherman(x, s1a, s2a, ba, s1b, s2b, bb, yp, g, R1, Rt, fb, ti, hp) {
+// v1.6 Filterbank 2 manual features (behavioural; docs/independent-review/SHERMAN_MANUAL_CHECK.md):
+// panel modes (Lp/Bp/Hp balance + correction knob -Bp ... 0 ... -Bp+Lp+Hp), harmonics (filter 2 at f1/n,
+// series only), Limit (lower level into the filters after the overdrive, made up after; mechanism invented).
+// With pm = 0, g2 = g and lk = 1 the arithmetic is exactly the v1.5 model.
+f_shout(h, b, l, hp, pm, bal, cor) {
+	o = hp > 0.5 ? h : l;
+	if (pm > 0.5) {
+		o = bal < 0.5 ? (1 - 2 * bal) * l + 2 * bal * b : (2 - 2 * bal) * b + (2 * bal - 1) * h;
+		o = cor < 0 ? o + cor * b : o + cor * (l + h - b);
+	}
+	return o;
+}
+
+f_sherman(x, s1a, s2a, ba, s1b, s2b, bb, yp, g, g2, R1, Rt, fb, ti, hp, pm, bal, cor, lk) {
 	u = f_asym(1.6 * (x + fb * yp)) * 0.625;
+	if (lk < 0.999) {
+		u = u * lk;
+	}
 	Ra = 1 - (1 - R1) * f_tg(ba);
 	h1, b1, l1, n1a, n2a = f_svf(u, s1a, s2a, g, Ra);
-	o1 = hp > 0.5 ? h1 : l1;
+	o1 = f_shout(h1, b1, l1, hp, pm, bal, cor);
 	Rb = 1 - (1 - Rt) * f_ag(bb * 2);
 	i2 = u + ti * (o1 - u);
-	h2, b2, l2, n1b, n2b = f_svf(i2, s1b, s2b, g, Rb);
+	ge = g + ti * (g2 - g);
+	h2, b2, l2, n1b, n2b = f_svf(i2, s1b, s2b, ge, Rb);
 	// v1.6: re-evaluate the amplitude-dependent damping at the CURRENT band value
 	// (one fixed-point step). The lagged value alone lets the limiter sample an
 	// oscillation near fs/4 at its zero crossings and pump it (period-2 parametric
 	// instability, docs/independent-review/INDEPENDENT_AUDIT_REVIEW.md section 3.1).
 	Rb = 1 - (1 - Rt) * f_ag(b2 * 2);
-	h2, b2, l2, n1b, n2b = f_svf(i2, s1b, s2b, g, Rb);
-	o2 = hp > 0.5 ? h2 : l2;
+	h2, b2, l2, n1b, n2b = f_svf(i2, s1b, s2b, ge, Rb);
+	o2 = f_shout(h2, b2, l2, hp, pm, bal, cor);
+	if (lk < 0.999) {
+		o2 = o2 * 2.7;          // makeup (not 1/lk): keeps the output level within ~1.5 dB of Limit off
+	}
 	ynext = tanh(o2);
 	return o2, o2, fixdenorm(n1a), fixdenorm(n2a), b1, fixdenorm(n1b), fixdenorm(n2b), b2, ynext;
 }
@@ -1762,6 +1788,14 @@ cur_order = H_cur_order;
 cur_os = H_cur_os;
 cur_tos = H_cur_tos;
 cur_k35 = H_cur_k35;
+sh_pm = sh_mode > 0.5 ? 1 : 0;
+sh_b = clamp(sh_bal * 0.01, 0, 1);
+sh_c = clamp(sh_corr * 0.01, -1, 1);
+sh_ht = (clamp(floor(sh_harm + 0.5), 0, 10) < 0.5 ? 0.0 : (clamp(floor(sh_harm + 0.5), 0, 10) < 1.5 ? 0.584962501 : (clamp(floor(sh_harm + 0.5), 0, 10) < 2.5 ? 1.0 : (clamp(floor(sh_harm + 0.5), 0, 10) < 3.5 ? 1.584962501 : (clamp(floor(sh_harm + 0.5), 0, 10) < 4.5 ? 2.0 : (clamp(floor(sh_harm + 0.5), 0, 10) < 5.5 ? 2.321928095 : (clamp(floor(sh_harm + 0.5), 0, 10) < 6.5 ? 2.584962501 : (clamp(floor(sh_harm + 0.5), 0, 10) < 7.5 ? 2.807354922 : (clamp(floor(sh_harm + 0.5), 0, 10) < 8.5 ? 3.0 : (clamp(floor(sh_harm + 0.5), 0, 10) < 9.5 ? 3.169925001 : 4.0))))))))));
+sh_lr = H_sh_lr + (sh_ht - H_sh_lr) * min(1, 300 / samplerate);
+sh_lr = abs(sh_lr - sh_ht) < 0.000001 ? sh_ht : sh_lr;
+sh_hr = exp2(sh_lr);
+sh_lk = sh_limit > 0.5 ? 0.25 : 1;
 ovs = cur_os < 0.5 ? 1 : (cur_os < 1.5 ? 2 : (cur_os < 2.5 ? 4 : (cur_os < 3.5 ? 8 : 16)));
 fso = fs * ovs;
 a_cut = 1 - exp(-1 / (0.006 * fs));
@@ -3534,6 +3568,7 @@ l_sh_g = l_gw;
 l_sh_R1 = 0.3 + 0.7 * (1 - l_rz) * (1 - l_rz);
 l_sh_R = 0.8 * (1 - l_rz) * (1 - l_rz) - 0.08 * pow(l_rz, 30);
 l_sh_fb = 0.92 * l_chr;
+l_sh_g2 = sh_hr > 1.000001 ? tan(pi * l_fcc / (sh_hr * fso)) : l_gw;
 // coefficients: Korg 35 / MS-20 (OTA Mk2, or KORG-35 Mk1 via K35 Circuit)
 l_k3_g = l_gw;
 l_k3_K = 0.05 + 2.03 * pow(l_rz, 1.1);
@@ -3773,6 +3808,7 @@ h_sh_g = h_gw;
 h_sh_R1 = 0.3 + 0.7 * (1 - h_rz) * (1 - h_rz);
 h_sh_R = 0.8 * (1 - h_rz) * (1 - h_rz) - 0.08 * pow(h_rz, 30);
 h_sh_fb = 0.92 * h_chr;
+h_sh_g2 = sh_hr > 1.000001 ? tan(pi * h_fcc / (sh_hr * fso)) : h_gw;
 // coefficients: Korg 35 / MS-20 (OTA Mk2, or KORG-35 Mk1 via K35 Circuit)
 h_k3_g = h_gw;
 h_k3_K = 0.05 + 2.03 * pow(h_rz, 1.1);
@@ -4713,7 +4749,7 @@ for (k = 0; k < ovs; k += 1) {
 			hi_L = xa_L * h_d;
 			hb_L = 0;
 			if (h_ash > 0.5) {
-				o12, o24, h_L_sh_s1a, h_L_sh_s2a, h_L_sh_ba, h_L_sh_s1b, h_L_sh_s2b, h_L_sh_bb, h_L_sh_yp = f_sherman(hi_L, h_L_sh_s1a, h_L_sh_s2a, h_L_sh_ba, h_L_sh_s1b, h_L_sh_s2b, h_L_sh_bb, h_L_sh_yp, h_sh_g, h_sh_R1, h_sh_R, h_sh_fb, h_ti, 1);
+				o12, o24, h_L_sh_s1a, h_L_sh_s2a, h_L_sh_ba, h_L_sh_s1b, h_L_sh_s2b, h_L_sh_bb, h_L_sh_yp = f_sherman(hi_L, h_L_sh_s1a, h_L_sh_s2a, h_L_sh_ba, h_L_sh_s1b, h_L_sh_s2b, h_L_sh_bb, h_L_sh_yp, h_sh_g, h_sh_g2, h_sh_R1, h_sh_R, h_sh_fb, h_ti, 1, sh_pm, sh_b, sh_c, sh_lk);
 				hb_L = hb_L + h_msh * (o12 + h_ti * (o24 - o12));
 			}
 			if (h_ak3 > 0.5) {
@@ -4804,7 +4840,7 @@ for (k = 0; k < ovs; k += 1) {
 			hi_R = xa_R * h_d;
 			hb_R = 0;
 			if (h_ash > 0.5) {
-				o12, o24, h_R_sh_s1a, h_R_sh_s2a, h_R_sh_ba, h_R_sh_s1b, h_R_sh_s2b, h_R_sh_bb, h_R_sh_yp = f_sherman(hi_R, h_R_sh_s1a, h_R_sh_s2a, h_R_sh_ba, h_R_sh_s1b, h_R_sh_s2b, h_R_sh_bb, h_R_sh_yp, h_sh_g, h_sh_R1, h_sh_R, h_sh_fb, h_ti, 1);
+				o12, o24, h_R_sh_s1a, h_R_sh_s2a, h_R_sh_ba, h_R_sh_s1b, h_R_sh_s2b, h_R_sh_bb, h_R_sh_yp = f_sherman(hi_R, h_R_sh_s1a, h_R_sh_s2a, h_R_sh_ba, h_R_sh_s1b, h_R_sh_s2b, h_R_sh_bb, h_R_sh_yp, h_sh_g, h_sh_g2, h_sh_R1, h_sh_R, h_sh_fb, h_ti, 1, sh_pm, sh_b, sh_c, sh_lk);
 				hb_R = hb_R + h_msh * (o12 + h_ti * (o24 - o12));
 			}
 			if (h_ak3 > 0.5) {
@@ -4903,7 +4939,7 @@ for (k = 0; k < ovs; k += 1) {
 		li_L = lsrc_L * l_d;
 		lb_L = 0;
 		if (l_ash > 0.5) {
-			o12, o24, l_L_sh_s1a, l_L_sh_s2a, l_L_sh_ba, l_L_sh_s1b, l_L_sh_s2b, l_L_sh_bb, l_L_sh_yp = f_sherman(li_L, l_L_sh_s1a, l_L_sh_s2a, l_L_sh_ba, l_L_sh_s1b, l_L_sh_s2b, l_L_sh_bb, l_L_sh_yp, l_sh_g, l_sh_R1, l_sh_R, l_sh_fb, l_ti, 0);
+			o12, o24, l_L_sh_s1a, l_L_sh_s2a, l_L_sh_ba, l_L_sh_s1b, l_L_sh_s2b, l_L_sh_bb, l_L_sh_yp = f_sherman(li_L, l_L_sh_s1a, l_L_sh_s2a, l_L_sh_ba, l_L_sh_s1b, l_L_sh_s2b, l_L_sh_bb, l_L_sh_yp, l_sh_g, l_sh_g2, l_sh_R1, l_sh_R, l_sh_fb, l_ti, 0, sh_pm, sh_b, sh_c, sh_lk);
 			lb_L = lb_L + l_msh * (o12 + l_ti * (o24 - o12));
 		}
 		if (l_ak3 > 0.5) {
@@ -5008,7 +5044,7 @@ for (k = 0; k < ovs; k += 1) {
 		li_R = lsrc_R * l_d;
 		lb_R = 0;
 		if (l_ash > 0.5) {
-			o12, o24, l_R_sh_s1a, l_R_sh_s2a, l_R_sh_ba, l_R_sh_s1b, l_R_sh_s2b, l_R_sh_bb, l_R_sh_yp = f_sherman(li_R, l_R_sh_s1a, l_R_sh_s2a, l_R_sh_ba, l_R_sh_s1b, l_R_sh_s2b, l_R_sh_bb, l_R_sh_yp, l_sh_g, l_sh_R1, l_sh_R, l_sh_fb, l_ti, 0);
+			o12, o24, l_R_sh_s1a, l_R_sh_s2a, l_R_sh_ba, l_R_sh_s1b, l_R_sh_s2b, l_R_sh_bb, l_R_sh_yp = f_sherman(li_R, l_R_sh_s1a, l_R_sh_s2a, l_R_sh_ba, l_R_sh_s1b, l_R_sh_s2b, l_R_sh_bb, l_R_sh_yp, l_sh_g, l_sh_g2, l_sh_R1, l_sh_R, l_sh_fb, l_ti, 0, sh_pm, sh_b, sh_c, sh_lk);
 			lb_R = lb_R + l_msh * (o12 + l_ti * (o24 - o12));
 		}
 		if (l_ak3 > 0.5) {
@@ -5123,7 +5159,7 @@ for (k = 0; k < ovs; k += 1) {
 			hi_L = hsrc_L * h_d;
 			hb_L = 0;
 			if (h_ash > 0.5) {
-				o12, o24, h_L_sh_s1a, h_L_sh_s2a, h_L_sh_ba, h_L_sh_s1b, h_L_sh_s2b, h_L_sh_bb, h_L_sh_yp = f_sherman(hi_L, h_L_sh_s1a, h_L_sh_s2a, h_L_sh_ba, h_L_sh_s1b, h_L_sh_s2b, h_L_sh_bb, h_L_sh_yp, h_sh_g, h_sh_R1, h_sh_R, h_sh_fb, h_ti, 1);
+				o12, o24, h_L_sh_s1a, h_L_sh_s2a, h_L_sh_ba, h_L_sh_s1b, h_L_sh_s2b, h_L_sh_bb, h_L_sh_yp = f_sherman(hi_L, h_L_sh_s1a, h_L_sh_s2a, h_L_sh_ba, h_L_sh_s1b, h_L_sh_s2b, h_L_sh_bb, h_L_sh_yp, h_sh_g, h_sh_g2, h_sh_R1, h_sh_R, h_sh_fb, h_ti, 1, sh_pm, sh_b, sh_c, sh_lk);
 				hb_L = hb_L + h_msh * (o12 + h_ti * (o24 - o12));
 			}
 			if (h_ak3 > 0.5) {
@@ -5214,7 +5250,7 @@ for (k = 0; k < ovs; k += 1) {
 			hi_R = hsrc_R * h_d;
 			hb_R = 0;
 			if (h_ash > 0.5) {
-				o12, o24, h_R_sh_s1a, h_R_sh_s2a, h_R_sh_ba, h_R_sh_s1b, h_R_sh_s2b, h_R_sh_bb, h_R_sh_yp = f_sherman(hi_R, h_R_sh_s1a, h_R_sh_s2a, h_R_sh_ba, h_R_sh_s1b, h_R_sh_s2b, h_R_sh_bb, h_R_sh_yp, h_sh_g, h_sh_R1, h_sh_R, h_sh_fb, h_ti, 1);
+				o12, o24, h_R_sh_s1a, h_R_sh_s2a, h_R_sh_ba, h_R_sh_s1b, h_R_sh_s2b, h_R_sh_bb, h_R_sh_yp = f_sherman(hi_R, h_R_sh_s1a, h_R_sh_s2a, h_R_sh_ba, h_R_sh_s1b, h_R_sh_s2b, h_R_sh_bb, h_R_sh_yp, h_sh_g, h_sh_g2, h_sh_R1, h_sh_R, h_sh_fb, h_ti, 1, sh_pm, sh_b, sh_c, sh_lk);
 				hb_R = hb_R + h_msh * (o12 + h_ti * (o24 - o12));
 			}
 			if (h_ak3 > 0.5) {
@@ -14317,6 +14353,7 @@ H_b_cur_pos = new_pos;
 H_cur_route = new_route;
 H_cur_tos = new_tos;
 H_cur_k35 = new_k35;
+H_sh_lr = sh_lr;
 H_rt_rl = rt_rl;
 H_rt_rh = rt_rh;
 H_rt_rb = rt_rb;

@@ -35,7 +35,12 @@ Rules: no silent substitution (the HPF menu has five entries), the one alternati
 
 **The model.** Asymmetric input overdrive, then filter 1 (a nonlinear SVF with mild resonance, Q ≤ 1.7), then filter 2 (a nonlinear SVF carrying the main resonance up to self-oscillation), both at the same cutoff. The 12 dB setting plays filter 2 alone, so resonance stays available. CHARACTER (FEEDBACK) adds a saturated output→input feedback path for the Filterbank's howl. That path is **not** taken from documentation; it is a design choice requested in the spec. Resonance is limited with secant-linearised sigmoids inside the zero-delay solves.
 
-**Not modelled.** Harmonic coupling of filter 2, parallel mode, continuous mode morphing, the envelopes, LFO, ring modulator and pitch tracking.
+**v1.6, from the Filterbank 2 manual** ([check](independent-review/SHERMAN_MANUAL_CHECK.md); still behavioural):
+- **Modes:** STAGE/PANEL. PANEL engages the manual's Balance (Lp/Bp/Hp) and Correction (−Bp … −Bp + Lp + Hp) knobs, shared by both filters (the hardware has a pair per filter).
+- **Harmonics:** filter 2 at f1 ÷ 1–16, at 24 dB.
+- **Limit:** more resonance headroom when overdriven. The mechanism is invented.
+
+**Not modelled:** the continuous PAR ↔ SER routing (and parallel mode), separate Balance/Correction per filter, the envelopes, LFO, ring modulator and pitch tracking.
 
 ## 02 Korg 35 / MS-20
 

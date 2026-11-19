@@ -41,6 +41,11 @@ Details and before/after measurements: [docs/V1.6_ENGINE.md](docs/V1.6_ENGINE.md
   - **No input soft clip** (no circuit origin); the op-amp rails limit the outputs at ±13 V. At 1x it is far cleaner: −140 dBc aliasing (v1.5: −89).
   - **Unchanged:** notch and band-pass routing, which already matched the PS19 crossfade.
   - **Assumptions:** a linear RES pot; 5 V per unit; the Q floor.
+- **New: Sherman Filterbank 2 features** (from the manual you supplied; the model stays behavioural). A new SHERMAN strip has five appended parameters, and the defaults are bit-identical:
+  - **Modes STAGE / PANEL:** PANEL engages the Filterbank's **Balance** (Lp → Bp → Hp) and **Correction** (−Bp … 0 … −Bp + Lp + Hp) knobs. Bp − Bp is silent, and Bp with full Correction is a notch, as the manual describes.
+  - **Harmonics:** filter 2 at the cutoff ÷ 1–16 for twin resonant peaks (24 dB). Ratio changes glide over about 3 ms.
+  - **Limit:** keeps resonance alive under heavy overdrive (+7 dB of peak prominence at Drive 100). The mechanism is invented; the manual documents only the effect.
+  - The manual's "too much input pushes away the resonance peaks" was already true of the model.
 - **New UI:** an ENGINE strip at the right edge showing the mode, the high-oversampling choice, and the factors actually running. Two new Live parameters, appended; all 79 earlier ones are unchanged.
 - **Compatibility:**
   - Earlier Sets open in REFERENCE. Choose CREATIVE to get v1.5's oversampling factor back.
@@ -57,7 +62,7 @@ Details and before/after measurements: [docs/V1.6_ENGINE.md](docs/V1.6_ENGINE.md
   - `tests/v16_tests.py` (15 checks)
   - `tests/golden.py check-v16`
   - `compat.py --allow-dsp`
-  - Suite: 95/95 + 22/22 + UI 47/47
+  - Suite: 95/95 + 26/26 + UI 47/47
 - **Not yet compiled in Max.** The GenExpr is now about 14,000 lines.
 
 ## v1.5 — premium analogue UI (presentation only)

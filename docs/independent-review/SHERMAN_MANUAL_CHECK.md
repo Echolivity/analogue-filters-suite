@@ -29,7 +29,24 @@
 
 **Feedback:** the manual mentions **no output-to-input feedback** path.
 
-## The v1.6 model against it
+## Decisions (user, 2026-11-19) and status
+
+You chose all four: modes and correction, harmonics, clocked character, overdrive and Limit. The model **remains behavioural (grade E)**. These additions match documented *behaviour*, not a verified circuit or sound. FEEDBACK remains undocumented.
+
+**Done (all appended parameters; at their defaults every reference render is bit-identical):**
+
+| Feature | Implementation | Measured |
+|---|---|---|
+| **Sherman Modes** STAGE / PANEL | STAGE = v1.5 (LP in the LPF stage, HP in the HPF stage). PANEL = Balance + Correction set the output of both filters. The hardware has a pair per filter, so one shared pair is a simplification. | — |
+| **Balance** | Lp (0) → Bp (50) → Hp (100), linear crossfade | — |
+| **Correction** | −100 adds −Bp; +100 adds (−Bp + Lp + Hp) | Bp − Bp silent (−111 dB). Bp with correction +100 is a notch at fc (−50 dB at 12 dB, −93 dB at 24 dB) with flat passbands (±0.3 dB). Halfway gives about half level with a gentle dip (manual: "make up for the weaker output with more input"). PANEL Lp is bit-identical to STAGE. |
+| **Harmonics** | filter 2 at f1 ÷ {1, 1.5, 2, 3, 4, 5, 6, 7, 8, 9, 16}, gliding over about 3 ms (log ratio); 24 dB (series) only, since at 12 dB filter 2 plays alone at the cutoff | peaks at 498 Hz (÷2) and 249 Hz (÷4) with fc 1 kHz. A ratio change is click-free. fs/4 sweep at ÷1/÷2/÷16: worst −0.4 dBFS. |
+| **Overdrive buries resonance** | already present in v1.5 through the amplitude-dependent damping | −12 dBFS noise, res 85, 24 dB: peak +24.4 dB above passband at Drive 0, +12.1 dB at Drive 100 |
+| **Limit** | ×0.25 into the filters after the overdrive, ×2.7 after. The **mechanism is invented**; only the effect is documented. | Drive 100: resonance prominence +12.1 → +19.5 dB; level −13.2 → −11.6 dBFS |
+
+**Clocked character:** a separate change, off by default (below).
+
+
 
 | Feature | Model | Manual | Verdict |
 |---|---|---|---|

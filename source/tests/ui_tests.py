@@ -29,8 +29,8 @@ def sim(f, w, h, args, script):
 # 1 parameters: same set, same definitions, same box ids as v1.4
 par = lambda X: {b["box"]["id"]: (b["box"]["varname"], b["box"]["saved_attribute_attributes"]) for b in X["boxes"] if b["box"].get("parameter_enable")}
 po, pn = par(OLD), par(P)
-check("all 79 v1.4 parameters kept: identical ids, names and definitions (v1.6 appends 3)",
-      all(pn.get(i) == v for i, v in po.items()) and len(pn) == 82, f"{len(pn)} parameters")
+check("all 79 v1.4 parameters kept: identical ids, names and definitions (v1.6 appends 8)",
+      all(pn.get(i) == v for i, v in po.items()) and len(pn) == 87, f"{len(pn)} parameters")
 check("parameter table (Live identity): every v1.4 entry unchanged", all(P["parameters"].get(k) == v for k, v in OLD["parameters"].items()))
 gc = lambda X: next(b["box"]["patcher"]["boxes"][2]["box"]["code"] for b in X["boxes"] if b["box"].get("text") == "gen~")
 check("v1.6 is a DSP release: gen~ code differs from v1.5 (intended; see docs/V1.6_ENGINE.md)", gc(OLD15) != gc(P))

@@ -304,6 +304,44 @@ check("SEM (SEM-1A schematic): RES-pot damping law 2R = 0.1 + 3.03(1 - res) with
       max(semfit.values()) < 0.5 and semg[-30] - semg[0] > 5 and semosc < -100,
       f"fit {semfit} dB; res 100 gain at 1 kHz: {semg[-30]} dB (-30 dBFS) -> {semg[0]} dB (0 dBFS); after impulse {semosc} dBFS")
 
+# ------------------------------------------------------------------ Sherman: Filterbank 2 manual features
+SHP = lambda **k: base(**dict(dict(l_on=1, l_model=0, l_cut=1000, l_res=0, l_slope=0), **k))
+f, Hs = tf(SHP(sh_mode=1, sh_bal=50, sh_corr=-100)); sil = db(np.abs(Hs).max())
+f, Hn = tf(SHP(sh_mode=1, sh_bal=50, sh_corr=100)); ntc = db(Hn[np.argmin(abs(f - 1000))]); pbd = db(Hn[np.argmin(abs(f - 100))])
+f, Hl = tf(SHP(sh_mode=1, sh_bal=0)); f, H0 = tf(SHP()); same = float(np.abs(Hl - H0).max())
+check("Sherman PANEL modes (manual p. 8-10): Bp + correction -Bp is silent, + correction -Bp+Lp+Hp is a notch at fc, Balance Lp equals STAGE",
+      sil < -90 and ntc < -40 and abs(pbd) < 1 and same == 0, f"Bp-Bp {sil:.0f} dB; notch at fc {ntc:.0f} dB, 100 Hz {pbd:+.1f} dB; Lp vs STAGE max diff {same}")
+xh = np.random.default_rng(1).standard_normal(SR * 3) * 0.03
+pk = {}
+for hm, n_ in ((2, 2), (4, 4)):
+    yh = run(xh, SHP(l_slope=1, l_res=85, sh_harm=hm))[SR:, 0]
+    from scipy.signal import welch
+    fw, Py = welch(yh, SR, nperseg=16384); Px = welch(xh[SR:], SR, nperseg=16384)[1]; Hh = 10 * np.log10(Py / Px)
+    band = (fw > 1000 / n_ * 0.7) & (fw < 1000 / n_ * 1.4); pk[n_] = round(float(fw[band][np.argmax(Hh[band])]))
+check("Sherman harmonics (24 dB): filter 2 resonates at f1 / n", all(abs(1200 * np.log2(v * n_ / 1000)) < 50 for n_, v in pk.items()),
+      "; ".join(f"/{n_}: peak {v} Hz" for n_, v in pk.items()))
+xl = np.random.default_rng(3).standard_normal(SR * 3) * 10 ** (-12 / 20)
+prom = {}
+for lim in (0, 1):
+    yl = run(xl, SHP(l_slope=1, l_res=85, l_drive=100, sh_limit=lim))[SR:, 0]
+    fw, Py = welch(yl, SR, nperseg=8192); Px = welch(xl[SR:], SR, nperseg=8192)[1]; Hh = 10 * np.log10(Py / Px)
+    prom[lim] = (round(float(Hh[(fw > 700) & (fw < 1400)].max() - np.median(Hh[(fw > 100) & (fw < 300)])), 1), round(db(np.std(yl)), 1))
+check("Sherman Limit: more resonance prominence under heavy drive, output level within 3 dB", prom[1][0] > prom[0][0] + 3 and abs(prom[1][1] - prom[0][1]) < 3,
+      f"Drive 100: peak {prom[0][0]} -> {prom[1][0]} dB above passband; level {prom[0][1]} -> {prom[1][1]} dBFS")
+worst = -999.0
+for hm in (0, 2, 10):
+    for sr_ in (44100, 48000):
+        q = sr_ / 4
+        for c in range(-100, 101, 20):
+            xq = np.zeros(int(0.7 * sr_)); xq[int(0.3 * sr_):int(0.3 * sr_) + 64] = 0.05
+            yq = run(xq, base(l_on=1, l_model=0, l_cut=q * 2 ** (c / 1200), l_res=100, l_slope=1, sh_harm=hm), sr_)[:, 0]
+            worst = max(worst, db(np.max(np.abs(yq[int(0.4 * sr_):]))))
+tt3 = np.arange(SR) / SR; xs = 0.3 * np.sin(2 * np.pi * 220 * tt3)
+ys = run(xs, SHP(l_slope=1, l_res=60), events=[(SR // 2, "sh_harm", 4)])[:, 0]
+jump = float(np.abs(np.diff(ys[SR // 2 - 200:SR // 2 + 200], 2)).max()); steady = float(np.abs(np.diff(ys[SR // 4:SR // 4 + 400], 2)).max())
+check("Sherman harmonics: fs/4 sweep at ratios 1/2/16 (24 dB, res 100) peak <= +6 dBFS; a ratio change is click-free",
+      worst <= 6 and jump < 4 * steady + 1e-3, f"worst {worst:.1f} dBFS; 2nd-difference at the switch {jump:.4f} vs steady {steady:.4f}")
+
 n_ok = sum(r["ok"] for r in results)
 json.dump(dict(results=results, data=data), open(os.path.join(ROOT, "build", "v16_results.json"), "w"), indent=1, default=float)
 print(f"\nv1.6 tests: {n_ok}/{len(results)} passed")
