@@ -146,6 +146,33 @@ The previous version used an equal-capacitor, resistively driven ladder. That co
 
 ---
 
+## Envelope filter (v1.6, Musitronics Mu-Tron III)
+
+**Source:** the 1975 schematic ("above S/N 02050", CJLectronics scan via pisotones.com). The topology matches Beigel's US patent 3,911,776, and the values match R. G. Keen's Neutron.
+
+**Circuit:**
+- **A1 preamp:** R4 120 k / (R2 3.3 k + 1 M log), ×0.12–×36.4.
+- **A2 summer:** the input enters (+) through R5 4.7 k, and band-pass returns there through R9 12 k + PEAK 150 k. (−) averages HP and LP through 22 k / 22 k. Solving:
+  - HP = 2a·s²/(s² + 2b·s + 1)·x, with b = 4.7 k/(4.7 k + R_f), a = R_f/(4.7 k + R_f) and R_f = 12 k + R_peak;
+  - **Q = 1/(2b) = 1.78–17.7**; passband gain 2a; band-pass peak 2aQ.
+- **A3/A4 integrators:** 220 k ∥ LDR with 1800 pF, plus 2200 pF on LO: 402 Hz → 7 kHz on HI, 181 Hz → 3.2 kHz on LO.
+- **A5 rectifier:** gain 45.5 (UP) / 129 (DOWN).
+- **C9 4.7 µF:** 330 Ω charge (1.55 ms); 47 k drain toward −9 V (221 ms), so the release is nearly linear.
+- **A6 LED drive:** V_C9 (UP) or 7.2 V − V_C9 (DOWN).
+
+The model runs at the base rate, before the filter section, using a TPT SVF. The sweep position is also routed, in octaves, to the LPF, HPF and BPF cutoffs.
+
+**Photocell** (Hamamatsu P873-13 technical data):
+- resistance against LED current from fig. 5;
+- dynamics from the CdS recombination law dG/dt = k(G_eq² − G²), with k from the 4/6 ms rise/fall at 20 mA. Fast when bright, slow when dim, with a hyperbolic recovery tail.
+
+**Assumed:**
+- R23 = 3.9 kΩ (the schematic leaves it to the opto), which puts the sweep top at about 7 kHz on HI;
+- ±7.5 V rails (4558 on ±9 V) at the preamp, rectifier and envelope, and inside the filter loop (summer and both integrators; the states follow the clipped outputs);
+- 1 unit = 1 V.
+
+The original's polarity inversions are not modelled. [Sources](independent-review/ENVELOPE_FILTER_SOURCES.md).
+
 ## Sources
 
 - T. E. Stinchcombe, *Analysis of the Moog Transistor Ladder and Derivative Filters*, 2008, https://www.timstinchcombe.co.uk/synth/Moog_ladder_tf.pdf. Moog, standard diode, TB-303 and EMS transfer functions.

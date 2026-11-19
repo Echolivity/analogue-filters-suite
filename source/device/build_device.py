@@ -859,6 +859,38 @@ wire(sc, "sh_clock")
 for j, ln in enumerate(("applies to model 01 in", "either stage; balance /", "correction need PANEL;", "harmonics: 24 dB only")):
     comment(ln, [SX + 6, 130 + 8 * j, SW - 10, 9], T.TEXT_DIM, 6.0, 0)
 
+# ------------------------------------------------- v1.6: ENVELOPE FILTER strip (Mu-Tron III topology) + envelope routing
+FX = W_TOTAL
+FW = 236
+W_TOTAL = FX + FW + 4
+panel([FX - 2, 0, W_TOTAL - FX + 2, H], BG, rounded=0)
+panel([FX, 4, FW, 161], STRIP, border=T.BEVEL)
+plate([FX + 1, 5, FW - 2, 17], T.HEADER)
+comment("ENVELOPE FILTER", [FX + 8, 6, 160, 14], T.TEXT, T.F_TITLE, 1)
+def ftab(var, long, short, prect, items, x0):
+    b = box("live.tab", [x0, 700, prect[2], 15], prect, numinlets=1, numoutlets=3, outlettype=["", "", "float"],
+            parameter_enable=1, varname=var, num_lines_patching=1, num_lines_presentation=1, fontsize=8.0, fontface=1,
+            **SEG_COLOURS, saved_attribute_attributes=valueof(long, short, 2, 0, len(items) - 1, ENV_INIT[var], 9, enum=items))
+    bid_x[b] = x0
+    param_ids[b] = (long, short)
+    wire(b, var)
+    return b
+ENV_INIT = {"ef_on": 0, "ef_range": 1, "ef_sweep": 0}
+ftab("ef_on", "EnvF On", "EnvF On", [FX + 6, 26, 52, 15], ["OFF", "ON"], 3800)
+menu("ef_mode", "EnvF Mode", "EnvF Mode", [FX + 62, 26, 48, 15], ["LP", "BP", "HP"], 1, T.AMBER)
+ftab("ef_range", "EnvF Range", "EnvF Range", [FX + 114, 26, 56, 15], ["LO", "HI"], 3870)
+ftab("ef_sweep", "EnvF Sweep", "EnvF Sweep", [FX + 174, 26, 56, 15], ["UP", "DOWN"], 3940)
+dial("ef_peak", "EnvF Peak", "Peak", [FX + 6, 46, 54, 48], 0, 100, 50, 5, T.AMBER)
+dial("ef_gain", "EnvF Gain", "Gain", [FX + 63, 46, 54, 48], -18.4, 31.2, 0, 4, T.AMBER)
+dial("ef_att", "EnvF Attack", "Attack", [FX + 120, 46, 54, 48], 0.5, 50, 1.55, 2, T.AMBER, exponent=2.5)
+dial("ef_rel", "EnvF Release", "Release", [FX + 177, 46, 54, 48], 10, 1000, 221, 2, T.AMBER, exponent=2.5)
+dial("ef_mix", "EnvF Mix", "Mix", [FX + 6, 100, 44, 48], 0, 100, 100, 5, T.AMBER)
+dial("ef_out", "EnvF Output", "Out", [FX + 52, 100, 44, 48], -24, 12, 0, 4, T.AMBER)
+dial("ef_to_l", "EnvF to LPF", "> LPF", [FX + 98, 100, 44, 48], -5, 5, 0, 9, T.AMBER, units="%+0.1f oct")
+dial("ef_to_h", "EnvF to HPF", "> HPF", [FX + 144, 100, 44, 48], -5, 5, 0, 9, T.AMBER, units="%+0.1f oct")
+dial("ef_to_b", "EnvF to BPF", "> BPF", [FX + 190, 100, 44, 48], -5, 5, 0, 9, T.AMBER, units="%+0.1f oct")
+comment("before the filters; routing works with the envelope filter on or off", [FX + 6, 150, FW - 10, 9], T.TEXT_DIM, 6.0, 0)
+
 # Info View / hint text on every parameter and on the jsui controls
 for b in boxes:
     bb = b["box"]

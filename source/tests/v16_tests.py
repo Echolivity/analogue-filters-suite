@@ -379,6 +379,40 @@ check("Sherman partial self-oscillation: res 100 rings and dies (< -50 dBFS 2 s 
       max(tails.values()) < -50 and whistle > -12 and abs(pkc) < 30 and g100 > g90 + 3,
       f"tails {tails}; whistle {whistle} dBFS; peak {pkc:+d} c; peak gain res 90 {g90:.1f} -> res 100 {g100:.1f} dB")
 
+# envelope filter (Mu-Tron III topology, US 3,911,776; unsourced constants are documented assumptions)
+EF = lambda **k: base(**dict(dict(ef_on=1, eng_mode=0), **k))
+def ef_peak(level_db, **k):
+    n = SR * 2; tt_ = np.arange(n) / SR
+    xx = 10 ** (level_db / 20) * np.sin(2 * np.pi * 80 * tt_) + 0.002 * np.random.default_rng(1).standard_normal(n)
+    yy = run(xx, EF(ef_peak=70, **k))[SR:, 0]
+    Y = np.abs(np.fft.rfft(yy * np.hanning(len(yy)))); ff = np.fft.rfftfreq(len(yy), 1 / SR)
+    return float(ff[ff > 200][np.argmax(Y[ff > 200])])
+up = [ef_peak(L) for L in (-60, -40, -20)]
+dn = [ef_peak(L, ef_sweep=1) for L in (-60, -20)]
+lo = ef_peak(-40, ef_range=0)
+f, H0p = tf(EF(ef_peak=0)); f, H1p = tf(EF(ef_peak=100))
+qg = (round(db(np.abs(H0p).max()), 1), round(db(np.abs(H1p).max()), 1))
+xs_ = np.random.default_rng(4).standard_normal(SR) * 0.3
+off_same = float(np.abs(run(xs_, base(ef_on=0, ef_peak=100, ef_gain=20, ef_mode=2)) - run(xs_, base())).max())
+sq = lambda L: 10 ** (L / 20) * np.sign(np.sin(2 * np.pi * 110 * np.arange(SR * 2) / SR))
+def hb(y_):
+    Y = np.abs(np.fft.rfft(y_)); ff = np.fft.rfftfreq(len(y_), 1 / SR); m = (ff > 1500) & (ff < 6000)
+    return np.sqrt(np.sum(Y[m] ** 2))
+rt = round(db(hb(run(sq(0), base(l_on=1, l_model=2, l_cut=500, l_slope=1, ef_to_l=3, eng_mode=0))[SR:, 0]) /
+              hb(run(sq(0), base(l_on=1, l_model=2, l_cut=500, l_slope=1, eng_mode=0))[SR:, 0])), 1)
+mx_ = 0.0; fin_ = True
+for pk_ in (0, 100):
+    for g_ in (-20, 32):
+        for m_ in (0, 1, 2):
+            yy = run(np.random.default_rng(2).standard_normal(SR // 2) * 0.5, EF(ef_peak=pk_, ef_gain=g_, ef_mode=m_))
+            fin_ = fin_ and bool(np.all(np.isfinite(yy))); mx_ = max(mx_, float(np.abs(yy).max()))
+data["envelope_filter"] = dict(up_hz=up, down_hz=dn, range_lo_hz_at_m20=lo, bp_peak_db_q_min_max=qg, off_with_settings_max_diff=off_same,
+                               route_lpf_plus3oct_db=rt, worst_peak=mx_)
+check("Envelope filter (Mu-Tron III schematic): sweeps up with level (UP), down (DOWN), an octave lower in LO; Peak raises Q and gain; OFF is transparent whatever the settings; routing opens the LPF; bounded at the op-amp rails",
+      up[0] < up[1] < up[2] and up[2] > 4 * up[0] and dn[1] < dn[0] / 4 and lo < up[1] * 0.7 and qg[1] > qg[0] + 20 and abs(qg[0] - 8.1) < 0.5 and abs(qg[1] - 30.7) < 1
+      and off_same == 0 and rt > 20 and fin_ and mx_ < 8,
+      f"UP {[round(v) for v in up]} Hz (-60/-40/-20 dBFS); DOWN {[round(v) for v in dn]}; LO {round(lo)} Hz at -40 dBFS; BP peak {qg} dB (Peak 0/100; schematic: +8.1/+30.7); OFF diff {off_same}; LPF routing +{rt} dB at 1.5-6 kHz; worst |y| {mx_:.2f}")
+
 n_ok = sum(r["ok"] for r in results)
 json.dump(dict(results=results, data=data), open(os.path.join(ROOT, "build", "v16_results.json"), "w"), indent=1, default=float)
 print(f"\nv1.6 tests: {n_ok}/{len(results)} passed")

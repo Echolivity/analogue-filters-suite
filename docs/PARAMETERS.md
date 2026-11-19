@@ -1,6 +1,6 @@
 # Parameters, automation and MIDI mapping
 
-All 88 controls are Live parameters: the 20 from v1.1, 11 from v1.2 and 44 from v1.3, all unchanged, plus 4 for v1.4 filter routing and 8 for v1.6 (Engine Mode, High Oversampling, K35 Circuit, and 6 Sherman controls). Every one can be automated, MIDI-mapped (Cmd/Ctrl+M, click the control, move a controller) and key-mapped, and all are stored with the Live Set. Names below are the exact names in Live's automation chooser.
+All 101 controls are Live parameters: the 20 from v1.1, 11 from v1.2 and 44 from v1.3, all unchanged, plus 4 for v1.4 filter routing and 8 for v1.6 (Engine Mode, High Oversampling, K35 Circuit, 6 Sherman controls and 13 envelope-filter controls). Every one can be automated, MIDI-mapped (Cmd/Ctrl+M, click the control, move a controller) and key-mapped, and all are stored with the Live Set. Names below are the exact names in Live's automation chooser.
 
 ## Low-pass stage (amber)
 
@@ -147,6 +147,24 @@ See V1.6_ENGINE.md.
 
 The ENGINE strip's RUNNING AT readout shows the factors in effect.
 | K35 Circuit | OTA (Mk2) / KORG-35 (Mk1) | OTA (Mk2) | Which MS-20 filter circuit model 02 uses, for both the LPF and the HPF. OTA is the v1.5 sound. KORG-35 puts the clipping diodes in the signal path, and CHARACTER drives them. A change ducks for 8 ms and resets the filter states. See MODELS.md. |
+
+## Envelope filter (v1.6, Musitronics Mu-Tron III)
+
+Before the filter section. Off by default; when off it is bit-transparent whatever the other settings. The routing amounts work with it on or off.
+
+| Live name | Range | Default | Behaviour |
+|---|---|---|---|
+| EnvF On | OFF / ON | OFF | Envelope filter in the audio path. |
+| EnvF Mode | LP / BP / HP | BP | Output node of the two-integrator filter. |
+| EnvF Peak | 0–100 % | 50 % | PEAK 150 k CW log: Q 1.78 → 17.7 (3.4 at 50 %); band-pass gain +8 → +31 dB. |
+| EnvF Gain | −18.4 to +31.2 dB | 0 dB | A1 preamp (×0.12–×36.4): sets the sweep depth and the level into the filter. |
+| EnvF Range | LO / HI | HI | HI 402 Hz → 7 kHz; LO adds 2200 pF to each 1800 pF (181 Hz → 3.2 kHz). |
+| EnvF Sweep | UP / DOWN | UP | DOWN starts high and closes with the envelope. |
+| EnvF Attack | 0.5–50 ms | 1.55 ms | C9 charge (circuit: 330 Ω × 4.7 µF), plus the photoresistor's on-lag. |
+| EnvF Release | 10–1000 ms | 221 ms | C9 drain toward −9 V (circuit: 47 k × 4.7 µF; nearly linear), plus the photoresistor's off-lag. |
+| EnvF Mix | 0–100 % | 100 % | Dry / wet. |
+| EnvF Output | −24 to +12 dB | 0 dB | Output level. |
+| EnvF to LPF / HPF / BPF | −5 to +5 oct | 0 | Cutoff shift at full sweep; follows UP/DOWN. |
 
 ## Sherman (v1.6, Filterbank 2 manual)
 

@@ -189,7 +189,7 @@ The device is generated, not hand-patched. `./build.sh` regenerates everything a
 
 | Area | State |
 |---|---|
-| DSP engine | 95/95 + 28/28 (v1.6) offline checks pass, running the exact gen~ code. v1.6 changes Sherman, Steiner and the BPF SVF slightly (a stability fix); every other render is bit-exact against v1.1–v1.5. See [V1.6_ENGINE.md](docs/V1.6_ENGINE.md). |
+| DSP engine | 95/95 + 29/29 (v1.6) offline checks pass, running the exact gen~ code. v1.6 changes Sherman, Steiner and the BPF SVF slightly (a stability fix); every other render is bit-exact against v1.1–v1.5. See [V1.6_ENGINE.md](docs/V1.6_ENGINE.md). |
 | Compatibility | Every parameter, connection and gen~ Param is intact against all earlier releases. |
 | Interface (v1.5, plus the v1.6 ENGINE strip) | 47/47 offline checks pass: structure, wiring, layout, contrast, and the component code run outside Max. |
 | **In Max / Live** | **Not yet opened in Max or Live.** v1.6's GenExpr is about 14,000 lines; please report its compile time. Please run the checklists in [VALIDATION.md](docs/VALIDATION.md) and [UI_VALIDATION.md](docs/UI_VALIDATION.md) on first use, and open an issue with what you find. |

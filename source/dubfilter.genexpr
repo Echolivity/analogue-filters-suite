@@ -90,6 +90,19 @@ Param sh_corr(0, min=-100, max=100);
 Param sh_harm(0, min=0, max=10);
 Param sh_limit(0, min=0, max=1);
 Param sh_clock(0, min=0, max=1);
+Param ef_on(0, min=0, max=1);
+Param ef_mode(1, min=0, max=2);
+Param ef_peak(50, min=0, max=100);
+Param ef_gain(0, min=-18.4, max=31.2);
+Param ef_range(1, min=0, max=1);
+Param ef_sweep(0, min=0, max=1);
+Param ef_att(1.55, min=0.5, max=50);
+Param ef_rel(221, min=10, max=1000);
+Param ef_mix(100, min=0, max=100);
+Param ef_out(0, min=-24, max=12);
+Param ef_to_l(0, min=-5, max=5);
+Param ef_to_h(0, min=-5, max=5);
+Param ef_to_b(0, min=-5, max=5);
 
 History H_l_L_sh_s1a(0.0);
 History H_l_L_sh_s2a(0.0);
@@ -1332,6 +1345,14 @@ History H_os_R_s4dnb5(0.0);
 History H_cur_tos(1);
 History H_cur_k35(0);
 History H_sh_lr(0);
+History H_ef_en(0);
+History H_ef_mx(1);
+History H_ef_e(0);
+History H_ef_ld(0);
+History H_ef_L1(0);
+History H_ef_L2(0);
+History H_ef_R1(0);
+History H_ef_R2(0);
 History H_l_dzsh(0.0);
 History H_l_dzk3(0.0);
 History H_l_dzld(0.0);
@@ -1922,6 +1943,86 @@ fstep = 1 / (0.025 * fs);
 dstep = 1 / (0.004 * fs);
 x_L = in1;
 x_R = in2;
+// ================= v1.6 envelope filter (Mu-Tron III, 1975 schematic) =================
+ef_ent = ef_on > 0.5 ? 1 : 0;
+ef_en = H_ef_en + a_mix * (ef_ent - H_ef_en);
+if (ef_ent < 0.5 && ef_en < 0.0001) {
+	ef_en = 0;
+}
+if (ef_ent > 0.5 && ef_en > 0.9999) {
+	ef_en = 1;
+}
+ef_mx = H_ef_mx + a_par * (clamp(ef_mix, 0, 100) * 0.01 - H_ef_mx);
+ef_e = H_ef_e;
+ef_ld = H_ef_ld;
+ef_rl = 0;
+ef_rh = 0;
+ef_rb = 0;
+ef_g = exp2(clamp(ef_gain, -18.4, 31.2) * 0.166096405);
+ef_pL = 0;
+ef_pR = 0;
+ef_fr = 1000;
+if (ef_en > 0 || ef_to_l != 0 || ef_to_h != 0 || ef_to_b != 0) {
+	ef_pL = 7.5 * tanh(x_L * ef_g * 0.13333333333333333);      // A1 preamp, op-amp rails
+	ef_pR = 7.5 * tanh(x_R * ef_g * 0.13333333333333333);
+	ef_up = ef_sweep < 0.5 ? 1 : 0;
+	ef_tg = min(max(max(ef_pL, ef_pR), 0) * (ef_up > 0.5 ? 45.4545455 : 128.787879), 7.5);   // A5 half-wave, 1M/22k or 1M/(22k||12k)
+	ef_tc = clamp(ef_att, 0.5, 50) * 0.001;
+	ef_td = clamp(ef_rel, 10, 1000) * 0.001;
+	if (ef_tg > ef_e) {
+		ef_e = ef_e + (1 - exp(-1 / (ef_tc * fs))) * (ef_tg - ef_e);       // C9 charges through R17
+	} else {
+		ef_e = max(ef_tg, (ef_e + 9) * exp(-1 / (ef_td * fs)) - 9);        // drains through R18 toward -9 V
+	}
+	ef_lt = ef_up > 0.5 ? ef_e : max(7.2 - ef_e, 0);                  // A6: LED current x R23
+	ef_lq = log10(max(min(ef_lt, 5.6) * 0.2564102564102564, 0.000001));   // log10(LED mA)
+	ef_lk = ef_lq >= -1 ? 1.30166519 - 0.99354299 * ef_lq + 0.16560469 * ef_lq * ef_lq : 2.46081287 - 1.32475236 * (ef_lq + 1);
+	ef_lg = 1 / (1000 * exp(2.30258509 * ef_lk)) + 0.0000001;                        // P873-13 equilibrium conductance (fig. 5)
+	ef_ld = max(ef_ld + 454545.45454545453 * (ef_lg * ef_lg - ef_ld * ef_ld) / fs, 0.0000001);   // CdS recombination: dG/dt = k (Geq^2 - G^2)
+	ef_rx = 1 / (4.5454545454545455e-06 + ef_ld);                                   // R10 / R12 220k || LDR
+	ef_fr = 1 / (6.28318531 * ef_rx * (ef_range > 0.5 ? 1.8e-9 : 4.0e-9));
+	ef_ps = clamp(log2(220000.0 / ef_rx) * 0.2466735228647925, 0, 1);              // 0 at rest, 1 at the rail
+	ef_ps = ef_up > 0.5 ? ef_ps : -(1 - ef_ps);
+	ef_rl = ef_to_l * ef_ps;
+	ef_rh = ef_to_h * ef_ps;
+	ef_rb = ef_to_b * ef_ps;
+}
+if (ef_en > 0) {
+	ef_gq = tan(pi * min(ef_fr, 0.45 * fs) / fs);
+	ef_rp = 150000 * (exp(clamp(ef_peak, 0, 100) * 0.04394) - 1) * 0.0125057;   // PEAK 150k CW log (10 % at mid)
+	ef_rf = 12000 + ef_rp;                       // R9 + PEAK
+	ef_R = 4700 / (4700 + ef_rf);                 // b = 1/(2Q)
+	ef_a2 = 2 * ef_rf / (4700 + ef_rf);           // 2a: summer gain
+	ef_og = exp2(clamp(ef_out, -24, 12) * 0.166096405);
+	ef_sn = 1 / (1 + 2 * ef_R * ef_gq + ef_gq * ef_gq);
+	efh_L = (ef_pL * ef_a2 - (2 * ef_R + ef_gq) * H_ef_L1 - H_ef_L2) * ef_sn;
+	efh_L = 7.5 * tanh(efh_L * 0.13333333333333333);
+	efb_L = 7.5 * tanh((ef_gq * efh_L + H_ef_L1) * 0.13333333333333333);
+	efl_L = 7.5 * tanh((ef_gq * efb_L + H_ef_L2) * 0.13333333333333333);
+	ef_L1 = 2 * efb_L - H_ef_L1;
+	ef_L2 = 2 * efl_L - H_ef_L2;
+	efo_L = (ef_mode < 0.5 ? efl_L : (ef_mode < 1.5 ? efb_L : efh_L)) * ef_og;
+	efo_L = efo_L == efo_L ? efo_L : 0;
+	x_L = x_L + ef_en * ef_mx * (efo_L - x_L);
+	H_ef_L1 = fixdenorm(ef_L1);
+	H_ef_L2 = fixdenorm(ef_L2);
+	efh_R = (ef_pR * ef_a2 - (2 * ef_R + ef_gq) * H_ef_R1 - H_ef_R2) * ef_sn;
+	efh_R = 7.5 * tanh(efh_R * 0.13333333333333333);
+	efb_R = 7.5 * tanh((ef_gq * efh_R + H_ef_R1) * 0.13333333333333333);
+	efl_R = 7.5 * tanh((ef_gq * efb_R + H_ef_R2) * 0.13333333333333333);
+	ef_R1 = 2 * efb_R - H_ef_R1;
+	ef_R2 = 2 * efl_R - H_ef_R2;
+	efo_R = (ef_mode < 0.5 ? efl_R : (ef_mode < 1.5 ? efb_R : efh_R)) * ef_og;
+	efo_R = efo_R == efo_R ? efo_R : 0;
+	x_R = x_R + ef_en * ef_mx * (efo_R - x_R);
+	H_ef_R1 = fixdenorm(ef_R1);
+	H_ef_R2 = fixdenorm(ef_R2);
+}
+H_ef_en = ef_en;
+H_ef_mx = ef_mx;
+H_ef_e = fixdenorm(ef_e);
+H_ef_ld = fixdenorm(ef_ld);
+
 fault = 0;
 
 // ---- load state ----
@@ -3676,7 +3777,7 @@ l_rz = H_l_rz + a_par * (clamp(l_res, 0, 100) * 0.01 - H_l_rz);
 l_drv = H_l_drv + a_par * (clamp(l_drive, 0, 100) * 0.01 - H_l_drv);
 l_cmp = H_l_cmp + a_par * (clamp(l_comp, 0, 100) * 0.01 - H_l_cmp);
 l_chr = H_l_chr + a_par * (clamp(l_char, 0, 100) * 0.01 - H_l_chr);
-l_fc = exp2(l_lc);
+l_fc = ef_rl != 0 ? clamp(exp2(l_lc + ef_rl), 20, 20000) : exp2(l_lc);
 l_fcc = min(l_fc, 0.45 * fso);
 l_gw = tan(pi * l_fcc / fso);
 l_ent = l_on > 0.5 ? 1 : 0;
@@ -3947,7 +4048,7 @@ h_rz = H_h_rz + a_par * (clamp(h_res, 0, 100) * 0.01 - H_h_rz);
 h_drv = H_h_drv + a_par * (clamp(h_drive, 0, 100) * 0.01 - H_h_drv);
 h_cmp = H_h_cmp + a_par * (clamp(h_comp, 0, 100) * 0.01 - H_h_cmp);
 h_chr = H_h_chr + a_par * (clamp(h_char, 0, 100) * 0.01 - H_h_chr);
-h_fc = exp2(h_lc);
+h_fc = ef_rh != 0 ? clamp(exp2(h_lc + ef_rh), 20, 2000) : exp2(h_lc);
 h_fcc = min(h_fc, 0.45 * fso);
 h_gw = tan(pi * h_fcc / fso);
 h_ent = h_on > 0.5 ? 1 : 0;
@@ -4200,7 +4301,7 @@ if (b_ent > 0.5 && b_en > 0.9999) {
 }
 b_wet = b_en * b_mx;
 b_run = b_en > 0 ? 1 : 0;
-b_fc = min(exp2(b_lc), 0.45 * fso);
+b_fc = min(ef_rb != 0 ? clamp(exp2(b_lc + ef_rb), 30, 12000) : exp2(b_lc), 0.45 * fso);
 b_qq = exp2(b_lq);
 b_d = 0.25 * exp2(5 * b_drv);
 b_osc = (1 / b_d) * exp2(5 * b_drv * (1 - 0.5 * b_cmp));

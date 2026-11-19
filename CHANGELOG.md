@@ -41,6 +41,22 @@ Details and before/after measurements: [docs/V1.6_ENGINE.md](docs/V1.6_ENGINE.md
   - **No input soft clip** (no circuit origin); the op-amp rails limit the outputs at ±13 V. At 1x it is far cleaner: −140 dBc aliasing (v1.5: −89).
   - **Unchanged:** notch and band-pass routing, which already matched the PS19 crossfade.
   - **Assumptions:** a linear RES pot; 5 V per unit; the Q floor.
+- **New: ENVELOPE FILTER**, modelled on the **Musitronics Mu-Tron III** schematic (1975, "above S/N 02050"; topology also in Beigel's US patent 3,911,776; cross-checked with R. G. Keen's Neutron). It sits before the filter section and adds 13 appended parameters; off by default, and bit-identical when off.
+  - **From the schematic:**
+    - A1 preamp: ×0.12–×36.4.
+    - A2 summer with PEAK (150 k CW log) in the band-pass feedback: Q 1.78–17.7, band-pass gain +8 to +31 dB, passband 2a.
+    - A3/A4 integrators: 220 k ∥ LDR, 1800 pF, plus 2200 pF on LO.
+    - A5 rectifier gain 45.5 (UP) / 129 (DOWN).
+    - C9 4.7 µF: charges through 330 Ω (1.55 ms) and drains toward −9 V through 47 k (221 ms), a near-linear release.
+    - A6 LED drive: V_C9 (UP) or 7.2 V − V_C9 (DOWN).
+  - **Controls:** On, Mode LP/BP/HP, Peak, Gain, Range LO/HI, Sweep UP/DOWN, Attack/Release (circuit values by default), Mix, Output.
+  - **Routing:** the same sweep moves the LPF, HPF and BPF cutoffs by up to ±5 octaves at full sweep (with the envelope filter on or off).
+  - **Measured:**
+    - HI sweeps 402 Hz → 6.7 kHz (408 Hz / 563 Hz / 4.85 kHz at −60/−40/−20 dBFS, Gain 0 dB; the dark cell barely moves below about −50 dBFS); LO 201 Hz → 3.0 kHz.
+    - Band-pass peak +8.2 / +15.2 / +30.4 dB at Peak 0/50/100 (derived from the schematic: +8.1 / +15.2 / +30.7).
+  - **Photocell (Hamamatsu P873-13 technical data, supplied by you):** resistance against LED current from fig. 5 (280 k @ 0.1 mA … 2.0 k @ 20 mA). Dynamics follow the CdS recombination law dG/dt = k(G_eq² − G²), with k set by the 4/6 ms rise/fall at 20 mA. So the cell is fast when bright and slow when dim, with a hyperbolic recovery tail: after a note, the peak drifts back from 1.36 kHz to 0.54 kHz over about 1.5 s.
+  - **Assumptions:** R23 = 3.9 kΩ (the schematic leaves it to the opto; chosen for a sweep top of about 7 kHz on HI), and 1 unit = 1 V.
+  - **Op-amp rails (±7.5 V, 4558 on ±9 V)** at the preamp, rectifier and envelope, and inside the filter loop: the summer (A2) and both integrators (A3/A4) saturate, and the integrator states follow their clipped outputs. So a hot band-pass at high Peak clips as on the pedal; below the rails the response is unchanged. The original's polarity inversions are deliberately not modelled, so the Mix knob doesn't cancel in BP mode. The original's polarity inversions are not modelled. See docs/independent-review/ENVELOPE_FILTER_SOURCES.md.
 - **New: Sherman Filterbank 2 features** (from the manual you supplied; the model stays behavioural). A new SHERMAN strip has six appended parameters, and the defaults are bit-identical:
   - **Modes STAGE / PANEL:** PANEL engages the Filterbank's **Balance** (Lp → Bp → Hp) and **Correction** (−Bp … 0 … −Bp + Lp + Hp) knobs. Bp − Bp is silent, and Bp with full Correction is a notch, as the manual describes.
   - **Harmonics:** filter 2 at the cutoff ÷ 1–16 for twin resonant peaks (24 dB). Ratio changes glide over about 3 ms.
@@ -74,7 +90,7 @@ Details and before/after measurements: [docs/V1.6_ENGINE.md](docs/V1.6_ENGINE.md
   - `tests/v16_tests.py` (15 checks)
   - `tests/golden.py check-v16`
   - `compat.py --allow-dsp`
-  - Suite: 95/95 + 28/28 + UI 47/47
+  - Suite: 95/95 + 29/29 + UI 47/47
 - **Not yet compiled in Max.** The GenExpr is now about 14,000 lines.
 
 ## v1.5 — premium analogue UI (presentation only)
