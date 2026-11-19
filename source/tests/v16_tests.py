@@ -129,8 +129,8 @@ check("Reference mode: every LPF model <= -80 dBc at the bright test point (5 kH
 check("4x / 8x / 16x reach <= -110 dBc for every LPF model at the bright test point",
       all(v[N] <= -110 for v in tab.values() for N in (4, 8, 16)), "min over models per factor: " +
       ", ".join(f"{N}x {max(v[N] for v in tab.values())}" for N in (4, 8, 16)))
-check("1x and 2x unchanged from v1.5 for models not affected by the solver fix (K35, Ladder, 303; SEM changed by the SEM-1A schematic fix, 1x now -140 dBc)",
-      all(tab[k][N] == v for k, d in {"K35": {1: -50.3, 2: -115.6}, "Ladder": {1: -32.8, 2: -61.2},
+check("1x and 2x unchanged from v1.5 for models not affected by the solver fix (K35, 303; SEM changed by the SEM-1A schematic fix; Ladder by the Minimoog board: 1x -32.8 -> -25.3, 2x -61.2 -> -66.4 dBc; Reference 4x -112.2 -> -112.3)",
+      all(tab[k][N] == v for k, d in {"K35": {1: -50.3, 2: -115.6}, "Ladder": {1: -25.3, 2: -66.4},
                                           "TB-303": {1: -52.0, 2: -118.5}}.items() for N, v in d.items()), "vs independent-review data")
 # effective factor readout
 eff = {}

@@ -30,8 +30,8 @@
   "BPF m4 a1 selfosc": "e48b5777abc89f7fb10017b04e81820c35dfb3c31da4f06ea1087d42b41b167a",
   "BPF m4 a2": "48f5301aebcd28549f8894de228843517e0e31f60aae0de7b873203a8b9bba82",
   "BPF m4 a2 selfosc": "e58b7c706ca7f8d1f34257233e4aa567b619605116ab46c677f56372968769bc",
-  "all three pos0": "851b837cf4d56484cd97ff51059888729612ee3586d3dc3d8468c0cb9d266dc1",
-  "all three pos1": "3de00c8dabd0429381c79f903db22c767d6bef0f4006abea8017a4cc5bcdd600",
+  "all three pos0": "4c72d70d087f656fea3fa4bc930c650edbf77ee23cec33ec64abca02b87830b1",
+  "all three pos1": "4fff52089e5f7639f8d48795cab00e66af90f07f98c155dd3679473f1a533e98",
   "BPF sweep": "d8d132591f249bd1573a520b319d9bd4bab3af8d358ba14c70d7f5b6defb079d",
   "BPF switches": "7ebe259c5def47ea969c2d60ea9476a60c352c45635d034f11ae07d368f607a3",
   "BPF on/off/mix": "f7a51cdd05d6eb60c25a195c57370197fb405f88278ddec35781cfebdf56e5be"
@@ -72,5 +72,5 @@
   "all three pos0",
   "all three pos1"
  ],
- "note": "v1.6 solver fix (Sherman, Steiner, BPF SVF limiter), Sherman partial self-oscillation (damping floor + resonance limiter) and Reference-mode power-on default; legacy tests run in Creative mode (tests/dsp.py base)"
+ "note": "v1.6 solver fix (Sherman, Steiner, BPF SVF limiter), Sherman partial self-oscillation (damping floor + resonance limiter), Ladder on the Minimoog filter board (Emphasis law, C5/C1/C10 couplings, gain-recovery pair; also the power-on fade from the default Ladder) and Reference-mode power-on default; legacy tests run in Creative mode (tests/dsp.py base)"
 }

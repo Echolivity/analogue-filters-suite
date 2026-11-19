@@ -277,8 +277,12 @@ f_k35m1(x, s1, s2, s3, yp, g, K0, A, Am, hp) {
 // gain at the previous sample (T = tanh(v)/v), which makes each stage
 // linear for the current sample, so the global feedback is solved exactly.
 // hs scales the stage pairs' saturation (CHARACTER: STAGE SAT).
-// returns y12, y24, s1..s4, p0..p4
-f_ladder(x, s1, s2, s3, s4, p0, p1, p2, p3, p4, g, k, bc, hs, hp) {
+// v1.6, Minimoog Model D filter board (service manual fig. 9-11): the ladder's top nodes are AC-coupled
+// (C5/C1 0.22 uF into 47k: 15.4 Hz) into the "gain recovery" pair Q7/Q5, an undegenerated differential
+// pair (tanh at the ladder's own 2 V_T scale). Emphasis is taken from that amplifier through C10 (10 uF)
+// and the R14 rheostat, so the feedback loop holds both high-passes and the output pair's saturation.
+// returns y12, y24, s1..s4, p0..p4, h1, h2, pz
+f_ladder(x, s1, s2, s3, s4, p0, p1, p2, p3, p4, h1, h2, pz, g, k, bc, hs, hp, ga, gb) {
 	T0 = f_tg(1.4 * p0);
 	T1 = f_tg(1.4 * hs * p1);
 	T2 = f_tg(1.4 * hs * p2);
@@ -293,18 +297,38 @@ f_ladder(x, s1, s2, s3, s4, p0, p1, p2, p3, p4, g, k, bc, hs, hp) {
 	G3 = g * T2 * i3;
 	G4 = g * T3 * i4;
 	S = G2 * G3 * G4 * s1 * i1 + G3 * G4 * s2 * i2 + G4 * s3 * i3 + s4 * i4;
-	u = (x * (1 + k * bc) - k * S) / (1 + k * G1 * G2 * G3 * G4);
+	P = G1 * G2 * G3 * G4;
+	Ga = ga / (1 + ga);
+	Gb = gb / (1 + gb);
+	c1 = 1 - Ga;
+	c2 = 1 - Gb;
+	// output-pair secant: lagged estimate, then one re-solve at the current value (the lag alone
+	// detunes self-oscillation at high cutoffs). The HP ALT pole-mix is not a Minimoog: no output pair there.
+	T5 = hp > 0.5 ? 1 : f_tg(1.4 * pz);
+	u = (x * (1 + k * bc) - k * c2 * (T5 * c1 * (S - h1) - h2)) / (1 + k * c2 * T5 * c1 * P);
+	if (hp < 0.5) {
+		T5 = f_tg(1.4 * (c1 * (P * u + S - h1)));
+		u = (x * (1 + k * bc) - k * c2 * (T5 * c1 * (S - h1) - h2)) / (1 + k * c2 * T5 * c1 * P);
+	}
 	y1 = G1 * u + s1 * i1;
 	y2 = G2 * y1 + s2 * i2;
 	y3 = G3 * y2 + s3 * i3;
 	y4 = G4 * y3 + s4 * i4;
-	o12 = y2;
-	o24 = y4;
+	va = (y4 - h1) * Ga;
+	z = y4 - (va + h1);          // C5/C1 coupling (15.4 Hz)
+	w = T5 * z;                  // gain-recovery pair Q7/Q5
+	vb = (w - h2) * Gb;          // C10 coupling into the Emphasis rheostat
+	o12 = tanh(1.4 * y2) * 0.714285714;   // the 12 dB tap (not on a Minimoog) through the same output pair
+	o24 = w;
+	if (abs(y4) + abs(y2) > 1000000) {   // numerical fault: pass the raw state so fault containment sees it
+		o12 = y2;
+		o24 = y4;
+	}
 	if (hp > 0.5) {
 		o12 = u - 2 * y1 + y2;
 		o24 = u - 4 * y1 + 6 * y2 - 4 * y3 + y4;
 	}
-	return o12, o24, fixdenorm(2 * y1 - s1), fixdenorm(2 * y2 - s2), fixdenorm(2 * y3 - s3), fixdenorm(2 * y4 - s4), u, y1, y2, y3, y4;
+	return o12, o24, fixdenorm(2 * y1 - s1), fixdenorm(2 * y2 - s2), fixdenorm(2 * y3 - s3), fixdenorm(2 * y4 - s4), u, y1, y2, y3, y4, fixdenorm(va * 2 + h1), fixdenorm(vb * 2 + h2), z;
 }
 
 // ================= MODEL 04: Steiner-Parker Synthacon-inspired =================
@@ -486,12 +510,21 @@ MODELS = [
                "}}",
                "{acc} = {acc} + {mix} * o1;"]),
     dict(id=2, key="ld", name="Moog transistor ladder-inspired", taps="12/24",
-         states=["s1", "s2", "s3", "s4", "p0", "p1", "p2", "p3", "p4"], lp="native", hp="alt", char="STAGE SAT",
+         states=["s1", "s2", "s3", "s4", "p0", "p1", "p2", "p3", "p4", "h1", "h2", "pz"], lp="native", hp="alt", char="STAGE SAT",
          coef=["{p}_g = {s}_gw;",
-               "{p}_k = 4.3 * pow({r}, 1.3);",
+               # v1.6 Minimoog Emphasis (fig. 9-11 / 9-17): R14 50k reverse-audio rheostat in series with
+               # REGEN CAL R73 (1k) + R76 (330) to AC ground; k = 15.17 * Rb / (R14 + 1330), where 15.17 is the
+               # gain-recovery pair (gm 0.169 S into 1180 ohm) times the R7/R3 tap (180/1180). The trimmer
+               # (Rb = 441.5 ohm) is set so oscillation starts at Emphasis 9 (assumed: the calibration
+               # procedure is not in the scan). Audio taper: 10 % at mid-rotation.
+               # The Minimoog board applies to the LP ladder only; the HP ALT pole-mix keeps the v1.5 law.
+               "{p}_R14 = 50000 * (exp(4.394 * (1 - {r})) - 1) / 79.96362664;",
+               "{p}_k = {lpflag} > 0.5 ? 6700.067 / ({p}_R14 + 1330) : 4.3 * pow({r}, 1.3);",
+               "{p}_ga = {lpflag} > 0.5 ? tan(pi * 15.3921608 / fso) : 0;",
+               "{p}_gb = {lpflag} > 0.5 ? tan(pi * min(15915.4943 / ({p}_R14 + 1330), 0.2 * fso) / fso) : 0;",
                "{p}_bc = {s}_cmp * {lpflag};",
                "{p}_hs = 1 + 2 * {c};"],
-         call=["o12, o24, {sv} = f_ladder({x}, {sv}, {p}_g, {p}_k, {p}_bc, {p}_hs, {hp});",
+         call=["o12, o24, {sv} = f_ladder({x}, {sv}, {p}_g, {p}_k, {p}_bc, {p}_hs, {hp}, {p}_ga, {p}_gb);",
                "{acc} = {acc} + {mix} * (o12 + {s}_ti * (o24 - o12));"]),
     dict(id=3, key="st", name="Steiner-Parker Synthacon-inspired", taps="12",
          states=["s1", "s2", "d1", "d2", "vb"], lp="native", hp="native", char="BP BLEND",
