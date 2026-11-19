@@ -146,29 +146,29 @@ The previous version used an equal-capacitor, resistively driven ladder. That co
 
 ---
 
-## Envelope filter (v1.6, Mu-Tron III topology)
+## Envelope filter (v1.6, Musitronics Mu-Tron III)
 
-**Circuit** (M. L. Beigel, US patent 3,911,776, 1975):
-- a preamp, then a precision half-wave rectifier;
-- RC smoothing: fast attack through a small resistor, slow decay through a large one;
-- a voltage-to-current converter driving one LED, which lights the two photoresistors of a two-integrator second-order filter;
-- LP, BP and HP taken from the three nodes; Q set by a variable resistor, with gain proportional to Q;
-- DOWN subtracts the envelope from a reference;
-- RANGE adds a capacitor across each integrator.
+**Source:** the 1975 schematic ("above S/N 02050", CJLectronics scan via pisotones.com). The topology matches Beigel's US patent 3,911,776, and the values match R. G. Keen's Neutron.
 
-The integrator capacitors (1.8 nF, plus 2.2 nF in LO) and the 150k audio Peak pot are from R. G. Keen's Neutron, a Mu-tron III work-alike.
+**Circuit:**
+- **A1 preamp:** R4 120 k / (R2 3.3 k + 1 M log), ×0.12–×36.4.
+- **A2 summer:** the input enters (+) through R5 4.7 k, and band-pass returns there through R9 12 k + PEAK 150 k. (−) averages HP and LP through 22 k / 22 k. Solving:
+  - HP = 2a·s²/(s² + 2b·s + 1)·x, with b = 4.7 k/(4.7 k + R_f), a = R_f/(4.7 k + R_f) and R_f = 12 k + R_peak;
+  - **Q = 1/(2b) = 1.78–17.7**; passband gain 2a; band-pass peak 2aQ.
+- **A3/A4 integrators:** 220 k ∥ LDR with 1800 pF, plus 2200 pF on LO: 402 Hz → 7 kHz on HI, 181 Hz → 3.2 kHz on LO.
+- **A5 rectifier:** gain 45.5 (UP) / 129 (DOWN).
+- **C9 4.7 µF:** 330 Ω charge (1.55 ms); 47 k drain toward −9 V (221 ms), so the release is nearly linear.
+- **A6 LED drive:** V_C9 (UP) or 7.2 V − V_C9 (DOWN).
 
-**The model.** That chain at the base rate, before the filter section. The filter is a TPT state-variable filter whose frequency comes from the photoresistor network, f = 1/(2π·R·C) with R = 3.3 k + (220 k ∥ R_LDR). Neutron R8/R9 = 220 k sets the sweep floor at 402 Hz (HI) / 181 Hz (LO). The preamp and filter outputs saturate at ±7.5 V op-amp rails. The sweep position is also routed, in octaves, to the LPF, HPF and BPF cutoffs.
+The model runs at the base rate, before the filter section, using a TPT SVF. The sweep position is also routed, in octaves, to the LPF, HPF and BPF cutoffs.
 
-**Assumed (no production schematic available):**
-- the LDR law (conductance ∝ light^0.8, 10 kΩ at 1 V of envelope);
-- the LDR lags (2.5 ms on, 35 ms off; the original Hamamatsu part has no available data);
-- the 3.3 kΩ series resistor, and the attack/decay resistors around the 4.7 µF envelope capacitor;
-- Q from 0.6 to 16;
-- the DOWN reference (1 − 2·envelope);
+**Assumed** (the schematic leaves R23 to the 0805 opto, which has no data):
+- the LDR law (conductance = V^0.8/67 k);
+- the LDR lags (2.5 ms on, 35 ms off);
+- ±7.5 V rails at the preamp, envelope and output only;
 - 1 unit = 1 V.
 
-A Mu-tron III schematic would calibrate all of these. [Sources](independent-review/ENVELOPE_FILTER_SOURCES.md).
+The original's polarity inversions are not modelled. [Sources](independent-review/ENVELOPE_FILTER_SOURCES.md).
 
 ## Sources
 

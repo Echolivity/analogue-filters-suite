@@ -41,16 +41,20 @@ Details and before/after measurements: [docs/V1.6_ENGINE.md](docs/V1.6_ENGINE.md
   - **No input soft clip** (no circuit origin); the op-amp rails limit the outputs at ±13 V. At 1x it is far cleaner: −140 dBc aliasing (v1.5: −89).
   - **Unchanged:** notch and band-pass routing, which already matched the PS19 crossfade.
   - **Assumptions:** a linear RES pot; 5 V per unit; the Q floor.
-- **New: ENVELOPE FILTER** (Mu-Tron III topology, from Beigel's US patent 3,911,776). It sits before the filter section and adds 13 appended parameters; off by default, and bit-identical when off. The signal path:
-  - a preamp with Gain −20 to +32 dB (the Mu-tron's 0.1–40);
-  - a precision half-wave rectifier, linked across both channels, with Attack and Release;
-  - one LED lighting the photoresistors (asymmetric lag);
-  - a two-integrator filter with LP/BP/HP and Peak (Q 0.6 → 16; gain rises with Q, as in the patent);
-  - Range LO/HI (1.8 nF + 2.2 nF), Sweep UP/DOWN, Mix and Output.
+- **New: ENVELOPE FILTER**, modelled on the **Musitronics Mu-Tron III** schematic (1975, "above S/N 02050"; topology also in Beigel's US patent 3,911,776; cross-checked with R. G. Keen's Neutron). It sits before the filter section and adds 13 appended parameters; off by default, and bit-identical when off.
+  - **From the schematic:**
+    - A1 preamp: ×0.12–×36.4.
+    - A2 summer with PEAK (150 k CW log) in the band-pass feedback: Q 1.78–17.7, band-pass gain +8 to +31 dB, passband 2a.
+    - A3/A4 integrators: 220 k ∥ LDR, 1800 pF, plus 2200 pF on LO.
+    - A5 rectifier gain 45.5 (UP) / 129 (DOWN).
+    - C9 4.7 µF: charges through 330 Ω (1.55 ms) and drains toward −9 V through 47 k (221 ms), a near-linear release.
+    - A6 LED drive: V_C9 (UP) or 7.2 V − V_C9 (DOWN).
+  - **Controls:** On, Mode LP/BP/HP, Peak, Gain, Range LO/HI, Sweep UP/DOWN, Attack/Release (circuit values by default), Mix, Output.
   - **Routing:** the same sweep moves the LPF, HPF and BPF cutoffs by up to ±5 octaves at full sweep (with the envelope filter on or off).
-  - **Measured:** the sweep rests at about 400 Hz (HI) / 180 Hz (LO), set by Neutron R8/R9 = 220 kΩ. The BP peak rises 632 Hz → 1.65 kHz → 6.4 kHz at −40/−20/0 dBFS. DOWN goes 7 kHz → 240 Hz. LO sits about 1.2 octaves lower. The output is bounded by the ±7.5 V op-amp rails.
-  - **From the Neutron guide (user-supplied):** C6/C8 1.8 nF, C5/C7 2.2 nF, R8/R9 220 kΩ across each LDR, Peak 150 k log, Gain ×0.12–×36, envelope capacitor C9 4.7 µF.
-  - **Assumptions** (its schematic page was not in the copy): the LDR law and lags (VTL5C3-like, 2.5/35 ms), the 3.3 kΩ series resistor, the attack/decay resistors (adjustable here), the Q range, the DOWN reference, and 1 unit = 1 V. See docs/independent-review/ENVELOPE_FILTER_SOURCES.md.
+  - **Measured:**
+    - HI sweeps 402 Hz → 7 kHz (497 Hz / 924 Hz / 4.5 kHz at −60/−40/−20 dBFS, Gain 0 dB); LO 214 Hz → 3.1 kHz.
+    - Band-pass peak +8.2 / +15.2 / +30.4 dB at Peak 0/50/100 (derived from the schematic: +8.1 / +15.2 / +30.7).
+  - **Assumptions:** the LDR law (and therefore R23 and the top of the sweep), the LDR lags (VTL5C3 class, 2.5/35 ms), ±7.5 V rails (applied at the preamp, envelope and output only), and 1 unit = 1 V. The original's polarity inversions are not modelled. See docs/independent-review/ENVELOPE_FILTER_SOURCES.md.
 - **New: Sherman Filterbank 2 features** (from the manual you supplied; the model stays behavioural). A new SHERMAN strip has six appended parameters, and the defaults are bit-identical:
   - **Modes STAGE / PANEL:** PANEL engages the Filterbank's **Balance** (Lp → Bp → Hp) and **Correction** (−Bp … 0 … −Bp + Lp + Hp) knobs. Bp − Bp is silent, and Bp with full Correction is a notch, as the manual describes.
   - **Harmonics:** filter 2 at the cutoff ÷ 1–16 for twin resonant peaks (24 dB). Ratio changes glide over about 3 ms.

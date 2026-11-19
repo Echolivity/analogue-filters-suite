@@ -387,9 +387,9 @@ def ef_peak(level_db, **k):
     yy = run(xx, EF(ef_peak=70, **k))[SR:, 0]
     Y = np.abs(np.fft.rfft(yy * np.hanning(len(yy)))); ff = np.fft.rfftfreq(len(yy), 1 / SR)
     return float(ff[ff > 200][np.argmax(Y[ff > 200])])
-up = [ef_peak(L) for L in (-40, -20, 0)]
-dn = [ef_peak(L, ef_sweep=1) for L in (-40, 0)]
-lo = ef_peak(-20, ef_range=0)
+up = [ef_peak(L) for L in (-60, -40, -20)]
+dn = [ef_peak(L, ef_sweep=1) for L in (-60, -20)]
+lo = ef_peak(-40, ef_range=0)
 f, H0p = tf(EF(ef_peak=0)); f, H1p = tf(EF(ef_peak=100))
 qg = (round(db(np.abs(H0p).max()), 1), round(db(np.abs(H1p).max()), 1))
 xs_ = np.random.default_rng(4).standard_normal(SR) * 0.3
@@ -408,10 +408,10 @@ for pk_ in (0, 100):
             fin_ = fin_ and bool(np.all(np.isfinite(yy))); mx_ = max(mx_, float(np.abs(yy).max()))
 data["envelope_filter"] = dict(up_hz=up, down_hz=dn, range_lo_hz_at_m20=lo, bp_peak_db_q_min_max=qg, off_with_settings_max_diff=off_same,
                                route_lpf_plus3oct_db=rt, worst_peak=mx_)
-check("Envelope filter: sweeps up with level (UP), down (DOWN), an octave lower in LO; Peak raises Q and gain; OFF is transparent whatever the settings; routing opens the LPF; bounded at the op-amp rails",
-      up[0] < up[1] < up[2] and up[2] > 4 * up[0] and dn[1] < dn[0] / 4 and lo < up[1] * 0.7 and qg[1] > qg[0] + 15
+check("Envelope filter (Mu-Tron III schematic): sweeps up with level (UP), down (DOWN), an octave lower in LO; Peak raises Q and gain; OFF is transparent whatever the settings; routing opens the LPF; bounded at the op-amp rails",
+      up[0] < up[1] < up[2] and up[2] > 4 * up[0] and dn[1] < dn[0] / 4 and lo < up[1] * 0.7 and qg[1] > qg[0] + 20 and abs(qg[0] - 8.1) < 0.5 and abs(qg[1] - 30.7) < 1
       and off_same == 0 and rt > 20 and fin_ and mx_ < 8,
-      f"UP {[round(v) for v in up]} Hz (-40/-20/0 dBFS); DOWN {[round(v) for v in dn]}; LO {round(lo)} Hz at -20 dBFS; BP peak {qg} dB (Peak 0/100); OFF diff {off_same}; LPF routing +{rt} dB at 1.5-6 kHz; worst |y| {mx_:.2f}")
+      f"UP {[round(v) for v in up]} Hz (-60/-40/-20 dBFS); DOWN {[round(v) for v in dn]}; LO {round(lo)} Hz at -40 dBFS; BP peak {qg} dB (Peak 0/100; schematic: +8.1/+30.7); OFF diff {off_same}; LPF routing +{rt} dB at 1.5-6 kHz; worst |y| {mx_:.2f}")
 
 n_ok = sum(r["ok"] for r in results)
 json.dump(dict(results=results, data=data), open(os.path.join(ROOT, "build", "v16_results.json"), "w"), indent=1, default=float)
