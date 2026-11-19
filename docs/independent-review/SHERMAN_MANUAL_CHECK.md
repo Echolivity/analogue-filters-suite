@@ -53,7 +53,7 @@ Not implemented: the sub-1 Hz cutoff range, clock jitter, and the separate PAR �
 | Feature | Model | Manual | Verdict |
 |---|---|---|---|
 | Two 12 dB SVFs; 24 dB in series | yes (filter 1 → filter 2, same cutoff) | yes | **Conforms** |
-| Filter 2 carries more resonance | yes (filter 1 Q ≤ 1.7; filter 2 self-oscillates) | yes | **Conforms** |
+| Filter 2 carries more resonance | yes (filter 1 Q ≤ 1.7; filter 2 up to Q ≈ 100, partial self-oscillation since the field-evidence change) | yes | **Conforms** |
 | Input overdrive | asymmetric saturator | "tube sound overdrive" | **Plausible** (character unverified) |
 | Overdrive pushes resonance down; Limit | input saturates to a bounded level, so the resonance is kept | overdrive buries resonance; Limit restores it | **Missing** |
 | Modes | LP (LPF stage) or HP (HPF stage) | LP/BP/HP balance plus the correction knob (−Bp … notch … all-pass) | **Missing** |

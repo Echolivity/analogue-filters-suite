@@ -47,6 +47,9 @@ Details and before/after measurements: [docs/V1.6_ENGINE.md](docs/V1.6_ENGINE.md
   - **Limit:** keeps resonance alive under heavy overdrive (+7 dB of peak prominence at Drive 100). The mechanism is invented; the manual documents only the effect.
   - The manual's "too much input pushes away the resonance peaks" was already true of the model.
   - **Clock (SMOOTH / CLOCK):** runs both filters as clocked (switched-capacitor) stages with the clock at 100 × cutoff: staircase grain, and a faint clock whine (−66 dBFS per filter) at 100 × cutoff when that falls below Nyquist. Filter 2 runs at the lower cutoff when Harmonics is above 1, so it carries more clock noise, as the manual says. **Every constant is an assumption** (100:1 ratio, feedthrough level); the manual names no chip. Above cutoff ≈ engine rate ÷ 100 the filter runs smooth. Reference mode runs Sherman at 8x or more while the clock is on, so 1x and 8x render identically.
+  - **Partial self-oscillation** (from published reviews; the manual is silent): Sound On Sound (1997) found the Filterbank "refuses to go into full self-oscillation", and Tape Op (2025) calls it partial. Filter 2's damping now bends onto a positive floor (Q ≈ 100 at res 100) instead of going negative. A click at res 100 rings and dies (below −50 dBFS 2 s later, at any cutoff; −60 dB in about 0.2 s at 1 kHz, 2 s at 100 Hz). A steady input still whistles (−30 dBFS at fc gives −5 dBFS). The resonance law is unchanged below about res 82 %.
+  - **Resonance limiter** (after Kassian Troyer's Reaktor reconstruction): half of filter 2's amplitude-dependent damping follows the band-pass power averaged over about 30 ms, so a loud resonance stays held back briefly. It is smooth, so aliasing improved: −135 dBc at 4x (was −129.5) and −99 dBc at 2x (was −90).
+  - Golden renders: the 10 Sherman scenarios were re-captured (the BPF and dynamics renders are unchanged).
 - **New UI:** an ENGINE strip at the right edge showing the mode, the high-oversampling choice, and the factors actually running. Two new Live parameters, appended; all 79 earlier ones are unchanged.
 - **Compatibility:**
   - Earlier Sets open in REFERENCE. Choose CREATIVE to get v1.5's oversampling factor back.
@@ -63,7 +66,7 @@ Details and before/after measurements: [docs/V1.6_ENGINE.md](docs/V1.6_ENGINE.md
   - `tests/v16_tests.py` (15 checks)
   - `tests/golden.py check-v16`
   - `compat.py --allow-dsp`
-  - Suite: 95/95 + 27/27 + UI 47/47
+  - Suite: 95/95 + 28/28 + UI 47/47
 - **Not yet compiled in Max.** The GenExpr is now about 14,000 lines.
 
 ## v1.5 — premium analogue UI (presentation only)

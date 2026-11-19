@@ -1198,7 +1198,7 @@
    "detail": "ok"
   },
   {
-   "name": "Self-oscillation: stable, bounded (<+2 dBFS), on pitch (\u00b1100 c); SEM does not self-oscillate (by design)",
+   "name": "Self-oscillation: stable, bounded (<+2 dBFS), on pitch (\u00b1100 c); SEM and Sherman do not sustain it (by design)",
    "passed": true,
    "detail": "ok",
    "rows": [
@@ -1207,30 +1207,30 @@
      "stage": "l",
      "model": "Sherman",
      "fc": 100,
-     "oscillates": true,
-     "peak_dbfs": -0.5,
+     "oscillates": false,
+     "peak_dbfs": -91.1,
      "freq": 100.0,
-     "cents": 0
+     "cents": null
     },
     {
      "os": 1,
      "stage": "l",
      "model": "Sherman",
      "fc": 1000,
-     "oscillates": true,
-     "peak_dbfs": -0.4,
-     "freq": 999.0,
-     "cents": -2
+     "oscillates": false,
+     "peak_dbfs": -240.0,
+     "freq": 0.0,
+     "cents": null
     },
     {
      "os": 1,
      "stage": "l",
      "model": "Sherman",
      "fc": 5000,
-     "oscillates": true,
-     "peak_dbfs": -0.6,
-     "freq": 4988.0,
-     "cents": -4
+     "oscillates": false,
+     "peak_dbfs": -240.0,
+     "freq": 0.0,
+     "cents": null
     },
     {
      "os": 1,
@@ -1387,30 +1387,30 @@
      "stage": "h",
      "model": "Sherman",
      "fc": 60,
-     "oscillates": true,
-     "peak_dbfs": -0.4,
+     "oscillates": false,
+     "peak_dbfs": -78.5,
      "freq": 60.0,
-     "cents": 0
+     "cents": null
     },
     {
      "os": 1,
      "stage": "h",
      "model": "Sherman",
      "fc": 300,
-     "oscillates": true,
-     "peak_dbfs": -0.4,
+     "oscillates": false,
+     "peak_dbfs": -166.7,
      "freq": 300.0,
-     "cents": 0
+     "cents": null
     },
     {
      "os": 1,
      "stage": "h",
      "model": "Sherman",
      "fc": 1500,
-     "oscillates": true,
-     "peak_dbfs": -0.3,
-     "freq": 1498.0,
-     "cents": -2
+     "oscillates": false,
+     "peak_dbfs": -240.0,
+     "freq": 0.0,
+     "cents": null
     },
     {
      "os": 1,
@@ -1537,30 +1537,30 @@
      "stage": "l",
      "model": "Sherman",
      "fc": 100,
-     "oscillates": true,
-     "peak_dbfs": -0.5,
+     "oscillates": false,
+     "peak_dbfs": -91.1,
      "freq": 100.0,
-     "cents": 0
+     "cents": null
     },
     {
      "os": 2,
      "stage": "l",
      "model": "Sherman",
      "fc": 1000,
-     "oscillates": true,
-     "peak_dbfs": -0.4,
-     "freq": 999.0,
-     "cents": -2
+     "oscillates": false,
+     "peak_dbfs": -240.0,
+     "freq": 0.0,
+     "cents": null
     },
     {
      "os": 2,
      "stage": "l",
      "model": "Sherman",
      "fc": 5000,
-     "oscillates": true,
-     "peak_dbfs": -0.5,
-     "freq": 4991.0,
-     "cents": -3
+     "oscillates": false,
+     "peak_dbfs": -240.0,
+     "freq": 0.0,
+     "cents": null
     },
     {
      "os": 2,
@@ -1717,30 +1717,30 @@
      "stage": "h",
      "model": "Sherman",
      "fc": 60,
-     "oscillates": true,
-     "peak_dbfs": -0.4,
+     "oscillates": false,
+     "peak_dbfs": -78.5,
      "freq": 60.0,
-     "cents": 0
+     "cents": null
     },
     {
      "os": 2,
      "stage": "h",
      "model": "Sherman",
      "fc": 300,
-     "oscillates": true,
-     "peak_dbfs": -0.4,
+     "oscillates": false,
+     "peak_dbfs": -166.7,
      "freq": 300.0,
-     "cents": 0
+     "cents": null
     },
     {
      "os": 2,
      "stage": "h",
      "model": "Sherman",
      "fc": 1500,
-     "oscillates": true,
-     "peak_dbfs": -0.4,
-     "freq": 1498.0,
-     "cents": -2
+     "oscillates": false,
+     "peak_dbfs": -240.0,
+     "freq": 0.0,
+     "cents": null
     },
     {
      "os": 2,
@@ -1886,8 +1886,8 @@
     {
      "model": "Sherman",
      "drive": 100,
-     "thd_pct": 37.323,
-     "even_db": -20.7,
+     "thd_pct": 37.381,
+     "even_db": -20.6,
      "peak": 0.526
     },
     {
@@ -2000,12 +2000,12 @@
   {
    "name": "Oversampling: 2x reduces aliasing for every model (7 kHz sine, drive 100%)",
    "passed": true,
-   "detail": "Sherman -10.1\u2192-23.1 dB, K35/MS-20 -12.3\u2192-26.2 dB, Ladder 3.7\u2192-15.1 dB, Steiner-Parker -12.1\u2192-28.5 dB, SEM -15.2\u2192-45.4 dB, Diode/303 -13.4\u2192-26.7 dB",
+   "detail": "Sherman -10.2\u2192-23.0 dB, K35/MS-20 -12.3\u2192-26.2 dB, Ladder 3.7\u2192-15.1 dB, Steiner-Parker -12.1\u2192-28.5 dB, SEM -15.2\u2192-45.4 dB, Diode/303 -13.4\u2192-26.7 dB",
    "rows": [
     {
      "model": "Sherman",
-     "alias_db_1x": -10.1,
-     "alias_db_2x": -23.1
+     "alias_db_1x": -10.2,
+     "alias_db_2x": -23.0
     },
     {
      "model": "K35/MS-20",
@@ -2052,8 +2052,8 @@
     },
     {
      "case": "LPF Sherman: cutoff 200 Hz\u219220 kHz",
-     "hf_abs_dbfs": -106.0,
-     "hf_rel_db": 49.0,
+     "hf_abs_dbfs": -106.1,
+     "hf_rel_db": 48.9,
      "finite": true
     },
     {
@@ -2076,13 +2076,13 @@
     },
     {
      "case": "LPF Sherman: character 0\u2192100%",
-     "hf_abs_dbfs": -150.6,
-     "hf_rel_db": 7.7,
+     "hf_abs_dbfs": -150.7,
+     "hf_rel_db": 7.6,
      "finite": true
     },
     {
      "case": "LPF Sherman: stage off",
-     "hf_abs_dbfs": -114.6,
+     "hf_abs_dbfs": -114.7,
      "hf_rel_db": 42.2,
      "finite": true
     },
@@ -2335,7 +2335,7 @@
     {
      "case": "HPF Sherman: cutoff 20 Hz\u21921 kHz",
      "hf_abs_dbfs": -79.6,
-     "hf_rel_db": 78.8,
+     "hf_rel_db": 78.7,
      "finite": true
     },
     {
@@ -2346,14 +2346,14 @@
     },
     {
      "case": "HPF model switch Sherman\u2192K35/MS-20",
-     "hf_abs_dbfs": -101.3,
-     "hf_rel_db": 48.9,
+     "hf_abs_dbfs": -101.5,
+     "hf_rel_db": 51.0,
      "finite": true
     },
     {
      "case": "HPF Sherman: stage on",
-     "hf_abs_dbfs": -152.8,
-     "hf_rel_db": 5.5,
+     "hf_abs_dbfs": -153.4,
+     "hf_rel_db": 5.0,
      "finite": true
     },
     {
@@ -2455,19 +2455,19 @@
     {
      "case": "Stage order LP\u2192HP to HP\u2192LP",
      "hf_abs_dbfs": -75.2,
-     "hf_rel_db": 46.9,
+     "hf_rel_db": 47.7,
      "finite": true
     },
     {
      "case": "Oversampling 1x\u21922x",
      "hf_abs_dbfs": -74.7,
-     "hf_rel_db": 47.4,
+     "hf_rel_db": 48.2,
      "finite": true
     },
     {
      "case": "Output level \u221224\u2192+6 dB",
-     "hf_abs_dbfs": -86.8,
-     "hf_rel_db": 35.4,
+     "hf_abs_dbfs": -86.7,
+     "hf_rel_db": 36.1,
      "finite": true
     }
    ],
@@ -2486,7 +2486,7 @@
   {
    "name": "3. LPF at maximum resonance with program input, all models (soft clip OFF)",
    "passed": true,
-   "detail": "Sherman 2.4, K35/MS-20 1.7, Ladder 1.0, Steiner-Parker -2.9, SEM -7.8, Diode/303 -3.3 dBFS peak"
+   "detail": "Sherman -5.8, K35/MS-20 1.7, Ladder 1.0, Steiner-Parker -2.9, SEM -7.8, Diode/303 -3.3 dBFS peak"
   },
   {
    "name": "4. HPF sweep 20 Hz\u21921 kHz",
@@ -2501,7 +2501,7 @@
   {
    "name": "6. Both filters active and sweeping toward each other",
    "passed": true,
-   "detail": "peak -1.3 dBFS"
+   "detail": "peak -1.2 dBFS"
   },
   {
    "name": "7. Stereo input with different L/R content",
@@ -2853,48 +2853,48 @@
   {
    "name": "CPU benchmark (transpiled C, gcc -O2, this machine)",
    "passed": true,
-   "detail": "Both stages off (pass-through): 8.18%; Default device (Ladder LPF 24 dB + K35 HPF), 1x: 9.51%; Diode LPF 48 dB + Sherman HPF 48 dB, 1x: 11.51%; Default device, 2x oversampling: 11.06%; Worst case: Diode+Sherman 48 dB, 2x, both mid-crossfade: 17.15%",
+   "detail": "Both stages off (pass-through): 8.4%; Default device (Ladder LPF 24 dB + K35 HPF), 1x: 9.92%; Diode LPF 48 dB + Sherman HPF 48 dB, 1x: 11.66%; Default device, 2x oversampling: 11.31%; Worst case: Diode+Sherman 48 dB, 2x, both mid-crossfade: 17.36%",
    "rows": [
     {
      "config": "Both stages off (pass-through)",
-     "ns_per_frame": 1704.1,
-     "pct_of_one_core_48k": 8.18
+     "ns_per_frame": 1750.9,
+     "pct_of_one_core_48k": 8.4
     },
     {
      "config": "Default device (Ladder LPF 24 dB + K35 HPF), 1x",
-     "ns_per_frame": 1981.5,
-     "pct_of_one_core_48k": 9.51
+     "ns_per_frame": 2067.1,
+     "pct_of_one_core_48k": 9.92
     },
     {
      "config": "Diode LPF 48 dB + Sherman HPF 48 dB, 1x",
-     "ns_per_frame": 2398.2,
-     "pct_of_one_core_48k": 11.51
+     "ns_per_frame": 2429.3,
+     "pct_of_one_core_48k": 11.66
     },
     {
      "config": "Default device, 2x oversampling",
-     "ns_per_frame": 2303.2,
-     "pct_of_one_core_48k": 11.06
+     "ns_per_frame": 2355.4,
+     "pct_of_one_core_48k": 11.31
     },
     {
      "config": "Worst case: Diode+Sherman 48 dB, 2x, both mid-crossfade",
-     "ns_per_frame": 3573.9,
-     "pct_of_one_core_48k": 17.15
+     "ns_per_frame": 3617.1,
+     "pct_of_one_core_48k": 17.36
     }
    ]
   },
   {
    "name": "Denormals: decay tails flush to zero; silence costs no more than signal",
    "passed": true,
-   "detail": "silence/signal CPU ratio 0.88"
+   "detail": "silence/signal CPU ratio 0.89"
   },
   {
    "name": "DC offset at output with asymmetric saturation (drive 100%, hot input)",
    "passed": true,
-   "detail": "worst residual DC -192.5 dBFS",
+   "detail": "worst residual DC -183.1 dBFS",
    "rows": [
     {
      "model": "Sherman",
-     "dc_dbfs": -192.5
+     "dc_dbfs": -183.1
     },
     {
      "model": "K35/MS-20",
@@ -4225,32 +4225,32 @@
   {
    "name": "CPU with BPF (transpiled C, gcc -O2, this machine)",
    "passed": true,
-   "detail": "v1.1 default device (LPF+HPF), BPF off: 9.63%; + BPF SVF: 10.46%; + BPF CASCADE: 11.19%; + BPF MULTIMODE (ARP): 11.67%; worst: all three, 48 dB slopes, 2x, BPF mid-crossfade: 19.08%",
+   "detail": "v1.1 default device (LPF+HPF), BPF off: 9.66%; + BPF SVF: 10.87%; + BPF CASCADE: 10.78%; + BPF MULTIMODE (ARP): 11.9%; worst: all three, 48 dB slopes, 2x, BPF mid-crossfade: 18.96%",
    "rows": [
     {
      "config": "v1.1 default device (LPF+HPF), BPF off",
-     "ns_per_frame": 2006.7,
-     "pct_of_one_core_48k": 9.63
+     "ns_per_frame": 2013.0,
+     "pct_of_one_core_48k": 9.66
     },
     {
      "config": "+ BPF SVF",
-     "ns_per_frame": 2178.7,
-     "pct_of_one_core_48k": 10.46
+     "ns_per_frame": 2264.5,
+     "pct_of_one_core_48k": 10.87
     },
     {
      "config": "+ BPF CASCADE",
-     "ns_per_frame": 2331.0,
-     "pct_of_one_core_48k": 11.19
+     "ns_per_frame": 2245.5,
+     "pct_of_one_core_48k": 10.78
     },
     {
      "config": "+ BPF MULTIMODE (ARP)",
-     "ns_per_frame": 2432.0,
-     "pct_of_one_core_48k": 11.67
+     "ns_per_frame": 2479.4,
+     "pct_of_one_core_48k": 11.9
     },
     {
      "config": "worst: all three, 48 dB slopes, 2x, BPF mid-crossfade",
-     "ns_per_frame": 3975.3,
-     "pct_of_one_core_48k": 19.08
+     "ns_per_frame": 3951.0,
+     "pct_of_one_core_48k": 18.96
     }
    ]
   },
@@ -4920,37 +4920,37 @@
   {
    "name": "CPU with the dynamics chain (transpiled C, gcc -O2, this machine)",
    "passed": true,
-   "detail": "v1.2 device, dynamics off: 9.86%; + TUBE: 11.11%; + OPTO: 10.86%; + VCA: 10.57%; + all three + gate: 12.6%; worst: LPF+HPF+BPF 2x + all dynamics, reordering every 20 ms: 21.68%",
+   "detail": "v1.2 device, dynamics off: 9.56%; + TUBE: 11.14%; + OPTO: 11.18%; + VCA: 10.97%; + all three + gate: 12.44%; worst: LPF+HPF+BPF 2x + all dynamics, reordering every 20 ms: 21.67%",
    "rows": [
     {
      "config": "v1.2 device, dynamics off",
-     "ns_per_frame": 2054.1,
-     "pct_of_one_core_48k": 9.86
+     "ns_per_frame": 1992.0,
+     "pct_of_one_core_48k": 9.56
     },
     {
      "config": "+ TUBE",
-     "ns_per_frame": 2315.2,
-     "pct_of_one_core_48k": 11.11
+     "ns_per_frame": 2321.1,
+     "pct_of_one_core_48k": 11.14
     },
     {
      "config": "+ OPTO",
-     "ns_per_frame": 2262.1,
-     "pct_of_one_core_48k": 10.86
+     "ns_per_frame": 2328.3,
+     "pct_of_one_core_48k": 11.18
     },
     {
      "config": "+ VCA",
-     "ns_per_frame": 2201.6,
-     "pct_of_one_core_48k": 10.57
+     "ns_per_frame": 2285.7,
+     "pct_of_one_core_48k": 10.97
     },
     {
      "config": "+ all three + gate",
-     "ns_per_frame": 2624.3,
-     "pct_of_one_core_48k": 12.6
+     "ns_per_frame": 2590.6,
+     "pct_of_one_core_48k": 12.44
     },
     {
      "config": "worst: LPF+HPF+BPF 2x + all dynamics, reordering every 20 ms",
-     "ns_per_frame": 4517.3,
-     "pct_of_one_core_48k": 21.68
+     "ns_per_frame": 4514.0,
+     "pct_of_one_core_48k": 21.67
     }
    ]
   },
@@ -5151,19 +5151,19 @@
   {
    "name": "CPU by routing mode (LPF + HPF + BPF on)",
    "passed": true,
-   "detail": "LPF + HPF + BPF, SERIES: 10.8%; LPF + HPF + BPF, PARALLEL: 11.04%; LPF + HPF + BPF, HYBRID: 10.93%",
+   "detail": "LPF + HPF + BPF, SERIES: 11.08%; LPF + HPF + BPF, PARALLEL: 11.1%; LPF + HPF + BPF, HYBRID: 11.23%",
    "rows": [
     {
      "config": "LPF + HPF + BPF, SERIES",
-     "pct_of_one_core_48k": 10.8
+     "pct_of_one_core_48k": 11.08
     },
     {
      "config": "LPF + HPF + BPF, PARALLEL",
-     "pct_of_one_core_48k": 11.04
+     "pct_of_one_core_48k": 11.1
     },
     {
      "config": "LPF + HPF + BPF, HYBRID",
-     "pct_of_one_core_48k": 10.93
+     "pct_of_one_core_48k": 11.23
     }
    ]
   },
@@ -5176,6 +5176,6 @@
  "summary": {
   "total": 95,
   "passed": 95,
-  "seconds": 427.9
+  "seconds": 439.4
  }
 }

@@ -73,3 +73,12 @@ This is a Reaktor 4 ensemble, "heRman FilTERbANk v0.1" (12/2004), which calls it
   - a bipolar ADSR sustain and an envelope follower.
 - **Resonance:** each filter is a 2-pole filter with a **resonance limiter**. When the band-pass level exceeds a threshold, resonance is pulled back for all modes, with an adjustable release. The threshold can fall at −6 dB/oct with frequency, so the resonance stays strong without the low end turning "boomy". This is the same family as our amplitude-dependent damping, but it acts as a limiter with a release time rather than as an instantaneous law. A limiter like this is one plausible way to get the *partial* self-oscillation that the reviews describe.
 - No clock or switched-capacitor behaviour is modelled.
+
+## Status: self-oscillation changed (user decision, 2026-11-19)
+Filter 2 no longer sustains self-oscillation. The damping bends onto a positive floor (Q ≈ 100 at res 100) below R 0.05; the law is unchanged under about res 82 %. A resonance limiter after Troyer's ensemble lets half of the amplitude-dependent damping follow the band-pass power averaged over about 30 ms. Measured:
+- at res 100, 2 s after a click: −63 dBFS at 100 Hz, and silence at 500 Hz and above (v1.6 before this change: −3.5 dBFS at every cutoff);
+- a −30 dBFS sine at fc gives −5 dBFS, so the filter still whistles on input;
+- the peak stays on pitch, and resonance still rises up to the top of the knob (+27.4 dB at res 90, +37.3 dB at res 100);
+- aliasing is better than before (4x −135 dBc, was −129.5).
+
+FEEDBACK (an undocumented design choice) can still make the filter howl.

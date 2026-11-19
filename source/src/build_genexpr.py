@@ -136,7 +136,7 @@ f_svfclk(u, s1, s2, g, R, fr, ph, hh, hb, hl) {
 	return h, b, l, n1, n2, np;
 }
 
-f_sherman(x, s1a, s2a, ba, s1b, s2b, bb, yp, pa, pb, hha, hba, hla, hhb, hbb, hlb, g, g2, R1, Rt, fb, ti, hp, pm, bal, cor, lk, ck) {
+f_sherman(x, s1a, s2a, ba, s1b, s2b, bb, yp, pa, pb, hha, hba, hla, hhb, hbb, hlb, eb, g, g2, R1, Rt, fb, ti, hp, pm, bal, cor, lk, ck, rel) {
 	u = f_asym(1.6 * (x + fb * yp)) * 0.625;
 	if (lk < 0.999) {
 		u = u * lk;
@@ -166,15 +166,20 @@ f_sherman(x, s1a, s2a, ba, s1b, s2b, bb, yp, pa, pb, hha, hba, hla, hhb, hbb, hl
 		ft = frb < 0.5 ? ft + sin(6.28318531 * npb) : ft;
 	}
 	if (tick > 0.5) {
-		Rb = 1 - (1 - Rt) * f_ag(bb * 2);
+		Rb = 1 - (1 - Rt) / sqrt(1 + 2 * bb * bb + 2 * eb);
 		h2, b2, l2, n1b, n2b = f_svf(i2, s1b, s2b, gs, Rb);
 		// v1.6: re-evaluate the amplitude-dependent damping at the CURRENT band value
 		// (one fixed-point step). The lagged value alone lets the limiter sample an
 		// oscillation near fs/4 at its zero crossings and pump it (period-2 parametric
 		// instability, docs/independent-review/INDEPENDENT_AUDIT_REVIEW.md section 3.1).
-		Rb = 1 - (1 - Rt) * f_ag(b2 * 2);
+		Rb = 1 - (1 - Rt) / sqrt(1 + 2 * b2 * b2 + 2 * eb);
 		h2, b2, l2, n1b, n2b = f_svf(i2, s1b, s2b, gs, Rb);
 	}
+	// v1.6 resonance limiter (after the heRman FilterBank Reaktor reconstruction): half of filter 2's
+	// amplitude-dependent damping now follows the band-pass power averaged over ~30 ms instead of the
+	// instantaneous value, so a loud resonance stays held back for a moment. A plain one-pole average of b^2
+	// (no abs, max or attack/release switch), so it adds no corners and no wideband distortion.
+	ebn = eb + rel * (b2 * b2 - eb);
 	o2 = f_shout(h2, b2, l2, hp, pm, bal, cor);
 	if (lk < 0.999) {
 		o2 = o2 * 2.7;          // makeup (not 1/lk): keeps the output level within ~1.5 dB of Limit off
@@ -183,7 +188,7 @@ f_sherman(x, s1a, s2a, ba, s1b, s2b, bb, yp, pa, pb, hha, hba, hla, hhb, hbb, hl
 		o2 = o2 + 0.0005 * ft;  // clock feedthrough (-66 dBFS per filter, assumed): the manual's low-frequency "eee"
 	}
 	ynext = tanh(o2);
-	return o2, o2, fixdenorm(n1a), fixdenorm(n2a), b1, fixdenorm(n1b), fixdenorm(n2b), b2, ynext, npa, npb, h1, b1, l1, h2, b2, l2;
+	return o2, o2, fixdenorm(n1a), fixdenorm(n2a), b1, fixdenorm(n1b), fixdenorm(n2b), b2, ynext, npa, npb, h1, b1, l1, h2, b2, l2, fixdenorm(ebn);
 }
 
 // ================= MODEL 02: Korg 35 / MS-20, OTA (LM13600, "Mk2") circuit =================
@@ -452,14 +457,19 @@ f_ap5(x, z0, z1, z2, z3, z4, z5, c1, c2, c3, c4, c5) {
 #        explicitly labelled alternative ("alt") or not at all (None)
 MODELS = [
     dict(id=0, key="sh", name="Sherman Filterbank-inspired", taps="12/24",
-         states=["s1a", "s2a", "ba", "s1b", "s2b", "bb", "yp", "pa", "pb", "hha", "hba", "hla", "hhb", "hbb", "hlb"], lp="native", hp="native",
+         states=["s1a", "s2a", "ba", "s1b", "s2b", "bb", "yp", "pa", "pb", "hha", "hba", "hla", "hhb", "hbb", "hlb", "eb"], lp="native", hp="native",
          char="FEEDBACK",
          coef=["{p}_g = {s}_gw;",
                "{p}_R1 = 0.3 + 0.7 * (1 - {r}) * (1 - {r});",
-               "{p}_R = 0.8 * (1 - {r}) * (1 - {r}) - 0.08 * pow({r}, 30);",
+               "{p}_Ra = 0.8 * (1 - {r}) * (1 - {r}) - 0.08 * pow({r}, 30);",
+               # v1.6: no sustained self-oscillation (SOS 1997: the Filterbank "refuses to go into full
+               # self-oscillation"; Tape Op 2025: "partial"). Below R 0.05 the v1.5 law bends smoothly (C1) onto a
+               # floor of 0.002: R 0.0052 (Q ~ 100) at res 100. Unchanged where the v1.5 law is above 0.05 (res < ~82 %).
+               "{p}_R = {p}_Ra >= 0.05 ? {p}_Ra : 0.002 + 0.048 * exp(({p}_Ra - 0.05) / 0.048);",
+               "{p}_rel = 1 - exp(-33.3333333 / fso);",
                "{p}_fb = 0.92 * {c};",
                "{p}_g2 = sh_hr > 1.000001 ? tan(pi * {s}_fcc / (sh_hr * fso)) : {s}_gw;"],   # v1.6 harmonics: filter 2 at f1 / n
-         call=["o12, o24, {sv} = f_sherman({x}, {sv}, {p}_g, {p}_g2, {p}_R1, {p}_R, {p}_fb, {s}_ti, {hp}, sh_pm, sh_b, sh_c, sh_lk, sh_ck);",
+         call=["o12, o24, {sv} = f_sherman({x}, {sv}, {p}_g, {p}_g2, {p}_R1, {p}_R, {p}_fb, {s}_ti, {hp}, sh_pm, sh_b, sh_c, sh_lk, sh_ck, {p}_rel);",
                "{acc} = {acc} + {mix} * (o12 + {s}_ti * (o24 - o12));"]),
     dict(id=1, key="k3", name="Korg 35 / MS-20 (OTA Mk2, or KORG-35 Mk1 via K35 Circuit)", taps="12",
          states=["s1", "s2", "s3", "yp"], lp="native", hp="native", char="FB CLIP",

@@ -14,7 +14,7 @@ How much I could establish varies by circuit. The TB-303 and Moog ladder are tho
 
 | # | Model | Circuit basis | Topology supports | LPF stage | HPF stage | Native slope | Taps | Self-osc. | CHARACTER |
 |---|---|---|---|---|---|---|---|---|---|
-| 01 | Sherman Filterbank-inspired | **Behavioural** (no public schematic) | LP, BP, notch, HP (per the maker's spec) | LP | HP | 24 (filters 1+2) | 12 = filter 2 alone | yes | FEEDBACK |
+| 01 | Sherman Filterbank-inspired | **Behavioural** (no public schematic) | LP, BP, notch, HP (per the maker's spec) | LP | HP | 24 (filters 1+2) | 12 = filter 2 alone | partial (rings, no sustain; FEEDBACK can howl) | FEEDBACK |
 | 02 | Korg 35 / MS-20 (K35 Circuit: OTA Mk2 or KORG-35 Mk1) | Mk2: two buffered one-poles (LM13600). Mk1: Korg35 Sallen-Key | LP, HP | LP | HP (6 dB/oct, as built) | LP 12, HP 6 | 12 | yes | Mk2: FB CLIP · Mk1: DIODE DRIVE |
 | 03 | Moog transistor ladder-inspired | 4 differential-pair stages + global feedback | LP (HP/BP only by pole mixing) | LP | **ALT** pole-mix HP | 24 | 12 / 24 | yes | STAGE SAT |
 | 04 | Steiner-Parker Synthacon-inspired | Sallen-Key, diode-string resistors, 3 injection points | LP, BP, HP | LP (+BP) | HP injection (+BP) | 12 (HP: see note) | 12 | yes | BP BLEND |
@@ -33,13 +33,14 @@ Rules: no silent substitution (the HPF menu has five entries), the one alternati
 - filter 2 has more resonance than filter 1
 - an input section with level, overdrive and high boost/cut
 
-**The model.** Asymmetric input overdrive, then filter 1 (a nonlinear SVF with mild resonance, Q ≤ 1.7), then filter 2 (a nonlinear SVF carrying the main resonance up to self-oscillation), both at the same cutoff. The 12 dB setting plays filter 2 alone, so resonance stays available. CHARACTER (FEEDBACK) adds a saturated output→input feedback path for the Filterbank's howl. That path is **not** taken from documentation; it is a design choice requested in the spec. Resonance is limited with secant-linearised sigmoids inside the zero-delay solves.
+**The model.** Asymmetric input overdrive, then filter 1 (a nonlinear SVF with mild resonance, Q ≤ 1.7), then filter 2 (a nonlinear SVF carrying the main resonance, up to Q ≈ 100 but not sustained self-oscillation), both at the same cutoff. The 12 dB setting plays filter 2 alone, so resonance stays available. CHARACTER (FEEDBACK) adds a saturated output→input feedback path for the Filterbank's howl. That path is **not** taken from documentation; it is a design choice requested in the spec. Resonance is limited with secant-linearised sigmoids inside the zero-delay solves.
 
 **v1.6, from the Filterbank 2 manual** ([check](independent-review/SHERMAN_MANUAL_CHECK.md); still behavioural):
 - **Modes:** STAGE/PANEL. PANEL engages the manual's Balance (Lp/Bp/Hp) and Correction (−Bp … −Bp + Lp + Hp) knobs, shared by both filters (the hardware has a pair per filter).
 - **Harmonics:** filter 2 at f1 ÷ 1–16, at 24 dB.
 - **Limit:** more resonance headroom when overdriven. The mechanism is invented.
 - **Clock:** clocked (switched-capacitor) character: hold-between-ticks staircase at a 100 × cutoff clock, plus clock feedthrough. The ratio and level are assumptions.
+- **Partial self-oscillation** (from published reviews, [evidence](independent-review/SHERMAN_FIELD_EVIDENCE.md)): filter 2's damping never goes negative. Below R 0.05 the v1.5 law bends onto a floor (Q ≈ 100 at res 100), so a click rings and dies, but a steady input still whistles. Half of the amplitude-dependent damping follows the band-pass power averaged over about 30 ms (a resonance limiter after Troyer's Reaktor reconstruction), so a loud resonance stays held back for a moment. FEEDBACK can still make it howl.
 
 **Not modelled:** the continuous PAR ↔ SER routing (and parallel mode), separate Balance/Correction per filter, the envelopes, LFO, ring modulator and pitch tracking.
 

@@ -364,6 +364,21 @@ check("Sherman clock (behavioural, 100:1 assumed): feedthrough at 100 x fc; Refe
       abs(tone - 6000) < 20 and same18 == 0 and img > 10 and worstc <= 6,
       f"silent input, fc 60 Hz: tone {tone} Hz; 1x vs 8x max diff {same18}; 15-22 kHz {img:+.1f} dB vs clock off; fs/4 worst {worstc:.1f} dBFS")
 
+# Sherman partial self-oscillation (reviews: SOS 1997 "refuses to go into full self-oscillation"; Tape Op 2025 "partial")
+SO = lambda **k: base(**dict(dict(l_on=1, l_model=0, l_cut=1000, l_res=100, l_slope=1, eng_mode=0), **k))
+tails, pks = {}, {}
+for fc in (100, 1000, 5000):
+    xk = np.zeros(SR * 3); xk[2400:2464] = 0.3
+    tails[fc] = round(db(np.std(run(xk, SO(l_cut=fc))[int(2.5 * SR):, 0]) + 1e-15), 1)
+ts = np.arange(SR * 2) / SR
+whistle = round(db(np.std(run(10 ** (-30 / 20) * np.sin(2 * np.pi * 1000 * ts), SO(l_slope=0))[SR:, 0]) * np.sqrt(2)), 1)
+f, Hr = tf(SO(l_slope=0)); pkc = round(float(1200 * np.log2(f[np.argmax(np.abs(Hr))] / 1000)))
+f, Hr9 = tf(SO(l_slope=0, l_res=90)); g100, g90 = db(np.abs(Hr).max()), db(np.abs(Hr9).max())
+data["sherman_partial_selfosc"] = dict(tail_dbfs_after_2s=tails, whistle_dbfs=whistle, peak_cents=pkc, peak_db_res100=round(g100, 1), peak_db_res90=round(g90, 1))
+check("Sherman partial self-oscillation: res 100 rings and dies (< -50 dBFS 2 s after a click, any cutoff), still whistles on input (> -12 dBFS from -30 dBFS at fc), peak on pitch, resonance still rising to the top of the knob",
+      max(tails.values()) < -50 and whistle > -12 and abs(pkc) < 30 and g100 > g90 + 3,
+      f"tails {tails}; whistle {whistle} dBFS; peak {pkc:+d} c; peak gain res 90 {g90:.1f} -> res 100 {g100:.1f} dB")
+
 n_ok = sum(r["ok"] for r in results)
 json.dump(dict(results=results, data=data), open(os.path.join(ROOT, "build", "v16_results.json"), "w"), indent=1, default=float)
 print(f"\nv1.6 tests: {n_ok}/{len(results)} passed")
