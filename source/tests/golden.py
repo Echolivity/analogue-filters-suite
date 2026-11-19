@@ -117,7 +117,7 @@ def v16(kind, capture=False):
     changed = sorted(k for k in legacy if h.get(k) != legacy[k])
     if capture:
         json.dump({"hashes": h, "changed_vs_legacy": changed,
-                   "note": "v1.6 solver fix (Sherman, Steiner, BPF SVF limiter) and Reference-mode power-on default; "
+                   "note": "v1.6 solver fix (Sherman, Steiner, BPF SVF limiter), Ladder on the Minimoog filter board (Emphasis law, C5/C1/C10 couplings, gain-recovery pair; also the power-on fade from the default Ladder) and Reference-mode power-on default; "
                            "legacy tests run in Creative mode (tests/dsp.py base)"}, open(GOLD16[kind], "w"), indent=1)
         print(f"captured v1.6 {kind or 'lpf/hpf'}: {len(h)} renders; {len(changed)} differ from legacy")
         return 0

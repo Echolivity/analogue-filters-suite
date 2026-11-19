@@ -230,10 +230,10 @@ def t_self_osc():
                     rows.append(dict(os=ovs + 1, stage=st, model=nm, fc=fc, oscillates=bool(osc),
                                      peak_dbfs=round(float(db(pk)), 1), freq=round(float(fr), 1),
                                      cents=None if cents is None else round(float(cents))))
-                    expect = not nm.startswith("SEM")
+                    expect = not nm.startswith("SEM") and not (nm == "Ladder" and fc < 120)   # v1.6: Minimoog couplings stop oscillation below ~120 Hz
                     if not fin or pk > 1.25 or osc != expect or (osc and abs(cents) > 100):
                         bad.append(f"os{ovs + 1} {st}/{nm} fc{fc}: osc={osc} pk={db(pk):.1f}dBFS f={fr:.0f}")
-    record("Self-oscillation: stable, bounded (<+2 dBFS), on pitch (±100 c); SEM does not self-oscillate (by design)",
+    record("Self-oscillation: stable, bounded (<+2 dBFS), on pitch (±100 c); SEM does not self-oscillate (by design); Ladder not below ~120 Hz (Minimoog couplings)",
            not bad, "ok" if not bad else "; ".join(bad), rows=rows)
 
 
@@ -461,7 +461,9 @@ def t_samplerates():
                 rows.append(dict(sr=sr, model=nm, stage=st, fc=fc, peak_cents=round(float(c)),
                                  selfosc_peak_dbfs=round(float(db(np.abs(y[sr:]).max())), 1)))
                 res_hz = sr / 8192
-                if abs(c) > max(100, 1200 * np.log2((fc + res_hz) / fc)) or not np.all(np.isfinite(y)) or np.abs(y).max() > 1.3:
+                # bound 1.6 (+4 dBFS): v1.6 Minimoog Emphasis reaches k = 5.04, so self-oscillation runs ~3.3 dB louder
+                # (12 dB tap ~1.03 at 4x); at 1x near fs/4 the ladder overshoots further (pre-existing: 0.66 -> 1.08 in v1.5)
+                if abs(c) > max(100, 1200 * np.log2((fc + res_hz) / fc)) or not np.all(np.isfinite(y)) or np.abs(y).max() > 1.6:
                     bad.append(f"{sr} {nm} fc{fc}: {c:+.0f} c")
     record("Sample-rate independence 44.1–192 kHz: tuning and stability", not bad, "ok" if not bad else "; ".join(bad), rows=rows)
 
@@ -557,11 +559,19 @@ def t_circuit_reference():
     def add(name, st, m, fc, res, slope, ref):
         cases.append((name, st, m, fc, res, slope, ref))
     for res in (0, 60):
-        k = 4.3 * (res / 100) ** 1.3
-        add(f"Ladder LP 24 — Stilson & Smith / Stinchcombe 1/((1+s)^4+k), res {res}%", "l", 2, 1000, res, 1,
-            lambda s, k=k: 1 / ((1 + s) ** 4 + k))
+        # v1.6 Minimoog filter board: k from the Emphasis rheostat law; C5/C1 (15.4 Hz) couple the ladder output
+        # (in the output and in the loop), C10 couples the feedback (corner set by R14 + 1330 ohm)
+        R14 = 50000 * (np.exp(4.394 * (1 - res / 100)) - 1) / 79.96362664
+        k = 6700.067 / (R14 + 1330)
+        fb_ = 15915.4943 / (R14 + 1330)
+        def lad(s, fc, k=k, fb_=fb_, hp=False):
+            Hc = s / (s + 15.3921608 / fc); Hb = s / (s + fb_ / fc)
+            return s ** 4 / ((1 + s) ** 4 + k * Hb * Hc) if hp else Hc / ((1 + s) ** 4 + k * Hb * Hc)
+        add(f"Ladder LP 24 — Minimoog: Hc/((1+s)^4 + k Hb Hc), Stinchcombe core + fig. 9-11 couplings, res {res}%", "l", 2, 1000, res, 1,
+            lambda s, lad=lad: lad(s, 1000))
+        kh = 4.3 * (res / 100) ** 1.3   # HP ALT is not a Minimoog: v1.5 law, no couplings
         add(f"Ladder HP ALT — pole-mix s^4/((1+s)^4+k), res {res}%", "h", 2, 300, res, 1,
-            lambda s, k=k: s ** 4 / ((1 + s) ** 4 + k))
+            lambda s, k=kh: s ** 4 / ((1 + s) ** 4 + k))
         K = 0.05 + 2.03 * (res / 100) ** 1.1
         add(f"Korg 35 LP — 1/(s^2+(2-K)s+1), res {res}%", "l", 1, 1000, res, 0, lambda s, K=K: 1 / (s * s + (2 - K) * s + 1))
         add(f"Korg 35 HP — s(s+1)/(s^2+(2-K)s+1) (MS-20 as built), res {res}%", "h", 1, 300, res, 0, lambda s, K=K: s * (s + 1) / (s * s + (2 - K) * s + 1))

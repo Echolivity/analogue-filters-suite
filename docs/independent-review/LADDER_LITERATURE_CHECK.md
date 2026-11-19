@@ -43,3 +43,13 @@ The core is already circuit-faithful at the level of the published analyses. The
 - Moog's true ladder high-pass.
 
 Unlike the Sherman, no field evidence contradicts the model.
+
+## Status: Minimoog Model D filter board adopted (user decision, 2026-11-19)
+Source: the Minimoog service manual (fig. 9-11 filter board, fig. 9-17 interconnect), supplied by the user. Adopted:
+- the Emphasis law (R14 50k reverse-audio rheostat + REGEN CAL, k 0.13 → 5.04, oscillation from Emphasis 9, assumed);
+- the C5/C1 and C10 couplings;
+- the Q7/Q5 gain-recovery saturation.
+
+Not adopted:
+- the mixer drive calibration. The passive 33 kΩ → 470 Ω sum (about −37 dB) is known, but the oscillator level is on another board.
+- Moog's true high-pass (904B), which is not on this board.

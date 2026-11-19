@@ -79,6 +79,13 @@ Rules: no silent substitution (the HPF menu has five entries), the one alternati
 
 **The model.** Exactly those per-stage equations, with every tanh present: the input pair and all four stage pairs. The previous version had only an input tanh. They are solved with zero-delay feedback: each tanh is replaced by its secant gain tanh(v)/v at the previous sample, so the four stages are linear for the current sample and the global loop is solved in closed form. CHARACTER (STAGE SAT) runs from circuit-nominal (0 %) to 3× hotter stage saturation (100 %). Comp restores the 1/(1+k) bass loss that the circuit shows (visible in the circuit-reference plot at Comp 0). **Approximation:** the secant method lags the nonlinearity by one sample. This is standard practice and well behaved, but not an exact solve of the nonlinear ODE.
 
+**v1.6, Minimoog Model D filter board** (service manual fig. 9-11; [literature check](independent-review/LADDER_LITERATURE_CHECK.md)):
+- **Emphasis:** k = 15.17·Rb/(R14 + 1330), with R14 a 50 kΩ reverse-audio rheostat. 15.17 is the Q7/Q5 gain-recovery gain times the R7/R3 tap; Rb = 441.5 Ω is the REGEN CAL setting, chosen so oscillation starts at Emphasis 9 (assumed). So k = 0.13 at 0, 1.06 at 50 % and 5.04 at 100 %.
+- **Couplings:** C5/C1 (15.4 Hz) on the ladder output, in the loop, and C10 (R14-dependent, 12 Hz at full Emphasis) in the feedback. The filter does not self-oscillate below about 120 Hz cutoff.
+- **Gain-recovery pair** Q7/Q5: tanh at the ladder's 2 V_T scale, in the output and in the loop.
+- **Scope:** the board applies to the low-pass only. The ALT high-pass pole-mix keeps the v1.5 law and is bit-identical. The 12 dB tap (y₂, not on a Minimoog) passes through the same output-pair saturation.
+- Self-oscillation is about 3.3 dB louder than v1.5, because k reaches 5.04.
+
 ## 04 Steiner-Parker Synthacon-inspired, rebuilt
 
 **Circuit.** The Steiner-Parker is a classic Sallen-Key filter adapted with biased diodes as controlled resistors. The diode strings act as voltage-controlled resistors, and the filter's Q comes from the gain of a non-inverting amplifier, staying almost constant as the filter is swept. The HP, BP and LP modes come from injecting the signal at three different points of the circuit, and all inputs can be driven at once. Resonance gain grows with Q, so clipping can occur.
