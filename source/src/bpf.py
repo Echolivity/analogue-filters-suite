@@ -176,7 +176,7 @@ def emit_controls(w, G):
     w("}")
     w("b_wet = b_en * b_mx;")
     w("b_run = b_en > 0 ? 1 : 0;")
-    w("b_fc = min(exp2(b_lc), 0.45 * fso);")
+    w("b_fc = min(ef_rb != 0 ? clamp(exp2(b_lc + ef_rb), 30, 12000) : exp2(b_lc), 0.45 * fso);")  # v1.6 envelope routing
     w("b_qq = exp2(b_lq);")
     w("b_d = 0.25 * exp2(5 * b_drv);")
     w("b_osc = (1 / b_d) * exp2(5 * b_drv * (1 - 0.5 * b_cmp));")

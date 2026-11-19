@@ -17,6 +17,7 @@ sys.path.insert(0, os.path.join(HERE, "..", "tools"))
 from hiir_design import coefs as hiir_coefs
 import bpf  # v1.2 band-pass engine (separate module)
 import dyn  # v1.3 dynamics chain (separate module)
+import envf  # v1.6 envelope filter (Mu-Tron III topology) + envelope routing
 import routing  # v1.4 filter routing (series / parallel / hybrid)
 
 HIIR = hiir_coefs(10, 0.0227)
@@ -640,7 +641,9 @@ def build():
     P("sh_corr", 0, -100, 100) # correction: -Bp (-100) ... 0 ... -Bp+Lp+Hp (+100), PANEL only
     P("sh_harm", 0, 0, 10)     # harmonics: filter 2 = f1 / {1, 1.5, 2, 3, 4, 5, 6, 7, 8, 9, 16} (24 dB only)
     P("sh_limit", 0, 0, 1)     # Limit: more headroom for resonance when the input is overdriven
-    P("sh_clock", 0, 0, 1)     # clocked (switched-capacitor) character, behavioural   # v1.6: K35 circuit, 0 = LM13600 OTA (Mk2, as v1.5), 1 = Korg35 (Mk1)
+    P("sh_clock", 0, 0, 1)     # clocked (switched-capacitor) character, behavioural
+    for (n, d, lo, hi) in envf.params():   # v1.6 envelope filter (appended)
+        P(n, d, lo, hi)   # v1.6: K35 circuit, 0 = LM13600 OTA (Mk2, as v1.5), 1 = Korg35 (Mk1)
 
     # ----- state declarations -----
     statevars = []   # local names mirrored from histories
@@ -701,6 +704,7 @@ def build():
     CV("cur_tos", 1)  # v1.6: TUBE oversampling index (1 = 2x, as v1.3-v1.5)
     CV("cur_k35", 0)  # v1.6: K35 circuit in use (switches at the duck bottom)
     CV("sh_lr", 0)    # v1.6: Sherman harmonics, glided log2(ratio)
+    envf.register_state(CV)  # v1.6: envelope filter
 
     dirty = []   # v1.6 has-state flags (stored at the end)
 
@@ -740,6 +744,7 @@ def build():
     w("dstep = 1 / (0.004 * fs);")
     w("x_L = in1;")
     w("x_R = in2;")
+    envf.emit(w)  # v1.6: envelope filter before the filter section; defines ef_rl / ef_rh / ef_rb
     w("fault = 0;")
     w()
     w("// ---- load state ----")
@@ -767,7 +772,8 @@ def build():
         w(f"{s}_drv = H_{s}_drv + a_par * (clamp({s}_drive, 0, 100) * 0.01 - H_{s}_drv);")
         w(f"{s}_cmp = H_{s}_cmp + a_par * (clamp({s}_comp, 0, 100) * 0.01 - H_{s}_cmp);")
         w(f"{s}_chr = H_{s}_chr + a_par * (clamp({s}_char, 0, 100) * 0.01 - H_{s}_chr);")
-        w(f"{s}_fc = exp2({s}_lc);")
+        # v1.6 envelope routing: only when its amount is non-zero (bit-exact otherwise)
+        w(f"{s}_fc = ef_r{s} != 0 ? clamp(exp2({s}_lc + ef_r{s}), {st['cut_min']}, {st['cut_max']}) : exp2({s}_lc);")
         w(f"{s}_fcc = min({s}_fc, 0.45 * fso);")
         w(f"{s}_gw = tan(pi * {s}_fcc / fso);")
         # enable & open-zone detent

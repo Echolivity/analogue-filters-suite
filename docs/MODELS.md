@@ -146,6 +146,30 @@ The previous version used an equal-capacitor, resistively driven ladder. That co
 
 ---
 
+## Envelope filter (v1.6, Mu-Tron III topology)
+
+**Circuit** (M. L. Beigel, US patent 3,911,776, 1975):
+- a preamp, then a precision half-wave rectifier;
+- RC smoothing: fast attack through a small resistor, slow decay through a large one;
+- a voltage-to-current converter driving one LED, which lights the two photoresistors of a two-integrator second-order filter;
+- LP, BP and HP taken from the three nodes; Q set by a variable resistor, with gain proportional to Q;
+- DOWN subtracts the envelope from a reference;
+- RANGE adds a capacitor across each integrator.
+
+The integrator capacitors (1.8 nF, plus 2.2 nF in LO) and the 150k audio Peak pot are from R. G. Keen's Neutron, a Mu-tron III work-alike.
+
+**The model.** That chain at the base rate, before the filter section. The filter is a TPT state-variable filter whose frequency comes from the photoresistor network, f = 1/(2π·R·C) with R = 3.3 k + (1 M ∥ R_LDR). The preamp and filter outputs saturate at ±7.5 V op-amp rails. The sweep position is also routed, in octaves, to the LPF, HPF and BPF cutoffs.
+
+**Assumed (no production schematic available):**
+- the LDR law (conductance ∝ light^0.8, 10 kΩ at 1 V of envelope);
+- the LDR lags (2.5 ms on, 35 ms off; the original Hamamatsu part has no available data);
+- the 1 MΩ and 3.3 kΩ resistors;
+- Q from 0.6 to 16;
+- the DOWN reference (1 − 2·envelope);
+- 1 unit = 1 V.
+
+A Mu-tron III schematic would calibrate all of these. [Sources](independent-review/ENVELOPE_FILTER_SOURCES.md).
+
 ## Sources
 
 - T. E. Stinchcombe, *Analysis of the Moog Transistor Ladder and Derivative Filters*, 2008, https://www.timstinchcombe.co.uk/synth/Moog_ladder_tf.pdf. Moog, standard diode, TB-303 and EMS transfer functions.

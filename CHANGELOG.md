@@ -41,6 +41,15 @@ Details and before/after measurements: [docs/V1.6_ENGINE.md](docs/V1.6_ENGINE.md
   - **No input soft clip** (no circuit origin); the op-amp rails limit the outputs at ±13 V. At 1x it is far cleaner: −140 dBc aliasing (v1.5: −89).
   - **Unchanged:** notch and band-pass routing, which already matched the PS19 crossfade.
   - **Assumptions:** a linear RES pot; 5 V per unit; the Q floor.
+- **New: ENVELOPE FILTER** (Mu-Tron III topology, from Beigel's US patent 3,911,776). It sits before the filter section and adds 13 appended parameters; off by default, and bit-identical when off. The signal path:
+  - a preamp with Gain −20 to +32 dB (the Mu-tron's 0.1–40);
+  - a precision half-wave rectifier, linked across both channels, with Attack and Release;
+  - one LED lighting the photoresistors (asymmetric lag);
+  - a two-integrator filter with LP/BP/HP and Peak (Q 0.6 → 16; gain rises with Q, as in the patent);
+  - Range LO/HI (1.8 nF + 2.2 nF), Sweep UP/DOWN, Mix and Output.
+  - **Routing:** the same sweep moves the LPF, HPF and BPF cutoffs by up to ±5 octaves at full sweep (with the envelope filter on or off).
+  - **Measured:** the BP peak rises 340 Hz → 1.24 kHz → 6.4 kHz at −40/−20/0 dBFS. DOWN goes 6.4 kHz → 240 Hz. LO sits about 1.1 octaves lower. The output is bounded by the ±7.5 V op-amp rails.
+  - **Assumptions** (no production schematic): the LDR law and lags (VTL5C3-like, 2.5/35 ms), the 1 MΩ parallel and 3.3 kΩ series resistors, the Q range, the DOWN reference, and 1 unit = 1 V. See docs/independent-review/ENVELOPE_FILTER_SOURCES.md.
 - **New: Sherman Filterbank 2 features** (from the manual you supplied; the model stays behavioural). A new SHERMAN strip has six appended parameters, and the defaults are bit-identical:
   - **Modes STAGE / PANEL:** PANEL engages the Filterbank's **Balance** (Lp → Bp → Hp) and **Correction** (−Bp … 0 … −Bp + Lp + Hp) knobs. Bp − Bp is silent, and Bp with full Correction is a notch, as the manual describes.
   - **Harmonics:** filter 2 at the cutoff ÷ 1–16 for twin resonant peaks (24 dB). Ratio changes glide over about 3 ms.
@@ -74,7 +83,7 @@ Details and before/after measurements: [docs/V1.6_ENGINE.md](docs/V1.6_ENGINE.md
   - `tests/v16_tests.py` (15 checks)
   - `tests/golden.py check-v16`
   - `compat.py --allow-dsp`
-  - Suite: 95/95 + 28/28 + UI 47/47
+  - Suite: 95/95 + 29/29 + UI 47/47
 - **Not yet compiled in Max.** The GenExpr is now about 14,000 lines.
 
 ## v1.5 — premium analogue UI (presentation only)
