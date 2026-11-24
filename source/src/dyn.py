@@ -35,6 +35,14 @@ PERM_NAMES = ["TUBE > OPTO > VCA", "TUBE > VCA > OPTO", "OPTO > TUBE > VCA",
 PRESETS = {"WARM DUB": 0, "PUNCH & COLOUR": 4, "FINAL COLOUR": 3}
 V_RATIOS = [1.5, 2, 3, 4, 6, 10, 1e9]
 V_ATTACKS_MS = [0.03, 0.1, 0.3, 1, 3, 10, 30]
+# THRUST (API 2500 manuals: LOUD "a gradual, linear filter (3 dB/oct)", down 15 dB at 20 Hz and up 15 dB
+# at 20 kHz; MED "slight", modelled as half that slope, an assumption). Realised as six first-order high
+# shelves 1 + (A - 1)*HP(fc), least-squares fitted to the tilt through 0 dB at 632 Hz (sqrt(20*20k)) on
+# 20 Hz-20 kHz: LOUD within 0.17 dB at 44.1/48 kHz (0.8 dB at 96 kHz near 20 kHz), MED within 0.09 dB.
+V_THRUST_FC = [39.66, 165.94, 620.552, 2204.715, 7575.284, 15000.0]
+V_THRUST_A_LOUD = [2.49856, 2.00175, 1.9111, 1.89293, 1.94889, 1.35593]
+V_THRUST_A_MED = [1.56181, 1.40042, 1.38231, 1.38213, 1.38032, 1.1196]
+V_THRUST_NORM = {"LOUD": 10 ** (-18.3094 / 20), "MED": 10 ** (-8.6151 / 20)}   # 0 dB at 632 Hz
 
 PARAMS = [
     ("c_order", 0, 0, 5), ("key_listen", 0, 0, 3),
@@ -57,7 +65,7 @@ TUBE_ST = [f"up{p}{i}" for p in "ab" for i in range(6)] + [f"dn{p}{i}" for p in 
 # v1.6: half-band stages 2..4 for 4x / 8x / 16x (stage 1 = the v1.3 states above)
 TUBE_ST += [f"s{g}{d}{p}{i}" for g in (2, 3, 4) for d in ("up", "dn", "dd") for p in "ab" for i in range(6)]
 OPTO_ST = ["lt", "cf", "cs", "mem", "yp", "hp", "he", "e2", "e3", "q"]   # v1.6: he/e2/e3 = R37 network, q = cell state (R7 sense)
-VCA_ST = ["hp", "t1", "t2", "ms", "gr", "yp"]
+VCA_ST = ["hp", "t1", "t2", "ms", "gr", "yp", "t3", "t4", "t5", "t6"]
 LANE_ST = {"T": TUBE_ST, "O": OPTO_ST, "V": VCA_ST}
 GATE_ST = ["hpL", "hpR", "lpL", "lpR", "env", "open", "hold", "g"]
 
@@ -225,10 +233,11 @@ def emit_controls(w, G):
     w("v_W = v_knee < 0.5 ? 0.0001 : (v_knee < 1.5 ? 6 : 12);")
     w("v_ghp = tan(pi * clamp(v_hpf, 20, 500) / fs);")
     w("v_Ghp = v_ghp / (1 + v_ghp);")
-    w("v_g1 = tan(pi * 200 / fs);")
-    w("v_G1 = v_g1 / (1 + v_g1);")
-    w("v_g2 = tan(pi * 3000 / fs);")
-    w("v_G2 = v_g2 / (1 + v_g2);")
+    for i, fc in enumerate(V_THRUST_FC):
+        w(f"v_tg{i} = tan(pi * min({fc!r}, 0.45 * fs) / fs);")
+        w(f"v_TG{i} = v_tg{i} / (1 + v_tg{i});")
+        w(f"v_TA{i} = v_thrust < 1.5 ? {V_THRUST_A_MED[i] - 1!r} : {V_THRUST_A_LOUD[i] - 1!r};")
+    w(f"v_TN = v_thrust < 1.5 ? {V_THRUST_NORM['MED']!r} : {V_THRUST_NORM['LOUD']!r};")
     w("v_mk = v_auto > 0.5 ? exp(0.11512925465 * 0.5 * (-v_slope) * (-dz_v_thz)) : 1;")
     # gate
     w("dz_g_wt = g_on > 0.5 ? 1 : 0;")
@@ -436,13 +445,14 @@ def emit_vca(w, G, ln, xin, xout, meter):
         w(f"vs = {_src('v_src', internal, ch)};")
         w(f"vhl, {s(ch, 'hp')} = f_op(vs, {s(ch, 'hp')}, v_Ghp);")
         w(f"vs = vs - vhl;")
-        w(f"v1l, {s(ch, 't1')} = f_op(vs, {s(ch, 't1')}, v_G1);")
-        w(f"v2l, {s(ch, 't2')} = f_op(vs, {s(ch, 't2')}, v_G2);")
+        # THRUST: NORM flat; MED / LOUD = 5 / 10 dB per decade tilt (see V_THRUST_*)
+        w("vt = vs;")
+        for i, st in enumerate(["t1", "t2", "t3", "t4", "t5", "t6"]):
+            w(f"vtl, {s(ch, st)} = f_op(vt, {s(ch, st)}, v_TG{i});")
+            w(f"{s(ch, st)} = fixdenorm({s(ch, st)});")
+            w(f"vt = vt + v_TA{i} * (vt - vtl);")
         w(f"{s(ch, 'hp')} = fixdenorm({s(ch, 'hp')});")
-        w(f"{s(ch, 't1')} = fixdenorm({s(ch, 't1')});")
-        w(f"{s(ch, 't2')} = fixdenorm({s(ch, 't2')});")
-        # THRUST: NORM flat; MED low shelf (-6 dB below ~200 Hz); LOUD low shelf -12 dB + HF shelf +3.5 dB
-        w(f"vst_{ch} = v_thrust < 0.5 ? vs : (v_thrust < 1.5 ? 0.5 * vs + 0.5 * (vs - v1l) : 0.25 * vs + 0.75 * (vs - v1l) + 0.5 * (vs - v2l));")
+        w(f"vst_{ch} = v_thrust < 0.5 ? vs : vt * v_TN;")
         w(f"{s(ch, 'ms')} = fixdenorm({s(ch, 'ms')} + (vst_{ch} * vst_{ch} - {s(ch, 'ms')}) * v_arms);")
         w(f"vlv_{ch} = 10 * log10({s(ch, 'ms')} + 1e-20) + 3.0103;")
     w("vlk = 10 * log10(0.5 * (dVms_L + dVms_R) + 1e-20) + 3.0103;".replace("dVms_L", s("L", "ms")).replace("dVms_R", s("R", "ms")))
