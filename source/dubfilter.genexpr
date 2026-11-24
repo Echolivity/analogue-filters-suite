@@ -1716,7 +1716,7 @@ f_ladder(x, s1, s2, s3, s4, p0, p1, p2, p3, p4, h1, h2, pz, g, k, bc, hs, hp, ga
 // Level: 1 model unit = 5 V (the 2600's 10 V p-p audio); the ladder state p is in units of 2 V_T / 1.4 as in
 // the ladder model, so the input scale 0.608 per stage unit (x 0.25 at Drive 0) puts 11 mV per 5 V into the pair.
 // The output amplifier is calibrated for unity gain from one 100k input (GAIN trim; assumed) and clips at
-// about +/-13 V (2.6 units). returns y, s1..s4, p0..p4
+// about +/-13 V (2.6 audio units; the stage runs at 0.25 x audio at Drive 0, so 0.65 stage units). returns y, s1..s4, p0..p4
 f_arp4012(x, s1, s2, s3, s4, p0, p1, p2, p3, p4, g, k, bc, hs) {
 	T0 = f_tg(1.4 * p0);
 	T1 = f_tg(1.4 * hs * p1);
@@ -1761,7 +1761,7 @@ f_arp4012(x, s1, s2, s3, s4, p0, p1, p2, p3, p4, g, k, bc, hs) {
 	y2 = G2 * y1 + s2 * i2;
 	y3 = G3 * y2 + s3 * i3;
 	y4 = G4 * y3 + s4 * i4;
-	o = 2.6 * tanh(y4 * 0.632591);          // A1 at its rails: y4 / 0.608 / 2.6
+	o = 0.65 * tanh(y4 * 2.53036);          // A1 at its rails: +/-13 V = 2.6 audio units = 0.65 stage units (x 0.25 at Drive 0)
 	if (abs(y4) > 1000000) {
 		o = y4;
 	}
@@ -1979,6 +1979,21 @@ f_bmm(x, s1, s2, s3, s4, p0, p1, p2, p3, p4, g, k, typ, sc, wb) {
 	bp2 = 2 * (y1 - y2);
 	y = bp4 + wb * (bp2 - bp4);
 	return y, fixdenorm(2 * y1 - s1), fixdenorm(2 * y2 - s2), fixdenorm(2 * y3 - s3), fixdenorm(2 * y4 - s4), u, y1, y2, y3, y4;
+}
+
+// v1.6: ARP 2600 band-pass on the 4012 core (the LPF engine's f_arp4012 ladder: matched pairs, DC-coupled,
+// Board 3 resonance law, secant re-solve), band-pass taken by pole mixing as in MULTIMODE (the 2600 has no
+// band-pass output: still "derived"). Input / output in the 4012's level convention (0.608 per unit, rail 0.65 stage units = 13 V).
+// returns y, s1..s4, p0..p4
+f_barp(x, s1, s2, s3, s4, p0, p1, p2, p3, p4, g, k, wb) {
+	o, n1, n2, n3, n4, u, y1, y2, y3, y4 = f_arp4012(x, s1, s2, s3, s4, p0, p1, p2, p3, p4, g, k, 0, 1);
+	bp4 = 4 * (y2 - 2 * y3 + y4);
+	bp2 = 2 * (y1 - y2);
+	// the 2600 has no band-pass: the derived pole-mix runs 12 dB above the 4-pole output at oscillation, so its
+	// output stage is limited at 0.3 stage units (+1.6 dBFS at Drive 0), the level of the module's own
+	// oscillation (LPF 07: +1.4 dBFS), instead of at the 13 V rail
+	y = 0.3 * tanh((bp4 + wb * (bp2 - bp4)) * 5.48245614);   // / 0.608 (ladder units) / 0.3
+	return y, n1, n2, n3, n4, u, y1, y2, y3, y4;
 }
 
 // v1.6: analogue magnitude of a 1-pole HP at normalised frequency rho (MS-20 HPF, Stinchcombe)
@@ -4487,7 +4502,11 @@ bA_sc = (bA_m < 0.5 ? 0.6 : (bA_m < 1.5 ? 0.7 : (bA_m < 2.5 ? 1.0 : (bA_m < 3.5 
 bA_rg = (bA_m < 0.5 ? 0.0 : (bA_m < 1.5 ? 1.0 : (bA_m < 2.5 ? 0.0 : (bA_m < 3.5 ? 0.0 : 0.0))));
 bA_r = (bA_m < 0.5 ? 0.9 : (bA_m < 1.5 ? 1.06 : (bA_m < 2.5 ? 1.06 : (bA_m < 3.5 ? 1.06 : 1.06)))) * pow(b_rz, 1.3);
 bA_k = (bA_m < 0.5 ? 3.6 : (bA_m < 1.5 ? 4.3 : (bA_m < 2.5 ? 4.3 : (bA_m < 3.5 ? 4.3 : 4.3)))) * pow(b_rz, 1.3);
-bA_roll = (bA_m < 0.5 ? 0.0 : (bA_m < 1.5 ? 0.0 : (bA_m < 2.5 ? 0.0 : (bA_m < 3.5 ? 1.0 : 0.0))));
+bA_arp = (bA_m > 2.5 && bA_m < 3.5 && bA_a > 1.5) ? 1 : 0;
+if (bA_arp > 0.5) {
+	bA_k = 1011120 * b_rz / (152200 + 100000 * b_rz * (1 - b_rz));
+}
+bA_roll = (bA_m < 0.5 ? 0.0 : (bA_m < 1.5 ? 0.0 : (bA_m < 2.5 ? 0.0 : (bA_m < 3.5 ? 0.0 : 0.0))));
 bA_gc = tan(pi * b_fc / fso);
 bA_R = 0.5 / b_qq;
 bA_fh = clamp(b_fc * exp2(-0.5 * b_bwz), 10, 0.45 * fso);
@@ -4656,7 +4675,11 @@ bB_sc = (bB_m < 0.5 ? 0.6 : (bB_m < 1.5 ? 0.7 : (bB_m < 2.5 ? 1.0 : (bB_m < 3.5 
 bB_rg = (bB_m < 0.5 ? 0.0 : (bB_m < 1.5 ? 1.0 : (bB_m < 2.5 ? 0.0 : (bB_m < 3.5 ? 0.0 : 0.0))));
 bB_r = (bB_m < 0.5 ? 0.9 : (bB_m < 1.5 ? 1.06 : (bB_m < 2.5 ? 1.06 : (bB_m < 3.5 ? 1.06 : 1.06)))) * pow(b_rz, 1.3);
 bB_k = (bB_m < 0.5 ? 3.6 : (bB_m < 1.5 ? 4.3 : (bB_m < 2.5 ? 4.3 : (bB_m < 3.5 ? 4.3 : 4.3)))) * pow(b_rz, 1.3);
-bB_roll = (bB_m < 0.5 ? 0.0 : (bB_m < 1.5 ? 0.0 : (bB_m < 2.5 ? 0.0 : (bB_m < 3.5 ? 1.0 : 0.0))));
+bB_arp = (bB_m > 2.5 && bB_m < 3.5 && bB_a > 1.5) ? 1 : 0;
+if (bB_arp > 0.5) {
+	bB_k = 1011120 * b_rz / (152200 + 100000 * b_rz * (1 - b_rz));
+}
+bB_roll = (bB_m < 0.5 ? 0.0 : (bB_m < 1.5 ? 0.0 : (bB_m < 2.5 ? 0.0 : (bB_m < 3.5 ? 0.0 : 0.0))));
 bB_gc = tan(pi * b_fc / fso);
 bB_R = 0.5 / b_qq;
 bB_fh = clamp(b_fc * exp2(-0.5 * b_bwz), 10, 0.45 * fso);
@@ -5185,7 +5208,11 @@ for (k = 0; k < ovs; k += 1) {
 					by = cnx * l2;
 				}
 				if (bA_a > 1.5) {
-					by, bA_L_m_s1, bA_L_m_s2, bA_L_m_s3, bA_L_m_s4, bA_L_m_p0, bA_L_m_p1, bA_L_m_p2, bA_L_m_p3, bA_L_m_p4 = f_bmm(bx, bA_L_m_s1, bA_L_m_s2, bA_L_m_s3, bA_L_m_s4, bA_L_m_p0, bA_L_m_p1, bA_L_m_p2, bA_L_m_p3, bA_L_m_p4, bA_gm, bA_k, bA_typ, bA_sc, bA_wb);
+					if (bA_arp > 0.5) {
+						by, bA_L_m_s1, bA_L_m_s2, bA_L_m_s3, bA_L_m_s4, bA_L_m_p0, bA_L_m_p1, bA_L_m_p2, bA_L_m_p3, bA_L_m_p4 = f_barp(bx, bA_L_m_s1, bA_L_m_s2, bA_L_m_s3, bA_L_m_s4, bA_L_m_p0, bA_L_m_p1, bA_L_m_p2, bA_L_m_p3, bA_L_m_p4, bA_gm, bA_k, bA_wb);
+					} else {
+						by, bA_L_m_s1, bA_L_m_s2, bA_L_m_s3, bA_L_m_s4, bA_L_m_p0, bA_L_m_p1, bA_L_m_p2, bA_L_m_p3, bA_L_m_p4 = f_bmm(bx, bA_L_m_s1, bA_L_m_s2, bA_L_m_s3, bA_L_m_s4, bA_L_m_p0, bA_L_m_p1, bA_L_m_p2, bA_L_m_p3, bA_L_m_p4, bA_gm, bA_k, bA_typ, bA_sc, bA_wb);
+					}
 				}
 				bA_L_yp = by;
 				if (bA_roll > 0.5) {
@@ -5249,7 +5276,11 @@ for (k = 0; k < ovs; k += 1) {
 					by = cnx * l2;
 				}
 				if (bB_a > 1.5) {
-					by, bB_L_m_s1, bB_L_m_s2, bB_L_m_s3, bB_L_m_s4, bB_L_m_p0, bB_L_m_p1, bB_L_m_p2, bB_L_m_p3, bB_L_m_p4 = f_bmm(bx, bB_L_m_s1, bB_L_m_s2, bB_L_m_s3, bB_L_m_s4, bB_L_m_p0, bB_L_m_p1, bB_L_m_p2, bB_L_m_p3, bB_L_m_p4, bB_gm, bB_k, bB_typ, bB_sc, bB_wb);
+					if (bB_arp > 0.5) {
+						by, bB_L_m_s1, bB_L_m_s2, bB_L_m_s3, bB_L_m_s4, bB_L_m_p0, bB_L_m_p1, bB_L_m_p2, bB_L_m_p3, bB_L_m_p4 = f_barp(bx, bB_L_m_s1, bB_L_m_s2, bB_L_m_s3, bB_L_m_s4, bB_L_m_p0, bB_L_m_p1, bB_L_m_p2, bB_L_m_p3, bB_L_m_p4, bB_gm, bB_k, bB_wb);
+					} else {
+						by, bB_L_m_s1, bB_L_m_s2, bB_L_m_s3, bB_L_m_s4, bB_L_m_p0, bB_L_m_p1, bB_L_m_p2, bB_L_m_p3, bB_L_m_p4 = f_bmm(bx, bB_L_m_s1, bB_L_m_s2, bB_L_m_s3, bB_L_m_s4, bB_L_m_p0, bB_L_m_p1, bB_L_m_p2, bB_L_m_p3, bB_L_m_p4, bB_gm, bB_k, bB_typ, bB_sc, bB_wb);
+					}
 				}
 				bB_L_yp = by;
 				if (bB_roll > 0.5) {
@@ -5368,7 +5399,11 @@ for (k = 0; k < ovs; k += 1) {
 					by = cnx * l2;
 				}
 				if (bA_a > 1.5) {
-					by, bA_R_m_s1, bA_R_m_s2, bA_R_m_s3, bA_R_m_s4, bA_R_m_p0, bA_R_m_p1, bA_R_m_p2, bA_R_m_p3, bA_R_m_p4 = f_bmm(bx, bA_R_m_s1, bA_R_m_s2, bA_R_m_s3, bA_R_m_s4, bA_R_m_p0, bA_R_m_p1, bA_R_m_p2, bA_R_m_p3, bA_R_m_p4, bA_gm, bA_k, bA_typ, bA_sc, bA_wb);
+					if (bA_arp > 0.5) {
+						by, bA_R_m_s1, bA_R_m_s2, bA_R_m_s3, bA_R_m_s4, bA_R_m_p0, bA_R_m_p1, bA_R_m_p2, bA_R_m_p3, bA_R_m_p4 = f_barp(bx, bA_R_m_s1, bA_R_m_s2, bA_R_m_s3, bA_R_m_s4, bA_R_m_p0, bA_R_m_p1, bA_R_m_p2, bA_R_m_p3, bA_R_m_p4, bA_gm, bA_k, bA_wb);
+					} else {
+						by, bA_R_m_s1, bA_R_m_s2, bA_R_m_s3, bA_R_m_s4, bA_R_m_p0, bA_R_m_p1, bA_R_m_p2, bA_R_m_p3, bA_R_m_p4 = f_bmm(bx, bA_R_m_s1, bA_R_m_s2, bA_R_m_s3, bA_R_m_s4, bA_R_m_p0, bA_R_m_p1, bA_R_m_p2, bA_R_m_p3, bA_R_m_p4, bA_gm, bA_k, bA_typ, bA_sc, bA_wb);
+					}
 				}
 				bA_R_yp = by;
 				if (bA_roll > 0.5) {
@@ -5432,7 +5467,11 @@ for (k = 0; k < ovs; k += 1) {
 					by = cnx * l2;
 				}
 				if (bB_a > 1.5) {
-					by, bB_R_m_s1, bB_R_m_s2, bB_R_m_s3, bB_R_m_s4, bB_R_m_p0, bB_R_m_p1, bB_R_m_p2, bB_R_m_p3, bB_R_m_p4 = f_bmm(bx, bB_R_m_s1, bB_R_m_s2, bB_R_m_s3, bB_R_m_s4, bB_R_m_p0, bB_R_m_p1, bB_R_m_p2, bB_R_m_p3, bB_R_m_p4, bB_gm, bB_k, bB_typ, bB_sc, bB_wb);
+					if (bB_arp > 0.5) {
+						by, bB_R_m_s1, bB_R_m_s2, bB_R_m_s3, bB_R_m_s4, bB_R_m_p0, bB_R_m_p1, bB_R_m_p2, bB_R_m_p3, bB_R_m_p4 = f_barp(bx, bB_R_m_s1, bB_R_m_s2, bB_R_m_s3, bB_R_m_s4, bB_R_m_p0, bB_R_m_p1, bB_R_m_p2, bB_R_m_p3, bB_R_m_p4, bB_gm, bB_k, bB_wb);
+					} else {
+						by, bB_R_m_s1, bB_R_m_s2, bB_R_m_s3, bB_R_m_s4, bB_R_m_p0, bB_R_m_p1, bB_R_m_p2, bB_R_m_p3, bB_R_m_p4 = f_bmm(bx, bB_R_m_s1, bB_R_m_s2, bB_R_m_s3, bB_R_m_s4, bB_R_m_p0, bB_R_m_p1, bB_R_m_p2, bB_R_m_p3, bB_R_m_p4, bB_gm, bB_k, bB_typ, bB_sc, bB_wb);
+					}
 				}
 				bB_R_yp = by;
 				if (bB_roll > 0.5) {
@@ -6258,7 +6297,11 @@ for (k = 0; k < ovs; k += 1) {
 					by = cnx * l2;
 				}
 				if (bA_a > 1.5) {
-					by, bA_L_m_s1, bA_L_m_s2, bA_L_m_s3, bA_L_m_s4, bA_L_m_p0, bA_L_m_p1, bA_L_m_p2, bA_L_m_p3, bA_L_m_p4 = f_bmm(bx, bA_L_m_s1, bA_L_m_s2, bA_L_m_s3, bA_L_m_s4, bA_L_m_p0, bA_L_m_p1, bA_L_m_p2, bA_L_m_p3, bA_L_m_p4, bA_gm, bA_k, bA_typ, bA_sc, bA_wb);
+					if (bA_arp > 0.5) {
+						by, bA_L_m_s1, bA_L_m_s2, bA_L_m_s3, bA_L_m_s4, bA_L_m_p0, bA_L_m_p1, bA_L_m_p2, bA_L_m_p3, bA_L_m_p4 = f_barp(bx, bA_L_m_s1, bA_L_m_s2, bA_L_m_s3, bA_L_m_s4, bA_L_m_p0, bA_L_m_p1, bA_L_m_p2, bA_L_m_p3, bA_L_m_p4, bA_gm, bA_k, bA_wb);
+					} else {
+						by, bA_L_m_s1, bA_L_m_s2, bA_L_m_s3, bA_L_m_s4, bA_L_m_p0, bA_L_m_p1, bA_L_m_p2, bA_L_m_p3, bA_L_m_p4 = f_bmm(bx, bA_L_m_s1, bA_L_m_s2, bA_L_m_s3, bA_L_m_s4, bA_L_m_p0, bA_L_m_p1, bA_L_m_p2, bA_L_m_p3, bA_L_m_p4, bA_gm, bA_k, bA_typ, bA_sc, bA_wb);
+					}
 				}
 				bA_L_yp = by;
 				if (bA_roll > 0.5) {
@@ -6322,7 +6365,11 @@ for (k = 0; k < ovs; k += 1) {
 					by = cnx * l2;
 				}
 				if (bB_a > 1.5) {
-					by, bB_L_m_s1, bB_L_m_s2, bB_L_m_s3, bB_L_m_s4, bB_L_m_p0, bB_L_m_p1, bB_L_m_p2, bB_L_m_p3, bB_L_m_p4 = f_bmm(bx, bB_L_m_s1, bB_L_m_s2, bB_L_m_s3, bB_L_m_s4, bB_L_m_p0, bB_L_m_p1, bB_L_m_p2, bB_L_m_p3, bB_L_m_p4, bB_gm, bB_k, bB_typ, bB_sc, bB_wb);
+					if (bB_arp > 0.5) {
+						by, bB_L_m_s1, bB_L_m_s2, bB_L_m_s3, bB_L_m_s4, bB_L_m_p0, bB_L_m_p1, bB_L_m_p2, bB_L_m_p3, bB_L_m_p4 = f_barp(bx, bB_L_m_s1, bB_L_m_s2, bB_L_m_s3, bB_L_m_s4, bB_L_m_p0, bB_L_m_p1, bB_L_m_p2, bB_L_m_p3, bB_L_m_p4, bB_gm, bB_k, bB_wb);
+					} else {
+						by, bB_L_m_s1, bB_L_m_s2, bB_L_m_s3, bB_L_m_s4, bB_L_m_p0, bB_L_m_p1, bB_L_m_p2, bB_L_m_p3, bB_L_m_p4 = f_bmm(bx, bB_L_m_s1, bB_L_m_s2, bB_L_m_s3, bB_L_m_s4, bB_L_m_p0, bB_L_m_p1, bB_L_m_p2, bB_L_m_p3, bB_L_m_p4, bB_gm, bB_k, bB_typ, bB_sc, bB_wb);
+					}
 				}
 				bB_L_yp = by;
 				if (bB_roll > 0.5) {
@@ -6441,7 +6488,11 @@ for (k = 0; k < ovs; k += 1) {
 					by = cnx * l2;
 				}
 				if (bA_a > 1.5) {
-					by, bA_R_m_s1, bA_R_m_s2, bA_R_m_s3, bA_R_m_s4, bA_R_m_p0, bA_R_m_p1, bA_R_m_p2, bA_R_m_p3, bA_R_m_p4 = f_bmm(bx, bA_R_m_s1, bA_R_m_s2, bA_R_m_s3, bA_R_m_s4, bA_R_m_p0, bA_R_m_p1, bA_R_m_p2, bA_R_m_p3, bA_R_m_p4, bA_gm, bA_k, bA_typ, bA_sc, bA_wb);
+					if (bA_arp > 0.5) {
+						by, bA_R_m_s1, bA_R_m_s2, bA_R_m_s3, bA_R_m_s4, bA_R_m_p0, bA_R_m_p1, bA_R_m_p2, bA_R_m_p3, bA_R_m_p4 = f_barp(bx, bA_R_m_s1, bA_R_m_s2, bA_R_m_s3, bA_R_m_s4, bA_R_m_p0, bA_R_m_p1, bA_R_m_p2, bA_R_m_p3, bA_R_m_p4, bA_gm, bA_k, bA_wb);
+					} else {
+						by, bA_R_m_s1, bA_R_m_s2, bA_R_m_s3, bA_R_m_s4, bA_R_m_p0, bA_R_m_p1, bA_R_m_p2, bA_R_m_p3, bA_R_m_p4 = f_bmm(bx, bA_R_m_s1, bA_R_m_s2, bA_R_m_s3, bA_R_m_s4, bA_R_m_p0, bA_R_m_p1, bA_R_m_p2, bA_R_m_p3, bA_R_m_p4, bA_gm, bA_k, bA_typ, bA_sc, bA_wb);
+					}
 				}
 				bA_R_yp = by;
 				if (bA_roll > 0.5) {
@@ -6505,7 +6556,11 @@ for (k = 0; k < ovs; k += 1) {
 					by = cnx * l2;
 				}
 				if (bB_a > 1.5) {
-					by, bB_R_m_s1, bB_R_m_s2, bB_R_m_s3, bB_R_m_s4, bB_R_m_p0, bB_R_m_p1, bB_R_m_p2, bB_R_m_p3, bB_R_m_p4 = f_bmm(bx, bB_R_m_s1, bB_R_m_s2, bB_R_m_s3, bB_R_m_s4, bB_R_m_p0, bB_R_m_p1, bB_R_m_p2, bB_R_m_p3, bB_R_m_p4, bB_gm, bB_k, bB_typ, bB_sc, bB_wb);
+					if (bB_arp > 0.5) {
+						by, bB_R_m_s1, bB_R_m_s2, bB_R_m_s3, bB_R_m_s4, bB_R_m_p0, bB_R_m_p1, bB_R_m_p2, bB_R_m_p3, bB_R_m_p4 = f_barp(bx, bB_R_m_s1, bB_R_m_s2, bB_R_m_s3, bB_R_m_s4, bB_R_m_p0, bB_R_m_p1, bB_R_m_p2, bB_R_m_p3, bB_R_m_p4, bB_gm, bB_k, bB_wb);
+					} else {
+						by, bB_R_m_s1, bB_R_m_s2, bB_R_m_s3, bB_R_m_s4, bB_R_m_p0, bB_R_m_p1, bB_R_m_p2, bB_R_m_p3, bB_R_m_p4 = f_bmm(bx, bB_R_m_s1, bB_R_m_s2, bB_R_m_s3, bB_R_m_s4, bB_R_m_p0, bB_R_m_p1, bB_R_m_p2, bB_R_m_p3, bB_R_m_p4, bB_gm, bB_k, bB_typ, bB_sc, bB_wb);
+					}
 				}
 				bB_R_yp = by;
 				if (bB_roll > 0.5) {
@@ -6641,7 +6696,11 @@ for (k = 0; k < ovs; k += 1) {
 					by = cnx * l2;
 				}
 				if (bA_a > 1.5) {
-					by, bA_L_m_s1, bA_L_m_s2, bA_L_m_s3, bA_L_m_s4, bA_L_m_p0, bA_L_m_p1, bA_L_m_p2, bA_L_m_p3, bA_L_m_p4 = f_bmm(bx, bA_L_m_s1, bA_L_m_s2, bA_L_m_s3, bA_L_m_s4, bA_L_m_p0, bA_L_m_p1, bA_L_m_p2, bA_L_m_p3, bA_L_m_p4, bA_gm, bA_k, bA_typ, bA_sc, bA_wb);
+					if (bA_arp > 0.5) {
+						by, bA_L_m_s1, bA_L_m_s2, bA_L_m_s3, bA_L_m_s4, bA_L_m_p0, bA_L_m_p1, bA_L_m_p2, bA_L_m_p3, bA_L_m_p4 = f_barp(bx, bA_L_m_s1, bA_L_m_s2, bA_L_m_s3, bA_L_m_s4, bA_L_m_p0, bA_L_m_p1, bA_L_m_p2, bA_L_m_p3, bA_L_m_p4, bA_gm, bA_k, bA_wb);
+					} else {
+						by, bA_L_m_s1, bA_L_m_s2, bA_L_m_s3, bA_L_m_s4, bA_L_m_p0, bA_L_m_p1, bA_L_m_p2, bA_L_m_p3, bA_L_m_p4 = f_bmm(bx, bA_L_m_s1, bA_L_m_s2, bA_L_m_s3, bA_L_m_s4, bA_L_m_p0, bA_L_m_p1, bA_L_m_p2, bA_L_m_p3, bA_L_m_p4, bA_gm, bA_k, bA_typ, bA_sc, bA_wb);
+					}
 				}
 				bA_L_yp = by;
 				if (bA_roll > 0.5) {
@@ -6705,7 +6764,11 @@ for (k = 0; k < ovs; k += 1) {
 					by = cnx * l2;
 				}
 				if (bB_a > 1.5) {
-					by, bB_L_m_s1, bB_L_m_s2, bB_L_m_s3, bB_L_m_s4, bB_L_m_p0, bB_L_m_p1, bB_L_m_p2, bB_L_m_p3, bB_L_m_p4 = f_bmm(bx, bB_L_m_s1, bB_L_m_s2, bB_L_m_s3, bB_L_m_s4, bB_L_m_p0, bB_L_m_p1, bB_L_m_p2, bB_L_m_p3, bB_L_m_p4, bB_gm, bB_k, bB_typ, bB_sc, bB_wb);
+					if (bB_arp > 0.5) {
+						by, bB_L_m_s1, bB_L_m_s2, bB_L_m_s3, bB_L_m_s4, bB_L_m_p0, bB_L_m_p1, bB_L_m_p2, bB_L_m_p3, bB_L_m_p4 = f_barp(bx, bB_L_m_s1, bB_L_m_s2, bB_L_m_s3, bB_L_m_s4, bB_L_m_p0, bB_L_m_p1, bB_L_m_p2, bB_L_m_p3, bB_L_m_p4, bB_gm, bB_k, bB_wb);
+					} else {
+						by, bB_L_m_s1, bB_L_m_s2, bB_L_m_s3, bB_L_m_s4, bB_L_m_p0, bB_L_m_p1, bB_L_m_p2, bB_L_m_p3, bB_L_m_p4 = f_bmm(bx, bB_L_m_s1, bB_L_m_s2, bB_L_m_s3, bB_L_m_s4, bB_L_m_p0, bB_L_m_p1, bB_L_m_p2, bB_L_m_p3, bB_L_m_p4, bB_gm, bB_k, bB_typ, bB_sc, bB_wb);
+					}
 				}
 				bB_L_yp = by;
 				if (bB_roll > 0.5) {
@@ -6824,7 +6887,11 @@ for (k = 0; k < ovs; k += 1) {
 					by = cnx * l2;
 				}
 				if (bA_a > 1.5) {
-					by, bA_R_m_s1, bA_R_m_s2, bA_R_m_s3, bA_R_m_s4, bA_R_m_p0, bA_R_m_p1, bA_R_m_p2, bA_R_m_p3, bA_R_m_p4 = f_bmm(bx, bA_R_m_s1, bA_R_m_s2, bA_R_m_s3, bA_R_m_s4, bA_R_m_p0, bA_R_m_p1, bA_R_m_p2, bA_R_m_p3, bA_R_m_p4, bA_gm, bA_k, bA_typ, bA_sc, bA_wb);
+					if (bA_arp > 0.5) {
+						by, bA_R_m_s1, bA_R_m_s2, bA_R_m_s3, bA_R_m_s4, bA_R_m_p0, bA_R_m_p1, bA_R_m_p2, bA_R_m_p3, bA_R_m_p4 = f_barp(bx, bA_R_m_s1, bA_R_m_s2, bA_R_m_s3, bA_R_m_s4, bA_R_m_p0, bA_R_m_p1, bA_R_m_p2, bA_R_m_p3, bA_R_m_p4, bA_gm, bA_k, bA_wb);
+					} else {
+						by, bA_R_m_s1, bA_R_m_s2, bA_R_m_s3, bA_R_m_s4, bA_R_m_p0, bA_R_m_p1, bA_R_m_p2, bA_R_m_p3, bA_R_m_p4 = f_bmm(bx, bA_R_m_s1, bA_R_m_s2, bA_R_m_s3, bA_R_m_s4, bA_R_m_p0, bA_R_m_p1, bA_R_m_p2, bA_R_m_p3, bA_R_m_p4, bA_gm, bA_k, bA_typ, bA_sc, bA_wb);
+					}
 				}
 				bA_R_yp = by;
 				if (bA_roll > 0.5) {
@@ -6888,7 +6955,11 @@ for (k = 0; k < ovs; k += 1) {
 					by = cnx * l2;
 				}
 				if (bB_a > 1.5) {
-					by, bB_R_m_s1, bB_R_m_s2, bB_R_m_s3, bB_R_m_s4, bB_R_m_p0, bB_R_m_p1, bB_R_m_p2, bB_R_m_p3, bB_R_m_p4 = f_bmm(bx, bB_R_m_s1, bB_R_m_s2, bB_R_m_s3, bB_R_m_s4, bB_R_m_p0, bB_R_m_p1, bB_R_m_p2, bB_R_m_p3, bB_R_m_p4, bB_gm, bB_k, bB_typ, bB_sc, bB_wb);
+					if (bB_arp > 0.5) {
+						by, bB_R_m_s1, bB_R_m_s2, bB_R_m_s3, bB_R_m_s4, bB_R_m_p0, bB_R_m_p1, bB_R_m_p2, bB_R_m_p3, bB_R_m_p4 = f_barp(bx, bB_R_m_s1, bB_R_m_s2, bB_R_m_s3, bB_R_m_s4, bB_R_m_p0, bB_R_m_p1, bB_R_m_p2, bB_R_m_p3, bB_R_m_p4, bB_gm, bB_k, bB_wb);
+					} else {
+						by, bB_R_m_s1, bB_R_m_s2, bB_R_m_s3, bB_R_m_s4, bB_R_m_p0, bB_R_m_p1, bB_R_m_p2, bB_R_m_p3, bB_R_m_p4 = f_bmm(bx, bB_R_m_s1, bB_R_m_s2, bB_R_m_s3, bB_R_m_s4, bB_R_m_p0, bB_R_m_p1, bB_R_m_p2, bB_R_m_p3, bB_R_m_p4, bB_gm, bB_k, bB_typ, bB_sc, bB_wb);
+					}
 				}
 				bB_R_yp = by;
 				if (bB_roll > 0.5) {

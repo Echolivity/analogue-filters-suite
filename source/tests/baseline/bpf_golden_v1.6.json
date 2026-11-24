@@ -18,12 +18,12 @@
   "BPF m2 a1 selfosc": "8529bc8dee5eb6f57f864322127e0cf10c3afd295664798ac242bfa544f030b6",
   "BPF m2 a2": "04a233f6b6f3085e2c0e887fcbed5e88cb29bca418b27a902350d2ea0fa343d8",
   "BPF m2 a2 selfosc": "e4d5eedccf299f1e6e90ed88edd45ce1ad823b79440e620644cead50e99330d9",
-  "BPF m3 a0": "2577a3100be0bc698af54b72796dc7ffc57ba5c082f871a1df7d0c0f243e1c97",
-  "BPF m3 a0 selfosc": "2c71eccbce02f4bd22788452c91585a0ceee08c492b81c10431a34af1066e037",
-  "BPF m3 a1": "40741990d4b6aee6ca48e48b4bc67915b5432fd5f3ac53aef7ea0345dfe3df78",
-  "BPF m3 a1 selfosc": "b745d2bed46a6217cf6dd5aba87f78f84869e13ab15c67c2dbd2c49fbd433936",
-  "BPF m3 a2": "587378153285894fa4e951866aefaf4b98f82071ebf2f5083d22a2283ee3c8b4",
-  "BPF m3 a2 selfosc": "0506d9f07b9c8a17354e365fea1bc93cc7e744af5f3117518b42a23e829c2d7f",
+  "BPF m3 a0": "1db7f5941c7d8264ad7a06ab60f2a32e4e712b6ffdbdc4ff968ec2bb5a16c0c1",
+  "BPF m3 a0 selfosc": "43f5bc71c8c9aec8f5f8f4190052ae3355ecfab5d6a2a66ff4cd16b4ac4ac0ea",
+  "BPF m3 a1": "ea7c2701bf5524e07f6b536655cb172dbad7692ae1ebd032d40ada4725438e86",
+  "BPF m3 a1 selfosc": "cf005dd0ed17f6274f563b415761d4a6603381e01ee8b92aec9076ef8b700a38",
+  "BPF m3 a2": "bc7d7baa39a682cd19ba5ad431d4d5c9bf6436f563e4e0a4feea1f9f7076b0ff",
+  "BPF m3 a2 selfosc": "5cd2edb09996e8b37fc63be1aa79fcdffea9523175cd0250fddbc76e271c8763",
   "BPF m4 a0": "be4d9a45342a5874a0a474615c34fe02d03c03701f28181f461b8bba27b566c2",
   "BPF m4 a0 selfosc": "e80413ef12edf911ae4aeb0cbc908b1cea911e5fd99ea40557c59524bcc8db9a",
   "BPF m4 a1": "fc741c00c1f91d5e629faf6f01a8748cf9c63eec7277117355727b43f1d30541",
@@ -33,7 +33,7 @@
   "all three pos0": "f762331c5e8a47ead940ceec96a406505ec1f1d14e915cf9374803072993603a",
   "all three pos1": "79f11a6bbb823d815c6b37806509411fb2d6db859b58336df9fef3d924f446dc",
   "BPF sweep": "1cf452c2115e79a6975e23737368a04478c00e7611be1bb939bf0041250b169c",
-  "BPF switches": "01d90d811ae9111942f4d19cabb35ba2b33b16251f5514ecf510bce5842cf867",
+  "BPF switches": "6290a9f8987ec0a96c81f486ef9d1d12655766e0213345616460d3717f785b2b",
   "BPF on/off/mix": "dce966b69689a5b0b1eb6b45ebd866831e1e9c793707c935a2dbfec087ecd9a4"
  },
  "changed_vs_legacy": [
@@ -73,5 +73,5 @@
   "all three pos0",
   "all three pos1"
  ],
- "note": "v1.6 solver fix (Sherman, Steiner, BPF SVF limiter), Sherman partial self-oscillation (damping floor + resonance limiter), Ladder HP replaced by the Moog 904B (dwg. 1118, no resonance), BPF SEM/Steiner (SVF) and MS-20 (CASCADE) on the LPF engine circuit cores (every BPF render also carries the start-up fade from the default SEM-SVF slot), Ladder on the Minimoog filter board (Emphasis law, C5/C1/C10 couplings, gain-recovery pair; also the power-on fade from the default Ladder) and Reference-mode power-on default; legacy tests run in Creative mode (tests/dsp.py base)"
+ "note": "v1.6 solver fix (Sherman, Steiner, BPF SVF limiter), Sherman partial self-oscillation (damping floor + resonance limiter), Ladder HP replaced by the Moog 904B (dwg. 1118, no resonance), BPF SEM/Steiner (SVF) and MS-20 (CASCADE) on the LPF engine circuit cores, BPF ARP 2600 on the 4012 core (Board 3 law; 4072 roll-off removed: the documented 2600 is a 4012 unit), LPF 07 rail in stage units (every BPF render also carries the start-up fade from the default SEM-SVF slot), Ladder on the Minimoog filter board (Emphasis law, C5/C1/C10 couplings, gain-recovery pair; also the power-on fade from the default Ladder) and Reference-mode power-on default; legacy tests run in Creative mode (tests/dsp.py base)"
 }
