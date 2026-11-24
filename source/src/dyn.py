@@ -35,14 +35,18 @@ PERM_NAMES = ["TUBE > OPTO > VCA", "TUBE > VCA > OPTO", "OPTO > TUBE > VCA",
 PRESETS = {"WARM DUB": 0, "PUNCH & COLOUR": 4, "FINAL COLOUR": 3}
 V_RATIOS = [1.5, 2, 3, 4, 6, 10, 1e9]
 V_ATTACKS_MS = [0.03, 0.1, 0.3, 1, 3, 10, 30]
-# THRUST (API 2500 manuals: LOUD "a gradual, linear filter (3 dB/oct)", down 15 dB at 20 Hz and up 15 dB
-# at 20 kHz; MED "slight", modelled as half that slope, an assumption). Realised as six first-order high
-# shelves 1 + (A - 1)*HP(fc), least-squares fitted to the tilt through 0 dB at 632 Hz (sqrt(20*20k)) on
-# 20 Hz-20 kHz: LOUD within 0.17 dB at 44.1/48 kHz (0.8 dB at 96 kHz near 20 kHz), MED within 0.09 dB.
-V_THRUST_FC = [39.66, 165.94, 620.552, 2204.715, 7575.284, 15000.0]
-V_THRUST_A_LOUD = [2.49856, 2.00175, 1.9111, 1.89293, 1.94889, 1.35593]
-V_THRUST_A_MED = [1.56181, 1.40042, 1.38231, 1.38213, 1.38032, 1.1196]
-V_THRUST_NORM = {"LOUD": 10 ** (-18.3094 / 20), "MED": 10 ** (-8.6151 / 20)}   # 0 dB at 632 Hz
+# THRUST: the API 2500 manual cites US Patent 5,170,437 (Strahm, 1992). Its Fig. 4 is the active half-order
+# high-pass in front of the rectifier: 100k || (32k + 0.16u) || (10k + 0.05u) || (3.2k + 0.016u) || (1k + 0.005u)
+# into a 10k-feedback inverting stage (corners 31 Hz, 318 Hz, 3.1 kHz, 31.8 kHz; "+10 dB/decade").
+# Relative to 632 Hz it gives -15.6 dB at 20 Hz and +13.8 dB at 20 kHz, matching the manuals' LOUD "3 dB/oct,
+# -15 dB at 20 Hz, +15 dB at 20 kHz". LOUD = that circuit; MED (only "slight" in the manuals) = half its dB
+# curve, an assumption. Realised as six first-order high shelves 1 + (A - 1)*HP(fc), least-squares fitted to the
+# circuit's response on 20 Hz-20 kHz (the 31.8 kHz corner is above Nyquist at 44.1/48 kHz): LOUD within
+# 0.16 dB at 44.1/48 kHz (0.8 dB at 96 kHz near 20 kHz), MED within 0.18 dB. Normalised to 0 dB at 632 Hz.
+V_THRUST_FC = [31.289, 292.492, 285.268, 2900.162, 8827.33, 15000.0]
+V_THRUST_A_LOUD = [5.14962, 3.02193, 1.08588, 2.92025, 1.32574, 1.36025]
+V_THRUST_A_MED = [1.84052, 1.0, 1.77044, 1.77197, 1.0, 1.26676]
+V_THRUST_NORM = {"LOUD": 10 ** (-24.9617 / 20), "MED": 10 ** (-10.1185 / 20)}   # 0 dB at 632 Hz (48 kHz)
 
 PARAMS = [
     ("c_order", 0, 0, 5), ("key_listen", 0, 0, 3),

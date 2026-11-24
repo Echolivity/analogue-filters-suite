@@ -246,16 +246,16 @@ def run_all(record, plt, OUT, SEQ, CAT, GRID, sig):
     record("VCA: THRUST (filter before the RMS detector) — bass-heavy material triggers less gain reduction NORM > MED > LOUD",
            trs[0] > trs[1] > trs[2], f"GR NORM {trs[0]:.1f}, MED {trs[1]:.1f}, LOUD {trs[2]:.1f} dB")
     # THRUST curve via KEY LISTEN (the detector signal): THRUST setting relative to NORM, so the SC HPF cancels.
-    # API 2500 manuals: LOUD "3 dB/oct", -15 dB at 20 Hz, +15 dB at 20 kHz (0 dB at 632 Hz); MED modelled as half.
+    # LOUD = US 5,170,437 Fig. 4 circuit (cited by the API 2500 manual) relative to 632 Hz; MED modelled as half.
     def tlvl(f, th):
         y = run(tone(f, -30, 1), dyn(v_on=1, v_thr=0, v_thrust=th, key_listen=2))
         return 20 * np.log10(np.sqrt(np.mean(y[SR // 2:] ** 2)) + 1e-30)
     trows = []
-    for f, exp_l in ((20, -15), (63.2, -10), (200, -5), (632.5, 0), (2000, 5), (6325, 10), (20000, 15)):
+    for f, exp_l in ((20, -15.55), (63.2, -10.24), (200, -4.88), (632.5, 0), (2000, 4.98), (6325, 9.42), (20000, 13.75)):
         n0 = tlvl(f, 0)
         trows.append(dict(freq_hz=f, med_db=round(tlvl(f, 1) - n0, 2), loud_db=round(tlvl(f, 2) - n0, 2), loud_target=exp_l, med_target=exp_l / 2))
     terr = max(max(abs(r["loud_db"] - r["loud_target"]), abs(r["med_db"] - r["med_target"])) for r in trows)
-    record("VCA: THRUST curves — LOUD 10 dB/decade (-15 dB at 20 Hz, 0 at 632 Hz, +15 dB at 20 kHz, API manual), MED half, within 0.5 dB",
+    record("VCA: THRUST curves — LOUD follows the US 5,170,437 Fig. 4 circuit cited by API (-15.6 dB at 20 Hz, 0 at 632 Hz, +13.8 dB at 20 kHz), MED half, within 0.5 dB",
            terr < 0.5, f"worst error {terr:.2f} dB; LOUD " + ", ".join(f"{r['freq_hz']:g} Hz {r['loud_db']:+.1f}" for r in trows), rows=trows)
     yn = run(tone(1000, -4, 2), dyn(v_on=1, v_thr=-24, v_ratio=6, v_type=0, v_att=2))
     yo = run(tone(1000, -4, 2), dyn(v_on=1, v_thr=-24, v_ratio=6, v_type=1, v_att=2))

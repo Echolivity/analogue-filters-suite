@@ -3105,39 +3105,39 @@
   {
    "name": "CPU benchmark (transpiled C, gcc -O2, this machine)",
    "passed": true,
-   "detail": "Both stages off (pass-through): 8.66%; Default device (Ladder LPF 24 dB + K35 HPF), 1x: 10.81%; Diode LPF 48 dB + Sherman HPF 48 dB, 1x: 11.67%; Default device, 2x oversampling: 12.99%; Worst case: Diode+Sherman 48 dB, 2x, both mid-crossfade: 17.76%",
+   "detail": "Both stages off (pass-through): 8.93%; Default device (Ladder LPF 24 dB + K35 HPF), 1x: 11.2%; Diode LPF 48 dB + Sherman HPF 48 dB, 1x: 12.45%; Default device, 2x oversampling: 13.58%; Worst case: Diode+Sherman 48 dB, 2x, both mid-crossfade: 18.43%",
    "rows": [
     {
      "config": "Both stages off (pass-through)",
-     "ns_per_frame": 1804.9,
-     "pct_of_one_core_48k": 8.66
+     "ns_per_frame": 1861.3,
+     "pct_of_one_core_48k": 8.93
     },
     {
      "config": "Default device (Ladder LPF 24 dB + K35 HPF), 1x",
-     "ns_per_frame": 2251.2,
-     "pct_of_one_core_48k": 10.81
+     "ns_per_frame": 2332.3,
+     "pct_of_one_core_48k": 11.2
     },
     {
      "config": "Diode LPF 48 dB + Sherman HPF 48 dB, 1x",
-     "ns_per_frame": 2430.7,
-     "pct_of_one_core_48k": 11.67
+     "ns_per_frame": 2593.5,
+     "pct_of_one_core_48k": 12.45
     },
     {
      "config": "Default device, 2x oversampling",
-     "ns_per_frame": 2705.3,
-     "pct_of_one_core_48k": 12.99
+     "ns_per_frame": 2828.8,
+     "pct_of_one_core_48k": 13.58
     },
     {
      "config": "Worst case: Diode+Sherman 48 dB, 2x, both mid-crossfade",
-     "ns_per_frame": 3700.4,
-     "pct_of_one_core_48k": 17.76
+     "ns_per_frame": 3840.4,
+     "pct_of_one_core_48k": 18.43
     }
    ]
   },
   {
    "name": "Denormals: decay tails flush to zero; silence costs no more than signal",
    "passed": true,
-   "detail": "silence/signal CPU ratio 0.91"
+   "detail": "silence/signal CPU ratio 1.13"
   },
   {
    "name": "DC offset at output with asymmetric saturation (drive 100%, hot input)",
@@ -4481,32 +4481,32 @@
   {
    "name": "CPU with BPF (transpiled C, gcc -O2, this machine)",
    "passed": true,
-   "detail": "v1.1 default device (LPF+HPF), BPF off: 10.72%; + BPF SVF: 11.9%; + BPF CASCADE: 11.73%; + BPF MULTIMODE (ARP): 13.76%; worst: all three, 48 dB slopes, 2x, BPF mid-crossfade: 20.95%",
+   "detail": "v1.1 default device (LPF+HPF), BPF off: 10.82%; + BPF SVF: 11.91%; + BPF CASCADE: 11.49%; + BPF MULTIMODE (ARP): 13.32%; worst: all three, 48 dB slopes, 2x, BPF mid-crossfade: 21.15%",
    "rows": [
     {
      "config": "v1.1 default device (LPF+HPF), BPF off",
-     "ns_per_frame": 2232.7,
-     "pct_of_one_core_48k": 10.72
+     "ns_per_frame": 2254.5,
+     "pct_of_one_core_48k": 10.82
     },
     {
      "config": "+ BPF SVF",
-     "ns_per_frame": 2479.6,
-     "pct_of_one_core_48k": 11.9
+     "ns_per_frame": 2482.2,
+     "pct_of_one_core_48k": 11.91
     },
     {
      "config": "+ BPF CASCADE",
-     "ns_per_frame": 2444.5,
-     "pct_of_one_core_48k": 11.73
+     "ns_per_frame": 2393.8,
+     "pct_of_one_core_48k": 11.49
     },
     {
      "config": "+ BPF MULTIMODE (ARP)",
-     "ns_per_frame": 2865.7,
-     "pct_of_one_core_48k": 13.76
+     "ns_per_frame": 2774.6,
+     "pct_of_one_core_48k": 13.32
     },
     {
      "config": "worst: all three, 48 dB slopes, 2x, BPF mid-crossfade",
-     "ns_per_frame": 4363.9,
-     "pct_of_one_core_48k": 20.95
+     "ns_per_frame": 4406.5,
+     "pct_of_one_core_48k": 21.15
     }
    ]
   },
@@ -5049,30 +5049,30 @@
    "detail": "GR NORM 16.0, MED 12.5, LOUD 10.9 dB"
   },
   {
-   "name": "VCA: THRUST curves \u2014 LOUD 10 dB/decade (-15 dB at 20 Hz, 0 at 632 Hz, +15 dB at 20 kHz, API manual), MED half, within 0.5 dB",
+   "name": "VCA: THRUST curves \u2014 LOUD follows the US 5,170,437 Fig. 4 circuit cited by API (-15.6 dB at 20 Hz, 0 at 632 Hz, +13.8 dB at 20 kHz), MED half, within 0.5 dB",
    "passed": true,
-   "detail": "worst error 0.08 dB; LOUD 20 Hz -15.0, 63.2 Hz -10.0, 200 Hz -5.0, 632.5 Hz -0.0, 2000 Hz +5.0, 6325 Hz +10.0, 20000 Hz +14.9",
+   "detail": "worst error 0.12 dB; LOUD 20 Hz -15.6, 63.2 Hz -10.2, 200 Hz -4.9, 632.5 Hz -0.0, 2000 Hz +5.0, 6325 Hz +9.4, 20000 Hz +13.7",
    "rows": [
     {
      "freq_hz": 20,
-     "med_db": -7.44,
-     "loud_db": -14.97,
-     "loud_target": -15,
-     "med_target": -7.5
+     "med_db": -7.79,
+     "loud_db": -15.55,
+     "loud_target": -15.55,
+     "med_target": -7.775
     },
     {
      "freq_hz": 63.2,
-     "med_db": -4.99,
-     "loud_db": -10.01,
-     "loud_target": -10,
-     "med_target": -5.0
+     "med_db": -5.05,
+     "loud_db": -10.25,
+     "loud_target": -10.24,
+     "med_target": -5.12
     },
     {
      "freq_hz": 200,
-     "med_db": -2.49,
-     "loud_db": -4.99,
-     "loud_target": -5,
-     "med_target": -2.5
+     "med_db": -2.54,
+     "loud_db": -4.88,
+     "loud_target": -4.88,
+     "med_target": -2.44
     },
     {
      "freq_hz": 632.5,
@@ -5083,24 +5083,24 @@
     },
     {
      "freq_hz": 2000,
-     "med_db": 2.51,
-     "loud_db": 5.0,
-     "loud_target": 5,
-     "med_target": 2.5
+     "med_db": 2.37,
+     "loud_db": 4.98,
+     "loud_target": 4.98,
+     "med_target": 2.49
     },
     {
      "freq_hz": 6325,
-     "med_db": 5.0,
-     "loud_db": 10.02,
-     "loud_target": 10,
-     "med_target": 5.0
+     "med_db": 4.81,
+     "loud_db": 9.44,
+     "loud_target": 9.42,
+     "med_target": 4.71
     },
     {
      "freq_hz": 20000,
-     "med_db": 7.42,
-     "loud_db": 14.93,
-     "loud_target": 15,
-     "med_target": 7.5
+     "med_db": 6.92,
+     "loud_db": 13.67,
+     "loud_target": 13.75,
+     "med_target": 6.875
     }
    ]
   },
@@ -5232,37 +5232,37 @@
   {
    "name": "CPU with the dynamics chain (transpiled C, gcc -O2, this machine)",
    "passed": true,
-   "detail": "v1.2 device, dynamics off: 11.82%; + TUBE: 12.17%; + OPTO: 13.03%; + VCA: 13.26%; + all three + gate: 14.2%; worst: LPF+HPF+BPF 2x + all dynamics, reordering every 20 ms: 22.57%",
+   "detail": "v1.2 device, dynamics off: 11.6%; + TUBE: 13.63%; + OPTO: 12.15%; + VCA: 12.2%; + all three + gate: 13.9%; worst: LPF+HPF+BPF 2x + all dynamics, reordering every 20 ms: 23.72%",
    "rows": [
     {
      "config": "v1.2 device, dynamics off",
-     "ns_per_frame": 2462.4,
-     "pct_of_one_core_48k": 11.82
+     "ns_per_frame": 2417.1,
+     "pct_of_one_core_48k": 11.6
     },
     {
      "config": "+ TUBE",
-     "ns_per_frame": 2534.5,
-     "pct_of_one_core_48k": 12.17
+     "ns_per_frame": 2838.8,
+     "pct_of_one_core_48k": 13.63
     },
     {
      "config": "+ OPTO",
-     "ns_per_frame": 2714.5,
-     "pct_of_one_core_48k": 13.03
+     "ns_per_frame": 2530.2,
+     "pct_of_one_core_48k": 12.15
     },
     {
      "config": "+ VCA",
-     "ns_per_frame": 2763.2,
-     "pct_of_one_core_48k": 13.26
+     "ns_per_frame": 2541.0,
+     "pct_of_one_core_48k": 12.2
     },
     {
      "config": "+ all three + gate",
-     "ns_per_frame": 2958.4,
-     "pct_of_one_core_48k": 14.2
+     "ns_per_frame": 2894.8,
+     "pct_of_one_core_48k": 13.9
     },
     {
      "config": "worst: LPF+HPF+BPF 2x + all dynamics, reordering every 20 ms",
-     "ns_per_frame": 4701.4,
-     "pct_of_one_core_48k": 22.57
+     "ns_per_frame": 4942.0,
+     "pct_of_one_core_48k": 23.72
     }
    ]
   },
@@ -5463,19 +5463,19 @@
   {
    "name": "CPU by routing mode (LPF + HPF + BPF on)",
    "passed": true,
-   "detail": "LPF + HPF + BPF, SERIES: 12.17%; LPF + HPF + BPF, PARALLEL: 11.56%; LPF + HPF + BPF, HYBRID: 11.75%",
+   "detail": "LPF + HPF + BPF, SERIES: 13.08%; LPF + HPF + BPF, PARALLEL: 12.84%; LPF + HPF + BPF, HYBRID: 12.24%",
    "rows": [
     {
      "config": "LPF + HPF + BPF, SERIES",
-     "pct_of_one_core_48k": 12.17
+     "pct_of_one_core_48k": 13.08
     },
     {
      "config": "LPF + HPF + BPF, PARALLEL",
-     "pct_of_one_core_48k": 11.56
+     "pct_of_one_core_48k": 12.84
     },
     {
      "config": "LPF + HPF + BPF, HYBRID",
-     "pct_of_one_core_48k": 11.75
+     "pct_of_one_core_48k": 12.24
     }
    ]
   },
@@ -5488,6 +5488,6 @@
  "summary": {
   "total": 96,
   "passed": 96,
-  "seconds": 515.0
+  "seconds": 523.7
  }
 }
