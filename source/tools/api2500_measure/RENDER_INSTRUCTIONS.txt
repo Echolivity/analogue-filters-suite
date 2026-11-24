@@ -1,0 +1,65 @@
+API 2500 MEASUREMENT PACK
+=========================
+
+What this is for
+----------------
+These test signals, run through an API 2500 (hardware, or the Waves / UAD plugin), let us measure what API never
+published: the knee widths, the detector speed, how VARIABLE release behaves, the THRUST MED curve and the link
+SHAPE filters.
+
+How to render
+-------------
+1. Session at 48 kHz. Put the compressor on a STEREO track, nothing else on the track or master.
+2. Before EVERY render, set the compressor to these BASE SETTINGS, then change only what the table below says:
+     THRESHOLD   -20 dBu (its lowest setting)   ->  Waves: -42 dBFS
+     RATIO       4:1          KNEE      HARD
+     ATTACK      1 ms         RELEASE   50 ms (fixed, not VAR)
+     THRUST      NORM         TYPE      NEW (feed-forward)
+     L/R LINK    100 %        SHAPE     (as table, otherwise leave default)
+     MAKEUP      AUTO OFF, makeup/output 0 dB      MIX 100 %      TILT / TRIM 0
+     Waves only: Analog OFF (if your version has it).
+3. Bounce/export each render as 24-bit (or 32-bit float) WAV, full length, no normalising, no dither.
+   Keep the file's start: the click at 0.5 s is used to line things up, so do not trim it.
+4. Name each render exactly as in the "Save as" column and send them all back (zip is fine), plus one line saying
+   what you used (hardware model / Waves / UAD, and version).
+
+Hardware only: also record 00_calibration with the unit BYPASSED and tell me your interface's level
+(e.g. "0 dBFS = +18 dBu"), so I can convert dBFS to dBu.
+
+Renders (17)
+------------
+ #  Source file                          Change from base settings             Save as
+--  -----------------------------------  ------------------------------------  ------------------------------
+ 1  00_calibration_1k_-20dBFS.wav        THRESHOLD +10 dBu (no compression)    R01_calibration.wav
+ 2  01_static_curve_1k_steps.wav         THRESHOLD 0 dBu, KNEE HARD            R02_knee_HARD.wav
+ 3  01_static_curve_1k_steps.wav         THRESHOLD 0 dBu, KNEE MED             R03_knee_MED.wav
+ 4  01_static_curve_1k_steps.wav         THRESHOLD 0 dBu, KNEE SOFT            R04_knee_SOFT.wav
+ 5  01_static_curve_1k_steps.wav         THRESHOLD 0 dBu, KNEE HARD, TYPE OLD  R05_knee_HARD_OLD.wav
+ 6  02_thrust_sweep_-10dBFS.wav          RATIO 2:1, ATTACK 30 ms, REL 200 ms,  R06_thrust_NORM.wav
+                                         THRUST NORM
+ 7  02_thrust_sweep_-10dBFS.wav          same as 6, THRUST MED                 R07_thrust_MED.wav
+ 8  02_thrust_sweep_-10dBFS.wav          same as 6, THRUST LOUD                R08_thrust_LOUD.wav
+ 9  03_attack_bursts_1k.wav              RATIO 10:1, ATTACK 30 us (.03 ms)     R09_attack_0.03ms.wav
+10  03_attack_bursts_1k.wav              RATIO 10:1, ATTACK 1 ms               R10_attack_1ms.wav
+11  03_attack_bursts_1k.wav              RATIO 10:1, ATTACK 30 ms              R11_attack_30ms.wav
+12  04_release_bursts_1k.wav             RATIO 10:1, RELEASE 500 ms (fixed)    R12_release_500ms.wav
+13  04_release_bursts_1k.wav             RATIO 10:1, RELEASE VAR at 500 ms     R13_release_VAR_500ms.wav
+14  05_link_shape_L-sweep_R-1k.wav       L/R LINK IND (unlinked)               R14_link_IND.wav
+15  05_link_shape_L-sweep_R-1k.wav       LINK 100 %, SHAPE HP                  R15_link_HP.wav
+16  05_link_shape_L-sweep_R-1k.wav       LINK 100 %, SHAPE LP                  R16_link_LP.wav
+17  05_link_shape_L-sweep_R-1k.wav       LINK 100 %, SHAPE BP                  R17_link_BP.wav
+
+(If your version has a flat / no-SHAPE link setting, add R18_link_FLAT.wav with LINK 100 % and that setting.)
+
+What each one measures
+----------------------
+ R02-R05  input stepped -60..-1 dBFS in 1 dB steps -> the static curve: threshold, ratio and each knee's width;
+          OLD (feedback) curve.
+ R06-R08  third-octave tones 20 Hz-20 kHz at a fixed level -> how much each frequency drives the detector:
+          the THRUST MED and LOUD curves (NORM is the reference).
+ R09-R11  level jumps of 40 dB -> attack shape and the RMS detector's own speed (at 30 us the detector dominates).
+ R12-R13  bursts 2, 17 and 32 dB over threshold -> whether VARIABLE release slows down after heavier compression.
+ R14-R17  loud tones on Left only, quiet steady tone on Right -> how the link passes Left's gain reduction to Right
+          at each frequency: the SHAPE filters.
+
+The files' exact timings are in schedule.json (used by the analysis; you don't need it).
