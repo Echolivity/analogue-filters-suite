@@ -24,7 +24,7 @@ BPF_MODELS = [
     dict(name="Oberheim SEM", typ=0, sc=0.6, rg=0, rmax=0.9, kmax=3.6, roll=0, native=0),
     dict(name="Steiner-Parker", typ=0, sc=0.7, rg=1, rmax=1.06, kmax=4.3, roll=0, native=0),
     dict(name="Korg 35 / MS-20", typ=0, sc=1.0, rg=0, rmax=1.06, kmax=4.3, roll=0, native=1),
-    dict(name="ARP 2600", typ=1, sc=1.4, rg=0, rmax=1.06, kmax=4.3, roll=1, native=None),
+    dict(name="ARP 2600", typ=1, sc=1.4, rg=0, rmax=1.06, kmax=4.3, roll=0, native=None),
     dict(name="EMS VCS3", typ=0, sc=0.5, rg=0, rmax=1.06, kmax=4.3, roll=0, native=None),
 ]
 ARCHS = ["SVF", "CASCADE", "MULTIMODE"]
@@ -112,6 +112,21 @@ f_bmm(x, s1, s2, s3, s4, p0, p1, p2, p3, p4, g, k, typ, sc, wb) {
 	bp2 = 2 * (y1 - y2);
 	y = bp4 + wb * (bp2 - bp4);
 	return y, fixdenorm(2 * y1 - s1), fixdenorm(2 * y2 - s2), fixdenorm(2 * y3 - s3), fixdenorm(2 * y4 - s4), u, y1, y2, y3, y4;
+}
+
+// v1.6: ARP 2600 band-pass on the 4012 core (the LPF engine's f_arp4012 ladder: matched pairs, DC-coupled,
+// Board 3 resonance law, secant re-solve), band-pass taken by pole mixing as in MULTIMODE (the 2600 has no
+// band-pass output: still "derived"). Input / output in the 4012's level convention (0.608 per unit, rail 0.65 stage units = 13 V).
+// returns y, s1..s4, p0..p4
+f_barp(x, s1, s2, s3, s4, p0, p1, p2, p3, p4, g, k, wb) {
+	o, n1, n2, n3, n4, u, y1, y2, y3, y4 = f_arp4012(x, s1, s2, s3, s4, p0, p1, p2, p3, p4, g, k, 0, 1);
+	bp4 = 4 * (y2 - 2 * y3 + y4);
+	bp2 = 2 * (y1 - y2);
+	// the 2600 has no band-pass: the derived pole-mix runs 12 dB above the 4-pole output at oscillation, so its
+	// output stage is limited at 0.3 stage units (+1.6 dBFS at Drive 0), the level of the module's own
+	// oscillation (LPF 07: +1.4 dBFS), instead of at the 13 V rail
+	y = 0.3 * tanh((bp4 + wb * (bp2 - bp4)) * 5.48245614);   // / 0.608 (ladder units) / 0.3
+	return y, n1, n2, n3, n4, u, y1, y2, y3, y4;
 }
 
 // v1.6: analogue magnitude of a 1-pole HP at normalised frequency rho (MS-20 HPF, Stinchcombe)
@@ -221,6 +236,10 @@ def emit_controls(w, G):
         w(f"{p}_rg = {model_table('rg', p + '_m')};")
         w(f"{p}_r = {model_table('rmax', p + '_m')} * pow(b_rz, 1.3);")
         w(f"{p}_k = {model_table('kmax', p + '_m')} * pow(b_rz, 1.3);")
+        w(f"{p}_arp = ({p}_m > 2.5 && {p}_m < 3.5 && {p}_a > 1.5) ? 1 : 0;")
+        w(f"if ({p}_arp > 0.5) {{")
+        w(f"\t{p}_k = 1011120 * b_rz / (152200 + 100000 * b_rz * (1 - b_rz));")   # Board 3 RESONANCE law (LPF 07)
+        w("}")
         w(f"{p}_roll = {model_table('roll', p + '_m')};")
         w(f"{p}_gc = tan(pi * b_fc / fso);")
         w(f"{p}_R = 0.5 / b_qq;")
@@ -387,7 +406,15 @@ def emit_slot(w, G, sl, ch, xin, yout):
     w(f"if ({p}_a > 1.5) {{")
     G.ind += 1
     mm = [s(v) for v in ("m_s1", "m_s2", "m_s3", "m_s4", "m_p0", "m_p1", "m_p2", "m_p3", "m_p4")]
+    w(f"if ({p}_arp > 0.5) {{")
+    G.ind += 1
+    w(f"by, {', '.join(mm)} = f_barp(bx, {', '.join(mm)}, {p}_gm, {p}_k, {p}_wb);")
+    G.ind -= 1
+    w("} else {")
+    G.ind += 1
     w(f"by, {', '.join(mm)} = f_bmm(bx, {', '.join(mm)}, {p}_gm, {p}_k, {p}_typ, {p}_sc, {p}_wb);")
+    G.ind -= 1
+    w("}")
     G.ind -= 1
     w("}")
     w(f"{s('yp')} = by;")

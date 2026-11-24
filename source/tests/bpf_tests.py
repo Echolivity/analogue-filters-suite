@@ -73,6 +73,8 @@ def ref_bpf(f, m, a, fc, bw, Q, res, fs=SR):
         H = H / (1 - r * H)
     else:
         k = KMAX[m] * rz ** 1.3
+        if m == 3:   # v1.6: ARP 2600 on the 4012 core: Board 3 RESONANCE law (as LPF 07)
+            k = 1011120 * rz / (152200 + 100000 * rz * (1 - rz))
         s = 1j * t / (gc / cmm(k))
         L = 1 / (1 + s)
         wb = np.clip((bw - 1) * 0.5, 0, 1)
@@ -182,14 +184,15 @@ def run_all(record, plt, OUT, SEQ, CAT, GRID, sig):
     for a in range(3):
         for m in range(5):
             for fc in (100, 400, 1500, 5000):
-                f, H = tf(bpf(model=m, arch=a, freq=fc, bw=2, q=0.707, res=85), n=1 << 17)
+                # ARP 2600 MULTIMODE (4012 core): the Board 3 law oscillates from 69 %, so track it below onset (res 60)
+                f, H = tf(bpf(model=m, arch=a, freq=fc, bw=2, q=0.707, res=60 if (m == 3 and a == 2) else 85), n=1 << 17)
                 sel = (f > fc / 3) & (f < fc * 3)
                 pk = f[sel][np.argmax(np.abs(H[sel]))]
                 c = 1200 * np.log2(pk / fc)
                 rows.append(dict(arch=BP_ARCHS[a], model=BP_MODELS[m], fc=fc, cents=round(float(c))))
                 if abs(c) > max(100, 1200 * np.log2((fc + 6) / fc)):
                     bad.append(f"{BP_ARCHS[a]}/{BP_MODELS[m]} {fc}: {c:+.0f}c")
-    record("BPF: resonant peak tracks the centre frequency within ±100 cents (res 85%, all configurations)", not bad,
+    record("BPF: resonant peak tracks the centre frequency within ±100 cents (res 85%; ARP 2600 MULTIMODE res 60%, below its onset)", not bad,
            f"worst {max(abs(r['cents']) for r in rows if r['fc'] > 200)} c above 200 Hz" + ("" if not bad else "; FAIL " + "; ".join(bad)), rows=rows)
 
     # ------------------------------------------------------------ self-oscillation
@@ -208,9 +211,11 @@ def run_all(record, plt, OUT, SEQ, CAT, GRID, sig):
                 rows.append(dict(os=ovs + 1, arch=BP_ARCHS[a], model=BP_MODELS[m], oscillates=bool(osc),
                                  peak_dbfs=round(float(db(pk)), 1), cents=None if c is None else round(c)))
                 expect = m != 0
-                if not np.all(np.isfinite(y)) or pk > 1.25 or osc != expect or (osc and abs(c) > 100):
+                # ARP 2600 MULTIMODE (4012 core, k 6.64 at full travel): about 1.5 semitones flat, as the module (LPF 07)
+                cmax = 160 if (m == 3 and a == 2) else 100
+                if not np.all(np.isfinite(y)) or pk > 1.25 or osc != expect or (osc and abs(c) > cmax):
                     bad.append(f"os{ovs + 1} {BP_ARCHS[a]}/{BP_MODELS[m]} osc={osc} pk={db(pk):.1f} c={c}")
-    record("BPF: self-oscillation stable, bounded (<+2 dBFS) and on centre; SEM never self-oscillates (1x and 2x)", not bad,
+    record("BPF: self-oscillation stable, bounded (<+2 dBFS) and on centre (ARP 2600 MULTIMODE at k 6.64: ±160 c); SEM never self-oscillates (1x and 2x)", not bad,
            "ok" if not bad else "; ".join(bad), rows=rows)
 
     # ------------------------------------------------------------ nonlinear character per model
@@ -360,7 +365,9 @@ def run_all(record, plt, OUT, SEQ, CAT, GRID, sig):
     tails = []
     for a in range(3):
         for m in range(5):
-            y = run(x, bpf(model=m, arch=a, freq=400, res=80))
+            # ARP MULTIMODE on the 4012 core self-oscillates above Resonance ~70 (Board 3 law: k = 4 at
+            # r ~ 0.69), like the module; a sustained oscillation is not a decay tail, so test it below that.
+            y = run(x, bpf(model=m, arch=a, freq=400, res=60 if (a == 2 and m == 3) else 80))
             tails.append(np.abs(y[-SR:]).max())
     record("BPF: decay tails flush to zero (no denormals)", max(tails) < 1e-15, f"max tail {max(tails):.1e}")
     rows = []

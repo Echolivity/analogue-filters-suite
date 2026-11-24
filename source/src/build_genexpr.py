@@ -348,7 +348,7 @@ f_ladder(x, s1, s2, s3, s4, p0, p1, p2, p3, p4, h1, h2, pz, g, k, bc, hs, hp, ga
 // Level: 1 model unit = 5 V (the 2600's 10 V p-p audio); the ladder state p is in units of 2 V_T / 1.4 as in
 // the ladder model, so the input scale 0.608 per stage unit (x 0.25 at Drive 0) puts 11 mV per 5 V into the pair.
 // The output amplifier is calibrated for unity gain from one 100k input (GAIN trim; assumed) and clips at
-// about +/-13 V (2.6 units). returns y, s1..s4, p0..p4
+// about +/-13 V (2.6 audio units; the stage runs at 0.25 x audio at Drive 0, so 0.65 stage units). returns y, s1..s4, p0..p4
 f_arp4012(x, s1, s2, s3, s4, p0, p1, p2, p3, p4, g, k, bc, hs) {
 	T0 = f_tg(1.4 * p0);
 	T1 = f_tg(1.4 * hs * p1);
@@ -393,7 +393,7 @@ f_arp4012(x, s1, s2, s3, s4, p0, p1, p2, p3, p4, g, k, bc, hs) {
 	y2 = G2 * y1 + s2 * i2;
 	y3 = G3 * y2 + s3 * i3;
 	y4 = G4 * y3 + s4 * i4;
-	o = 2.6 * tanh(y4 * 0.632591);          // A1 at its rails: y4 / 0.608 / 2.6
+	o = 0.65 * tanh(y4 * 2.53036);          // A1 at its rails: +/-13 V = 2.6 audio units = 0.65 stage units (x 0.25 at Drive 0)
 	if (abs(y4) > 1000000) {
 		o = y4;
 	}

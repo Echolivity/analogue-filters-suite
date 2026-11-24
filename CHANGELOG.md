@@ -46,10 +46,15 @@ Details and before/after measurements: [docs/V1.6_ENGINE.md](docs/V1.6_ENGINE.md
   - **Steiner-Parker (SVF):** the Synthacon core with sinh diode strings, input at the band-pass injection point (was tanh + hard clip). Self-oscillates at full resonance.
   - **Oberheim SEM (SVF):** the SEM-1A core's band-pass node (RES law, D11/D12 limiter, rails). Never self-oscillates.
   - Other architectures of these models and the ARP 2600 / EMS VCS3 entries are unchanged ("derived"). BPF golden renders re-captured.
+- **Changed: BPF ARP 2600 (MULTIMODE) now runs on the 4012 circuit core** used by LPF 07 (Board 3 resonance law). The band-pass is still derived (the 2600 has no band-pass output): a pole mix of the ladder stages, limited to the module's own oscillation level (+1.6 dBFS).
+  - Passband −0.1 dB at −12 dBFS input; self-oscillates above about 69 % resonance, within 140 cents of the centre.
+  - The 4072 one-pole roll-off at 14 kHz is removed: the 2600 documented in the service manual carries the 4012.
+  - Other ARP architectures are unchanged. BPF golden renders re-captured.
 - **Changed: HPF model 03 is now the Moog 904B** (R. A. Moog drawing 1118, 6/23/70, supplied by you), replacing the "Ladder HP - ALT pole-mix". The 904B is four C-R high-pass sections in series with no resonance circuit, so the response is exactly (s/(s+1))⁴ and the Resonance knob has no effect on it (authentic, by your choice). Its input is attenuated about 1:111 and restored by the audio amp, so the stages run near-linear. Only renders with HPF model 03 change.
 - **New: LPF model 07, ARP 2600 (4012)**, from the 2600 service manual (Board 3) and the 4012 module schematic (both supplied by you).
   - A Moog-type transistor ladder, DC-coupled, with ARP's input stage and FET-buffered output.
   - Resonance follows the Board 3 slider law (k up to 6.64), so it oscillates from 69 % of the slider.
+  - The A1 output amplifier's ±13 V rail limits the output; self-oscillation settles at about +1.4 dBFS. At Drive 60 the rail sets an aliasing floor of about −109 dBc at 4x–16x (all other models ≤ −110).
   - It is appended to the menu, so saved sets keep their model indices. Compat and UI tests now accept index-stable appended menu items, and its label boxes are appended at the end of the patch.
   - Default renders unchanged.
 - **New: ENVELOPE FILTER**, modelled on the **Musitronics Mu-Tron III** schematic (1975, "above S/N 02050"; topology also in Beigel's US patent 3,911,776; cross-checked with R. G. Keen's Neutron). It sits before the filter section and adds 13 appended parameters; off by default, and bit-identical when off.
