@@ -42,6 +42,11 @@ Details and before/after measurements: [docs/V1.6_ENGINE.md](docs/V1.6_ENGINE.md
   - **Unchanged:** notch and band-pass routing, which already matched the PS19 crossfade.
   - **Assumptions:** a linear RES pot; 5 V per unit; the Q floor.
 - **Changed: HPF model 03 is now the Moog 904B** (R. A. Moog drawing 1118, 6/23/70, supplied by you), replacing the "Ladder HP - ALT pole-mix". The 904B is four C-R high-pass sections in series with no resonance circuit, so the response is exactly (s/(s+1))⁴ and the Resonance knob has no effect on it (authentic, by your choice). Its input is attenuated about 1:111 and restored by the audio amp, so the stages run near-linear. Only renders with HPF model 03 change.
+- **New: LPF model 07, ARP 2600 (4012)**, from the 2600 service manual (Board 3) and the 4012 module schematic (both supplied by you).
+  - A Moog-type transistor ladder, DC-coupled, with ARP's input stage and FET-buffered output.
+  - Resonance follows the Board 3 slider law (k up to 6.64), so it oscillates from 69 % of the slider.
+  - It is appended to the menu, so saved sets keep their model indices. Compat and UI tests now accept index-stable appended menu items, and its label boxes are appended at the end of the patch.
+  - Default renders unchanged.
 - **New: ENVELOPE FILTER**, modelled on the **Musitronics Mu-Tron III** schematic (1975, "above S/N 02050"; topology also in Beigel's US patent 3,911,776; cross-checked with R. G. Keen's Neutron). It sits before the filter section and adds 13 appended parameters; off by default, and bit-identical when off.
   - **From the schematic:**
     - A1 preamp: ×0.12–×36.4.
