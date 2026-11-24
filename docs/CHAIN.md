@@ -58,19 +58,28 @@ Details and measurements: V1.6_ENGINE.md §4b.
 Controls: PEAK RED (sidechain gain), GAIN (= Output), COMP/LIMIT, EMPHASIS (R37), SC HPF (20–500 Hz), LINK (0–100 %), SC source.
 
 ### VCA: API 2500-inspired bus compressor
-Published features used:
-- threshold range around −42 to −12 dBFS (here extended to −50…0)
-- ratios 1.5, 2, 3, 4, 6, 10 and ∞:1
-- attacks .03, .1, .3, 1, 3, 10 and 30 ms
-- release 50 ms – 3 s
-- three knees
-- THRUST filter before an RMS detector
-- NEW (feed-forward) / OLD (feedback) type
-- variable L/R link
+Sources: the API 2500 user manual (apiaudio.com, 2018), the 2500 pages of the API Legacy Plus manual, the API 2500 calibration procedure, and the Waves API 2500 plugin manual.
 
-The model is a true-RMS detector (3 ms), a dB-domain gain computer with HARD/MED/SOFT knee (0/6/12 dB), and attack/release ballistics on the gain reduction. AUTO makeup is a static makeup derived from threshold and ratio.
+| Control | API 2500 | This model |
+|---|---|---|
+| Threshold | +10 to −20 dBu, continuous; Waves maps this to −12 to −42 dBFS (0 dBFS = +22 dBu) | −50 to 0 dBFS, a superset kept so saved sets are unchanged; the hardware span is −42 to −12 dBFS |
+| Ratio | 1.5, 2, 3, 4, 6, 10, ∞:1 | same |
+| Attack | 30 µs, 100 µs, 300 µs, 1, 3, 10, 30 ms | same |
+| Release | 50, 100, 200, 500 ms, 1, 2 s, VARIABLE 50 ms–3 s | continuous 50 ms–3 s (covers every step) |
+| Knee | HARD / MED / SOFT, no widths published | 0 / 6 / 12 dB (assumption) |
+| THRUST | NORM flat; MED "slight" low cut and high lift; LOUD "a gradual, linear filter (3 dB/oct)", −15 dB at 20 Hz, +15 dB at 20 kHz, ahead of the RMS detector | NORM flat; **LOUD 10 dB/decade through 0 dB at 632 Hz** (within 0.2 dB, 20 Hz–20 kHz at 44.1/48 kHz); **MED half that slope (±7.5 dB), an assumption** |
+| Type | NEW feed-forward / OLD feedback | same |
+| Detector | one RMS detector per channel, log-domain (calibration: 1 V DC per 10 dB) | true RMS, 3 ms, dB domain |
+| L/R Link | IND, 50–100 % in six steps; each channel keeps its own detector | continuous 0–100 % (covers every step) |
+| Shape (link filter) | HP / LP / BP, no frequencies published | not modelled |
+| Makeup | AUTO keeps output about constant as threshold and ratio change | AUTO = static makeup from threshold and ratio |
+| Defaults | 4:1, 1 ms, VARIABLE 0.5 s, HARD, NORM, NEW, 100 %, AUTO | 4:1, 1 ms, 0.3 s, HARD, NORM, NEW, 100 %, manual (kept for saved-set compatibility) |
 
-**THRUST approximation:** API publishes THRUST as a filter in front of the RMS detector, not its exact curves. MED is modelled as a −6 dB low shelf around 200 Hz, and LOUD as a −12 dB low shelf plus a +3.5 dB high shelf. The VALIDATION figures show bass triggering less gain reduction NORM > MED > LOUD.
+The model is a true-RMS detector (3 ms), a dB-domain gain computer with HARD/MED/SOFT knee, and attack/release ballistics on the gain reduction.
+
+**THRUST realisation:** six first-order high shelves, least-squares fitted to the tilt (fixed corners 39.7 Hz – 15 kHz; MED uses the same corners with smaller steps), normalised to 0 dB at 632 Hz. At 96 kHz LOUD is within 0.8 dB (the error is near 20 kHz). The VALIDATION THRUST curve test measures it through KEY LISTEN.
+
+**Not published, so behavioural:** knee widths, detector time constant, the VARIABLE release's programme dependence (Waves: heavier compression recovers more slowly), and the Shape filters.
 
 ### GATE: independent, after the chain
 - **Detection:** threshold with 4 dB hysteresis; a linked stereo key (max of L/R) through its own KEY HPF and LPF.
@@ -110,4 +119,4 @@ Each detector (Opto, VCA, Gate) has its own **source** selector.
 ## Limitations (not verifiable here)
 - **External key routing:** the `live.routing` KEY FROM selector is configured from the Max reference, which documents the object only briefly. If the selector does not offer tracks, open the device in Max and set the object to the device's audio input 3/4 (see INSTALL.md). The DSP side of the key input is tested.
 - **Chain UI:** block dragging, block moving (`thispatcher` scripting) and page switching are built from standard Max objects and verified statically: every scripted object exists, every connection is in range, and the drag lookup table is checked exhaustively. They have not been run inside Max.
-- **"Inspired" models:** no module was compared against hardware. The Opto is a behavioural T4 model built on published time constants and ratios; the VCA follows the API 2500's published control set with the THRUST curves approximated; the Tube is a generic triode stage.
+- **"Inspired" models:** no module was compared against hardware. The Opto is a behavioural T4 model built on published time constants and ratios; the VCA follows the API 2500's published control set and THRUST curves (knee, detector timing and Shape not published); the Tube is a generic triode stage.

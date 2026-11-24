@@ -3105,39 +3105,39 @@
   {
    "name": "CPU benchmark (transpiled C, gcc -O2, this machine)",
    "passed": true,
-   "detail": "Both stages off (pass-through): 8.57%; Default device (Ladder LPF 24 dB + K35 HPF), 1x: 10.48%; Diode LPF 48 dB + Sherman HPF 48 dB, 1x: 11.79%; Default device, 2x oversampling: 13.57%; Worst case: Diode+Sherman 48 dB, 2x, both mid-crossfade: 17.29%",
+   "detail": "Both stages off (pass-through): 8.66%; Default device (Ladder LPF 24 dB + K35 HPF), 1x: 10.81%; Diode LPF 48 dB + Sherman HPF 48 dB, 1x: 11.67%; Default device, 2x oversampling: 12.99%; Worst case: Diode+Sherman 48 dB, 2x, both mid-crossfade: 17.76%",
    "rows": [
     {
      "config": "Both stages off (pass-through)",
-     "ns_per_frame": 1784.7,
-     "pct_of_one_core_48k": 8.57
+     "ns_per_frame": 1804.9,
+     "pct_of_one_core_48k": 8.66
     },
     {
      "config": "Default device (Ladder LPF 24 dB + K35 HPF), 1x",
-     "ns_per_frame": 2182.8,
-     "pct_of_one_core_48k": 10.48
+     "ns_per_frame": 2251.2,
+     "pct_of_one_core_48k": 10.81
     },
     {
      "config": "Diode LPF 48 dB + Sherman HPF 48 dB, 1x",
-     "ns_per_frame": 2455.8,
-     "pct_of_one_core_48k": 11.79
+     "ns_per_frame": 2430.7,
+     "pct_of_one_core_48k": 11.67
     },
     {
      "config": "Default device, 2x oversampling",
-     "ns_per_frame": 2826.4,
-     "pct_of_one_core_48k": 13.57
+     "ns_per_frame": 2705.3,
+     "pct_of_one_core_48k": 12.99
     },
     {
      "config": "Worst case: Diode+Sherman 48 dB, 2x, both mid-crossfade",
-     "ns_per_frame": 3601.6,
-     "pct_of_one_core_48k": 17.29
+     "ns_per_frame": 3700.4,
+     "pct_of_one_core_48k": 17.76
     }
    ]
   },
   {
    "name": "Denormals: decay tails flush to zero; silence costs no more than signal",
    "passed": true,
-   "detail": "silence/signal CPU ratio 0.90"
+   "detail": "silence/signal CPU ratio 0.91"
   },
   {
    "name": "DC offset at output with asymmetric saturation (drive 100%, hot input)",
@@ -4481,32 +4481,32 @@
   {
    "name": "CPU with BPF (transpiled C, gcc -O2, this machine)",
    "passed": true,
-   "detail": "v1.1 default device (LPF+HPF), BPF off: 10.1%; + BPF SVF: 11.39%; + BPF CASCADE: 11.74%; + BPF MULTIMODE (ARP): 12.44%; worst: all three, 48 dB slopes, 2x, BPF mid-crossfade: 19.78%",
+   "detail": "v1.1 default device (LPF+HPF), BPF off: 10.72%; + BPF SVF: 11.9%; + BPF CASCADE: 11.73%; + BPF MULTIMODE (ARP): 13.76%; worst: all three, 48 dB slopes, 2x, BPF mid-crossfade: 20.95%",
    "rows": [
     {
      "config": "v1.1 default device (LPF+HPF), BPF off",
-     "ns_per_frame": 2104.6,
-     "pct_of_one_core_48k": 10.1
+     "ns_per_frame": 2232.7,
+     "pct_of_one_core_48k": 10.72
     },
     {
      "config": "+ BPF SVF",
-     "ns_per_frame": 2373.8,
-     "pct_of_one_core_48k": 11.39
+     "ns_per_frame": 2479.6,
+     "pct_of_one_core_48k": 11.9
     },
     {
      "config": "+ BPF CASCADE",
-     "ns_per_frame": 2445.7,
-     "pct_of_one_core_48k": 11.74
+     "ns_per_frame": 2444.5,
+     "pct_of_one_core_48k": 11.73
     },
     {
      "config": "+ BPF MULTIMODE (ARP)",
-     "ns_per_frame": 2590.7,
-     "pct_of_one_core_48k": 12.44
+     "ns_per_frame": 2865.7,
+     "pct_of_one_core_48k": 13.76
     },
     {
      "config": "worst: all three, 48 dB slopes, 2x, BPF mid-crossfade",
-     "ns_per_frame": 4120.2,
-     "pct_of_one_core_48k": 19.78
+     "ns_per_frame": 4363.9,
+     "pct_of_one_core_48k": 20.95
     }
    ]
   },
@@ -5046,7 +5046,63 @@
   {
    "name": "VCA: THRUST (filter before the RMS detector) \u2014 bass-heavy material triggers less gain reduction NORM > MED > LOUD",
    "passed": true,
-   "detail": "GR NORM 16.0, MED 12.1, LOUD 10.3 dB"
+   "detail": "GR NORM 16.0, MED 12.5, LOUD 10.9 dB"
+  },
+  {
+   "name": "VCA: THRUST curves \u2014 LOUD 10 dB/decade (-15 dB at 20 Hz, 0 at 632 Hz, +15 dB at 20 kHz, API manual), MED half, within 0.5 dB",
+   "passed": true,
+   "detail": "worst error 0.08 dB; LOUD 20 Hz -15.0, 63.2 Hz -10.0, 200 Hz -5.0, 632.5 Hz -0.0, 2000 Hz +5.0, 6325 Hz +10.0, 20000 Hz +14.9",
+   "rows": [
+    {
+     "freq_hz": 20,
+     "med_db": -7.44,
+     "loud_db": -14.97,
+     "loud_target": -15,
+     "med_target": -7.5
+    },
+    {
+     "freq_hz": 63.2,
+     "med_db": -4.99,
+     "loud_db": -10.01,
+     "loud_target": -10,
+     "med_target": -5.0
+    },
+    {
+     "freq_hz": 200,
+     "med_db": -2.49,
+     "loud_db": -4.99,
+     "loud_target": -5,
+     "med_target": -2.5
+    },
+    {
+     "freq_hz": 632.5,
+     "med_db": -0.0,
+     "loud_db": -0.0,
+     "loud_target": 0,
+     "med_target": 0.0
+    },
+    {
+     "freq_hz": 2000,
+     "med_db": 2.51,
+     "loud_db": 5.0,
+     "loud_target": 5,
+     "med_target": 2.5
+    },
+    {
+     "freq_hz": 6325,
+     "med_db": 5.0,
+     "loud_db": 10.02,
+     "loud_target": 10,
+     "med_target": 5.0
+    },
+    {
+     "freq_hz": 20000,
+     "med_db": 7.42,
+     "loud_db": 14.93,
+     "loud_target": 15,
+     "med_target": 7.5
+    }
+   ]
   },
   {
    "name": "VCA: TYPE \u2014 OLD (feedback) compresses more gently than NEW (feed-forward) at the same settings",
@@ -5076,7 +5132,7 @@
   {
    "name": "KEY LISTEN: VCA listen outputs the THRUST-filtered detector signal (not the program)",
    "passed": true,
-   "detail": "listen vs program max difference 0.101"
+   "detail": "listen vs program max difference 0.125"
   },
   {
    "name": "GATE: externally keyed \u2014 open while the key is above threshold, closed to the Range floor between hits",
@@ -5176,37 +5232,37 @@
   {
    "name": "CPU with the dynamics chain (transpiled C, gcc -O2, this machine)",
    "passed": true,
-   "detail": "v1.2 device, dynamics off: 10.52%; + TUBE: 12.6%; + OPTO: 12.18%; + VCA: 11.62%; + all three + gate: 14.0%; worst: LPF+HPF+BPF 2x + all dynamics, reordering every 20 ms: 22.27%",
+   "detail": "v1.2 device, dynamics off: 11.82%; + TUBE: 12.17%; + OPTO: 13.03%; + VCA: 13.26%; + all three + gate: 14.2%; worst: LPF+HPF+BPF 2x + all dynamics, reordering every 20 ms: 22.57%",
    "rows": [
     {
      "config": "v1.2 device, dynamics off",
-     "ns_per_frame": 2192.6,
-     "pct_of_one_core_48k": 10.52
+     "ns_per_frame": 2462.4,
+     "pct_of_one_core_48k": 11.82
     },
     {
      "config": "+ TUBE",
-     "ns_per_frame": 2625.5,
-     "pct_of_one_core_48k": 12.6
+     "ns_per_frame": 2534.5,
+     "pct_of_one_core_48k": 12.17
     },
     {
      "config": "+ OPTO",
-     "ns_per_frame": 2536.6,
-     "pct_of_one_core_48k": 12.18
+     "ns_per_frame": 2714.5,
+     "pct_of_one_core_48k": 13.03
     },
     {
      "config": "+ VCA",
-     "ns_per_frame": 2421.4,
-     "pct_of_one_core_48k": 11.62
+     "ns_per_frame": 2763.2,
+     "pct_of_one_core_48k": 13.26
     },
     {
      "config": "+ all three + gate",
-     "ns_per_frame": 2916.6,
-     "pct_of_one_core_48k": 14.0
+     "ns_per_frame": 2958.4,
+     "pct_of_one_core_48k": 14.2
     },
     {
      "config": "worst: LPF+HPF+BPF 2x + all dynamics, reordering every 20 ms",
-     "ns_per_frame": 4639.1,
-     "pct_of_one_core_48k": 22.27
+     "ns_per_frame": 4701.4,
+     "pct_of_one_core_48k": 22.57
     }
    ]
   },
@@ -5238,7 +5294,7 @@
   {
    "name": "REGRESSION v1.4: SERIES routing bit-exact (except documented v1.6 changes) \u2014 dynamics chain vs v1.3 (21)",
    "passed": true,
-   "detail": "13/21 bit-identical to legacy; 8 documented v1.6 changes (match the v1.6 capture: True)"
+   "detail": "11/21 bit-identical to legacy; 10 documented v1.6 changes (match the v1.6 capture: True)"
   },
   {
    "name": "REGRESSION v1.4: v1.1 presets/automation/MIDI maps intact",
@@ -5407,19 +5463,19 @@
   {
    "name": "CPU by routing mode (LPF + HPF + BPF on)",
    "passed": true,
-   "detail": "LPF + HPF + BPF, SERIES: 12.05%; LPF + HPF + BPF, PARALLEL: 11.9%; LPF + HPF + BPF, HYBRID: 12.69%",
+   "detail": "LPF + HPF + BPF, SERIES: 12.17%; LPF + HPF + BPF, PARALLEL: 11.56%; LPF + HPF + BPF, HYBRID: 11.75%",
    "rows": [
     {
      "config": "LPF + HPF + BPF, SERIES",
-     "pct_of_one_core_48k": 12.05
+     "pct_of_one_core_48k": 12.17
     },
     {
      "config": "LPF + HPF + BPF, PARALLEL",
-     "pct_of_one_core_48k": 11.9
+     "pct_of_one_core_48k": 11.56
     },
     {
      "config": "LPF + HPF + BPF, HYBRID",
-     "pct_of_one_core_48k": 12.69
+     "pct_of_one_core_48k": 11.75
     }
    ]
   },
@@ -5430,8 +5486,8 @@
   }
  ],
  "summary": {
-  "total": 95,
-  "passed": 95,
-  "seconds": 521.7
+  "total": 96,
+  "passed": 96,
+  "seconds": 515.0
  }
 }
