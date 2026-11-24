@@ -3,7 +3,7 @@
   {
    "name": "Circuit reference: small-signal response matches each circuit's analogue transfer function (99th-pct error < 0.5 dB)",
    "passed": true,
-   "detail": "worst SEM HP 0.029 dB",
+   "detail": "worst ARP 2600 4012 LP 24 0.057 dB",
    "rows": [
     {
      "reference": "Ladder LP 24 \u2014 Minimoog: Hc/((1+s)^4 + k Hb Hc), Stinchcombe core + fig. 9-11 couplings, res 0%",
@@ -14,6 +14,11 @@
      "reference": "Ladder HP \u2014 Moog 904B (dwg. 1118): (s/(s+1))^4, no resonance (res 0% ignored)",
      "max_err_db_p99": 0.028,
      "median_err_db": 0.0011
+    },
+    {
+     "reference": "ARP 2600 4012 LP 24 \u2014 1/((1+s)^4+k), k from the Board 3 RESONANCE law, res 0%",
+     "max_err_db_p99": 0.024,
+     "median_err_db": 0.0038
     },
     {
      "reference": "Korg 35 LP \u2014 1/(s^2+(2-K)s+1), res 0%",
@@ -61,6 +66,11 @@
      "median_err_db": 0.0011
     },
     {
+     "reference": "ARP 2600 4012 LP 24 \u2014 1/((1+s)^4+k), k from the Board 3 RESONANCE law, res 60%",
+     "max_err_db_p99": 0.057,
+     "median_err_db": 0.0039
+    },
+    {
      "reference": "Korg 35 LP \u2014 1/(s^2+(2-K)s+1), res 60%",
      "max_err_db_p99": 0.011,
      "median_err_db": 0.0014
@@ -103,7 +113,7 @@
    "detail": "all within \u00b11 dB"
   },
   {
-   "name": "Slope selector: measured slope (4\u20138\u00d7 fc) within \u00b14 dB/oct of effective slope (diode, Steiner HP and K35 HP: native + 12 per extension)",
+   "name": "Slope selector: measured slope (4\u20138\u00d7 fc) within \u00b14 dB/oct of effective slope (diode, ARP 4012, Steiner HP and K35 HP: native + 12 per extension)",
    "passed": true,
    "detail": "ok",
    "rows": [
@@ -256,6 +266,34 @@
      "note": "native diode slope measured near fc; extensions add 12 dB/oct each"
     },
     {
+     "stage": "l",
+     "model": "ARP 4012",
+     "selected": 12,
+     "measured": 24.0,
+     "note": "4012 native 24 dB (no 12 dB tap) + 12 dB/oct per extension"
+    },
+    {
+     "stage": "l",
+     "model": "ARP 4012",
+     "selected": 24,
+     "measured": 24.0,
+     "note": "4012 native 24 dB (no 12 dB tap) + 12 dB/oct per extension"
+    },
+    {
+     "stage": "l",
+     "model": "ARP 4012",
+     "selected": 36,
+     "measured": 36.3,
+     "note": "4012 native 24 dB (no 12 dB tap) + 12 dB/oct per extension"
+    },
+    {
+     "stage": "l",
+     "model": "ARP 4012",
+     "selected": 48,
+     "measured": 48.5,
+     "note": "4012 native 24 dB (no 12 dB tap) + 12 dB/oct per extension"
+    },
+    {
      "stage": "h",
      "model": "Sherman",
      "selected": 12,
@@ -386,7 +424,7 @@
    ]
   },
   {
-   "name": "Cutoff tracking: resonant peak within \u00b1100 cents of the set cutoff (res 85%; SEM: of its circuit-Q peak position; 904B HP: its -6 dB corner)",
+   "name": "Cutoff tracking: resonant peak within \u00b1100 cents of the set cutoff (res 85%, ARP 4012 res 60% (k 3.4, below its 69 % onset); SEM: of its circuit-Q peak position; 904B HP: its -6 dB corner)",
    "passed": true,
    "detail": "ok",
    "rows": [
@@ -629,6 +667,46 @@
      "fc": 8000,
      "peak": 8085.9,
      "cents": 18.0
+    },
+    {
+     "os": 1,
+     "stage": "l",
+     "model": "ARP 4012",
+     "fc": 100,
+     "peak": 93.8,
+     "cents": -48.0
+    },
+    {
+     "os": 1,
+     "stage": "l",
+     "model": "ARP 4012",
+     "fc": 300,
+     "peak": 287.1,
+     "cents": -12.0
+    },
+    {
+     "os": 1,
+     "stage": "l",
+     "model": "ARP 4012",
+     "fc": 1000,
+     "peak": 960.9,
+     "cents": -5.0
+    },
+    {
+     "os": 1,
+     "stage": "l",
+     "model": "ARP 4012",
+     "fc": 3000,
+     "peak": 2888.7,
+     "cents": -2.0
+    },
+    {
+     "os": 1,
+     "stage": "l",
+     "model": "ARP 4012",
+     "fc": 8000,
+     "peak": 7746.1,
+     "cents": 8.0
     },
     {
      "os": 1,
@@ -1032,6 +1110,46 @@
     },
     {
      "os": 2,
+     "stage": "l",
+     "model": "ARP 4012",
+     "fc": 100,
+     "peak": 93.8,
+     "cents": -48.0
+    },
+    {
+     "os": 2,
+     "stage": "l",
+     "model": "ARP 4012",
+     "fc": 300,
+     "peak": 287.1,
+     "cents": -12.0
+    },
+    {
+     "os": 2,
+     "stage": "l",
+     "model": "ARP 4012",
+     "fc": 1000,
+     "peak": 960.9,
+     "cents": -5.0
+    },
+    {
+     "os": 2,
+     "stage": "l",
+     "model": "ARP 4012",
+     "fc": 3000,
+     "peak": 2888.7,
+     "cents": -2.0
+    },
+    {
+     "os": 2,
+     "stage": "l",
+     "model": "ARP 4012",
+     "fc": 8000,
+     "peak": 7716.8,
+     "cents": 1.0
+    },
+    {
+     "os": 2,
      "stage": "h",
      "model": "Sherman",
      "fc": 40,
@@ -1198,7 +1316,7 @@
    "detail": "ok"
   },
   {
-   "name": "Self-oscillation: stable, bounded (<+2 dBFS), on pitch (\u00b1100 c); SEM and Sherman do not sustain it and the 904B HP has no resonance (by design); Ladder not below ~120 Hz (Minimoog couplings)",
+   "name": "Self-oscillation: stable, bounded (<+2 dBFS), on pitch (\u00b1100 c; ARP 4012 at k 6.6: +2.6 dBFS / \u00b1150 c); SEM and Sherman do not sustain it and the 904B HP has no resonance (by design); Ladder not below ~120 Hz (Minimoog couplings)",
    "passed": true,
    "detail": "ok",
    "rows": [
@@ -1381,6 +1499,36 @@
      "peak_dbfs": -10.0,
      "freq": 4850.0,
      "cents": -53
+    },
+    {
+     "os": 1,
+     "stage": "l",
+     "model": "ARP 4012",
+     "fc": 100,
+     "oscillates": true,
+     "peak_dbfs": 2.1,
+     "freq": 94.0,
+     "cents": -107
+    },
+    {
+     "os": 1,
+     "stage": "l",
+     "model": "ARP 4012",
+     "fc": 1000,
+     "oscillates": true,
+     "peak_dbfs": 2.1,
+     "freq": 937.0,
+     "cents": -113
+    },
+    {
+     "os": 1,
+     "stage": "l",
+     "model": "ARP 4012",
+     "fc": 5000,
+     "oscillates": true,
+     "peak_dbfs": 2.2,
+     "freq": 4708.0,
+     "cents": -104
     },
     {
      "os": 1,
@@ -1714,6 +1862,36 @@
     },
     {
      "os": 2,
+     "stage": "l",
+     "model": "ARP 4012",
+     "fc": 100,
+     "oscillates": true,
+     "peak_dbfs": 2.1,
+     "freq": 94.0,
+     "cents": -107
+    },
+    {
+     "os": 2,
+     "stage": "l",
+     "model": "ARP 4012",
+     "fc": 1000,
+     "oscillates": true,
+     "peak_dbfs": 2.1,
+     "freq": 937.0,
+     "cents": -113
+    },
+    {
+     "os": 2,
+     "stage": "l",
+     "model": "ARP 4012",
+     "fc": 5000,
+     "oscillates": true,
+     "peak_dbfs": 2.1,
+     "freq": 4695.0,
+     "cents": -109
+    },
+    {
+     "os": 2,
      "stage": "h",
      "model": "Sherman",
      "fc": 60,
@@ -1994,13 +2172,34 @@
      "thd_pct": 29.711,
      "even_db": -178.4,
      "peak": 0.71
+    },
+    {
+     "model": "ARP 4012",
+     "drive": 0,
+     "thd_pct": 0.025,
+     "even_db": -179.6,
+     "peak": 0.501
+    },
+    {
+     "model": "ARP 4012",
+     "drive": 50,
+     "thd_pct": 0.823,
+     "even_db": -181.3,
+     "peak": 1.166
+    },
+    {
+     "model": "ARP 4012",
+     "drive": 100,
+     "thd_pct": 25.552,
+     "even_db": -179.8,
+     "peak": 1.284
     }
    ]
   },
   {
    "name": "Oversampling: 2x reduces aliasing for every model (7 kHz sine, drive 100%)",
    "passed": true,
-   "detail": "Sherman -10.2\u2192-23.0 dB, K35/MS-20 -12.3\u2192-26.2 dB, Ladder 0.0\u2192-18.2 dB, Steiner-Parker -12.1\u2192-28.5 dB, SEM -15.2\u2192-45.4 dB, Diode/303 -13.4\u2192-26.7 dB",
+   "detail": "Sherman -10.2\u2192-23.0 dB, K35/MS-20 -12.3\u2192-26.2 dB, Ladder 0.0\u2192-18.2 dB, Steiner-Parker -12.1\u2192-28.5 dB, SEM -15.2\u2192-45.4 dB, Diode/303 -13.4\u2192-26.7 dB, ARP 4012 -12.1\u2192-21.3 dB",
    "rows": [
     {
      "model": "Sherman",
@@ -2031,6 +2230,11 @@
      "model": "Diode/303",
      "alias_db_1x": -13.4,
      "alias_db_2x": -26.7
+    },
+    {
+     "model": "ARP 4012",
+     "alias_db_1x": -12.1,
+     "alias_db_2x": -21.3
     }
    ]
   },
@@ -2042,7 +2246,7 @@
   {
    "name": "Click/zipper: >8 kHz burst after every abrupt change below \u221260 dBFS on a \u22126 dBFS sine (hard discontinuity = -30.1 dBFS)",
    "passed": true,
-   "detail": "71 cases, worst -70.4 dBFS",
+   "detail": "79 cases, worst -70.4 dBFS",
    "rows": [
     {
      "case": "LPF Sherman: cutoff 20 kHz\u2192200 Hz",
@@ -2333,6 +2537,54 @@
      "finite": true
     },
     {
+     "case": "LPF ARP 4012: cutoff 20 kHz\u2192200 Hz",
+     "hf_abs_dbfs": -110.1,
+     "hf_rel_db": 48.3,
+     "finite": true
+    },
+    {
+     "case": "LPF ARP 4012: cutoff 200 Hz\u219220 kHz",
+     "hf_abs_dbfs": -87.4,
+     "hf_rel_db": 67.8,
+     "finite": true
+    },
+    {
+     "case": "LPF ARP 4012: resonance 0\u2192100%",
+     "hf_abs_dbfs": -144.8,
+     "hf_rel_db": 15.1,
+     "finite": true
+    },
+    {
+     "case": "LPF ARP 4012: slope 12\u219248",
+     "hf_abs_dbfs": -106.8,
+     "hf_rel_db": 52.1,
+     "finite": true
+    },
+    {
+     "case": "LPF ARP 4012: drive 0\u2192100%",
+     "hf_abs_dbfs": -105.6,
+     "hf_rel_db": 53.3,
+     "finite": true
+    },
+    {
+     "case": "LPF ARP 4012: character 0\u2192100%",
+     "hf_abs_dbfs": -159.6,
+     "hf_rel_db": -0.7,
+     "finite": true
+    },
+    {
+     "case": "LPF ARP 4012: stage off",
+     "hf_abs_dbfs": -103.8,
+     "hf_rel_db": 53.9,
+     "finite": true
+    },
+    {
+     "case": "LPF model switch ARP 4012\u2192K35/MS-20",
+     "hf_abs_dbfs": -114.8,
+     "hf_rel_db": 43.8,
+     "finite": true
+    },
+    {
      "case": "HPF Sherman: cutoff 20 Hz\u21921 kHz",
      "hf_abs_dbfs": -79.6,
      "hf_rel_db": 78.7,
@@ -2486,7 +2738,7 @@
   {
    "name": "3. LPF at maximum resonance with program input, all models (soft clip OFF)",
    "passed": true,
-   "detail": "Sherman -5.8, K35/MS-20 1.7, Ladder 2.4, Steiner-Parker -2.9, SEM -7.8, Diode/303 -3.3 dBFS peak"
+   "detail": "Sherman -5.8, K35/MS-20 1.7, Ladder 2.4, Steiner-Parker -2.9, SEM -7.8, Diode/303 -3.3, ARP 4012 3.8 dBFS peak"
   },
   {
    "name": "4. HPF sweep 20 Hz\u21921 kHz",
@@ -2853,39 +3105,39 @@
   {
    "name": "CPU benchmark (transpiled C, gcc -O2, this machine)",
    "passed": true,
-   "detail": "Both stages off (pass-through): 8.17%; Default device (Ladder LPF 24 dB + K35 HPF), 1x: 9.92%; Diode LPF 48 dB + Sherman HPF 48 dB, 1x: 11.32%; Default device, 2x oversampling: 12.64%; Worst case: Diode+Sherman 48 dB, 2x, both mid-crossfade: 16.24%",
+   "detail": "Both stages off (pass-through): 8.31%; Default device (Ladder LPF 24 dB + K35 HPF), 1x: 10.56%; Diode LPF 48 dB + Sherman HPF 48 dB, 1x: 12.37%; Default device, 2x oversampling: 13.72%; Worst case: Diode+Sherman 48 dB, 2x, both mid-crossfade: 17.91%",
    "rows": [
     {
      "config": "Both stages off (pass-through)",
-     "ns_per_frame": 1702.4,
-     "pct_of_one_core_48k": 8.17
+     "ns_per_frame": 1730.3,
+     "pct_of_one_core_48k": 8.31
     },
     {
      "config": "Default device (Ladder LPF 24 dB + K35 HPF), 1x",
-     "ns_per_frame": 2067.2,
-     "pct_of_one_core_48k": 9.92
+     "ns_per_frame": 2200.1,
+     "pct_of_one_core_48k": 10.56
     },
     {
      "config": "Diode LPF 48 dB + Sherman HPF 48 dB, 1x",
-     "ns_per_frame": 2359.1,
-     "pct_of_one_core_48k": 11.32
+     "ns_per_frame": 2576.6,
+     "pct_of_one_core_48k": 12.37
     },
     {
      "config": "Default device, 2x oversampling",
-     "ns_per_frame": 2634.1,
-     "pct_of_one_core_48k": 12.64
+     "ns_per_frame": 2858.1,
+     "pct_of_one_core_48k": 13.72
     },
     {
      "config": "Worst case: Diode+Sherman 48 dB, 2x, both mid-crossfade",
-     "ns_per_frame": 3382.4,
-     "pct_of_one_core_48k": 16.24
+     "ns_per_frame": 3730.4,
+     "pct_of_one_core_48k": 17.91
     }
    ]
   },
   {
    "name": "Denormals: decay tails flush to zero; silence costs no more than signal",
    "passed": true,
-   "detail": "silence/signal CPU ratio 0.90"
+   "detail": "silence/signal CPU ratio 0.81"
   },
   {
    "name": "DC offset at output with asymmetric saturation (drive 100%, hot input)",
@@ -2915,6 +3167,10 @@
     {
      "model": "Diode/303",
      "dc_dbfs": -197.1
+    },
+    {
+     "model": "ARP 4012",
+     "dc_dbfs": -240.0
     }
    ]
   },
@@ -4225,32 +4481,32 @@
   {
    "name": "CPU with BPF (transpiled C, gcc -O2, this machine)",
    "passed": true,
-   "detail": "v1.1 default device (LPF+HPF), BPF off: 10.65%; + BPF SVF: 11.33%; + BPF CASCADE: 10.88%; + BPF MULTIMODE (ARP): 11.96%; worst: all three, 48 dB slopes, 2x, BPF mid-crossfade: 18.69%",
+   "detail": "v1.1 default device (LPF+HPF), BPF off: 10.57%; + BPF SVF: 13.59%; + BPF CASCADE: 12.95%; + BPF MULTIMODE (ARP): 13.36%; worst: all three, 48 dB slopes, 2x, BPF mid-crossfade: 20.04%",
    "rows": [
     {
      "config": "v1.1 default device (LPF+HPF), BPF off",
-     "ns_per_frame": 2219.3,
-     "pct_of_one_core_48k": 10.65
+     "ns_per_frame": 2201.2,
+     "pct_of_one_core_48k": 10.57
     },
     {
      "config": "+ BPF SVF",
-     "ns_per_frame": 2360.7,
-     "pct_of_one_core_48k": 11.33
+     "ns_per_frame": 2832.1,
+     "pct_of_one_core_48k": 13.59
     },
     {
      "config": "+ BPF CASCADE",
-     "ns_per_frame": 2266.3,
-     "pct_of_one_core_48k": 10.88
+     "ns_per_frame": 2698.9,
+     "pct_of_one_core_48k": 12.95
     },
     {
      "config": "+ BPF MULTIMODE (ARP)",
-     "ns_per_frame": 2492.2,
-     "pct_of_one_core_48k": 11.96
+     "ns_per_frame": 2783.4,
+     "pct_of_one_core_48k": 13.36
     },
     {
      "config": "worst: all three, 48 dB slopes, 2x, BPF mid-crossfade",
-     "ns_per_frame": 3894.2,
-     "pct_of_one_core_48k": 18.69
+     "ns_per_frame": 4174.1,
+     "pct_of_one_core_48k": 20.04
     }
    ]
   },
@@ -4920,37 +5176,37 @@
   {
    "name": "CPU with the dynamics chain (transpiled C, gcc -O2, this machine)",
    "passed": true,
-   "detail": "v1.2 device, dynamics off: 10.49%; + TUBE: 12.53%; + OPTO: 11.87%; + VCA: 10.83%; + all three + gate: 12.72%; worst: LPF+HPF+BPF 2x + all dynamics, reordering every 20 ms: 21.0%",
+   "detail": "v1.2 device, dynamics off: 11.09%; + TUBE: 11.98%; + OPTO: 12.13%; + VCA: 13.0%; + all three + gate: 14.22%; worst: LPF+HPF+BPF 2x + all dynamics, reordering every 20 ms: 24.45%",
    "rows": [
     {
      "config": "v1.2 device, dynamics off",
-     "ns_per_frame": 2184.5,
-     "pct_of_one_core_48k": 10.49
+     "ns_per_frame": 2311.3,
+     "pct_of_one_core_48k": 11.09
     },
     {
      "config": "+ TUBE",
-     "ns_per_frame": 2611.4,
-     "pct_of_one_core_48k": 12.53
+     "ns_per_frame": 2496.1,
+     "pct_of_one_core_48k": 11.98
     },
     {
      "config": "+ OPTO",
-     "ns_per_frame": 2473.8,
-     "pct_of_one_core_48k": 11.87
+     "ns_per_frame": 2527.0,
+     "pct_of_one_core_48k": 12.13
     },
     {
      "config": "+ VCA",
-     "ns_per_frame": 2255.5,
-     "pct_of_one_core_48k": 10.83
+     "ns_per_frame": 2709.1,
+     "pct_of_one_core_48k": 13.0
     },
     {
      "config": "+ all three + gate",
-     "ns_per_frame": 2650.3,
-     "pct_of_one_core_48k": 12.72
+     "ns_per_frame": 2962.0,
+     "pct_of_one_core_48k": 14.22
     },
     {
      "config": "worst: LPF+HPF+BPF 2x + all dynamics, reordering every 20 ms",
-     "ns_per_frame": 4374.2,
-     "pct_of_one_core_48k": 21.0
+     "ns_per_frame": 5094.6,
+     "pct_of_one_core_48k": 24.45
     }
    ]
   },
@@ -5151,19 +5407,19 @@
   {
    "name": "CPU by routing mode (LPF + HPF + BPF on)",
    "passed": true,
-   "detail": "LPF + HPF + BPF, SERIES: 11.87%; LPF + HPF + BPF, PARALLEL: 11.56%; LPF + HPF + BPF, HYBRID: 11.36%",
+   "detail": "LPF + HPF + BPF, SERIES: 13.12%; LPF + HPF + BPF, PARALLEL: 12.26%; LPF + HPF + BPF, HYBRID: 11.73%",
    "rows": [
     {
      "config": "LPF + HPF + BPF, SERIES",
-     "pct_of_one_core_48k": 11.87
+     "pct_of_one_core_48k": 13.12
     },
     {
      "config": "LPF + HPF + BPF, PARALLEL",
-     "pct_of_one_core_48k": 11.56
+     "pct_of_one_core_48k": 12.26
     },
     {
      "config": "LPF + HPF + BPF, HYBRID",
-     "pct_of_one_core_48k": 11.36
+     "pct_of_one_core_48k": 11.73
     }
    ]
   },
@@ -5176,6 +5432,6 @@
  "summary": {
   "total": 95,
   "passed": 95,
-  "seconds": 464.5
+  "seconds": 527.8
  }
 }

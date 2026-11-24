@@ -200,13 +200,14 @@ def panel(prect, color, border=None, rounded=4):
 panel([0, 0, W, H], BG, rounded=0)
 
 LP_ITEMS = ["01 Sherman Filterbank", "02 Korg 35 / MS-20", "03 Moog-style Ladder",
-            "04 Steiner-Parker", "05 Oberheim SEM", "06 TB-303 Diode Ladder"]
+            "04 Steiner-Parker", "05 Oberheim SEM", "06 TB-303 Diode Ladder", "07 ARP 2600 (4012)"]
 HP_ITEMS = ["01 Sherman Filterbank", "02 Korg 35 / MS-20", "03 Moog 904B HP",
             "04 Steiner-Parker", "05 Oberheim SEM"]
-CHAR_LP = ["FEEDBACK", "FB CLIP", "STAGE SAT", "BP BLEND", "NOTCH MORPH", "SQUELCH"]
+CHAR_LP = ["FEEDBACK", "FB CLIP", "STAGE SAT", "BP BLEND", "NOTCH MORPH", "SQUELCH", "STAGE SAT"]
 CHAR_HP = CHAR_LP[:5]
 INFO_LP = ["NATIVE 12 + 24 | 36-48 ADD EXT", "NATIVE 12 | 24-48 ADD EXT", "NATIVE 12 TAP + 24 | 36-48 EXT",
-           "NATIVE 12 | 24-48 ADD EXT", "NATIVE 12 | 24-48 ADD EXT", "NATIVE 24 - NO 12 | 36-48 EXT"]
+           "NATIVE 12 | 24-48 ADD EXT", "NATIVE 12 | 24-48 ADD EXT", "NATIVE 24 - NO 12 | 36-48 EXT",
+           "4012 24 - NO 12 | 36-48 EXT"]
 INFO_HP = ["NATIVE 12 + 24 | 36-48 ADD EXT", "NATIVE 12 | 24-48 ADD EXT", "904B 24 - NO RES | 36-48 EXT",
            "NATIVE 12 | 24-48 ADD EXT", "NATIVE 12 | 24-48 ADD EXT"]
 INFO_HP[3] = "HP INJ: 6dB SKIRT | 24-48 EXT"
@@ -231,7 +232,7 @@ def section(x0, s, title, accent, items, chars, infos, cmin, cmax, cinit, cexp, 
     tab(f"{s}_slope", f"{pre} Slope", f"{pre} Slope", [x0 + 182, 115, 110, 16], ["12", "24", "36", "48"], slinit, accent)
     info = comment(infos[minit], [x0 + 182, 134, 110, 26], MUTED, T.F_TINY, 0)
     # model -> character label + slope info
-    n = len(items)
+    n = len(chars)   # v1.6: models appended later (LPF 07) get their label boxes at the end of the patch (ids stable)
     sel = newobj("sel " + " ".join(str(i) for i in range(n)), [bid_x[m], 470, 120, 22], 2, n + 1, ["bang"] * n + [""])
     connect(m, 0, sel, 0)
     for i in range(n):
@@ -239,9 +240,10 @@ def section(x0, s, title, accent, items, chars, infos, cmin, cmax, cinit, cexp, 
         b = box("message", [bid_x[m] + i * 10, 530 + i * 3, 80, 22], text=f"set {infos[i]}", numinlets=2, numoutlets=1, outlettype=[""])
         connect(sel, i, a, 0); connect(a, 0, lab, 0)
         connect(sel, i, b, 0); connect(b, 0, info, 0)
+    return m, lab, info
 
 
-section(4, "l", "LOW-PASS", AMBER, LP_ITEMS, CHAR_LP, INFO_LP, 20, 20000, 20000, 5.0, 2, 1, "20 Hz  ·  OPEN 20k")
+LP_SECTION = section(4, "l", "LOW-PASS", AMBER, LP_ITEMS, CHAR_LP[:6], INFO_LP[:6], 20, 20000, 20000, 5.0, 2, 1, "20 Hz  ·  OPEN 20k")
 section(398, "h", "HIGH-PASS", COPPER, HP_ITEMS, CHAR_HP, INFO_HP, 20, 2000, 20, 3.46, 1, 0, "OPEN 20 Hz  ·  2k")
 
 # centre strip
@@ -890,6 +892,16 @@ dial("ef_to_l", "EnvF to LPF", "> LPF", [FX + 98, 100, 44, 48], -5, 5, 0, 9, T.A
 dial("ef_to_h", "EnvF to HPF", "> HPF", [FX + 144, 100, 44, 48], -5, 5, 0, 9, T.AMBER, units="%+0.1f oct")
 dial("ef_to_b", "EnvF to BPF", "> BPF", [FX + 190, 100, 44, 48], -5, 5, 0, 9, T.AMBER, units="%+0.1f oct")
 comment("before the filters; routing works with the envelope filter on or off", [FX + 6, 150, FW - 10, 9], T.TEXT_DIM, 6.0, 0)
+
+# ------------------------------------------------- v1.6: LPF model 07 (ARP 2600 4012) character / slope-info labels,
+# appended after every earlier object so all existing ids stay put (tests/compat.py)
+_m, _lab, _info = LP_SECTION
+_sel7 = newobj("sel 6", [bid_x[_m], 620, 60, 22], 2, 2, ["bang", ""])
+connect(_m, 0, _sel7, 0)
+_a7 = box("message", [bid_x[_m], 650, 80, 22], text=f"set {CHAR_LP[6]}", numinlets=2, numoutlets=1, outlettype=[""])
+_b7 = box("message", [bid_x[_m], 680, 80, 22], text=f"set {INFO_LP[6]}", numinlets=2, numoutlets=1, outlettype=[""])
+connect(_sel7, 0, _a7, 0); connect(_a7, 0, _lab, 0)
+connect(_sel7, 0, _b7, 0); connect(_b7, 0, _info, 0)
 
 # Info View / hint text on every parameter and on the jsui controls
 for b in boxes:

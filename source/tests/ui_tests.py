@@ -36,9 +36,14 @@ def _same_param(o_, n_):
     if not (o_ and n_) or o_[0] != n_[0]:
         return False
     ov, nv = o_[1]["valueof"], n_[1]["valueof"]
-    return o_[0] == "h_model" and len(ov.get("parameter_enum", [])) == len(nv.get("parameter_enum", [])) and \
-        {k: v for k, v in ov.items() if k != "parameter_enum"} == {k: v for k, v in nv.items() if k != "parameter_enum"}
-check("all 79 v1.4 parameters kept: identical ids, names and definitions (v1.6 appends 22; HPF item 03 renamed in place)",
+    oe, ne = ov.get("parameter_enum", []), nv.get("parameter_enum", [])
+    rest = lambda v: {k: x for k, x in v.items() if k not in ("parameter_enum", "parameter_mmax")}
+    if o_[0] == "h_model":     # item 03 renamed in place
+        return len(oe) == len(ne) and rest(ov) == rest(nv)
+    if o_[0] == "l_model":     # item 07 (ARP 2600 4012) appended
+        return ne[:len(oe)] == oe and len(ne) == len(oe) + 1 and rest(ov) == rest(nv)
+    return False
+check("all 79 v1.4 parameters kept: identical ids, names and definitions (v1.6 appends 22; HPF item 03 renamed in place, LPF item 07 appended)",
       all(_same_param(v, pn.get(i)) for i, v in po.items()) and len(pn) == 101, f"{len(pn)} parameters")
 check("parameter table (Live identity): every v1.4 entry unchanged", all(P["parameters"].get(k) == v for k, v in OLD["parameters"].items()))
 gc = lambda X: next(b["box"]["patcher"]["boxes"][2]["box"]["code"] for b in X["boxes"] if b["box"].get("text") == "gen~")

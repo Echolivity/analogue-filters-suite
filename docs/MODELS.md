@@ -20,6 +20,7 @@ How much I could establish varies by circuit. The TB-303 and Moog ladder are tho
 | 04 | Steiner-Parker Synthacon-inspired | Sallen-Key, diode-string resistors, 3 injection points | LP, BP, HP | LP (+BP) | HP injection (+BP) | 12 (HP: see note) | 12 | yes | BP BLEND |
 | 05 | Oberheim SEM-inspired | OTA state-variable filter | LP, BP, notch, HP | LP→notch | HP→notch | 12 | 12 | no | NOTCH MORPH |
 | 06 | Roland TB-303-inspired | Diode ladder, TB-303 configuration | LP | LP | **not offered** | 24 | 24 only | yes | SQUELCH |
+| 07 | ARP 2600 VCF (4012 module) | Moog-type transistor ladder, ARP 4012 | LP | LP | **not offered** | 24 | 24 only | yes (from 69 % RES) | STAGE SAT |
 
 Rules: no silent substitution (the HPF menu has five entries), and slopes beyond a model's native response come from linear Butterworth-Q extension sections, which the slope info line marks as `EXT`.
 
@@ -150,6 +151,17 @@ The previous version used an equal-capacitor, resistively driven ladder. That co
 **Usability calibration (documented, not circuit behaviour):** the coupled poles are widely spread, so at zero resonance the −3 dB point sits far below the ladder's natural frequency. The model re-tunes with resonance so that at zero resonance the −3 dB point lands on the cutoff knob, and near self-oscillation the resonant peak does. **Not modelled:** the 303's envelope and accent circuits, and the extra high-pass stages between the filter and the output VCA.
 
 ---
+
+## 07 ARP 2600 VCF (4012 module), from the schematics
+
+**Sources:** the ARP 2600 service manual (Board 3 schematic; circuit description §2.4; VCF calibration §3.5) and the 4012 module schematic (ARP Instruments 1970, redrawn by J. Verghese 1997), both supplied by the user.
+
+- **Core:** a Moog-type ladder of four matched TZ-81 pairs (Q6–Q15) with C1–C4 = 0.01 µF. The output is taken across the top capacitor through a dual-FET buffer (Q17), a level shifter (Q18–Q20) and an LM301A differential amplifier. **DC-coupled throughout:** unlike the Minimoog, there are no coupling capacitors in the loop, so the bass loss −1/(1+k) is the plain ladder's.
+- **Input:** a degenerated pair Q1/Q2 (R8/R9 3.32 k, tail 56 k), the "signal limiter", linear to about 0.6 V. Audio enters pin 1 through 100 k into R11 220 Ω (×0.00218); resonance enters pin 2 through the slider and 150 k into R12 2.2 k.
+- **Resonance (Board 3):** R160 is a 100 k linear slider from the output to ground; its wiper feeds 150 k (∥ C62 50 pF) into pin 2. With the output calibrated for unity gain from one 100 k input, k = 459.6 × 2.2 k × pos / (152.2 k + 100 k·pos(1 − pos)): 0 → **6.64**. Oscillation starts at **69 %**, matching the manual ("when the Q is at maximum, the VCF will oscillate, producing a sine wave"). At full travel the loop is driven far past onset, so the sine is about +2.2 dBFS and roughly a semitone flat.
+- **Level:** 1 unit = 5 V (the 2600's 10 V p-p); one full-scale source puts 11 mV into the ladder pair (the Minimoog puts 23 mV). The output amplifier clips at about ±13 V.
+- **Assumed:** the GAIN trim (unity from one input); the C62 lead above about 21 kHz is not modelled; the signal limiter is linear here (it only acts above about 0.6 V at the pins, beyond the ladder's own saturation).
+- 24 dB only (no 12 dB tap); CHARACTER = stage saturation, as in the Ladder.
 
 ## Envelope filter (v1.6, Musitronics Mu-Tron III)
 

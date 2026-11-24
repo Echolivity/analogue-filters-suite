@@ -65,12 +65,16 @@ for i, b in ob.items():
             if "saved_attribute_attributes" in bad and b.get("parameter_enable"):
                 # a menu item renamed in place: same number of items, every other valueof field unchanged. Live
                 # stores the item index, so sets, automation and MIDI maps are unaffected.
-                ov = b["saved_attribute_attributes"]["valueof"]; nv = n["saved_attribute_attributes"]["valueof"]
+                ov = b.get("saved_attribute_attributes", {}).get("valueof", {}); nv = n.get("saved_attribute_attributes", {}).get("valueof", {})
                 oe, ne = ov.get("parameter_enum"), nv.get("parameter_enum")
-                if oe and ne and len(oe) == len(ne) and {k: v for k, v in ov.items() if k != "parameter_enum"} == \
-                        {k: v for k, v in nv.items() if k != "parameter_enum"}:
+                rest = lambda v: {k: x for k, x in v.items() if k not in ("parameter_enum", "parameter_mmax")}
+                if oe and ne and len(ne) >= len(oe) and rest(ov) == rest(nv) and \
+                        (len(ne) == len(oe) or (ne[:len(oe)] == oe and nv.get("parameter_mmax") == len(ne) - 1)):
+                    # menu items renamed in place and/or appended at the end: every saved index keeps its meaning
                     bad = [k for k in bad if k != "saved_attribute_attributes"]
-                    notes.append(f"menu {b.get('varname')}: items renamed {[(a, c) for a, c in zip(oe, ne) if a != c]} (index-stable)")
+                    ren = [(a, c) for a, c in zip(oe, ne) if a != c]
+                    notes.append(f"menu {b.get('varname')}: " + (f"items renamed {ren} " if ren else "") +
+                                 (f"items appended {ne[len(oe):]} " if len(ne) > len(oe) else "") + "(index-stable)")
             if b.get("parameter_enable") and n.get("presentation") != 1:
                 bad.append("parameter control removed from presentation")
             if bad:
@@ -90,8 +94,12 @@ for k, v in old["parameters"].items():
 gold = lambda P: {m.group(1): m.group(2) for m in re.finditer(r"Param (\w+)\((.*?)\);", P)}
 code = lambda P: next(b["box"]["patcher"]["boxes"][2]["box"]["code"] for b in P["boxes"] if b["box"].get("text") == "gen~")
 og, ng = gold(code(old)), gold(code(new))
+APPENDED_MENUS = {"l_model": 6}   # v1.6: LPF menu gains "07 ARP 2600 (4012)" at the end (max 5 -> 6)
 for k, v in og.items():
     if ng.get(k) != v:
+        if k in APPENDED_MENUS and ng.get(k) == v.replace(f"max={APPENDED_MENUS[k] - 1}", f"max={APPENDED_MENUS[k]}"):
+            notes.append(f"gen~ Param {k}: range extended for appended menu items ({v} -> {ng.get(k)})")
+            continue
         problems.append(f"gen~ Param {k} changed: {v} -> {ng.get(k)}")
 oldp = [b["saved_attribute_attributes"]["valueof"]["parameter_longname"] for b in ob.values() if b.get("parameter_enable")]
 newp = [b["saved_attribute_attributes"]["valueof"]["parameter_longname"] for b in nb.values() if b.get("parameter_enable")]

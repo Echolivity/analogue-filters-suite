@@ -336,6 +336,70 @@ f_ladder(x, s1, s2, s3, s4, p0, p1, p2, p3, p4, h1, h2, pz, g, k, bc, hs, hp, ga
 	return o12, o24, fixdenorm(2 * y1 - s1), fixdenorm(2 * y2 - s2), fixdenorm(2 * y3 - s3), fixdenorm(2 * y4 - s4), u, y1, y2, y3, y4, fixdenorm(va * 2 + h1), fixdenorm(vb * 2 + h2), z;
 }
 
+// ================= MODEL 07: ARP 2600 VCF (4012 module) =================
+// ARP 4012 voltage-controlled low-pass (ARP Instruments 1970; module schematic redrawn by J. Verghese 1997,
+// supplied by the user) in the 2600 (service manual, Board 3, also supplied):
+//  - input: Q1/Q2 pair, emitter-degenerated (R8/R9 3.32k, tail R10 56k): linear to about 0.6 V, then a hard
+//    limit at about 0.85 V ("signal limiter"); drives the ladder's bottom pair Q6/Q7. Audio enters pin 1 through
+//    100k into R11 220R (x0.00218); the resonance feedback enters pin 2 through the slider + 150k into R12 2k2.
+//  - Moog-type ladder: four matched TZ-81 pairs (Q6-Q15), C1-C4 0.01 uF, bias string R1-R5; output across the top
+//    capacitor C4 through a dual-FET buffer (Q17) and a level shifter (Q18/Q19, Q20) into an LM301A
+//    differential amplifier (A1, +/-15 V). DC-coupled throughout: no coupling capacitors in the loop.
+// Level: 1 model unit = 5 V (the 2600's 10 V p-p audio); the ladder state p is in units of 2 V_T / 1.4 as in
+// the ladder model, so the input scale 0.608 per stage unit (x 0.25 at Drive 0) puts 11 mV per 5 V into the pair.
+// The output amplifier is calibrated for unity gain from one 100k input (GAIN trim; assumed) and clips at
+// about +/-13 V (2.6 units). returns y, s1..s4, p0..p4
+f_arp4012(x, s1, s2, s3, s4, p0, p1, p2, p3, p4, g, k, bc, hs) {
+	T0 = f_tg(1.4 * p0);
+	T1 = f_tg(1.4 * hs * p1);
+	T2 = f_tg(1.4 * hs * p2);
+	T3 = f_tg(1.4 * hs * p3);
+	T4 = f_tg(1.4 * hs * p4);
+	i1 = 1 / (1 + g * T1);
+	i2 = 1 / (1 + g * T2);
+	i3 = 1 / (1 + g * T3);
+	i4 = 1 / (1 + g * T4);
+	G1 = g * T0 * i1;
+	G2 = g * T1 * i2;
+	G3 = g * T2 * i3;
+	G4 = g * T3 * i4;
+	S = G2 * G3 * G4 * s1 * i1 + G3 * G4 * s2 * i2 + G4 * s3 * i3 + s4 * i4;
+	P = G1 * G2 * G3 * G4;
+	xi = 0.608 * x * (1 + k * bc);
+	u = (xi - k * S) / (1 + k * P);
+	y1 = G1 * u + s1 * i1;
+	y2 = G2 * y1 + s2 * i2;
+	y3 = G3 * y2 + s3 * i3;
+	y4 = G4 * y3 + s4 * i4;
+	// one re-solve with the pair secants at the current solution (k reaches 6.6 here; the lagged secants
+	// alone overshoot to about +11 dBFS near fs/4 at 1x)
+	T0 = f_tg(1.4 * u);
+	T1 = f_tg(1.4 * hs * y1);
+	T2 = f_tg(1.4 * hs * y2);
+	T3 = f_tg(1.4 * hs * y3);
+	T4 = f_tg(1.4 * hs * y4);
+	i1 = 1 / (1 + g * T1);
+	i2 = 1 / (1 + g * T2);
+	i3 = 1 / (1 + g * T3);
+	i4 = 1 / (1 + g * T4);
+	G1 = g * T0 * i1;
+	G2 = g * T1 * i2;
+	G3 = g * T2 * i3;
+	G4 = g * T3 * i4;
+	S = G2 * G3 * G4 * s1 * i1 + G3 * G4 * s2 * i2 + G4 * s3 * i3 + s4 * i4;
+	P = G1 * G2 * G3 * G4;
+	u = (xi - k * S) / (1 + k * P);
+	y1 = G1 * u + s1 * i1;
+	y2 = G2 * y1 + s2 * i2;
+	y3 = G3 * y2 + s3 * i3;
+	y4 = G4 * y3 + s4 * i4;
+	o = 2.6 * tanh(y4 * 0.632591);          // A1 at its rails: y4 / 0.608 / 2.6
+	if (abs(y4) > 1000000) {
+		o = y4;
+	}
+	return o, fixdenorm(2 * y1 - s1), fixdenorm(2 * y2 - s2), fixdenorm(2 * y3 - s3), fixdenorm(2 * y4 - s4), u, y1, y2, y3, y4;
+}
+
 // ================= MODEL 04: Steiner-Parker Synthacon-inspired =================
 // Circuit (Steiner, Electronic Design 25, 1974; CGS35 notes): a Sallen-Key
 // network whose two resistors are biased diode strings (voltage-controlled
@@ -553,12 +617,24 @@ MODELS = [
                "{p}_Gf = {p}_gf / (1 + {p}_gf);"],
          call=["o1, {sv} = f_diode({x}, {sv}, {p}_g, {p}_k, {p}_Gf, {s}_cmp);",
                "{acc} = {acc} + {mix} * o1;"]),
+    dict(id=6, key="ar", name="ARP 2600 VCF (4012 module)", taps="24",
+         states=["s1", "s2", "s3", "s4", "p0", "p1", "p2", "p3", "p4"], lp="native", hp=None, char="STAGE SAT",
+         coef=["{p}_g = {s}_gw;",
+               # Board 3: RESONANCE R160 100k linear slider from the output (pin 5) to ground; wiper -> R161 150k
+               # (|| C62 50 pF, a lead above ~21 kHz, not modelled) -> pin 2, loaded by R12 2k2. With the output
+               # calibrated to unity from one 100k audio input (pin-1 node 218 ohm: x 1/459.6), the loop gain is
+               # k = 459.6 x 2.2k x pos / (152.2k + 100k pos (1 - pos)): 0 -> 6.64; k = 4 (oscillation) at 69 %.
+               "{p}_k = 1011120 * {r} / (152200 + 100000 * {r} * (1 - {r}));",
+               "{p}_bc = {s}_cmp;",
+               "{p}_hs = 1 + 2 * {c};"],
+         call=["o1, {sv} = f_arp4012({x}, {sv}, {p}_g, {p}_k, {p}_bc, {p}_hs);",
+               "{acc} = {acc} + {mix} * o1;"]),
 ]
 
 # v1.6 minimum oversampling index per model in Reference mode (0 = 1x, 1 = 2x, 2 = 4x),
 # from the independent review's factor study (verify.json OS_filters, test C1, target -80 dBc)
 # and tests/v16_tests.py for HPF / BPF.
-OS_MIN_LP = [1, 1, 2, 2, 0, 1]      # Sherman, K35, Ladder, Steiner, SEM, TB-303
+OS_MIN_LP = [1, 1, 2, 2, 0, 1, 2]   # Sherman, K35, Ladder, Steiner, SEM, TB-303, ARP 4012 (as the ladder)
 OS_MIN_K35M1_LP = 3                  # v1.6 Korg35 (Mk1) LPF: 8x (4x -76.5, 8x -105.3 dBc at the bright test point)
 OS_MIN_K35M1_HP = 2                  # v1.6 Korg35 (Mk1) HPF: 4x (-86.9 dBc)
 OS_MIN_HP = [1, 1, 1, 1, 1]         # Sherman, K35, Ladder ALT, Steiner, SEM (HPF at fc 2 kHz: all pass at 2x)
@@ -574,7 +650,7 @@ def tbl(var, vals):
 
 
 STAGES = [
-    dict(key="l", hp=0, cut_min=20, cut_max=20000, cut_def=20000, nmodels=6),
+    dict(key="l", hp=0, cut_min=20, cut_max=20000, cut_def=20000, nmodels=7),
     dict(key="h", hp=1, cut_min=20, cut_max=2000, cut_def=20, nmodels=5),
 ]
 CH = ["L", "R"]
@@ -887,7 +963,7 @@ def build():
     w("os_user = ovs_hi > 0.5 ? clamp(floor(ovs_hi + 0.5), 1, 3) + 1 : (ovs_sel > 0.5 ? 1 : 0);")
     w("ref_mode = eng_mode < 0.5 ? 1 : 0;")
     w("cfg_k = k35_circ > 0.5 ? 1 : 0;")
-    w(f"os_ml = l_on > 0.5 ? ((cfg_k > 0.5 && abs(l_model - 1) < 0.5) ? {OS_MIN_K35M1_LP} : {tbl('clamp(floor(l_model + 0.5), 0, 5)', OS_MIN_LP)}) : 0;")
+    w(f"os_ml = l_on > 0.5 ? ((cfg_k > 0.5 && abs(l_model - 1) < 0.5) ? {OS_MIN_K35M1_LP} : {tbl('clamp(floor(l_model + 0.5), 0, 6)', OS_MIN_LP)}) : 0;")
     w(f"os_mh = h_on > 0.5 ? ((cfg_k > 0.5 && abs(h_model - 1) < 0.5) ? {OS_MIN_K35M1_HP} : {tbl('clamp(floor(h_model + 0.5), 0, 4)', OS_MIN_HP)}) : 0;")
     w("os_ml = (l_on > 0.5 && l_model < 0.5 && sh_ck > 0.5) ? max(os_ml, 3) : os_ml;")   # clocked Sherman: staircase images alias below 8x
     w("os_mh = (h_on > 0.5 && h_model < 0.5 && sh_ck > 0.5) ? max(os_mh, 3) : os_mh;")
