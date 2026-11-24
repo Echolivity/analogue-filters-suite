@@ -67,7 +67,7 @@ Sources: the API 2500 user manual (apiaudio.com, 2018), the 2500 pages of the AP
 | Attack | 30 µs, 100 µs, 300 µs, 1, 3, 10, 30 ms | same |
 | Release | 50, 100, 200, 500 ms, 1, 2 s, VARIABLE 50 ms–3 s | continuous 50 ms–3 s (covers every step) |
 | Knee | HARD / MED / SOFT, no widths published | 0 / 6 / 12 dB (assumption) |
-| THRUST | NORM flat; MED "slight" low cut and high lift; LOUD "a gradual, linear filter (3 dB/oct)", −15 dB at 20 Hz, +15 dB at 20 kHz, ahead of the RMS detector | NORM flat; **LOUD 10 dB/decade through 0 dB at 632 Hz** (within 0.2 dB, 20 Hz–20 kHz at 44.1/48 kHz); **MED half that slope (±7.5 dB), an assumption** |
+| THRUST | NORM flat; MED "slight" low cut and high lift; LOUD "a gradual, linear filter (3 dB/oct)", −15 dB at 20 Hz, +15 dB at 20 kHz, ahead of the RMS detector; the manual cites US Patent 5,170,437 | NORM flat; **LOUD = the patent's Fig. 4 circuit** (−15.6 dB at 20 Hz, 0 dB at 632 Hz, +13.8 dB at 20 kHz); **MED half its dB curve (±7 dB), an assumption** |
 | Type | NEW feed-forward / OLD feedback | same |
 | Detector | one RMS detector per channel, log-domain (calibration: 1 V DC per 10 dB) | true RMS, 3 ms, dB domain |
 | L/R Link | IND, 50–100 % in six steps; each channel keeps its own detector | continuous 0–100 % (covers every step) |
@@ -77,7 +77,7 @@ Sources: the API 2500 user manual (apiaudio.com, 2018), the 2500 pages of the AP
 
 The model is a true-RMS detector (3 ms), a dB-domain gain computer with HARD/MED/SOFT knee, and attack/release ballistics on the gain reduction.
 
-**THRUST realisation:** six first-order high shelves, least-squares fitted to the tilt (fixed corners 39.7 Hz – 15 kHz; MED uses the same corners with smaller steps), normalised to 0 dB at 632 Hz. At 96 kHz LOUD is within 0.8 dB (the error is near 20 kHz). The VALIDATION THRUST curve test measures it through KEY LISTEN.
+**THRUST circuit (US 5,170,437, Fig. 4):** an active half-order high-pass in front of the rectifier: 100 kΩ in parallel with 32 kΩ + 0.16 µF, 10 kΩ + 0.05 µF, 3.2 kΩ + 0.016 µF and 1 kΩ + 0.005 µF (corners 31 Hz, 318 Hz, 3.1 kHz, 31.8 kHz) into an inverting stage with 10 kΩ feedback. Each branch adds about 10 dB per decade, so the response is a stepped approximation of +10 dB/decade with about 1.5 dB of ripple, falling short of the ideal at the top because the last corner is at 31.8 kHz. The model fits six first-order high shelves to that circuit's response (within 0.16 dB at 44.1/48 kHz, 0.8 dB at 96 kHz near 20 kHz), normalised to 0 dB at 632 Hz. The patent shows one curve, so MED is an assumption. The VALIDATION THRUST curve test measures both through KEY LISTEN.
 
 **Not published, so behavioural:** knee widths, detector time constant, the VARIABLE release's programme dependence (Waves: heavier compression recovers more slowly), and the Shape filters.
 

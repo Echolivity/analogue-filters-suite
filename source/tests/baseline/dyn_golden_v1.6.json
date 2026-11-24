@@ -14,11 +14,11 @@
   "chain order 5 + filters": "b63ddae6d71391689056a732e78ea99369be90343809859b187620b07d8375a7",
   "reorders": "4124293f4fe07eabd6043edb77601b16f202e44d9d10d9ca125adc80d458846e",
   "bypass toggles": "532c8bf8a2785635db5733b61003e8d7f11109d55c6b306a8584b58449c1d87a",
-  "vca old/feedback soft knee": "4c790ceb1104fffd968e9cfdeacb2f6ed265026cfa510462ab56659c319e6ddf",
+  "vca old/feedback soft knee": "70eff3ba4c27e9db1762685c1cf245d9a7e94ccd1d83eaeac303da67e58370da",
   "opto limit emph": "35ea09c897d337cd360a3ee24463670c2b15b7866878a7566d4353835da4b450",
   "tube hot": "61460e04d1583e235bed40984bf491d2c0e0b0d10fb97bfc9a8143f05626d9bc",
   "gate": "0052d3be0d71403b0901dd1825eede0d6c5abb74a448a3b5b9f4a113cf963903",
-  "key listen": "769296676db12d771c7dd781aa659146db779ddfc1cb3b0e58d93bfa9242550c",
+  "key listen": "fc5533a2dde36146e5aba9d850518c02cd1a921e919eb6563e6ede038b72fd0f",
   "chain-in source": "9919b114b14616c65d7b2521acec1482b5a792f539d4b5ab6ff3fcdd3a7d0b5d",
   "chain + 2x OS": "28564afc91f19b1274704b5722c4a66fa97949ed89ff86469ac4fa8a16d90054"
  },
@@ -34,5 +34,5 @@
   "opto limit emph",
   "vca old/feedback soft knee"
  ],
- "note": "v1.6 solver fix (Sherman, Steiner, BPF SVF limiter), Sherman partial self-oscillation (damping floor + resonance limiter), Ladder HP replaced by the Moog 904B (dwg. 1118, no resonance), BPF SEM/Steiner (SVF) and MS-20 (CASCADE) on the LPF engine circuit cores, BPF ARP 2600 on the 4012 core (Board 3 law; 4072 roll-off removed: the documented 2600 is a 4012 unit), LPF 07 rail in stage units, VCA THRUST MED/LOUD rebuilt to the API 2500 manuals' 10 dB/decade tilt (MED half) (every BPF render also carries the start-up fade from the default SEM-SVF slot), Ladder on the Minimoog filter board (Emphasis law, C5/C1/C10 couplings, gain-recovery pair; also the power-on fade from the default Ladder) and Reference-mode power-on default; legacy tests run in Creative mode (tests/dsp.py base)"
+ "note": "v1.6 solver fix (Sherman, Steiner, BPF SVF limiter), Sherman partial self-oscillation (damping floor + resonance limiter), Ladder HP replaced by the Moog 904B (dwg. 1118, no resonance), BPF SEM/Steiner (SVF) and MS-20 (CASCADE) on the LPF engine circuit cores, BPF ARP 2600 on the 4012 core (Board 3 law; 4072 roll-off removed: the documented 2600 is a 4012 unit), LPF 07 rail in stage units, VCA THRUST MED/LOUD rebuilt to the US 5,170,437 Fig. 4 circuit cited by the API 2500 manual (MED half) (every BPF render also carries the start-up fade from the default SEM-SVF slot), Ladder on the Minimoog filter board (Emphasis law, C5/C1/C10 couplings, gain-recovery pair; also the power-on fade from the default Ladder) and Reference-mode power-on default; legacy tests run in Creative mode (tests/dsp.py base)"
 }
