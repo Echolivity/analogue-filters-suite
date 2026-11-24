@@ -41,6 +41,11 @@ Details and before/after measurements: [docs/V1.6_ENGINE.md](docs/V1.6_ENGINE.md
   - **No input soft clip** (no circuit origin); the op-amp rails limit the outputs at ±13 V. At 1x it is far cleaner: −140 dBc aliasing (v1.5: −89).
   - **Unchanged:** notch and band-pass routing, which already matched the PS19 crossfade.
   - **Assumptions:** a linear RES pot; 5 V per unit; the Q floor.
+- **Changed: three BPF models now use the circuits established for their LPF versions** (docs/independent-review/BPF_CONSISTENCY_CHECK.md):
+  - **Korg 35 / MS-20 (CASCADE):** 1-pole (6 dB/oct) HP into the 2-pole LP, per Stinchcombe's MS-20 study (was 12 dB/oct). The two sections are not phase-symmetric, so on its own the resonance would sit about 4 semitones low. Both corners are therefore retuned together (a 10-step bisection on the loop phase, applied in proportion to resonance up to 50 %), which keeps the peak within ±100 cents of the centre. The regeneration limiter is re-solved at the current value, as in the SVF, so an fs/4 sweep stays bounded (worst −4.7 dBFS, against +36 dBFS without the re-solve).
+  - **Steiner-Parker (SVF):** the Synthacon core with sinh diode strings, input at the band-pass injection point (was tanh + hard clip). Self-oscillates at full resonance.
+  - **Oberheim SEM (SVF):** the SEM-1A core's band-pass node (RES law, D11/D12 limiter, rails). Never self-oscillates.
+  - Other architectures of these models and the ARP 2600 / EMS VCS3 entries are unchanged ("derived"). BPF golden renders re-captured.
 - **Changed: HPF model 03 is now the Moog 904B** (R. A. Moog drawing 1118, 6/23/70, supplied by you), replacing the "Ladder HP - ALT pole-mix". The 904B is four C-R high-pass sections in series with no resonance circuit, so the response is exactly (s/(s+1))⁴ and the Resonance knob has no effect on it (authentic, by your choice). Its input is attenuated about 1:111 and restored by the audio amp, so the stages run near-linear. Only renders with HPF model 03 change.
 - **New: LPF model 07, ARP 2600 (4012)**, from the 2600 service manual (Board 3) and the 4012 module schematic (both supplied by you).
   - A Moog-type transistor ladder, DC-coupled, with ARP's input stage and FET-buffered output.

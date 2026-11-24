@@ -1,17 +1,17 @@
 {
  "hashes": {
   "chain order 0": "623a32f47ba07f1b8b01ec7ff41cf020c3b58c7de14b277428838e50e0237a71",
-  "chain order 0 + filters": "01cde33aed693bad3bd88c14cb071212368167565c87e79109e88d3208d5df41",
+  "chain order 0 + filters": "51be95e18959fb7d2c9f07748b5ef834568df1036cadd0582e0ef533e5de8d35",
   "chain order 1": "58cdd311fda023b0bdb6bd935bda10e860aaecb47a91c5cccbaabb10e63e190f",
-  "chain order 1 + filters": "7fde01810c87c2a89368e2d14ca04574b8c5b4d8c278993bb20304917bc4d005",
+  "chain order 1 + filters": "5405eb0171a218d2ab737387674482a0ebc683436885f46c6b86871c9c7d1878",
   "chain order 2": "d4de6154226b346ff7b10afdfc04c035ff5c72853c070c1032d6cc0eb125d783",
-  "chain order 2 + filters": "e0c03f63f835f175bf375d1f7c89970ea7706ddd35ca8e6e9ceba461ace3b166",
+  "chain order 2 + filters": "ef19e86be40c9c370ef6ab15bc22c5398bca406fe26a29a15f4b798cbe634d69",
   "chain order 3": "4fe33336deba3ce668af58e0b148b158a701d268b6c13d2aa09f8600891a5ba0",
-  "chain order 3 + filters": "0a53b9b79ecccac3722e718f12ce6690fe6a94a7ad0fa542375ebd1980b11223",
+  "chain order 3 + filters": "44cdbf820a5aae1090bc0e0cfa64177a6e58e9a67aa082ee18aedf5c704e75e1",
   "chain order 4": "cc99091515ab800d6cf26485074b4a564ce9aed7b80142b5763ba73eba71cea8",
-  "chain order 4 + filters": "2fb5c81a1e9d14a247c8b960705a8ea664002139da68d3606124f726a2f494c7",
+  "chain order 4 + filters": "cb27659eca5699ef4567993b692e0c9ea7341179eb97f9adeabdf4e730be7080",
   "chain order 5": "f8768cfc6931d372d862076a43cae124af0d6d88ca104b138cebb273b1a40a99",
-  "chain order 5 + filters": "bc7fde8e4c5ac0b75c10a3c51278fd371df0b25906bfe5fccdd558444a66fbdd",
+  "chain order 5 + filters": "b63ddae6d71391689056a732e78ea99369be90343809859b187620b07d8375a7",
   "reorders": "4124293f4fe07eabd6043edb77601b16f202e44d9d10d9ca125adc80d458846e",
   "bypass toggles": "532c8bf8a2785635db5733b61003e8d7f11109d55c6b306a8584b58449c1d87a",
   "vca old/feedback soft knee": "6780ca470b48c0c971b2ff1a842ed2f1bf8d1579a7d8b58d600f72a1c63cbb4d",
@@ -32,5 +32,5 @@
   "chain order 5 + filters",
   "opto limit emph"
  ],
- "note": "v1.6 solver fix (Sherman, Steiner, BPF SVF limiter), Sherman partial self-oscillation (damping floor + resonance limiter), Ladder HP replaced by the Moog 904B (dwg. 1118, no resonance), Ladder on the Minimoog filter board (Emphasis law, C5/C1/C10 couplings, gain-recovery pair; also the power-on fade from the default Ladder) and Reference-mode power-on default; legacy tests run in Creative mode (tests/dsp.py base)"
+ "note": "v1.6 solver fix (Sherman, Steiner, BPF SVF limiter), Sherman partial self-oscillation (damping floor + resonance limiter), Ladder HP replaced by the Moog 904B (dwg. 1118, no resonance), BPF SEM/Steiner (SVF) and MS-20 (CASCADE) on the LPF engine circuit cores (every BPF render also carries the start-up fade from the default SEM-SVF slot), Ladder on the Minimoog filter board (Emphasis law, C5/C1/C10 couplings, gain-recovery pair; also the power-on fade from the default Ladder) and Reference-mode power-on default; legacy tests run in Creative mode (tests/dsp.py base)"
 }

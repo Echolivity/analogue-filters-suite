@@ -436,6 +436,7 @@ History H_bA_L_v_s1(0.0);
 History H_bA_L_v_s2(0.0);
 History H_bA_L_v_hq(0.0);
 History H_bA_L_v_bq(0.0);
+History H_bA_L_v_e(0.0);
 History H_bA_L_c_s1(0.0);
 History H_bA_L_c_s2(0.0);
 History H_bA_L_c_hq(0.0);
@@ -459,6 +460,7 @@ History H_bA_R_v_s1(0.0);
 History H_bA_R_v_s2(0.0);
 History H_bA_R_v_hq(0.0);
 History H_bA_R_v_bq(0.0);
+History H_bA_R_v_e(0.0);
 History H_bA_R_c_s1(0.0);
 History H_bA_R_c_s2(0.0);
 History H_bA_R_c_hq(0.0);
@@ -482,6 +484,7 @@ History H_bB_L_v_s1(0.0);
 History H_bB_L_v_s2(0.0);
 History H_bB_L_v_hq(0.0);
 History H_bB_L_v_bq(0.0);
+History H_bB_L_v_e(0.0);
 History H_bB_L_c_s1(0.0);
 History H_bB_L_c_s2(0.0);
 History H_bB_L_c_hq(0.0);
@@ -505,6 +508,7 @@ History H_bB_R_v_s1(0.0);
 History H_bB_R_v_s2(0.0);
 History H_bB_R_v_hq(0.0);
 History H_bB_R_v_bq(0.0);
+History H_bB_R_v_e(0.0);
 History H_bB_R_c_s1(0.0);
 History H_bB_R_c_s2(0.0);
 History H_bB_R_c_hq(0.0);
@@ -1977,6 +1981,11 @@ f_bmm(x, s1, s2, s3, s4, p0, p1, p2, p3, p4, g, k, typ, sc, wb) {
 	return y, fixdenorm(2 * y1 - s1), fixdenorm(2 * y2 - s2), fixdenorm(2 * y3 - s3), fixdenorm(2 * y4 - s4), u, y1, y2, y3, y4;
 }
 
+// v1.6: analogue magnitude of a 1-pole HP at normalised frequency rho (MS-20 HPF, Stinchcombe)
+f_bmag1(rho) {
+	return rho / sqrt(1 + rho * rho);
+}
+
 // analogue magnitude of a 2-pole HP (hp=1) or LP (hp=0) at normalised frequency rho
 f_bmag(rho, Q, hp) {
 	m = 1 / sqrt((1 - rho * rho) * (1 - rho * rho) + rho * rho / (Q * Q));
@@ -2397,6 +2406,7 @@ bA_L_v_s1 = H_bA_L_v_s1;
 bA_L_v_s2 = H_bA_L_v_s2;
 bA_L_v_hq = H_bA_L_v_hq;
 bA_L_v_bq = H_bA_L_v_bq;
+bA_L_v_e = H_bA_L_v_e;
 bA_L_c_s1 = H_bA_L_c_s1;
 bA_L_c_s2 = H_bA_L_c_s2;
 bA_L_c_hq = H_bA_L_c_hq;
@@ -2420,6 +2430,7 @@ bA_R_v_s1 = H_bA_R_v_s1;
 bA_R_v_s2 = H_bA_R_v_s2;
 bA_R_v_hq = H_bA_R_v_hq;
 bA_R_v_bq = H_bA_R_v_bq;
+bA_R_v_e = H_bA_R_v_e;
 bA_R_c_s1 = H_bA_R_c_s1;
 bA_R_c_s2 = H_bA_R_c_s2;
 bA_R_c_hq = H_bA_R_c_hq;
@@ -2443,6 +2454,7 @@ bB_L_v_s1 = H_bB_L_v_s1;
 bB_L_v_s2 = H_bB_L_v_s2;
 bB_L_v_hq = H_bB_L_v_hq;
 bB_L_v_bq = H_bB_L_v_bq;
+bB_L_v_e = H_bB_L_v_e;
 bB_L_c_s1 = H_bB_L_c_s1;
 bB_L_c_s2 = H_bB_L_c_s2;
 bB_L_c_hq = H_bB_L_c_hq;
@@ -2466,6 +2478,7 @@ bB_R_v_s1 = H_bB_R_v_s1;
 bB_R_v_s2 = H_bB_R_v_s2;
 bB_R_v_hq = H_bB_R_v_hq;
 bB_R_v_bq = H_bB_R_v_bq;
+bB_R_v_e = H_bB_R_v_e;
 bB_R_c_s1 = H_bB_R_c_s1;
 bB_R_c_s2 = H_bB_R_c_s2;
 bB_R_c_hq = H_bB_R_c_hq;
@@ -4488,6 +4501,95 @@ bA_cmm = ((((0.000804 * bA_kk - 0.009901) * bA_kk + 0.039923) * bA_kk - 0.03441)
 bA_gm = bA_gc / bA_cmm;
 bA_raw = bA_a < 0.5 ? b_qq : (bA_a < 1.5 ? 1 / bA_cn : 1);
 bA_ocmp = pow(bA_raw, 1 - b_cmp);
+bA_sem = (bA_m < 0.5 && bA_a < 0.5) ? 1 : 0;
+bA_ste = (bA_m > 0.5 && bA_m < 1.5 && bA_a < 0.5) ? 1 : 0;
+bA_ms1 = (bA_m > 1.5 && bA_m < 2.5 && bA_a > 0.5 && bA_a < 1.5) ? 1 : 0;
+bA_Rs = min(bA_R, 0.05 + 1.515 * (1 - b_rz));
+bA_Ks = max(1 + 2.1 * pow(b_rz, 1.3), 3 - 1 / b_qq);
+bA_Kn = max(3 - bA_Ks, 0.1) / bA_Ks;
+bA_rho = 0.0000590619 * b_fc;
+bA_lo = -2.5;
+bA_hi = 1.5;
+bA_ea = exp2(-0.5 * b_bwz);
+bA_eb = exp2(0.5 * b_bwz);
+if (bA_ms1 > 0.5) {
+	bA_md = 0.5 * (bA_lo + bA_hi);
+	bA_Lm = exp2(bA_md);
+	bA_ri = 1 / (bA_Lm * bA_eb);
+	bA_ph = atan(bA_Lm * bA_ea) - atan2(bA_ri / b_qq, 1 - bA_ri * bA_ri);
+	bA_hi = bA_ph > 0 ? bA_md : bA_hi;
+	bA_lo = bA_ph > 0 ? bA_lo : bA_md;
+	bA_md = 0.5 * (bA_lo + bA_hi);
+	bA_Lm = exp2(bA_md);
+	bA_ri = 1 / (bA_Lm * bA_eb);
+	bA_ph = atan(bA_Lm * bA_ea) - atan2(bA_ri / b_qq, 1 - bA_ri * bA_ri);
+	bA_hi = bA_ph > 0 ? bA_md : bA_hi;
+	bA_lo = bA_ph > 0 ? bA_lo : bA_md;
+	bA_md = 0.5 * (bA_lo + bA_hi);
+	bA_Lm = exp2(bA_md);
+	bA_ri = 1 / (bA_Lm * bA_eb);
+	bA_ph = atan(bA_Lm * bA_ea) - atan2(bA_ri / b_qq, 1 - bA_ri * bA_ri);
+	bA_hi = bA_ph > 0 ? bA_md : bA_hi;
+	bA_lo = bA_ph > 0 ? bA_lo : bA_md;
+	bA_md = 0.5 * (bA_lo + bA_hi);
+	bA_Lm = exp2(bA_md);
+	bA_ri = 1 / (bA_Lm * bA_eb);
+	bA_ph = atan(bA_Lm * bA_ea) - atan2(bA_ri / b_qq, 1 - bA_ri * bA_ri);
+	bA_hi = bA_ph > 0 ? bA_md : bA_hi;
+	bA_lo = bA_ph > 0 ? bA_lo : bA_md;
+	bA_md = 0.5 * (bA_lo + bA_hi);
+	bA_Lm = exp2(bA_md);
+	bA_ri = 1 / (bA_Lm * bA_eb);
+	bA_ph = atan(bA_Lm * bA_ea) - atan2(bA_ri / b_qq, 1 - bA_ri * bA_ri);
+	bA_hi = bA_ph > 0 ? bA_md : bA_hi;
+	bA_lo = bA_ph > 0 ? bA_lo : bA_md;
+	bA_md = 0.5 * (bA_lo + bA_hi);
+	bA_Lm = exp2(bA_md);
+	bA_ri = 1 / (bA_Lm * bA_eb);
+	bA_ph = atan(bA_Lm * bA_ea) - atan2(bA_ri / b_qq, 1 - bA_ri * bA_ri);
+	bA_hi = bA_ph > 0 ? bA_md : bA_hi;
+	bA_lo = bA_ph > 0 ? bA_lo : bA_md;
+	bA_md = 0.5 * (bA_lo + bA_hi);
+	bA_Lm = exp2(bA_md);
+	bA_ri = 1 / (bA_Lm * bA_eb);
+	bA_ph = atan(bA_Lm * bA_ea) - atan2(bA_ri / b_qq, 1 - bA_ri * bA_ri);
+	bA_hi = bA_ph > 0 ? bA_md : bA_hi;
+	bA_lo = bA_ph > 0 ? bA_lo : bA_md;
+	bA_md = 0.5 * (bA_lo + bA_hi);
+	bA_Lm = exp2(bA_md);
+	bA_ri = 1 / (bA_Lm * bA_eb);
+	bA_ph = atan(bA_Lm * bA_ea) - atan2(bA_ri / b_qq, 1 - bA_ri * bA_ri);
+	bA_hi = bA_ph > 0 ? bA_md : bA_hi;
+	bA_lo = bA_ph > 0 ? bA_lo : bA_md;
+	bA_md = 0.5 * (bA_lo + bA_hi);
+	bA_Lm = exp2(bA_md);
+	bA_ri = 1 / (bA_Lm * bA_eb);
+	bA_ph = atan(bA_Lm * bA_ea) - atan2(bA_ri / b_qq, 1 - bA_ri * bA_ri);
+	bA_hi = bA_ph > 0 ? bA_md : bA_hi;
+	bA_lo = bA_ph > 0 ? bA_lo : bA_md;
+	bA_md = 0.5 * (bA_lo + bA_hi);
+	bA_Lm = exp2(bA_md);
+	bA_ri = 1 / (bA_Lm * bA_eb);
+	bA_ph = atan(bA_Lm * bA_ea) - atan2(bA_ri / b_qq, 1 - bA_ri * bA_ri);
+	bA_hi = bA_ph > 0 ? bA_md : bA_hi;
+	bA_lo = bA_ph > 0 ? bA_lo : bA_md;
+}
+bA_Lr = bA_ms1 > 0.5 ? exp2(0.5 * (bA_lo + bA_hi) * clamp(2 * b_rz, 0, 1)) : 1;
+if (bA_ms1 > 0.5) {
+	bA_gh = clamp(bA_gc * bA_ea * bA_Lr, tan(pi * 10 / fso), 6.31375151);
+	bA_gl = clamp(bA_gc * bA_eb * bA_Lr, tan(pi * 10 / fso), 6.31375151);
+}
+bA_Gh1 = bA_gh / (1 + bA_gh);
+bA_cn1 = 1 / (f_bmag1(bA_gc / bA_gh) * f_bmag(bA_gc / bA_gl, b_qq, 0));
+if (bA_sem > 0.5) {
+	bA_raw = 0.5 / bA_Rs;
+}
+if (bA_ste > 0.5) {
+	bA_raw = 1 / bA_Kn;
+}
+if (bA_ms1 > 0.5) {
+	bA_raw = 1 / bA_cn1;
+}
 bA_gro = tan(pi * min(14000, 0.45 * fso) / fso);
 bA_Gro = bA_gro / (1 + bA_gro);
 bA_dz = H_bA_dz;
@@ -4498,6 +4600,7 @@ if ((bA_run < 0.5 && bA_dz > 0.5) || b_newA > 0.5) {
 	bA_L_v_s2 = 0;
 	bA_L_v_hq = 0;
 	bA_L_v_bq = 0;
+	bA_L_v_e = 0;
 	bA_L_c_s1 = 0;
 	bA_L_c_s2 = 0;
 	bA_L_c_hq = 0;
@@ -4521,6 +4624,7 @@ if ((bA_run < 0.5 && bA_dz > 0.5) || b_newA > 0.5) {
 	bA_R_v_s2 = 0;
 	bA_R_v_hq = 0;
 	bA_R_v_bq = 0;
+	bA_R_v_e = 0;
 	bA_R_c_s1 = 0;
 	bA_R_c_s2 = 0;
 	bA_R_c_hq = 0;
@@ -4566,6 +4670,95 @@ bB_cmm = ((((0.000804 * bB_kk - 0.009901) * bB_kk + 0.039923) * bB_kk - 0.03441)
 bB_gm = bB_gc / bB_cmm;
 bB_raw = bB_a < 0.5 ? b_qq : (bB_a < 1.5 ? 1 / bB_cn : 1);
 bB_ocmp = pow(bB_raw, 1 - b_cmp);
+bB_sem = (bB_m < 0.5 && bB_a < 0.5) ? 1 : 0;
+bB_ste = (bB_m > 0.5 && bB_m < 1.5 && bB_a < 0.5) ? 1 : 0;
+bB_ms1 = (bB_m > 1.5 && bB_m < 2.5 && bB_a > 0.5 && bB_a < 1.5) ? 1 : 0;
+bB_Rs = min(bB_R, 0.05 + 1.515 * (1 - b_rz));
+bB_Ks = max(1 + 2.1 * pow(b_rz, 1.3), 3 - 1 / b_qq);
+bB_Kn = max(3 - bB_Ks, 0.1) / bB_Ks;
+bB_rho = 0.0000590619 * b_fc;
+bB_lo = -2.5;
+bB_hi = 1.5;
+bB_ea = exp2(-0.5 * b_bwz);
+bB_eb = exp2(0.5 * b_bwz);
+if (bB_ms1 > 0.5) {
+	bB_md = 0.5 * (bB_lo + bB_hi);
+	bB_Lm = exp2(bB_md);
+	bB_ri = 1 / (bB_Lm * bB_eb);
+	bB_ph = atan(bB_Lm * bB_ea) - atan2(bB_ri / b_qq, 1 - bB_ri * bB_ri);
+	bB_hi = bB_ph > 0 ? bB_md : bB_hi;
+	bB_lo = bB_ph > 0 ? bB_lo : bB_md;
+	bB_md = 0.5 * (bB_lo + bB_hi);
+	bB_Lm = exp2(bB_md);
+	bB_ri = 1 / (bB_Lm * bB_eb);
+	bB_ph = atan(bB_Lm * bB_ea) - atan2(bB_ri / b_qq, 1 - bB_ri * bB_ri);
+	bB_hi = bB_ph > 0 ? bB_md : bB_hi;
+	bB_lo = bB_ph > 0 ? bB_lo : bB_md;
+	bB_md = 0.5 * (bB_lo + bB_hi);
+	bB_Lm = exp2(bB_md);
+	bB_ri = 1 / (bB_Lm * bB_eb);
+	bB_ph = atan(bB_Lm * bB_ea) - atan2(bB_ri / b_qq, 1 - bB_ri * bB_ri);
+	bB_hi = bB_ph > 0 ? bB_md : bB_hi;
+	bB_lo = bB_ph > 0 ? bB_lo : bB_md;
+	bB_md = 0.5 * (bB_lo + bB_hi);
+	bB_Lm = exp2(bB_md);
+	bB_ri = 1 / (bB_Lm * bB_eb);
+	bB_ph = atan(bB_Lm * bB_ea) - atan2(bB_ri / b_qq, 1 - bB_ri * bB_ri);
+	bB_hi = bB_ph > 0 ? bB_md : bB_hi;
+	bB_lo = bB_ph > 0 ? bB_lo : bB_md;
+	bB_md = 0.5 * (bB_lo + bB_hi);
+	bB_Lm = exp2(bB_md);
+	bB_ri = 1 / (bB_Lm * bB_eb);
+	bB_ph = atan(bB_Lm * bB_ea) - atan2(bB_ri / b_qq, 1 - bB_ri * bB_ri);
+	bB_hi = bB_ph > 0 ? bB_md : bB_hi;
+	bB_lo = bB_ph > 0 ? bB_lo : bB_md;
+	bB_md = 0.5 * (bB_lo + bB_hi);
+	bB_Lm = exp2(bB_md);
+	bB_ri = 1 / (bB_Lm * bB_eb);
+	bB_ph = atan(bB_Lm * bB_ea) - atan2(bB_ri / b_qq, 1 - bB_ri * bB_ri);
+	bB_hi = bB_ph > 0 ? bB_md : bB_hi;
+	bB_lo = bB_ph > 0 ? bB_lo : bB_md;
+	bB_md = 0.5 * (bB_lo + bB_hi);
+	bB_Lm = exp2(bB_md);
+	bB_ri = 1 / (bB_Lm * bB_eb);
+	bB_ph = atan(bB_Lm * bB_ea) - atan2(bB_ri / b_qq, 1 - bB_ri * bB_ri);
+	bB_hi = bB_ph > 0 ? bB_md : bB_hi;
+	bB_lo = bB_ph > 0 ? bB_lo : bB_md;
+	bB_md = 0.5 * (bB_lo + bB_hi);
+	bB_Lm = exp2(bB_md);
+	bB_ri = 1 / (bB_Lm * bB_eb);
+	bB_ph = atan(bB_Lm * bB_ea) - atan2(bB_ri / b_qq, 1 - bB_ri * bB_ri);
+	bB_hi = bB_ph > 0 ? bB_md : bB_hi;
+	bB_lo = bB_ph > 0 ? bB_lo : bB_md;
+	bB_md = 0.5 * (bB_lo + bB_hi);
+	bB_Lm = exp2(bB_md);
+	bB_ri = 1 / (bB_Lm * bB_eb);
+	bB_ph = atan(bB_Lm * bB_ea) - atan2(bB_ri / b_qq, 1 - bB_ri * bB_ri);
+	bB_hi = bB_ph > 0 ? bB_md : bB_hi;
+	bB_lo = bB_ph > 0 ? bB_lo : bB_md;
+	bB_md = 0.5 * (bB_lo + bB_hi);
+	bB_Lm = exp2(bB_md);
+	bB_ri = 1 / (bB_Lm * bB_eb);
+	bB_ph = atan(bB_Lm * bB_ea) - atan2(bB_ri / b_qq, 1 - bB_ri * bB_ri);
+	bB_hi = bB_ph > 0 ? bB_md : bB_hi;
+	bB_lo = bB_ph > 0 ? bB_lo : bB_md;
+}
+bB_Lr = bB_ms1 > 0.5 ? exp2(0.5 * (bB_lo + bB_hi) * clamp(2 * b_rz, 0, 1)) : 1;
+if (bB_ms1 > 0.5) {
+	bB_gh = clamp(bB_gc * bB_ea * bB_Lr, tan(pi * 10 / fso), 6.31375151);
+	bB_gl = clamp(bB_gc * bB_eb * bB_Lr, tan(pi * 10 / fso), 6.31375151);
+}
+bB_Gh1 = bB_gh / (1 + bB_gh);
+bB_cn1 = 1 / (f_bmag1(bB_gc / bB_gh) * f_bmag(bB_gc / bB_gl, b_qq, 0));
+if (bB_sem > 0.5) {
+	bB_raw = 0.5 / bB_Rs;
+}
+if (bB_ste > 0.5) {
+	bB_raw = 1 / bB_Kn;
+}
+if (bB_ms1 > 0.5) {
+	bB_raw = 1 / bB_cn1;
+}
 bB_gro = tan(pi * min(14000, 0.45 * fso) / fso);
 bB_Gro = bB_gro / (1 + bB_gro);
 bB_dz = H_bB_dz;
@@ -4576,6 +4769,7 @@ if ((bB_run < 0.5 && bB_dz > 0.5) || b_newB > 0.5) {
 	bB_L_v_s2 = 0;
 	bB_L_v_hq = 0;
 	bB_L_v_bq = 0;
+	bB_L_v_e = 0;
 	bB_L_c_s1 = 0;
 	bB_L_c_s2 = 0;
 	bB_L_c_hq = 0;
@@ -4599,6 +4793,7 @@ if ((bB_run < 0.5 && bB_dz > 0.5) || b_newB > 0.5) {
 	bB_R_v_s2 = 0;
 	bB_R_v_hq = 0;
 	bB_R_v_bq = 0;
+	bB_R_v_e = 0;
 	bB_R_c_s1 = 0;
 	bB_R_c_s2 = 0;
 	bB_R_c_hq = 0;
@@ -4938,8 +5133,17 @@ for (k = 0; k < ovs; k += 1) {
 			if (bA_run > 0.5) {
 				bx = xa_L * b_d;
 				by = 0;
+				hh = 0;
 				bt = f_bsat(bA_L_yp * 3.3333333333, bA_rg);
-				if (bA_a < 0.5) {
+				if (bA_sem > 0.5) {
+					yy, bA_L_v_s1, bA_L_v_s2, bA_L_v_hq, bA_L_v_bq = f_sem(bx, bA_L_v_s1, bA_L_v_s2, bA_L_v_hq, bA_L_v_bq, bA_gc, bA_Rs, 0, 0);
+					by = 2 * bA_Rs * bA_L_v_bq;
+				}
+				if (bA_ste > 0.5) {
+					yy, bA_L_v_s1, bA_L_v_s2, bA_L_v_hq, bA_L_v_bq, bA_L_v_e = f_steiner(0, bx, 0, bA_L_v_s1, bA_L_v_s2, bA_L_v_hq, bA_L_v_bq, bA_L_v_e, bA_gc, bA_Ks, bA_rho);
+					by = yy * bA_Kn;
+				}
+				if (bA_a < 0.5 && bA_sem < 0.5 && bA_ste < 0.5) {
 					ah, bh, ab, bb, al, bl = f_bsva(bA_L_v_s1, bA_L_v_s2, bA_L_v_hq, bA_L_v_bq, bA_gc, bA_R, bA_sc);
 					nA = 2 * bA_R * ab;
 					nB = 2 * bA_R * bb;
@@ -4954,16 +5158,31 @@ for (k = 0; k < ovs; k += 1) {
 				if (bA_a > 0.5 && bA_a < 1.5) {
 					ah, bh, ab, bb, al, bl = f_bsva(bA_L_c_s1, bA_L_c_s2, bA_L_c_hq, bA_L_c_bq, bA_gh, bA_R, bA_sc);
 					ah2, bh2, ab2, bb2, al2, bl2 = f_bsva(bA_L_c_t1, bA_L_c_t2, bA_L_c_tq, bA_L_c_tb, bA_gl, bA_R, bA_sc);
-					nA = bA_cn * al2 * ah;
-					nB = bA_cn * (al2 * bh + bl2);
+					cnx = bA_cn;
+					if (bA_ms1 > 0.5) {
+						gq1 = bA_gh * f_tg(bA_sc * bA_L_c_hq);
+						ah = 1 - gq1 / (1 + gq1);
+						bh = -ah * bA_L_c_s1;
+						cnx = bA_cn1;
+					}
+					nA = cnx * al2 * ah;
+					nB = cnx * (al2 * bh + bl2);
 					bu = (bx + bA_r * bt * nB) / (1 - bA_r * bt * nA);
-					hh, b1, l1, bA_L_c_s1, bA_L_c_s2 = f_bsvs(bu, bA_L_c_s1, bA_L_c_s2, bA_L_c_hq, bA_L_c_bq, bA_gh, bA_R, bA_sc);
-					bA_L_c_hq = hh;
-					bA_L_c_bq = b1;
+					if (bA_ms1 > 0.5) {
+						bt = f_bsat((nA * bu + nB) * 3.3333333333, bA_rg);
+						bu = (bx + bA_r * bt * nB) / (1 - bA_r * bt * nA);
+						hh = ah * bu + bh;
+						bA_L_c_s1 = fixdenorm(2 * (bu - hh) - bA_L_c_s1);
+						bA_L_c_hq = hh;
+					} else {
+						hh, b1, l1, bA_L_c_s1, bA_L_c_s2 = f_bsvs(bu, bA_L_c_s1, bA_L_c_s2, bA_L_c_hq, bA_L_c_bq, bA_gh, bA_R, bA_sc);
+						bA_L_c_hq = hh;
+						bA_L_c_bq = b1;
+					}
 					hh2, b2, l2, bA_L_c_t1, bA_L_c_t2 = f_bsvs(hh, bA_L_c_t1, bA_L_c_t2, bA_L_c_tq, bA_L_c_tb, bA_gl, bA_R, bA_sc);
 					bA_L_c_tq = hh2;
 					bA_L_c_tb = b2;
-					by = bA_cn * l2;
+					by = cnx * l2;
 				}
 				if (bA_a > 1.5) {
 					by, bA_L_m_s1, bA_L_m_s2, bA_L_m_s3, bA_L_m_s4, bA_L_m_p0, bA_L_m_p1, bA_L_m_p2, bA_L_m_p3, bA_L_m_p4 = f_bmm(bx, bA_L_m_s1, bA_L_m_s2, bA_L_m_s3, bA_L_m_s4, bA_L_m_p0, bA_L_m_p1, bA_L_m_p2, bA_L_m_p3, bA_L_m_p4, bA_gm, bA_k, bA_typ, bA_sc, bA_wb);
@@ -4978,8 +5197,17 @@ for (k = 0; k < ovs; k += 1) {
 			if (bB_run > 0.5) {
 				bx = xa_L * b_d;
 				by = 0;
+				hh = 0;
 				bt = f_bsat(bB_L_yp * 3.3333333333, bB_rg);
-				if (bB_a < 0.5) {
+				if (bB_sem > 0.5) {
+					yy, bB_L_v_s1, bB_L_v_s2, bB_L_v_hq, bB_L_v_bq = f_sem(bx, bB_L_v_s1, bB_L_v_s2, bB_L_v_hq, bB_L_v_bq, bB_gc, bB_Rs, 0, 0);
+					by = 2 * bB_Rs * bB_L_v_bq;
+				}
+				if (bB_ste > 0.5) {
+					yy, bB_L_v_s1, bB_L_v_s2, bB_L_v_hq, bB_L_v_bq, bB_L_v_e = f_steiner(0, bx, 0, bB_L_v_s1, bB_L_v_s2, bB_L_v_hq, bB_L_v_bq, bB_L_v_e, bB_gc, bB_Ks, bB_rho);
+					by = yy * bB_Kn;
+				}
+				if (bB_a < 0.5 && bB_sem < 0.5 && bB_ste < 0.5) {
 					ah, bh, ab, bb, al, bl = f_bsva(bB_L_v_s1, bB_L_v_s2, bB_L_v_hq, bB_L_v_bq, bB_gc, bB_R, bB_sc);
 					nA = 2 * bB_R * ab;
 					nB = 2 * bB_R * bb;
@@ -4994,16 +5222,31 @@ for (k = 0; k < ovs; k += 1) {
 				if (bB_a > 0.5 && bB_a < 1.5) {
 					ah, bh, ab, bb, al, bl = f_bsva(bB_L_c_s1, bB_L_c_s2, bB_L_c_hq, bB_L_c_bq, bB_gh, bB_R, bB_sc);
 					ah2, bh2, ab2, bb2, al2, bl2 = f_bsva(bB_L_c_t1, bB_L_c_t2, bB_L_c_tq, bB_L_c_tb, bB_gl, bB_R, bB_sc);
-					nA = bB_cn * al2 * ah;
-					nB = bB_cn * (al2 * bh + bl2);
+					cnx = bB_cn;
+					if (bB_ms1 > 0.5) {
+						gq1 = bB_gh * f_tg(bB_sc * bB_L_c_hq);
+						ah = 1 - gq1 / (1 + gq1);
+						bh = -ah * bB_L_c_s1;
+						cnx = bB_cn1;
+					}
+					nA = cnx * al2 * ah;
+					nB = cnx * (al2 * bh + bl2);
 					bu = (bx + bB_r * bt * nB) / (1 - bB_r * bt * nA);
-					hh, b1, l1, bB_L_c_s1, bB_L_c_s2 = f_bsvs(bu, bB_L_c_s1, bB_L_c_s2, bB_L_c_hq, bB_L_c_bq, bB_gh, bB_R, bB_sc);
-					bB_L_c_hq = hh;
-					bB_L_c_bq = b1;
+					if (bB_ms1 > 0.5) {
+						bt = f_bsat((nA * bu + nB) * 3.3333333333, bB_rg);
+						bu = (bx + bB_r * bt * nB) / (1 - bB_r * bt * nA);
+						hh = ah * bu + bh;
+						bB_L_c_s1 = fixdenorm(2 * (bu - hh) - bB_L_c_s1);
+						bB_L_c_hq = hh;
+					} else {
+						hh, b1, l1, bB_L_c_s1, bB_L_c_s2 = f_bsvs(bu, bB_L_c_s1, bB_L_c_s2, bB_L_c_hq, bB_L_c_bq, bB_gh, bB_R, bB_sc);
+						bB_L_c_hq = hh;
+						bB_L_c_bq = b1;
+					}
 					hh2, b2, l2, bB_L_c_t1, bB_L_c_t2 = f_bsvs(hh, bB_L_c_t1, bB_L_c_t2, bB_L_c_tq, bB_L_c_tb, bB_gl, bB_R, bB_sc);
 					bB_L_c_tq = hh2;
 					bB_L_c_tb = b2;
-					by = bB_cn * l2;
+					by = cnx * l2;
 				}
 				if (bB_a > 1.5) {
 					by, bB_L_m_s1, bB_L_m_s2, bB_L_m_s3, bB_L_m_s4, bB_L_m_p0, bB_L_m_p1, bB_L_m_p2, bB_L_m_p3, bB_L_m_p4 = f_bmm(bx, bB_L_m_s1, bB_L_m_s2, bB_L_m_s3, bB_L_m_s4, bB_L_m_p0, bB_L_m_p1, bB_L_m_p2, bB_L_m_p3, bB_L_m_p4, bB_gm, bB_k, bB_typ, bB_sc, bB_wb);
@@ -5023,6 +5266,7 @@ for (k = 0; k < ovs; k += 1) {
 				bA_L_v_s2 = 0;
 				bA_L_v_hq = 0;
 				bA_L_v_bq = 0;
+				bA_L_v_e = 0;
 				bA_L_c_s1 = 0;
 				bA_L_c_s2 = 0;
 				bA_L_c_hq = 0;
@@ -5046,6 +5290,7 @@ for (k = 0; k < ovs; k += 1) {
 				bB_L_v_s2 = 0;
 				bB_L_v_hq = 0;
 				bB_L_v_bq = 0;
+				bB_L_v_e = 0;
 				bB_L_c_s1 = 0;
 				bB_L_c_s2 = 0;
 				bB_L_c_hq = 0;
@@ -5071,8 +5316,17 @@ for (k = 0; k < ovs; k += 1) {
 			if (bA_run > 0.5) {
 				bx = xa_R * b_d;
 				by = 0;
+				hh = 0;
 				bt = f_bsat(bA_R_yp * 3.3333333333, bA_rg);
-				if (bA_a < 0.5) {
+				if (bA_sem > 0.5) {
+					yy, bA_R_v_s1, bA_R_v_s2, bA_R_v_hq, bA_R_v_bq = f_sem(bx, bA_R_v_s1, bA_R_v_s2, bA_R_v_hq, bA_R_v_bq, bA_gc, bA_Rs, 0, 0);
+					by = 2 * bA_Rs * bA_R_v_bq;
+				}
+				if (bA_ste > 0.5) {
+					yy, bA_R_v_s1, bA_R_v_s2, bA_R_v_hq, bA_R_v_bq, bA_R_v_e = f_steiner(0, bx, 0, bA_R_v_s1, bA_R_v_s2, bA_R_v_hq, bA_R_v_bq, bA_R_v_e, bA_gc, bA_Ks, bA_rho);
+					by = yy * bA_Kn;
+				}
+				if (bA_a < 0.5 && bA_sem < 0.5 && bA_ste < 0.5) {
 					ah, bh, ab, bb, al, bl = f_bsva(bA_R_v_s1, bA_R_v_s2, bA_R_v_hq, bA_R_v_bq, bA_gc, bA_R, bA_sc);
 					nA = 2 * bA_R * ab;
 					nB = 2 * bA_R * bb;
@@ -5087,16 +5341,31 @@ for (k = 0; k < ovs; k += 1) {
 				if (bA_a > 0.5 && bA_a < 1.5) {
 					ah, bh, ab, bb, al, bl = f_bsva(bA_R_c_s1, bA_R_c_s2, bA_R_c_hq, bA_R_c_bq, bA_gh, bA_R, bA_sc);
 					ah2, bh2, ab2, bb2, al2, bl2 = f_bsva(bA_R_c_t1, bA_R_c_t2, bA_R_c_tq, bA_R_c_tb, bA_gl, bA_R, bA_sc);
-					nA = bA_cn * al2 * ah;
-					nB = bA_cn * (al2 * bh + bl2);
+					cnx = bA_cn;
+					if (bA_ms1 > 0.5) {
+						gq1 = bA_gh * f_tg(bA_sc * bA_R_c_hq);
+						ah = 1 - gq1 / (1 + gq1);
+						bh = -ah * bA_R_c_s1;
+						cnx = bA_cn1;
+					}
+					nA = cnx * al2 * ah;
+					nB = cnx * (al2 * bh + bl2);
 					bu = (bx + bA_r * bt * nB) / (1 - bA_r * bt * nA);
-					hh, b1, l1, bA_R_c_s1, bA_R_c_s2 = f_bsvs(bu, bA_R_c_s1, bA_R_c_s2, bA_R_c_hq, bA_R_c_bq, bA_gh, bA_R, bA_sc);
-					bA_R_c_hq = hh;
-					bA_R_c_bq = b1;
+					if (bA_ms1 > 0.5) {
+						bt = f_bsat((nA * bu + nB) * 3.3333333333, bA_rg);
+						bu = (bx + bA_r * bt * nB) / (1 - bA_r * bt * nA);
+						hh = ah * bu + bh;
+						bA_R_c_s1 = fixdenorm(2 * (bu - hh) - bA_R_c_s1);
+						bA_R_c_hq = hh;
+					} else {
+						hh, b1, l1, bA_R_c_s1, bA_R_c_s2 = f_bsvs(bu, bA_R_c_s1, bA_R_c_s2, bA_R_c_hq, bA_R_c_bq, bA_gh, bA_R, bA_sc);
+						bA_R_c_hq = hh;
+						bA_R_c_bq = b1;
+					}
 					hh2, b2, l2, bA_R_c_t1, bA_R_c_t2 = f_bsvs(hh, bA_R_c_t1, bA_R_c_t2, bA_R_c_tq, bA_R_c_tb, bA_gl, bA_R, bA_sc);
 					bA_R_c_tq = hh2;
 					bA_R_c_tb = b2;
-					by = bA_cn * l2;
+					by = cnx * l2;
 				}
 				if (bA_a > 1.5) {
 					by, bA_R_m_s1, bA_R_m_s2, bA_R_m_s3, bA_R_m_s4, bA_R_m_p0, bA_R_m_p1, bA_R_m_p2, bA_R_m_p3, bA_R_m_p4 = f_bmm(bx, bA_R_m_s1, bA_R_m_s2, bA_R_m_s3, bA_R_m_s4, bA_R_m_p0, bA_R_m_p1, bA_R_m_p2, bA_R_m_p3, bA_R_m_p4, bA_gm, bA_k, bA_typ, bA_sc, bA_wb);
@@ -5111,8 +5380,17 @@ for (k = 0; k < ovs; k += 1) {
 			if (bB_run > 0.5) {
 				bx = xa_R * b_d;
 				by = 0;
+				hh = 0;
 				bt = f_bsat(bB_R_yp * 3.3333333333, bB_rg);
-				if (bB_a < 0.5) {
+				if (bB_sem > 0.5) {
+					yy, bB_R_v_s1, bB_R_v_s2, bB_R_v_hq, bB_R_v_bq = f_sem(bx, bB_R_v_s1, bB_R_v_s2, bB_R_v_hq, bB_R_v_bq, bB_gc, bB_Rs, 0, 0);
+					by = 2 * bB_Rs * bB_R_v_bq;
+				}
+				if (bB_ste > 0.5) {
+					yy, bB_R_v_s1, bB_R_v_s2, bB_R_v_hq, bB_R_v_bq, bB_R_v_e = f_steiner(0, bx, 0, bB_R_v_s1, bB_R_v_s2, bB_R_v_hq, bB_R_v_bq, bB_R_v_e, bB_gc, bB_Ks, bB_rho);
+					by = yy * bB_Kn;
+				}
+				if (bB_a < 0.5 && bB_sem < 0.5 && bB_ste < 0.5) {
 					ah, bh, ab, bb, al, bl = f_bsva(bB_R_v_s1, bB_R_v_s2, bB_R_v_hq, bB_R_v_bq, bB_gc, bB_R, bB_sc);
 					nA = 2 * bB_R * ab;
 					nB = 2 * bB_R * bb;
@@ -5127,16 +5405,31 @@ for (k = 0; k < ovs; k += 1) {
 				if (bB_a > 0.5 && bB_a < 1.5) {
 					ah, bh, ab, bb, al, bl = f_bsva(bB_R_c_s1, bB_R_c_s2, bB_R_c_hq, bB_R_c_bq, bB_gh, bB_R, bB_sc);
 					ah2, bh2, ab2, bb2, al2, bl2 = f_bsva(bB_R_c_t1, bB_R_c_t2, bB_R_c_tq, bB_R_c_tb, bB_gl, bB_R, bB_sc);
-					nA = bB_cn * al2 * ah;
-					nB = bB_cn * (al2 * bh + bl2);
+					cnx = bB_cn;
+					if (bB_ms1 > 0.5) {
+						gq1 = bB_gh * f_tg(bB_sc * bB_R_c_hq);
+						ah = 1 - gq1 / (1 + gq1);
+						bh = -ah * bB_R_c_s1;
+						cnx = bB_cn1;
+					}
+					nA = cnx * al2 * ah;
+					nB = cnx * (al2 * bh + bl2);
 					bu = (bx + bB_r * bt * nB) / (1 - bB_r * bt * nA);
-					hh, b1, l1, bB_R_c_s1, bB_R_c_s2 = f_bsvs(bu, bB_R_c_s1, bB_R_c_s2, bB_R_c_hq, bB_R_c_bq, bB_gh, bB_R, bB_sc);
-					bB_R_c_hq = hh;
-					bB_R_c_bq = b1;
+					if (bB_ms1 > 0.5) {
+						bt = f_bsat((nA * bu + nB) * 3.3333333333, bB_rg);
+						bu = (bx + bB_r * bt * nB) / (1 - bB_r * bt * nA);
+						hh = ah * bu + bh;
+						bB_R_c_s1 = fixdenorm(2 * (bu - hh) - bB_R_c_s1);
+						bB_R_c_hq = hh;
+					} else {
+						hh, b1, l1, bB_R_c_s1, bB_R_c_s2 = f_bsvs(bu, bB_R_c_s1, bB_R_c_s2, bB_R_c_hq, bB_R_c_bq, bB_gh, bB_R, bB_sc);
+						bB_R_c_hq = hh;
+						bB_R_c_bq = b1;
+					}
 					hh2, b2, l2, bB_R_c_t1, bB_R_c_t2 = f_bsvs(hh, bB_R_c_t1, bB_R_c_t2, bB_R_c_tq, bB_R_c_tb, bB_gl, bB_R, bB_sc);
 					bB_R_c_tq = hh2;
 					bB_R_c_tb = b2;
-					by = bB_cn * l2;
+					by = cnx * l2;
 				}
 				if (bB_a > 1.5) {
 					by, bB_R_m_s1, bB_R_m_s2, bB_R_m_s3, bB_R_m_s4, bB_R_m_p0, bB_R_m_p1, bB_R_m_p2, bB_R_m_p3, bB_R_m_p4 = f_bmm(bx, bB_R_m_s1, bB_R_m_s2, bB_R_m_s3, bB_R_m_s4, bB_R_m_p0, bB_R_m_p1, bB_R_m_p2, bB_R_m_p3, bB_R_m_p4, bB_gm, bB_k, bB_typ, bB_sc, bB_wb);
@@ -5156,6 +5449,7 @@ for (k = 0; k < ovs; k += 1) {
 				bA_R_v_s2 = 0;
 				bA_R_v_hq = 0;
 				bA_R_v_bq = 0;
+				bA_R_v_e = 0;
 				bA_R_c_s1 = 0;
 				bA_R_c_s2 = 0;
 				bA_R_c_hq = 0;
@@ -5179,6 +5473,7 @@ for (k = 0; k < ovs; k += 1) {
 				bB_R_v_s2 = 0;
 				bB_R_v_hq = 0;
 				bB_R_v_bq = 0;
+				bB_R_v_e = 0;
 				bB_R_c_s1 = 0;
 				bB_R_c_s2 = 0;
 				bB_R_c_hq = 0;
@@ -5911,8 +6206,17 @@ for (k = 0; k < ovs; k += 1) {
 			if (bA_run > 0.5) {
 				bx = xa_L * b_d;
 				by = 0;
+				hh = 0;
 				bt = f_bsat(bA_L_yp * 3.3333333333, bA_rg);
-				if (bA_a < 0.5) {
+				if (bA_sem > 0.5) {
+					yy, bA_L_v_s1, bA_L_v_s2, bA_L_v_hq, bA_L_v_bq = f_sem(bx, bA_L_v_s1, bA_L_v_s2, bA_L_v_hq, bA_L_v_bq, bA_gc, bA_Rs, 0, 0);
+					by = 2 * bA_Rs * bA_L_v_bq;
+				}
+				if (bA_ste > 0.5) {
+					yy, bA_L_v_s1, bA_L_v_s2, bA_L_v_hq, bA_L_v_bq, bA_L_v_e = f_steiner(0, bx, 0, bA_L_v_s1, bA_L_v_s2, bA_L_v_hq, bA_L_v_bq, bA_L_v_e, bA_gc, bA_Ks, bA_rho);
+					by = yy * bA_Kn;
+				}
+				if (bA_a < 0.5 && bA_sem < 0.5 && bA_ste < 0.5) {
 					ah, bh, ab, bb, al, bl = f_bsva(bA_L_v_s1, bA_L_v_s2, bA_L_v_hq, bA_L_v_bq, bA_gc, bA_R, bA_sc);
 					nA = 2 * bA_R * ab;
 					nB = 2 * bA_R * bb;
@@ -5927,16 +6231,31 @@ for (k = 0; k < ovs; k += 1) {
 				if (bA_a > 0.5 && bA_a < 1.5) {
 					ah, bh, ab, bb, al, bl = f_bsva(bA_L_c_s1, bA_L_c_s2, bA_L_c_hq, bA_L_c_bq, bA_gh, bA_R, bA_sc);
 					ah2, bh2, ab2, bb2, al2, bl2 = f_bsva(bA_L_c_t1, bA_L_c_t2, bA_L_c_tq, bA_L_c_tb, bA_gl, bA_R, bA_sc);
-					nA = bA_cn * al2 * ah;
-					nB = bA_cn * (al2 * bh + bl2);
+					cnx = bA_cn;
+					if (bA_ms1 > 0.5) {
+						gq1 = bA_gh * f_tg(bA_sc * bA_L_c_hq);
+						ah = 1 - gq1 / (1 + gq1);
+						bh = -ah * bA_L_c_s1;
+						cnx = bA_cn1;
+					}
+					nA = cnx * al2 * ah;
+					nB = cnx * (al2 * bh + bl2);
 					bu = (bx + bA_r * bt * nB) / (1 - bA_r * bt * nA);
-					hh, b1, l1, bA_L_c_s1, bA_L_c_s2 = f_bsvs(bu, bA_L_c_s1, bA_L_c_s2, bA_L_c_hq, bA_L_c_bq, bA_gh, bA_R, bA_sc);
-					bA_L_c_hq = hh;
-					bA_L_c_bq = b1;
+					if (bA_ms1 > 0.5) {
+						bt = f_bsat((nA * bu + nB) * 3.3333333333, bA_rg);
+						bu = (bx + bA_r * bt * nB) / (1 - bA_r * bt * nA);
+						hh = ah * bu + bh;
+						bA_L_c_s1 = fixdenorm(2 * (bu - hh) - bA_L_c_s1);
+						bA_L_c_hq = hh;
+					} else {
+						hh, b1, l1, bA_L_c_s1, bA_L_c_s2 = f_bsvs(bu, bA_L_c_s1, bA_L_c_s2, bA_L_c_hq, bA_L_c_bq, bA_gh, bA_R, bA_sc);
+						bA_L_c_hq = hh;
+						bA_L_c_bq = b1;
+					}
 					hh2, b2, l2, bA_L_c_t1, bA_L_c_t2 = f_bsvs(hh, bA_L_c_t1, bA_L_c_t2, bA_L_c_tq, bA_L_c_tb, bA_gl, bA_R, bA_sc);
 					bA_L_c_tq = hh2;
 					bA_L_c_tb = b2;
-					by = bA_cn * l2;
+					by = cnx * l2;
 				}
 				if (bA_a > 1.5) {
 					by, bA_L_m_s1, bA_L_m_s2, bA_L_m_s3, bA_L_m_s4, bA_L_m_p0, bA_L_m_p1, bA_L_m_p2, bA_L_m_p3, bA_L_m_p4 = f_bmm(bx, bA_L_m_s1, bA_L_m_s2, bA_L_m_s3, bA_L_m_s4, bA_L_m_p0, bA_L_m_p1, bA_L_m_p2, bA_L_m_p3, bA_L_m_p4, bA_gm, bA_k, bA_typ, bA_sc, bA_wb);
@@ -5951,8 +6270,17 @@ for (k = 0; k < ovs; k += 1) {
 			if (bB_run > 0.5) {
 				bx = xa_L * b_d;
 				by = 0;
+				hh = 0;
 				bt = f_bsat(bB_L_yp * 3.3333333333, bB_rg);
-				if (bB_a < 0.5) {
+				if (bB_sem > 0.5) {
+					yy, bB_L_v_s1, bB_L_v_s2, bB_L_v_hq, bB_L_v_bq = f_sem(bx, bB_L_v_s1, bB_L_v_s2, bB_L_v_hq, bB_L_v_bq, bB_gc, bB_Rs, 0, 0);
+					by = 2 * bB_Rs * bB_L_v_bq;
+				}
+				if (bB_ste > 0.5) {
+					yy, bB_L_v_s1, bB_L_v_s2, bB_L_v_hq, bB_L_v_bq, bB_L_v_e = f_steiner(0, bx, 0, bB_L_v_s1, bB_L_v_s2, bB_L_v_hq, bB_L_v_bq, bB_L_v_e, bB_gc, bB_Ks, bB_rho);
+					by = yy * bB_Kn;
+				}
+				if (bB_a < 0.5 && bB_sem < 0.5 && bB_ste < 0.5) {
 					ah, bh, ab, bb, al, bl = f_bsva(bB_L_v_s1, bB_L_v_s2, bB_L_v_hq, bB_L_v_bq, bB_gc, bB_R, bB_sc);
 					nA = 2 * bB_R * ab;
 					nB = 2 * bB_R * bb;
@@ -5967,16 +6295,31 @@ for (k = 0; k < ovs; k += 1) {
 				if (bB_a > 0.5 && bB_a < 1.5) {
 					ah, bh, ab, bb, al, bl = f_bsva(bB_L_c_s1, bB_L_c_s2, bB_L_c_hq, bB_L_c_bq, bB_gh, bB_R, bB_sc);
 					ah2, bh2, ab2, bb2, al2, bl2 = f_bsva(bB_L_c_t1, bB_L_c_t2, bB_L_c_tq, bB_L_c_tb, bB_gl, bB_R, bB_sc);
-					nA = bB_cn * al2 * ah;
-					nB = bB_cn * (al2 * bh + bl2);
+					cnx = bB_cn;
+					if (bB_ms1 > 0.5) {
+						gq1 = bB_gh * f_tg(bB_sc * bB_L_c_hq);
+						ah = 1 - gq1 / (1 + gq1);
+						bh = -ah * bB_L_c_s1;
+						cnx = bB_cn1;
+					}
+					nA = cnx * al2 * ah;
+					nB = cnx * (al2 * bh + bl2);
 					bu = (bx + bB_r * bt * nB) / (1 - bB_r * bt * nA);
-					hh, b1, l1, bB_L_c_s1, bB_L_c_s2 = f_bsvs(bu, bB_L_c_s1, bB_L_c_s2, bB_L_c_hq, bB_L_c_bq, bB_gh, bB_R, bB_sc);
-					bB_L_c_hq = hh;
-					bB_L_c_bq = b1;
+					if (bB_ms1 > 0.5) {
+						bt = f_bsat((nA * bu + nB) * 3.3333333333, bB_rg);
+						bu = (bx + bB_r * bt * nB) / (1 - bB_r * bt * nA);
+						hh = ah * bu + bh;
+						bB_L_c_s1 = fixdenorm(2 * (bu - hh) - bB_L_c_s1);
+						bB_L_c_hq = hh;
+					} else {
+						hh, b1, l1, bB_L_c_s1, bB_L_c_s2 = f_bsvs(bu, bB_L_c_s1, bB_L_c_s2, bB_L_c_hq, bB_L_c_bq, bB_gh, bB_R, bB_sc);
+						bB_L_c_hq = hh;
+						bB_L_c_bq = b1;
+					}
 					hh2, b2, l2, bB_L_c_t1, bB_L_c_t2 = f_bsvs(hh, bB_L_c_t1, bB_L_c_t2, bB_L_c_tq, bB_L_c_tb, bB_gl, bB_R, bB_sc);
 					bB_L_c_tq = hh2;
 					bB_L_c_tb = b2;
-					by = bB_cn * l2;
+					by = cnx * l2;
 				}
 				if (bB_a > 1.5) {
 					by, bB_L_m_s1, bB_L_m_s2, bB_L_m_s3, bB_L_m_s4, bB_L_m_p0, bB_L_m_p1, bB_L_m_p2, bB_L_m_p3, bB_L_m_p4 = f_bmm(bx, bB_L_m_s1, bB_L_m_s2, bB_L_m_s3, bB_L_m_s4, bB_L_m_p0, bB_L_m_p1, bB_L_m_p2, bB_L_m_p3, bB_L_m_p4, bB_gm, bB_k, bB_typ, bB_sc, bB_wb);
@@ -5996,6 +6339,7 @@ for (k = 0; k < ovs; k += 1) {
 				bA_L_v_s2 = 0;
 				bA_L_v_hq = 0;
 				bA_L_v_bq = 0;
+				bA_L_v_e = 0;
 				bA_L_c_s1 = 0;
 				bA_L_c_s2 = 0;
 				bA_L_c_hq = 0;
@@ -6019,6 +6363,7 @@ for (k = 0; k < ovs; k += 1) {
 				bB_L_v_s2 = 0;
 				bB_L_v_hq = 0;
 				bB_L_v_bq = 0;
+				bB_L_v_e = 0;
 				bB_L_c_s1 = 0;
 				bB_L_c_s2 = 0;
 				bB_L_c_hq = 0;
@@ -6044,8 +6389,17 @@ for (k = 0; k < ovs; k += 1) {
 			if (bA_run > 0.5) {
 				bx = xa_R * b_d;
 				by = 0;
+				hh = 0;
 				bt = f_bsat(bA_R_yp * 3.3333333333, bA_rg);
-				if (bA_a < 0.5) {
+				if (bA_sem > 0.5) {
+					yy, bA_R_v_s1, bA_R_v_s2, bA_R_v_hq, bA_R_v_bq = f_sem(bx, bA_R_v_s1, bA_R_v_s2, bA_R_v_hq, bA_R_v_bq, bA_gc, bA_Rs, 0, 0);
+					by = 2 * bA_Rs * bA_R_v_bq;
+				}
+				if (bA_ste > 0.5) {
+					yy, bA_R_v_s1, bA_R_v_s2, bA_R_v_hq, bA_R_v_bq, bA_R_v_e = f_steiner(0, bx, 0, bA_R_v_s1, bA_R_v_s2, bA_R_v_hq, bA_R_v_bq, bA_R_v_e, bA_gc, bA_Ks, bA_rho);
+					by = yy * bA_Kn;
+				}
+				if (bA_a < 0.5 && bA_sem < 0.5 && bA_ste < 0.5) {
 					ah, bh, ab, bb, al, bl = f_bsva(bA_R_v_s1, bA_R_v_s2, bA_R_v_hq, bA_R_v_bq, bA_gc, bA_R, bA_sc);
 					nA = 2 * bA_R * ab;
 					nB = 2 * bA_R * bb;
@@ -6060,16 +6414,31 @@ for (k = 0; k < ovs; k += 1) {
 				if (bA_a > 0.5 && bA_a < 1.5) {
 					ah, bh, ab, bb, al, bl = f_bsva(bA_R_c_s1, bA_R_c_s2, bA_R_c_hq, bA_R_c_bq, bA_gh, bA_R, bA_sc);
 					ah2, bh2, ab2, bb2, al2, bl2 = f_bsva(bA_R_c_t1, bA_R_c_t2, bA_R_c_tq, bA_R_c_tb, bA_gl, bA_R, bA_sc);
-					nA = bA_cn * al2 * ah;
-					nB = bA_cn * (al2 * bh + bl2);
+					cnx = bA_cn;
+					if (bA_ms1 > 0.5) {
+						gq1 = bA_gh * f_tg(bA_sc * bA_R_c_hq);
+						ah = 1 - gq1 / (1 + gq1);
+						bh = -ah * bA_R_c_s1;
+						cnx = bA_cn1;
+					}
+					nA = cnx * al2 * ah;
+					nB = cnx * (al2 * bh + bl2);
 					bu = (bx + bA_r * bt * nB) / (1 - bA_r * bt * nA);
-					hh, b1, l1, bA_R_c_s1, bA_R_c_s2 = f_bsvs(bu, bA_R_c_s1, bA_R_c_s2, bA_R_c_hq, bA_R_c_bq, bA_gh, bA_R, bA_sc);
-					bA_R_c_hq = hh;
-					bA_R_c_bq = b1;
+					if (bA_ms1 > 0.5) {
+						bt = f_bsat((nA * bu + nB) * 3.3333333333, bA_rg);
+						bu = (bx + bA_r * bt * nB) / (1 - bA_r * bt * nA);
+						hh = ah * bu + bh;
+						bA_R_c_s1 = fixdenorm(2 * (bu - hh) - bA_R_c_s1);
+						bA_R_c_hq = hh;
+					} else {
+						hh, b1, l1, bA_R_c_s1, bA_R_c_s2 = f_bsvs(bu, bA_R_c_s1, bA_R_c_s2, bA_R_c_hq, bA_R_c_bq, bA_gh, bA_R, bA_sc);
+						bA_R_c_hq = hh;
+						bA_R_c_bq = b1;
+					}
 					hh2, b2, l2, bA_R_c_t1, bA_R_c_t2 = f_bsvs(hh, bA_R_c_t1, bA_R_c_t2, bA_R_c_tq, bA_R_c_tb, bA_gl, bA_R, bA_sc);
 					bA_R_c_tq = hh2;
 					bA_R_c_tb = b2;
-					by = bA_cn * l2;
+					by = cnx * l2;
 				}
 				if (bA_a > 1.5) {
 					by, bA_R_m_s1, bA_R_m_s2, bA_R_m_s3, bA_R_m_s4, bA_R_m_p0, bA_R_m_p1, bA_R_m_p2, bA_R_m_p3, bA_R_m_p4 = f_bmm(bx, bA_R_m_s1, bA_R_m_s2, bA_R_m_s3, bA_R_m_s4, bA_R_m_p0, bA_R_m_p1, bA_R_m_p2, bA_R_m_p3, bA_R_m_p4, bA_gm, bA_k, bA_typ, bA_sc, bA_wb);
@@ -6084,8 +6453,17 @@ for (k = 0; k < ovs; k += 1) {
 			if (bB_run > 0.5) {
 				bx = xa_R * b_d;
 				by = 0;
+				hh = 0;
 				bt = f_bsat(bB_R_yp * 3.3333333333, bB_rg);
-				if (bB_a < 0.5) {
+				if (bB_sem > 0.5) {
+					yy, bB_R_v_s1, bB_R_v_s2, bB_R_v_hq, bB_R_v_bq = f_sem(bx, bB_R_v_s1, bB_R_v_s2, bB_R_v_hq, bB_R_v_bq, bB_gc, bB_Rs, 0, 0);
+					by = 2 * bB_Rs * bB_R_v_bq;
+				}
+				if (bB_ste > 0.5) {
+					yy, bB_R_v_s1, bB_R_v_s2, bB_R_v_hq, bB_R_v_bq, bB_R_v_e = f_steiner(0, bx, 0, bB_R_v_s1, bB_R_v_s2, bB_R_v_hq, bB_R_v_bq, bB_R_v_e, bB_gc, bB_Ks, bB_rho);
+					by = yy * bB_Kn;
+				}
+				if (bB_a < 0.5 && bB_sem < 0.5 && bB_ste < 0.5) {
 					ah, bh, ab, bb, al, bl = f_bsva(bB_R_v_s1, bB_R_v_s2, bB_R_v_hq, bB_R_v_bq, bB_gc, bB_R, bB_sc);
 					nA = 2 * bB_R * ab;
 					nB = 2 * bB_R * bb;
@@ -6100,16 +6478,31 @@ for (k = 0; k < ovs; k += 1) {
 				if (bB_a > 0.5 && bB_a < 1.5) {
 					ah, bh, ab, bb, al, bl = f_bsva(bB_R_c_s1, bB_R_c_s2, bB_R_c_hq, bB_R_c_bq, bB_gh, bB_R, bB_sc);
 					ah2, bh2, ab2, bb2, al2, bl2 = f_bsva(bB_R_c_t1, bB_R_c_t2, bB_R_c_tq, bB_R_c_tb, bB_gl, bB_R, bB_sc);
-					nA = bB_cn * al2 * ah;
-					nB = bB_cn * (al2 * bh + bl2);
+					cnx = bB_cn;
+					if (bB_ms1 > 0.5) {
+						gq1 = bB_gh * f_tg(bB_sc * bB_R_c_hq);
+						ah = 1 - gq1 / (1 + gq1);
+						bh = -ah * bB_R_c_s1;
+						cnx = bB_cn1;
+					}
+					nA = cnx * al2 * ah;
+					nB = cnx * (al2 * bh + bl2);
 					bu = (bx + bB_r * bt * nB) / (1 - bB_r * bt * nA);
-					hh, b1, l1, bB_R_c_s1, bB_R_c_s2 = f_bsvs(bu, bB_R_c_s1, bB_R_c_s2, bB_R_c_hq, bB_R_c_bq, bB_gh, bB_R, bB_sc);
-					bB_R_c_hq = hh;
-					bB_R_c_bq = b1;
+					if (bB_ms1 > 0.5) {
+						bt = f_bsat((nA * bu + nB) * 3.3333333333, bB_rg);
+						bu = (bx + bB_r * bt * nB) / (1 - bB_r * bt * nA);
+						hh = ah * bu + bh;
+						bB_R_c_s1 = fixdenorm(2 * (bu - hh) - bB_R_c_s1);
+						bB_R_c_hq = hh;
+					} else {
+						hh, b1, l1, bB_R_c_s1, bB_R_c_s2 = f_bsvs(bu, bB_R_c_s1, bB_R_c_s2, bB_R_c_hq, bB_R_c_bq, bB_gh, bB_R, bB_sc);
+						bB_R_c_hq = hh;
+						bB_R_c_bq = b1;
+					}
 					hh2, b2, l2, bB_R_c_t1, bB_R_c_t2 = f_bsvs(hh, bB_R_c_t1, bB_R_c_t2, bB_R_c_tq, bB_R_c_tb, bB_gl, bB_R, bB_sc);
 					bB_R_c_tq = hh2;
 					bB_R_c_tb = b2;
-					by = bB_cn * l2;
+					by = cnx * l2;
 				}
 				if (bB_a > 1.5) {
 					by, bB_R_m_s1, bB_R_m_s2, bB_R_m_s3, bB_R_m_s4, bB_R_m_p0, bB_R_m_p1, bB_R_m_p2, bB_R_m_p3, bB_R_m_p4 = f_bmm(bx, bB_R_m_s1, bB_R_m_s2, bB_R_m_s3, bB_R_m_s4, bB_R_m_p0, bB_R_m_p1, bB_R_m_p2, bB_R_m_p3, bB_R_m_p4, bB_gm, bB_k, bB_typ, bB_sc, bB_wb);
@@ -6129,6 +6522,7 @@ for (k = 0; k < ovs; k += 1) {
 				bA_R_v_s2 = 0;
 				bA_R_v_hq = 0;
 				bA_R_v_bq = 0;
+				bA_R_v_e = 0;
 				bA_R_c_s1 = 0;
 				bA_R_c_s2 = 0;
 				bA_R_c_hq = 0;
@@ -6152,6 +6546,7 @@ for (k = 0; k < ovs; k += 1) {
 				bB_R_v_s2 = 0;
 				bB_R_v_hq = 0;
 				bB_R_v_bq = 0;
+				bB_R_v_e = 0;
 				bB_R_c_s1 = 0;
 				bB_R_c_s2 = 0;
 				bB_R_c_hq = 0;
@@ -6194,8 +6589,17 @@ for (k = 0; k < ovs; k += 1) {
 			if (bA_run > 0.5) {
 				bx = za_L * b_d;
 				by = 0;
+				hh = 0;
 				bt = f_bsat(bA_L_yp * 3.3333333333, bA_rg);
-				if (bA_a < 0.5) {
+				if (bA_sem > 0.5) {
+					yy, bA_L_v_s1, bA_L_v_s2, bA_L_v_hq, bA_L_v_bq = f_sem(bx, bA_L_v_s1, bA_L_v_s2, bA_L_v_hq, bA_L_v_bq, bA_gc, bA_Rs, 0, 0);
+					by = 2 * bA_Rs * bA_L_v_bq;
+				}
+				if (bA_ste > 0.5) {
+					yy, bA_L_v_s1, bA_L_v_s2, bA_L_v_hq, bA_L_v_bq, bA_L_v_e = f_steiner(0, bx, 0, bA_L_v_s1, bA_L_v_s2, bA_L_v_hq, bA_L_v_bq, bA_L_v_e, bA_gc, bA_Ks, bA_rho);
+					by = yy * bA_Kn;
+				}
+				if (bA_a < 0.5 && bA_sem < 0.5 && bA_ste < 0.5) {
 					ah, bh, ab, bb, al, bl = f_bsva(bA_L_v_s1, bA_L_v_s2, bA_L_v_hq, bA_L_v_bq, bA_gc, bA_R, bA_sc);
 					nA = 2 * bA_R * ab;
 					nB = 2 * bA_R * bb;
@@ -6210,16 +6614,31 @@ for (k = 0; k < ovs; k += 1) {
 				if (bA_a > 0.5 && bA_a < 1.5) {
 					ah, bh, ab, bb, al, bl = f_bsva(bA_L_c_s1, bA_L_c_s2, bA_L_c_hq, bA_L_c_bq, bA_gh, bA_R, bA_sc);
 					ah2, bh2, ab2, bb2, al2, bl2 = f_bsva(bA_L_c_t1, bA_L_c_t2, bA_L_c_tq, bA_L_c_tb, bA_gl, bA_R, bA_sc);
-					nA = bA_cn * al2 * ah;
-					nB = bA_cn * (al2 * bh + bl2);
+					cnx = bA_cn;
+					if (bA_ms1 > 0.5) {
+						gq1 = bA_gh * f_tg(bA_sc * bA_L_c_hq);
+						ah = 1 - gq1 / (1 + gq1);
+						bh = -ah * bA_L_c_s1;
+						cnx = bA_cn1;
+					}
+					nA = cnx * al2 * ah;
+					nB = cnx * (al2 * bh + bl2);
 					bu = (bx + bA_r * bt * nB) / (1 - bA_r * bt * nA);
-					hh, b1, l1, bA_L_c_s1, bA_L_c_s2 = f_bsvs(bu, bA_L_c_s1, bA_L_c_s2, bA_L_c_hq, bA_L_c_bq, bA_gh, bA_R, bA_sc);
-					bA_L_c_hq = hh;
-					bA_L_c_bq = b1;
+					if (bA_ms1 > 0.5) {
+						bt = f_bsat((nA * bu + nB) * 3.3333333333, bA_rg);
+						bu = (bx + bA_r * bt * nB) / (1 - bA_r * bt * nA);
+						hh = ah * bu + bh;
+						bA_L_c_s1 = fixdenorm(2 * (bu - hh) - bA_L_c_s1);
+						bA_L_c_hq = hh;
+					} else {
+						hh, b1, l1, bA_L_c_s1, bA_L_c_s2 = f_bsvs(bu, bA_L_c_s1, bA_L_c_s2, bA_L_c_hq, bA_L_c_bq, bA_gh, bA_R, bA_sc);
+						bA_L_c_hq = hh;
+						bA_L_c_bq = b1;
+					}
 					hh2, b2, l2, bA_L_c_t1, bA_L_c_t2 = f_bsvs(hh, bA_L_c_t1, bA_L_c_t2, bA_L_c_tq, bA_L_c_tb, bA_gl, bA_R, bA_sc);
 					bA_L_c_tq = hh2;
 					bA_L_c_tb = b2;
-					by = bA_cn * l2;
+					by = cnx * l2;
 				}
 				if (bA_a > 1.5) {
 					by, bA_L_m_s1, bA_L_m_s2, bA_L_m_s3, bA_L_m_s4, bA_L_m_p0, bA_L_m_p1, bA_L_m_p2, bA_L_m_p3, bA_L_m_p4 = f_bmm(bx, bA_L_m_s1, bA_L_m_s2, bA_L_m_s3, bA_L_m_s4, bA_L_m_p0, bA_L_m_p1, bA_L_m_p2, bA_L_m_p3, bA_L_m_p4, bA_gm, bA_k, bA_typ, bA_sc, bA_wb);
@@ -6234,8 +6653,17 @@ for (k = 0; k < ovs; k += 1) {
 			if (bB_run > 0.5) {
 				bx = za_L * b_d;
 				by = 0;
+				hh = 0;
 				bt = f_bsat(bB_L_yp * 3.3333333333, bB_rg);
-				if (bB_a < 0.5) {
+				if (bB_sem > 0.5) {
+					yy, bB_L_v_s1, bB_L_v_s2, bB_L_v_hq, bB_L_v_bq = f_sem(bx, bB_L_v_s1, bB_L_v_s2, bB_L_v_hq, bB_L_v_bq, bB_gc, bB_Rs, 0, 0);
+					by = 2 * bB_Rs * bB_L_v_bq;
+				}
+				if (bB_ste > 0.5) {
+					yy, bB_L_v_s1, bB_L_v_s2, bB_L_v_hq, bB_L_v_bq, bB_L_v_e = f_steiner(0, bx, 0, bB_L_v_s1, bB_L_v_s2, bB_L_v_hq, bB_L_v_bq, bB_L_v_e, bB_gc, bB_Ks, bB_rho);
+					by = yy * bB_Kn;
+				}
+				if (bB_a < 0.5 && bB_sem < 0.5 && bB_ste < 0.5) {
 					ah, bh, ab, bb, al, bl = f_bsva(bB_L_v_s1, bB_L_v_s2, bB_L_v_hq, bB_L_v_bq, bB_gc, bB_R, bB_sc);
 					nA = 2 * bB_R * ab;
 					nB = 2 * bB_R * bb;
@@ -6250,16 +6678,31 @@ for (k = 0; k < ovs; k += 1) {
 				if (bB_a > 0.5 && bB_a < 1.5) {
 					ah, bh, ab, bb, al, bl = f_bsva(bB_L_c_s1, bB_L_c_s2, bB_L_c_hq, bB_L_c_bq, bB_gh, bB_R, bB_sc);
 					ah2, bh2, ab2, bb2, al2, bl2 = f_bsva(bB_L_c_t1, bB_L_c_t2, bB_L_c_tq, bB_L_c_tb, bB_gl, bB_R, bB_sc);
-					nA = bB_cn * al2 * ah;
-					nB = bB_cn * (al2 * bh + bl2);
+					cnx = bB_cn;
+					if (bB_ms1 > 0.5) {
+						gq1 = bB_gh * f_tg(bB_sc * bB_L_c_hq);
+						ah = 1 - gq1 / (1 + gq1);
+						bh = -ah * bB_L_c_s1;
+						cnx = bB_cn1;
+					}
+					nA = cnx * al2 * ah;
+					nB = cnx * (al2 * bh + bl2);
 					bu = (bx + bB_r * bt * nB) / (1 - bB_r * bt * nA);
-					hh, b1, l1, bB_L_c_s1, bB_L_c_s2 = f_bsvs(bu, bB_L_c_s1, bB_L_c_s2, bB_L_c_hq, bB_L_c_bq, bB_gh, bB_R, bB_sc);
-					bB_L_c_hq = hh;
-					bB_L_c_bq = b1;
+					if (bB_ms1 > 0.5) {
+						bt = f_bsat((nA * bu + nB) * 3.3333333333, bB_rg);
+						bu = (bx + bB_r * bt * nB) / (1 - bB_r * bt * nA);
+						hh = ah * bu + bh;
+						bB_L_c_s1 = fixdenorm(2 * (bu - hh) - bB_L_c_s1);
+						bB_L_c_hq = hh;
+					} else {
+						hh, b1, l1, bB_L_c_s1, bB_L_c_s2 = f_bsvs(bu, bB_L_c_s1, bB_L_c_s2, bB_L_c_hq, bB_L_c_bq, bB_gh, bB_R, bB_sc);
+						bB_L_c_hq = hh;
+						bB_L_c_bq = b1;
+					}
 					hh2, b2, l2, bB_L_c_t1, bB_L_c_t2 = f_bsvs(hh, bB_L_c_t1, bB_L_c_t2, bB_L_c_tq, bB_L_c_tb, bB_gl, bB_R, bB_sc);
 					bB_L_c_tq = hh2;
 					bB_L_c_tb = b2;
-					by = bB_cn * l2;
+					by = cnx * l2;
 				}
 				if (bB_a > 1.5) {
 					by, bB_L_m_s1, bB_L_m_s2, bB_L_m_s3, bB_L_m_s4, bB_L_m_p0, bB_L_m_p1, bB_L_m_p2, bB_L_m_p3, bB_L_m_p4 = f_bmm(bx, bB_L_m_s1, bB_L_m_s2, bB_L_m_s3, bB_L_m_s4, bB_L_m_p0, bB_L_m_p1, bB_L_m_p2, bB_L_m_p3, bB_L_m_p4, bB_gm, bB_k, bB_typ, bB_sc, bB_wb);
@@ -6279,6 +6722,7 @@ for (k = 0; k < ovs; k += 1) {
 				bA_L_v_s2 = 0;
 				bA_L_v_hq = 0;
 				bA_L_v_bq = 0;
+				bA_L_v_e = 0;
 				bA_L_c_s1 = 0;
 				bA_L_c_s2 = 0;
 				bA_L_c_hq = 0;
@@ -6302,6 +6746,7 @@ for (k = 0; k < ovs; k += 1) {
 				bB_L_v_s2 = 0;
 				bB_L_v_hq = 0;
 				bB_L_v_bq = 0;
+				bB_L_v_e = 0;
 				bB_L_c_s1 = 0;
 				bB_L_c_s2 = 0;
 				bB_L_c_hq = 0;
@@ -6327,8 +6772,17 @@ for (k = 0; k < ovs; k += 1) {
 			if (bA_run > 0.5) {
 				bx = za_R * b_d;
 				by = 0;
+				hh = 0;
 				bt = f_bsat(bA_R_yp * 3.3333333333, bA_rg);
-				if (bA_a < 0.5) {
+				if (bA_sem > 0.5) {
+					yy, bA_R_v_s1, bA_R_v_s2, bA_R_v_hq, bA_R_v_bq = f_sem(bx, bA_R_v_s1, bA_R_v_s2, bA_R_v_hq, bA_R_v_bq, bA_gc, bA_Rs, 0, 0);
+					by = 2 * bA_Rs * bA_R_v_bq;
+				}
+				if (bA_ste > 0.5) {
+					yy, bA_R_v_s1, bA_R_v_s2, bA_R_v_hq, bA_R_v_bq, bA_R_v_e = f_steiner(0, bx, 0, bA_R_v_s1, bA_R_v_s2, bA_R_v_hq, bA_R_v_bq, bA_R_v_e, bA_gc, bA_Ks, bA_rho);
+					by = yy * bA_Kn;
+				}
+				if (bA_a < 0.5 && bA_sem < 0.5 && bA_ste < 0.5) {
 					ah, bh, ab, bb, al, bl = f_bsva(bA_R_v_s1, bA_R_v_s2, bA_R_v_hq, bA_R_v_bq, bA_gc, bA_R, bA_sc);
 					nA = 2 * bA_R * ab;
 					nB = 2 * bA_R * bb;
@@ -6343,16 +6797,31 @@ for (k = 0; k < ovs; k += 1) {
 				if (bA_a > 0.5 && bA_a < 1.5) {
 					ah, bh, ab, bb, al, bl = f_bsva(bA_R_c_s1, bA_R_c_s2, bA_R_c_hq, bA_R_c_bq, bA_gh, bA_R, bA_sc);
 					ah2, bh2, ab2, bb2, al2, bl2 = f_bsva(bA_R_c_t1, bA_R_c_t2, bA_R_c_tq, bA_R_c_tb, bA_gl, bA_R, bA_sc);
-					nA = bA_cn * al2 * ah;
-					nB = bA_cn * (al2 * bh + bl2);
+					cnx = bA_cn;
+					if (bA_ms1 > 0.5) {
+						gq1 = bA_gh * f_tg(bA_sc * bA_R_c_hq);
+						ah = 1 - gq1 / (1 + gq1);
+						bh = -ah * bA_R_c_s1;
+						cnx = bA_cn1;
+					}
+					nA = cnx * al2 * ah;
+					nB = cnx * (al2 * bh + bl2);
 					bu = (bx + bA_r * bt * nB) / (1 - bA_r * bt * nA);
-					hh, b1, l1, bA_R_c_s1, bA_R_c_s2 = f_bsvs(bu, bA_R_c_s1, bA_R_c_s2, bA_R_c_hq, bA_R_c_bq, bA_gh, bA_R, bA_sc);
-					bA_R_c_hq = hh;
-					bA_R_c_bq = b1;
+					if (bA_ms1 > 0.5) {
+						bt = f_bsat((nA * bu + nB) * 3.3333333333, bA_rg);
+						bu = (bx + bA_r * bt * nB) / (1 - bA_r * bt * nA);
+						hh = ah * bu + bh;
+						bA_R_c_s1 = fixdenorm(2 * (bu - hh) - bA_R_c_s1);
+						bA_R_c_hq = hh;
+					} else {
+						hh, b1, l1, bA_R_c_s1, bA_R_c_s2 = f_bsvs(bu, bA_R_c_s1, bA_R_c_s2, bA_R_c_hq, bA_R_c_bq, bA_gh, bA_R, bA_sc);
+						bA_R_c_hq = hh;
+						bA_R_c_bq = b1;
+					}
 					hh2, b2, l2, bA_R_c_t1, bA_R_c_t2 = f_bsvs(hh, bA_R_c_t1, bA_R_c_t2, bA_R_c_tq, bA_R_c_tb, bA_gl, bA_R, bA_sc);
 					bA_R_c_tq = hh2;
 					bA_R_c_tb = b2;
-					by = bA_cn * l2;
+					by = cnx * l2;
 				}
 				if (bA_a > 1.5) {
 					by, bA_R_m_s1, bA_R_m_s2, bA_R_m_s3, bA_R_m_s4, bA_R_m_p0, bA_R_m_p1, bA_R_m_p2, bA_R_m_p3, bA_R_m_p4 = f_bmm(bx, bA_R_m_s1, bA_R_m_s2, bA_R_m_s3, bA_R_m_s4, bA_R_m_p0, bA_R_m_p1, bA_R_m_p2, bA_R_m_p3, bA_R_m_p4, bA_gm, bA_k, bA_typ, bA_sc, bA_wb);
@@ -6367,8 +6836,17 @@ for (k = 0; k < ovs; k += 1) {
 			if (bB_run > 0.5) {
 				bx = za_R * b_d;
 				by = 0;
+				hh = 0;
 				bt = f_bsat(bB_R_yp * 3.3333333333, bB_rg);
-				if (bB_a < 0.5) {
+				if (bB_sem > 0.5) {
+					yy, bB_R_v_s1, bB_R_v_s2, bB_R_v_hq, bB_R_v_bq = f_sem(bx, bB_R_v_s1, bB_R_v_s2, bB_R_v_hq, bB_R_v_bq, bB_gc, bB_Rs, 0, 0);
+					by = 2 * bB_Rs * bB_R_v_bq;
+				}
+				if (bB_ste > 0.5) {
+					yy, bB_R_v_s1, bB_R_v_s2, bB_R_v_hq, bB_R_v_bq, bB_R_v_e = f_steiner(0, bx, 0, bB_R_v_s1, bB_R_v_s2, bB_R_v_hq, bB_R_v_bq, bB_R_v_e, bB_gc, bB_Ks, bB_rho);
+					by = yy * bB_Kn;
+				}
+				if (bB_a < 0.5 && bB_sem < 0.5 && bB_ste < 0.5) {
 					ah, bh, ab, bb, al, bl = f_bsva(bB_R_v_s1, bB_R_v_s2, bB_R_v_hq, bB_R_v_bq, bB_gc, bB_R, bB_sc);
 					nA = 2 * bB_R * ab;
 					nB = 2 * bB_R * bb;
@@ -6383,16 +6861,31 @@ for (k = 0; k < ovs; k += 1) {
 				if (bB_a > 0.5 && bB_a < 1.5) {
 					ah, bh, ab, bb, al, bl = f_bsva(bB_R_c_s1, bB_R_c_s2, bB_R_c_hq, bB_R_c_bq, bB_gh, bB_R, bB_sc);
 					ah2, bh2, ab2, bb2, al2, bl2 = f_bsva(bB_R_c_t1, bB_R_c_t2, bB_R_c_tq, bB_R_c_tb, bB_gl, bB_R, bB_sc);
-					nA = bB_cn * al2 * ah;
-					nB = bB_cn * (al2 * bh + bl2);
+					cnx = bB_cn;
+					if (bB_ms1 > 0.5) {
+						gq1 = bB_gh * f_tg(bB_sc * bB_R_c_hq);
+						ah = 1 - gq1 / (1 + gq1);
+						bh = -ah * bB_R_c_s1;
+						cnx = bB_cn1;
+					}
+					nA = cnx * al2 * ah;
+					nB = cnx * (al2 * bh + bl2);
 					bu = (bx + bB_r * bt * nB) / (1 - bB_r * bt * nA);
-					hh, b1, l1, bB_R_c_s1, bB_R_c_s2 = f_bsvs(bu, bB_R_c_s1, bB_R_c_s2, bB_R_c_hq, bB_R_c_bq, bB_gh, bB_R, bB_sc);
-					bB_R_c_hq = hh;
-					bB_R_c_bq = b1;
+					if (bB_ms1 > 0.5) {
+						bt = f_bsat((nA * bu + nB) * 3.3333333333, bB_rg);
+						bu = (bx + bB_r * bt * nB) / (1 - bB_r * bt * nA);
+						hh = ah * bu + bh;
+						bB_R_c_s1 = fixdenorm(2 * (bu - hh) - bB_R_c_s1);
+						bB_R_c_hq = hh;
+					} else {
+						hh, b1, l1, bB_R_c_s1, bB_R_c_s2 = f_bsvs(bu, bB_R_c_s1, bB_R_c_s2, bB_R_c_hq, bB_R_c_bq, bB_gh, bB_R, bB_sc);
+						bB_R_c_hq = hh;
+						bB_R_c_bq = b1;
+					}
 					hh2, b2, l2, bB_R_c_t1, bB_R_c_t2 = f_bsvs(hh, bB_R_c_t1, bB_R_c_t2, bB_R_c_tq, bB_R_c_tb, bB_gl, bB_R, bB_sc);
 					bB_R_c_tq = hh2;
 					bB_R_c_tb = b2;
-					by = bB_cn * l2;
+					by = cnx * l2;
 				}
 				if (bB_a > 1.5) {
 					by, bB_R_m_s1, bB_R_m_s2, bB_R_m_s3, bB_R_m_s4, bB_R_m_p0, bB_R_m_p1, bB_R_m_p2, bB_R_m_p3, bB_R_m_p4 = f_bmm(bx, bB_R_m_s1, bB_R_m_s2, bB_R_m_s3, bB_R_m_s4, bB_R_m_p0, bB_R_m_p1, bB_R_m_p2, bB_R_m_p3, bB_R_m_p4, bB_gm, bB_k, bB_typ, bB_sc, bB_wb);
@@ -6412,6 +6905,7 @@ for (k = 0; k < ovs; k += 1) {
 				bA_R_v_s2 = 0;
 				bA_R_v_hq = 0;
 				bA_R_v_bq = 0;
+				bA_R_v_e = 0;
 				bA_R_c_s1 = 0;
 				bA_R_c_s2 = 0;
 				bA_R_c_hq = 0;
@@ -6435,6 +6929,7 @@ for (k = 0; k < ovs; k += 1) {
 				bB_R_v_s2 = 0;
 				bB_R_v_hq = 0;
 				bB_R_v_bq = 0;
+				bB_R_v_e = 0;
 				bB_R_c_s1 = 0;
 				bB_R_c_s2 = 0;
 				bB_R_c_hq = 0;
@@ -12899,6 +13394,7 @@ if (rst > 0.5) {
 	bA_L_v_s2 = 0;
 	bA_L_v_hq = 0;
 	bA_L_v_bq = 0;
+	bA_L_v_e = 0;
 	bA_L_c_s1 = 0;
 	bA_L_c_s2 = 0;
 	bA_L_c_hq = 0;
@@ -12922,6 +13418,7 @@ if (rst > 0.5) {
 	bA_R_v_s2 = 0;
 	bA_R_v_hq = 0;
 	bA_R_v_bq = 0;
+	bA_R_v_e = 0;
 	bA_R_c_s1 = 0;
 	bA_R_c_s2 = 0;
 	bA_R_c_hq = 0;
@@ -12945,6 +13442,7 @@ if (rst > 0.5) {
 	bB_L_v_s2 = 0;
 	bB_L_v_hq = 0;
 	bB_L_v_bq = 0;
+	bB_L_v_e = 0;
 	bB_L_c_s1 = 0;
 	bB_L_c_s2 = 0;
 	bB_L_c_hq = 0;
@@ -12968,6 +13466,7 @@ if (rst > 0.5) {
 	bB_R_v_s2 = 0;
 	bB_R_v_hq = 0;
 	bB_R_v_bq = 0;
+	bB_R_v_e = 0;
 	bB_R_c_s1 = 0;
 	bB_R_c_s2 = 0;
 	bB_R_c_hq = 0;
@@ -14076,6 +14575,7 @@ H_bA_L_v_s1 = bA_L_v_s1;
 H_bA_L_v_s2 = bA_L_v_s2;
 H_bA_L_v_hq = bA_L_v_hq;
 H_bA_L_v_bq = bA_L_v_bq;
+H_bA_L_v_e = bA_L_v_e;
 H_bA_L_c_s1 = bA_L_c_s1;
 H_bA_L_c_s2 = bA_L_c_s2;
 H_bA_L_c_hq = bA_L_c_hq;
@@ -14099,6 +14599,7 @@ H_bA_R_v_s1 = bA_R_v_s1;
 H_bA_R_v_s2 = bA_R_v_s2;
 H_bA_R_v_hq = bA_R_v_hq;
 H_bA_R_v_bq = bA_R_v_bq;
+H_bA_R_v_e = bA_R_v_e;
 H_bA_R_c_s1 = bA_R_c_s1;
 H_bA_R_c_s2 = bA_R_c_s2;
 H_bA_R_c_hq = bA_R_c_hq;
@@ -14122,6 +14623,7 @@ H_bB_L_v_s1 = bB_L_v_s1;
 H_bB_L_v_s2 = bB_L_v_s2;
 H_bB_L_v_hq = bB_L_v_hq;
 H_bB_L_v_bq = bB_L_v_bq;
+H_bB_L_v_e = bB_L_v_e;
 H_bB_L_c_s1 = bB_L_c_s1;
 H_bB_L_c_s2 = bB_L_c_s2;
 H_bB_L_c_hq = bB_L_c_hq;
@@ -14145,6 +14647,7 @@ H_bB_R_v_s1 = bB_R_v_s1;
 H_bB_R_v_s2 = bB_R_v_s2;
 H_bB_R_v_hq = bB_R_v_hq;
 H_bB_R_v_bq = bB_R_v_bq;
+H_bB_R_v_e = bB_R_v_e;
 H_bB_R_c_s1 = bB_R_c_s1;
 H_bB_R_c_s2 = bB_R_c_s2;
 H_bB_R_c_hq = bB_R_c_hq;

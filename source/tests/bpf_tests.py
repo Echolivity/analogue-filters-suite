@@ -29,10 +29,37 @@ def ref_bpf(f, m, a, fc, bw, Q, res, fs=SR):
     t = np.tan(np.pi * f / fs)
     gc = np.tan(np.pi * fc / fs)
     rz = res / 100
-    if a == 0:
+    if a == 0 and m == 0:
+        # v1.6: SEM-1A core, band-pass node; damping min(Q knob, RES law), no regeneration loop
+        s = 1j * t / gc
+        R = min(0.5 / Q, 0.05 + 1.515 * (1 - rz))
+        H = 2 * R * s / (s * s + 2 * R * s + 1)
+    elif a == 0 and m == 1:
+        # v1.6: Synthacon core, input at the BP injection point: K s/(s^2 + (3-K) s + 1), normalised by (3-K)/K
+        s = 1j * t / gc
+        K = max(1 + 2.1 * rz ** 1.3, 3 - 1 / Q)
+        H = K * s / (s * s + (3 - K) * s + 1) * max(3 - K, 0.1) / K
+    elif a == 0:
         s = 1j * t / gc
         R = 0.5 / Q
         H = 2 * R * s / (s * s + 2 * R * s + 1)
+        r = RMAX[m] * rz ** 1.3
+        H = H / (1 - r * H)
+    elif a == 1 and m == 2:
+        # v1.6: MS-20 = 1-pole HP -> 2-pole LP, both corners scaled by the loop-phase tuning L (engine: 10-step bisection)
+        ea, eb = 2 ** (-bw / 2), 2 ** (bw / 2)
+        lo, hi = -2.5, 1.5
+        for _ in range(10):
+            md = 0.5 * (lo + hi); Lm = 2 ** md; ri = 1 / (Lm * eb)
+            ph = np.arctan(Lm * ea) - np.arctan2(ri / Q, 1 - ri * ri)
+            hi, lo = (md, lo) if ph > 0 else (hi, md)
+        Lr = 2 ** (0.5 * (lo + hi) * np.clip(2 * rz, 0, 1))
+        glo, ghi = np.tan(np.pi * 10 / fs), np.tan(0.45 * np.pi)
+        gh, gl = np.clip(gc * ea * Lr, glo, ghi), np.clip(gc * eb * Lr, glo, ghi)
+        rh = gc / gh
+        cn = 1 / ((rh / np.sqrt(1 + rh * rh)) * bmag(gc / gl, Q, 0))
+        sh, sl = 1j * t / gh, 1j * t / gl
+        H = cn * (sh / (sh + 1)) / (sl * sl + sl / Q + 1)
         r = RMAX[m] * rz ** 1.3
         H = H / (1 - r * H)
     elif a == 1:
@@ -119,7 +146,7 @@ def run_all(record, plt, OUT, SEQ, CAT, GRID, sig):
     # ------------------------------------------------------------ bandwidth / Q behaviour
     bwrows, bad = [], []
     for bw in (1, 2, 3, 4):
-        f, H = tf(bpf(model=2, arch=1, freq=1000, bw=bw, q=0.707), n=1 << 17)
+        f, H = tf(bpf(model=4, arch=1, freq=1000, bw=bw, q=0.707), n=1 << 17)   # v1.6: a symmetric (2-pole/2-pole) cascade; the MS-20's is 1-pole/2-pole
         A = db(H); m3 = f[A > A.max() - 3.0103]
         meas = np.log2(m3.max() / m3.min())
         bwrows.append(dict(arch="CASCADE", setting=f"BW {bw} oct", expected_oct=bw, measured_oct=round(float(meas), 2)))
