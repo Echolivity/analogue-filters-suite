@@ -31,7 +31,7 @@ ARCHS = ["SVF", "CASCADE", "MULTIMODE"]
 CH = ["L", "R"]
 SLOTS = ["A", "B"]
 SLOT_STATES = (["yp", "ro"] +                                 # regeneration memory, ARP roll-off state
-               ["v_s1", "v_s2", "v_hq", "v_bq"] +            # SVF section
+               ["v_s1", "v_s2", "v_hq", "v_bq", "v_e"] +     # SVF section (v_e: v1.6 Steiner amplifier state)
                ["c_s1", "c_s2", "c_hq", "c_bq", "c_t1", "c_t2", "c_tq", "c_tb"] +  # cascade HP + LP sections
                ["m_s1", "m_s2", "m_s3", "m_s4", "m_p0", "m_p1", "m_p2", "m_p3", "m_p4"])  # multimode core
 
@@ -112,6 +112,11 @@ f_bmm(x, s1, s2, s3, s4, p0, p1, p2, p3, p4, g, k, typ, sc, wb) {
 	bp2 = 2 * (y1 - y2);
 	y = bp4 + wb * (bp2 - bp4);
 	return y, fixdenorm(2 * y1 - s1), fixdenorm(2 * y2 - s2), fixdenorm(2 * y3 - s3), fixdenorm(2 * y4 - s4), u, y1, y2, y3, y4;
+}
+
+// v1.6: analogue magnitude of a 1-pole HP at normalised frequency rho (MS-20 HPF, Stinchcombe)
+f_bmag1(rho) {
+	return rho / sqrt(1 + rho * rho);
 }
 
 // analogue magnitude of a 2-pole HP (hp=1) or LP (hp=0) at normalised frequency rho
@@ -233,6 +238,51 @@ def emit_controls(w, G):
         # raw (uncompensated) circuit gain at the centre: SVF Q, cascade 1/cn, multimode taps unity
         w(f"{p}_raw = {p}_a < 0.5 ? b_qq : ({p}_a < 1.5 ? 1 / {p}_cn : 1);")
         w(f"{p}_ocmp = pow({p}_raw, 1 - b_cmp);")
+        # v1.6 circuit cores (docs/independent-review/BPF_CONSISTENCY_CHECK.md):
+        #  SEM in SVF   = the LPF engine's SEM-1A core, band-pass node (RES law + D11/D12 limiter, rails);
+        #  Steiner, SVF = the LPF engine's Synthacon core with the input at the BP injection point (sinh diodes);
+        #  MS-20, CASCADE = 1-pole (6 dB/oct) HP into the 2-pole LP (Stinchcombe's MS-20 study).
+        w(f"{p}_sem = ({p}_m < 0.5 && {p}_a < 0.5) ? 1 : 0;")
+        w(f"{p}_ste = ({p}_m > 0.5 && {p}_m < 1.5 && {p}_a < 0.5) ? 1 : 0;")
+        w(f"{p}_ms1 = ({p}_m > 1.5 && {p}_m < 2.5 && {p}_a > 0.5 && {p}_a < 1.5) ? 1 : 0;")
+        w(f"{p}_Rs = min({p}_R, 0.05 + 1.515 * (1 - b_rz));")          # Q knob sets a floor; RES follows the SEM-1A law (Q <= 10)
+        w(f"{p}_Ks = max(1 + 2.1 * pow(b_rz, 1.3), 3 - 1 / b_qq);")    # Synthacon gain law; Q knob sets a floor
+        w(f"{p}_Kn = max(3 - {p}_Ks, 0.1) / {p}_Ks;")                   # 1 / linear peak gain of K s/(s^2+(3-K)s+1)
+        w(f"{p}_rho = 0.0000590619 * b_fc;")
+        # MS-20 cascade tuning: a 1-pole HP and a 2-pole LP are not phase-symmetric about the centre, so the
+        # regeneration loop would resonate ~4 semitones low. Both corners are scaled by L (bisection on the
+        # analogue loop phase, 10 steps, about 15 cents) so the loop's zero-phase frequency is the centre;
+        # applied in proportion to resonance up to 50 % (no shift at 0 %).
+        w(f"{p}_lo = -2.5;")
+        w(f"{p}_hi = 1.5;")
+        w(f"{p}_ea = exp2(-0.5 * b_bwz);")
+        w(f"{p}_eb = exp2(0.5 * b_bwz);")
+        w(f"if ({p}_ms1 > 0.5) {{")
+        for _ in range(10):
+            w(f"\t{p}_md = 0.5 * ({p}_lo + {p}_hi);")
+            w(f"\t{p}_Lm = exp2({p}_md);")
+            w(f"\t{p}_ri = 1 / ({p}_Lm * {p}_eb);")
+            w(f"\t{p}_ph = atan({p}_Lm * {p}_ea) - atan2({p}_ri / b_qq, 1 - {p}_ri * {p}_ri);")
+            w(f"\t{p}_hi = {p}_ph > 0 ? {p}_md : {p}_hi;")
+            w(f"\t{p}_lo = {p}_ph > 0 ? {p}_lo : {p}_md;")
+        w("}")
+        w(f"{p}_Lr = {p}_ms1 > 0.5 ? exp2(0.5 * ({p}_lo + {p}_hi) * clamp(2 * b_rz, 0, 1)) : 1;")
+        w(f"if ({p}_ms1 > 0.5) {{")
+        # in the warped (bilinear) domain, so the zero-phase point lands on the digital centre exactly
+        w(f"\t{p}_gh = clamp({p}_gc * {p}_ea * {p}_Lr, tan(pi * 10 / fso), 6.31375151);")
+        w(f"\t{p}_gl = clamp({p}_gc * {p}_eb * {p}_Lr, tan(pi * 10 / fso), 6.31375151);")
+        w("}")
+        w(f"{p}_Gh1 = {p}_gh / (1 + {p}_gh);")
+        w(f"{p}_cn1 = 1 / (f_bmag1({p}_gc / {p}_gh) * f_bmag({p}_gc / {p}_gl, b_qq, 0));")
+        w(f"if ({p}_sem > 0.5) {{")
+        w(f"\t{p}_raw = 0.5 / {p}_Rs;")
+        w("}")
+        w(f"if ({p}_ste > 0.5) {{")
+        w(f"\t{p}_raw = 1 / {p}_Kn;")
+        w("}")
+        w(f"if ({p}_ms1 > 0.5) {{")
+        w(f"\t{p}_raw = 1 / {p}_cn1;")
+        w("}")
         w(f"{p}_gro = tan(pi * min(14000, 0.45 * fso) / fso);")
         w(f"{p}_Gro = {p}_gro / (1 + {p}_gro);")
         # v1.6: clear the slot only when it holds state (bit-exact with clearing every sample)
@@ -258,11 +308,24 @@ def emit_slot(w, G, sl, ch, xin, yout):
     G.ind += 1
     w(f"bx = {xin} * b_d;")
     w(f"by = 0;")
+    w(f"hh = 0;")
     w(f"bt = f_bsat({s('yp')} * 3.3333333333, {p}_rg);")
     # --- SVF ---
-    w(f"if ({p}_a < 0.5) {{")
-    G.ind += 1
     sv = [s("v_s1"), s("v_s2"), s("v_hq"), s("v_bq")]
+    w(f"if ({p}_sem > 0.5) {{")
+    G.ind += 1
+    w(f"yy, {sv[0]}, {sv[1]}, {sv[2]}, {sv[3]} = f_sem(bx, {', '.join(sv)}, {p}_gc, {p}_Rs, 0, 0);")
+    w(f"by = 2 * {p}_Rs * {sv[3]};")
+    G.ind -= 1
+    w("}")
+    w(f"if ({p}_ste > 0.5) {{")
+    G.ind += 1
+    w(f"yy, {sv[0]}, {sv[1]}, {sv[2]}, {sv[3]}, {s('v_e')} = f_steiner(0, bx, 0, {', '.join(sv)}, {s('v_e')}, {p}_gc, {p}_Ks, {p}_rho);")
+    w(f"by = yy * {p}_Kn;")
+    G.ind -= 1
+    w("}")
+    w(f"if ({p}_a < 0.5 && {p}_sem < 0.5 && {p}_ste < 0.5) {{")
+    G.ind += 1
     w(f"ah, bh, ab, bb, al, bl = f_bsva({', '.join(sv)}, {p}_gc, {p}_R, {p}_sc);")
     w(f"nA = 2 * {p}_R * ab;")
     w(f"nB = 2 * {p}_R * bb;")
@@ -284,16 +347,40 @@ def emit_slot(w, G, sl, ch, xin, yout):
     c2 = [s("c_t1"), s("c_t2"), s("c_tq"), s("c_tb")]
     w(f"ah, bh, ab, bb, al, bl = f_bsva({', '.join(c1)}, {p}_gh, {p}_R, {p}_sc);")
     w(f"ah2, bh2, ab2, bb2, al2, bl2 = f_bsva({', '.join(c2)}, {p}_gl, {p}_R, {p}_sc);")
-    w(f"nA = {p}_cn * al2 * ah;")
-    w(f"nB = {p}_cn * (al2 * bh + bl2);")
+    w(f"cnx = {p}_cn;")
+    w(f"if ({p}_ms1 > 0.5) {{")
+    G.ind += 1
+    # 1-pole TPT HP, h = (1 - G)(x - s), with the transconductor element's secant (lagged), as the 2-pole sections
+    w(f"gq1 = {p}_gh * f_tg({p}_sc * {c1[2]});")
+    w(f"ah = 1 - gq1 / (1 + gq1);")
+    w(f"bh = -ah * {c1[0]};")
+    w(f"cnx = {p}_cn1;")
+    G.ind -= 1
+    w("}")
+    w(f"nA = cnx * al2 * ah;")
+    w(f"nB = cnx * (al2 * bh + bl2);")
     w(f"bu = (bx + {p}_r * bt * nB) / (1 - {p}_r * bt * nA);")
+    w(f"if ({p}_ms1 > 0.5) {{")
+    G.ind += 1
+    # re-evaluate the regeneration limiter at the current output estimate (one fixed-point step, as in the SVF;
+    # the lagged value alone pumps an fs/4 oscillation to +36 dBFS with the 1-pole HP)
+    w(f"bt = f_bsat((nA * bu + nB) * 3.3333333333, {p}_rg);")
+    w(f"bu = (bx + {p}_r * bt * nB) / (1 - {p}_r * bt * nA);")
+    w(f"hh = ah * bu + bh;")
+    w(f"{c1[0]} = fixdenorm(2 * (bu - hh) - {c1[0]});")
+    w(f"{c1[2]} = hh;")
+    G.ind -= 1
+    w("} else {")
+    G.ind += 1
     w(f"hh, b1, l1, {c1[0]}, {c1[1]} = f_bsvs(bu, {', '.join(c1)}, {p}_gh, {p}_R, {p}_sc);")
     w(f"{c1[2]} = hh;")
     w(f"{c1[3]} = b1;")
+    G.ind -= 1
+    w("}")
     w(f"hh2, b2, l2, {c2[0]}, {c2[1]} = f_bsvs(hh, {', '.join(c2)}, {p}_gl, {p}_R, {p}_sc);")
     w(f"{c2[2]} = hh2;")
     w(f"{c2[3]} = b2;")
-    w(f"by = {p}_cn * l2;")
+    w(f"by = cnx * l2;")
     G.ind -= 1
     w("}")
     # --- MULTIMODE ---
