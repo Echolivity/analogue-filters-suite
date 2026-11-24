@@ -121,7 +121,7 @@ Every parameter and custom control now has Info View text (`annotation_name` + `
 | Section | Control (varname) | Live parameter (long / short) | Object | Range / options | Default | Dimmed when |
 |---|---|---|---|---|---|---|
 | LOW-PASS | `l_on` | LPF On / LPF On | live.text | off, on | on | — |
-| LOW-PASS | `l_model` | LPF Model / LPF Model | live.menu | 01 Sherman Filterbank, 02 Korg 35 / MS-20, 03 Moog-style Ladder, 04 Steiner-Parker, 05 Oberheim SEM, 06 TB-303 Diode Ladder | 03 Moog-style Ladder | LPF bypassed |
+| LOW-PASS | `l_model` | LPF Model / LPF Model | live.menu | 01 Sherman Filterbank, 02 Korg 35 / MS-20, 03 Moog-style Ladder, 04 Steiner-Parker, 05 Oberheim SEM, 06 TB-303 Diode Ladder, 07 ARP 2600 (4012) | 03 Moog-style Ladder | LPF bypassed |
 | LOW-PASS | `l_cut` | LPF Cutoff / LPF Cut | live.dial | 20 … 20000 | 20000 | LPF bypassed |
 | LOW-PASS | `l_res` | LPF Resonance / LPF Res | live.dial | 0 … 100 | 0 | LPF bypassed |
 | LOW-PASS | `l_drive` | LPF Drive / LPF Drive | live.dial | 0 … 100 | 0 | LPF bypassed |

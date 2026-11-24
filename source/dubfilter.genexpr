@@ -3,7 +3,7 @@
 // gen~ codebox: in1/in2 = stereo in, out1/out2 = stereo out.
 
 Param l_on(1, min=0, max=1);
-Param l_model(2, min=0, max=5);
+Param l_model(2, min=0, max=6);
 Param l_cut(20000, min=20, max=20000);
 Param l_res(0, min=0, max=100);
 Param l_slope(1, min=0, max=3);
@@ -206,6 +206,24 @@ History H_l_R_di_v3(0.0);
 History H_l_R_di_v4(0.0);
 History H_l_R_di_sf(0.0);
 History H_l_R_di_sc(0.0);
+History H_l_L_ar_s1(0.0);
+History H_l_L_ar_s2(0.0);
+History H_l_L_ar_s3(0.0);
+History H_l_L_ar_s4(0.0);
+History H_l_L_ar_p0(0.0);
+History H_l_L_ar_p1(0.0);
+History H_l_L_ar_p2(0.0);
+History H_l_L_ar_p3(0.0);
+History H_l_L_ar_p4(0.0);
+History H_l_R_ar_s1(0.0);
+History H_l_R_ar_s2(0.0);
+History H_l_R_ar_s3(0.0);
+History H_l_R_ar_s4(0.0);
+History H_l_R_ar_p0(0.0);
+History H_l_R_ar_p1(0.0);
+History H_l_R_ar_p2(0.0);
+History H_l_R_ar_p3(0.0);
+History H_l_R_ar_p4(0.0);
 History H_l_L_x0_s1(0.0);
 History H_l_L_x0_s2(0.0);
 History H_l_L_x1_s1(0.0);
@@ -1363,6 +1381,7 @@ History H_l_dzld(0.0);
 History H_l_dzst(0.0);
 History H_l_dzse(0.0);
 History H_l_dzdi(0.0);
+History H_l_dzar(0.0);
 History H_l_dzx0(0.0);
 History H_l_dzx1(0.0);
 History H_l_dzx2(0.0);
@@ -1683,6 +1702,70 @@ f_ladder(x, s1, s2, s3, s4, p0, p1, p2, p3, p4, h1, h2, pz, g, k, bc, hs, hp, ga
 		o24 = u - 4 * y1 + 6 * y2 - 4 * y3 + y4;
 	}
 	return o12, o24, fixdenorm(2 * y1 - s1), fixdenorm(2 * y2 - s2), fixdenorm(2 * y3 - s3), fixdenorm(2 * y4 - s4), u, y1, y2, y3, y4, fixdenorm(va * 2 + h1), fixdenorm(vb * 2 + h2), z;
+}
+
+// ================= MODEL 07: ARP 2600 VCF (4012 module) =================
+// ARP 4012 voltage-controlled low-pass (ARP Instruments 1970; module schematic redrawn by J. Verghese 1997,
+// supplied by the user) in the 2600 (service manual, Board 3, also supplied):
+//  - input: Q1/Q2 pair, emitter-degenerated (R8/R9 3.32k, tail R10 56k): linear to about 0.6 V, then a hard
+//    limit at about 0.85 V ("signal limiter"); drives the ladder's bottom pair Q6/Q7. Audio enters pin 1 through
+//    100k into R11 220R (x0.00218); the resonance feedback enters pin 2 through the slider + 150k into R12 2k2.
+//  - Moog-type ladder: four matched TZ-81 pairs (Q6-Q15), C1-C4 0.01 uF, bias string R1-R5; output across the top
+//    capacitor C4 through a dual-FET buffer (Q17) and a level shifter (Q18/Q19, Q20) into an LM301A
+//    differential amplifier (A1, +/-15 V). DC-coupled throughout: no coupling capacitors in the loop.
+// Level: 1 model unit = 5 V (the 2600's 10 V p-p audio); the ladder state p is in units of 2 V_T / 1.4 as in
+// the ladder model, so the input scale 0.608 per stage unit (x 0.25 at Drive 0) puts 11 mV per 5 V into the pair.
+// The output amplifier is calibrated for unity gain from one 100k input (GAIN trim; assumed) and clips at
+// about +/-13 V (2.6 units). returns y, s1..s4, p0..p4
+f_arp4012(x, s1, s2, s3, s4, p0, p1, p2, p3, p4, g, k, bc, hs) {
+	T0 = f_tg(1.4 * p0);
+	T1 = f_tg(1.4 * hs * p1);
+	T2 = f_tg(1.4 * hs * p2);
+	T3 = f_tg(1.4 * hs * p3);
+	T4 = f_tg(1.4 * hs * p4);
+	i1 = 1 / (1 + g * T1);
+	i2 = 1 / (1 + g * T2);
+	i3 = 1 / (1 + g * T3);
+	i4 = 1 / (1 + g * T4);
+	G1 = g * T0 * i1;
+	G2 = g * T1 * i2;
+	G3 = g * T2 * i3;
+	G4 = g * T3 * i4;
+	S = G2 * G3 * G4 * s1 * i1 + G3 * G4 * s2 * i2 + G4 * s3 * i3 + s4 * i4;
+	P = G1 * G2 * G3 * G4;
+	xi = 0.608 * x * (1 + k * bc);
+	u = (xi - k * S) / (1 + k * P);
+	y1 = G1 * u + s1 * i1;
+	y2 = G2 * y1 + s2 * i2;
+	y3 = G3 * y2 + s3 * i3;
+	y4 = G4 * y3 + s4 * i4;
+	// one re-solve with the pair secants at the current solution (k reaches 6.6 here; the lagged secants
+	// alone overshoot to about +11 dBFS near fs/4 at 1x)
+	T0 = f_tg(1.4 * u);
+	T1 = f_tg(1.4 * hs * y1);
+	T2 = f_tg(1.4 * hs * y2);
+	T3 = f_tg(1.4 * hs * y3);
+	T4 = f_tg(1.4 * hs * y4);
+	i1 = 1 / (1 + g * T1);
+	i2 = 1 / (1 + g * T2);
+	i3 = 1 / (1 + g * T3);
+	i4 = 1 / (1 + g * T4);
+	G1 = g * T0 * i1;
+	G2 = g * T1 * i2;
+	G3 = g * T2 * i3;
+	G4 = g * T3 * i4;
+	S = G2 * G3 * G4 * s1 * i1 + G3 * G4 * s2 * i2 + G4 * s3 * i3 + s4 * i4;
+	P = G1 * G2 * G3 * G4;
+	u = (xi - k * S) / (1 + k * P);
+	y1 = G1 * u + s1 * i1;
+	y2 = G2 * y1 + s2 * i2;
+	y3 = G3 * y2 + s3 * i3;
+	y4 = G4 * y3 + s4 * i4;
+	o = 2.6 * tanh(y4 * 0.632591);          // A1 at its rails: y4 / 0.608 / 2.6
+	if (abs(y4) > 1000000) {
+		o = y4;
+	}
+	return o, fixdenorm(2 * y1 - s1), fixdenorm(2 * y2 - s2), fixdenorm(2 * y3 - s3), fixdenorm(2 * y4 - s4), u, y1, y2, y3, y4;
 }
 
 // ================= MODEL 04: Steiner-Parker Synthacon-inspired =================
@@ -2141,6 +2224,24 @@ l_R_di_v3 = H_l_R_di_v3;
 l_R_di_v4 = H_l_R_di_v4;
 l_R_di_sf = H_l_R_di_sf;
 l_R_di_sc = H_l_R_di_sc;
+l_L_ar_s1 = H_l_L_ar_s1;
+l_L_ar_s2 = H_l_L_ar_s2;
+l_L_ar_s3 = H_l_L_ar_s3;
+l_L_ar_s4 = H_l_L_ar_s4;
+l_L_ar_p0 = H_l_L_ar_p0;
+l_L_ar_p1 = H_l_L_ar_p1;
+l_L_ar_p2 = H_l_L_ar_p2;
+l_L_ar_p3 = H_l_L_ar_p3;
+l_L_ar_p4 = H_l_L_ar_p4;
+l_R_ar_s1 = H_l_R_ar_s1;
+l_R_ar_s2 = H_l_R_ar_s2;
+l_R_ar_s3 = H_l_R_ar_s3;
+l_R_ar_s4 = H_l_R_ar_s4;
+l_R_ar_p0 = H_l_R_ar_p0;
+l_R_ar_p1 = H_l_R_ar_p1;
+l_R_ar_p2 = H_l_R_ar_p2;
+l_R_ar_p3 = H_l_R_ar_p3;
+l_R_ar_p4 = H_l_R_ar_p4;
 l_L_x0_s1 = H_l_L_x0_s1;
 l_L_x0_s2 = H_l_L_x0_s2;
 l_L_x1_s1 = H_l_L_x1_s1;
@@ -3811,7 +3912,7 @@ l_run = l_wet > 0 ? 1 : 0;
 l_d = 0.25 * exp2(5 * l_drv);
 l_id = 1 / l_d;
 l_osc = l_id * exp2(5 * l_drv * (1 - 0.5 * l_cmp));
-l_msel = clamp(floor(l_model + 0.5), 0, 5);
+l_msel = clamp(floor(l_model + 0.5), 0, 6);
 l_cur = H_l_cur;
 l_prev = H_l_prev;
 l_fade = H_l_fade;
@@ -3846,6 +3947,8 @@ l_ase = (l_run > 0.5 && (l_cur == 4 || (l_prev == 4 && l_fade < 1))) ? 1 : 0;
 l_mse = (l_cur == 4 ? l_fade : 0) + ((l_prev == 4 && l_cur != 4) ? 1 - l_fade : 0);
 l_adi = (l_run > 0.5 && (l_cur == 5 || (l_prev == 5 && l_fade < 1))) ? 1 : 0;
 l_mdi = (l_cur == 5 ? l_fade : 0) + ((l_prev == 5 && l_cur != 5) ? 1 - l_fade : 0);
+l_aar = (l_run > 0.5 && (l_cur == 6 || (l_prev == 6 && l_fade < 1))) ? 1 : 0;
+l_mar = (l_cur == 6 ? l_fade : 0) + ((l_prev == 6 && l_cur != 6) ? 1 - l_fade : 0);
 // coefficients: Sherman Filterbank-inspired
 l_sh_g = l_gw;
 l_sh_R1 = 0.3 + 0.7 * (1 - l_rz) * (1 - l_rz);
@@ -3881,6 +3984,11 @@ l_di_k = 19.549999999999997 * pow(l_rz, 1.8);
 l_di_g = l_gw / (0.1494 + 1.2648 * sqrt(min(l_di_k / 17.0, 1.06)));
 l_di_gf = tan(pi * min(8 * exp2(5.2 * l_chr), 0.45 * fso) / fso);
 l_di_Gf = l_di_gf / (1 + l_di_gf);
+// coefficients: ARP 2600 VCF (4012 module)
+l_ar_g = l_gw;
+l_ar_k = 1011120 * l_rz / (152200 + 100000 * l_rz * (1 - l_rz));
+l_ar_bc = l_cmp;
+l_ar_hs = 1 + 2 * l_chr;
 l_dzsh = H_l_dzsh;
 if (l_ash < 0.5 && l_dzsh > 0.5) {
 	l_L_sh_s1a = 0;
@@ -4024,6 +4132,31 @@ if (l_adi < 0.5 && l_dzdi > 0.5) {
 }
 if (l_adi > 0.5) {
 	l_dzdi = 1;
+}
+l_dzar = H_l_dzar;
+if (l_aar < 0.5 && l_dzar > 0.5) {
+	l_L_ar_s1 = 0;
+	l_L_ar_s2 = 0;
+	l_L_ar_s3 = 0;
+	l_L_ar_s4 = 0;
+	l_L_ar_p0 = 0;
+	l_L_ar_p1 = 0;
+	l_L_ar_p2 = 0;
+	l_L_ar_p3 = 0;
+	l_L_ar_p4 = 0;
+	l_R_ar_s1 = 0;
+	l_R_ar_s2 = 0;
+	l_R_ar_s3 = 0;
+	l_R_ar_s4 = 0;
+	l_R_ar_p0 = 0;
+	l_R_ar_p1 = 0;
+	l_R_ar_p2 = 0;
+	l_R_ar_p3 = 0;
+	l_R_ar_p4 = 0;
+	l_dzar = 0;
+}
+if (l_aar > 0.5) {
+	l_dzar = 1;
 }
 l_dzx0 = H_l_dzx0;
 if ((l_xa < 0.5 || l_run < 0.5) && l_dzx0 > 0.5) {
@@ -4697,7 +4830,7 @@ cfg_o = order_sel > 0.5 ? 1 : 0;
 os_user = ovs_hi > 0.5 ? clamp(floor(ovs_hi + 0.5), 1, 3) + 1 : (ovs_sel > 0.5 ? 1 : 0);
 ref_mode = eng_mode < 0.5 ? 1 : 0;
 cfg_k = k35_circ > 0.5 ? 1 : 0;
-os_ml = l_on > 0.5 ? ((cfg_k > 0.5 && abs(l_model - 1) < 0.5) ? 3 : (clamp(floor(l_model + 0.5), 0, 5) < 0.5 ? 1.0 : (clamp(floor(l_model + 0.5), 0, 5) < 1.5 ? 1.0 : (clamp(floor(l_model + 0.5), 0, 5) < 2.5 ? 2.0 : (clamp(floor(l_model + 0.5), 0, 5) < 3.5 ? 2.0 : (clamp(floor(l_model + 0.5), 0, 5) < 4.5 ? 0.0 : 1.0)))))) : 0;
+os_ml = l_on > 0.5 ? ((cfg_k > 0.5 && abs(l_model - 1) < 0.5) ? 3 : (clamp(floor(l_model + 0.5), 0, 6) < 0.5 ? 1.0 : (clamp(floor(l_model + 0.5), 0, 6) < 1.5 ? 1.0 : (clamp(floor(l_model + 0.5), 0, 6) < 2.5 ? 2.0 : (clamp(floor(l_model + 0.5), 0, 6) < 3.5 ? 2.0 : (clamp(floor(l_model + 0.5), 0, 6) < 4.5 ? 0.0 : (clamp(floor(l_model + 0.5), 0, 6) < 5.5 ? 1.0 : 2.0))))))) : 0;
 os_mh = h_on > 0.5 ? ((cfg_k > 0.5 && abs(h_model - 1) < 0.5) ? 2 : (clamp(floor(h_model + 0.5), 0, 4) < 0.5 ? 1.0 : (clamp(floor(h_model + 0.5), 0, 4) < 1.5 ? 1.0 : (clamp(floor(h_model + 0.5), 0, 4) < 2.5 ? 1.0 : (clamp(floor(h_model + 0.5), 0, 4) < 3.5 ? 1.0 : 1.0))))) : 0;
 os_ml = (l_on > 0.5 && l_model < 0.5 && sh_ck > 0.5) ? max(os_ml, 3) : os_ml;
 os_mh = (h_on > 0.5 && h_model < 0.5 && sh_ck > 0.5) ? max(os_mh, 3) : os_mh;
@@ -5616,6 +5749,10 @@ for (k = 0; k < ovs; k += 1) {
 			o1, l_L_di_s1, l_L_di_s2, l_L_di_s3, l_L_di_s4, l_L_di_v1, l_L_di_v2, l_L_di_v3, l_L_di_v4, l_L_di_sf, l_L_di_sc = f_diode(li_L, l_L_di_s1, l_L_di_s2, l_L_di_s3, l_L_di_s4, l_L_di_v1, l_L_di_v2, l_L_di_v3, l_L_di_v4, l_L_di_sf, l_L_di_sc, l_di_g, l_di_k, l_di_Gf, l_cmp);
 			lb_L = lb_L + l_mdi * o1;
 		}
+		if (l_aar > 0.5) {
+			o1, l_L_ar_s1, l_L_ar_s2, l_L_ar_s3, l_L_ar_s4, l_L_ar_p0, l_L_ar_p1, l_L_ar_p2, l_L_ar_p3, l_L_ar_p4 = f_arp4012(li_L, l_L_ar_s1, l_L_ar_s2, l_L_ar_s3, l_L_ar_s4, l_L_ar_p0, l_L_ar_p1, l_L_ar_p2, l_L_ar_p3, l_L_ar_p4, l_ar_g, l_ar_k, l_ar_bc, l_ar_hs);
+			lb_L = lb_L + l_mar * o1;
+		}
 		e0 = lb_L;
 		e1 = 0;
 		e2 = 0;
@@ -5692,6 +5829,15 @@ for (k = 0; k < ovs; k += 1) {
 			l_L_di_v4 = 0;
 			l_L_di_sf = 0;
 			l_L_di_sc = 0;
+			l_L_ar_s1 = 0;
+			l_L_ar_s2 = 0;
+			l_L_ar_s3 = 0;
+			l_L_ar_s4 = 0;
+			l_L_ar_p0 = 0;
+			l_L_ar_p1 = 0;
+			l_L_ar_p2 = 0;
+			l_L_ar_p3 = 0;
+			l_L_ar_p4 = 0;
 			l_L_x0_s1 = 0;
 			l_L_x0_s2 = 0;
 			l_L_x1_s1 = 0;
@@ -5732,6 +5878,10 @@ for (k = 0; k < ovs; k += 1) {
 		if (l_adi > 0.5) {
 			o1, l_R_di_s1, l_R_di_s2, l_R_di_s3, l_R_di_s4, l_R_di_v1, l_R_di_v2, l_R_di_v3, l_R_di_v4, l_R_di_sf, l_R_di_sc = f_diode(li_R, l_R_di_s1, l_R_di_s2, l_R_di_s3, l_R_di_s4, l_R_di_v1, l_R_di_v2, l_R_di_v3, l_R_di_v4, l_R_di_sf, l_R_di_sc, l_di_g, l_di_k, l_di_Gf, l_cmp);
 			lb_R = lb_R + l_mdi * o1;
+		}
+		if (l_aar > 0.5) {
+			o1, l_R_ar_s1, l_R_ar_s2, l_R_ar_s3, l_R_ar_s4, l_R_ar_p0, l_R_ar_p1, l_R_ar_p2, l_R_ar_p3, l_R_ar_p4 = f_arp4012(li_R, l_R_ar_s1, l_R_ar_s2, l_R_ar_s3, l_R_ar_s4, l_R_ar_p0, l_R_ar_p1, l_R_ar_p2, l_R_ar_p3, l_R_ar_p4, l_ar_g, l_ar_k, l_ar_bc, l_ar_hs);
+			lb_R = lb_R + l_mar * o1;
 		}
 		e0 = lb_R;
 		e1 = 0;
@@ -5809,6 +5959,15 @@ for (k = 0; k < ovs; k += 1) {
 			l_R_di_v4 = 0;
 			l_R_di_sf = 0;
 			l_R_di_sc = 0;
+			l_R_ar_s1 = 0;
+			l_R_ar_s2 = 0;
+			l_R_ar_s3 = 0;
+			l_R_ar_s4 = 0;
+			l_R_ar_p0 = 0;
+			l_R_ar_p1 = 0;
+			l_R_ar_p2 = 0;
+			l_R_ar_p3 = 0;
+			l_R_ar_p4 = 0;
 			l_R_x0_s1 = 0;
 			l_R_x0_s2 = 0;
 			l_R_x1_s1 = 0;
@@ -13053,6 +13212,24 @@ if (rst > 0.5) {
 	l_R_di_v4 = 0;
 	l_R_di_sf = 0;
 	l_R_di_sc = 0;
+	l_L_ar_s1 = 0;
+	l_L_ar_s2 = 0;
+	l_L_ar_s3 = 0;
+	l_L_ar_s4 = 0;
+	l_L_ar_p0 = 0;
+	l_L_ar_p1 = 0;
+	l_L_ar_p2 = 0;
+	l_L_ar_p3 = 0;
+	l_L_ar_p4 = 0;
+	l_R_ar_s1 = 0;
+	l_R_ar_s2 = 0;
+	l_R_ar_s3 = 0;
+	l_R_ar_s4 = 0;
+	l_R_ar_p0 = 0;
+	l_R_ar_p1 = 0;
+	l_R_ar_p2 = 0;
+	l_R_ar_p3 = 0;
+	l_R_ar_p4 = 0;
 	l_L_x0_s1 = 0;
 	l_L_x0_s2 = 0;
 	l_L_x1_s1 = 0;
@@ -14216,6 +14393,24 @@ H_l_R_di_v3 = l_R_di_v3;
 H_l_R_di_v4 = l_R_di_v4;
 H_l_R_di_sf = l_R_di_sf;
 H_l_R_di_sc = l_R_di_sc;
+H_l_L_ar_s1 = l_L_ar_s1;
+H_l_L_ar_s2 = l_L_ar_s2;
+H_l_L_ar_s3 = l_L_ar_s3;
+H_l_L_ar_s4 = l_L_ar_s4;
+H_l_L_ar_p0 = l_L_ar_p0;
+H_l_L_ar_p1 = l_L_ar_p1;
+H_l_L_ar_p2 = l_L_ar_p2;
+H_l_L_ar_p3 = l_L_ar_p3;
+H_l_L_ar_p4 = l_L_ar_p4;
+H_l_R_ar_s1 = l_R_ar_s1;
+H_l_R_ar_s2 = l_R_ar_s2;
+H_l_R_ar_s3 = l_R_ar_s3;
+H_l_R_ar_s4 = l_R_ar_s4;
+H_l_R_ar_p0 = l_R_ar_p0;
+H_l_R_ar_p1 = l_R_ar_p1;
+H_l_R_ar_p2 = l_R_ar_p2;
+H_l_R_ar_p3 = l_R_ar_p3;
+H_l_R_ar_p4 = l_R_ar_p4;
 H_l_L_x0_s1 = l_L_x0_s1;
 H_l_L_x0_s2 = l_L_x0_s2;
 H_l_L_x1_s1 = l_L_x1_s1;
@@ -15292,6 +15487,7 @@ H_l_dzld = l_dzld;
 H_l_dzst = l_dzst;
 H_l_dzse = l_dzse;
 H_l_dzdi = l_dzdi;
+H_l_dzar = l_dzar;
 H_l_dzx0 = l_dzx0;
 H_l_dzx1 = l_dzx1;
 H_l_dzx2 = l_dzx2;

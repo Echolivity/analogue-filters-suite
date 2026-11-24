@@ -13,7 +13,7 @@ All 101 controls are Live parameters: the 20 from v1.1, 11 from v1.2 and 44 from
 | LPF Compensation | LPF Comp | 0 – 100 % | 100 % | Two jobs. **Drive makeup:** at 100 %, small-signal gain rises by only half the drive in dB (+15 dB at full drive) while peaks are held by the saturation, which roughly matches loudness. At 0 % there is no makeup (+30 dB at full drive). **Circuit gain compensation:** restores the bass loss of the Ladder and TB-303 as resonance rises, and divides out the Steiner-Parker amplifier gain K (up to +9.5 dB). All three are real circuit behaviours, shown at Comp 0 in VALIDATION.md. |
 | LPF Character | LPF Char | 0 – 100 % | 0 % | Model-specific; the label under the knob changes with the model. See below. |
 | LPF On | LPF On | off / on | on | 10 ms crossfade. When off, the stage's model code is skipped and its state reset. |
-| LPF Model | LPF Model | 6 models | 03 Moog-style Ladder | ~25 ms crossfade between old and new model. Both run only during the fade. |
+| LPF Model | LPF Model | 7 models (07 ARP 2600 appended in v1.6: saved indices unchanged) | 03 Moog-style Ladder | ~25 ms crossfade between old and new model. Both run only during the fade. |
 
 ## High-pass stage (copper)
 

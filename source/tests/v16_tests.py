@@ -54,12 +54,12 @@ FAC = {1: dict(ovs_sel=0, ovs_hi=0), 2: dict(ovs_sel=1, ovs_hi=0), 4: dict(ovs_h
 rows, worst = [], -999.0
 for sr in (44100, 48000):
     q = sr / 4
-    for m in range(6):
+    for m in range(7):
         for c in range(-100, 101, 10):
             fc = q * 2 ** (c / 1200)
             for res in (92, 96, 100):
                 x = np.zeros(int(0.7 * sr)); x[int(0.3 * sr):int(0.3 * sr) + 64] = 0.05
-                y = run(x, base(l_on=1, l_model=m, l_cut=fc, l_res=res, l_slope=1 if m in (0, 2, 5) else 0, l_comp=0), sr)[:, 0]
+                y = run(x, base(l_on=1, l_model=m, l_cut=fc, l_res=res, l_slope=1 if m in (0, 2, 5, 6) else 0, l_comp=0), sr)[:, 0]
                 pk = db(np.max(np.abs(y[int(0.4 * sr):])))
                 worst = max(worst, pk)
                 rows.append(dict(sr=sr, model=m, cents=c, res=res, peak=round(pk, 1)))
@@ -102,7 +102,7 @@ check("fault containment: a 1e9 input sample is contained, output clean 10 ms la
       f"flag raised: {int(M[:, 14].max())}; max |y| 10 ms after = {np.max(np.abs(after)):.2e}")
 acts = 0
 xs = np.random.default_rng(5).standard_normal(int(0.8 * SR)) * 0.3
-for m in range(6):
+for m in range(7):
     for res in (0, 100):
         _, M = run(xs, base(l_on=1, h_on=1, b_on=1, l_model=m, h_model=m % 5, l_cut=3000, h_cut=200, l_res=res, h_res=res,
                             b_res=res, l_drive=100, t_on=1, o_on=1, v_on=1, g_on=1, eng_mode=0), SR, meters=True)
@@ -112,14 +112,14 @@ check("fault containment never acts in normal operation (12 heavy configurations
 # ------------------------------------------------------------------ 3. oversampling cascade + Reference policy
 t = np.arange(int(1.5 * SR)) / SR
 x = 0.5 * np.sin(2 * np.pi * 5003 * t)
-LP = ["Sherman", "K35", "Ladder", "Steiner", "SEM", "TB-303"]
+LP = ["Sherman", "K35", "Ladder", "Steiner", "SEM", "TB-303", "ARP 4012"]
 tab = {}
-for m in range(6):
+for m in range(7):
     tab[LP[m]] = {}
     for N, kw in FAC.items():
-        p = base(l_on=1, l_model=m, l_cut=16000, l_res=50, l_drive=60, l_slope=1 if m in (0, 2, 5) else 0, **kw)
+        p = base(l_on=1, l_model=m, l_cut=16000, l_res=50, l_drive=60, l_slope=1 if m in (0, 2, 5, 6) else 0, **kw)
         tab[LP[m]][N] = round(alias(run(x, p)[int(0.5 * SR):int(1.5 * SR), 0], SR, 5003.0), 1)
-    p = base(l_on=1, l_model=m, l_cut=16000, l_res=50, l_drive=60, l_slope=1 if m in (0, 2, 5) else 0, eng_mode=0)
+    p = base(l_on=1, l_model=m, l_cut=16000, l_res=50, l_drive=60, l_slope=1 if m in (0, 2, 5, 6) else 0, eng_mode=0)
     y, M = run(x, p, meters=True)
     tab[LP[m]]["reference"] = round(alias(y[int(0.5 * SR):int(1.5 * SR), 0], SR, 5003.0), 1)
     tab[LP[m]]["reference_factor"] = int(M[-1, 12])

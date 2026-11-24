@@ -25,7 +25,7 @@ RNG = np.random.default_rng(7)
 # ---- plotting style (reference palette, light surface) ----
 SURF, INK, INK2, GRID = "#fcfcfb", "#0b0b0b", "#52514e", "#e4e3df"
 SEQ = ["#a9c9ef", "#6ea4e4", "#2a78d6", "#14498a"]          # sequential blue: magnitude
-CAT = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100", "#e87ba4", "#008300"]
+CAT = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100", "#e87ba4", "#008300", "#7a5af5"]
 plt.rcParams.update({"figure.facecolor": SURF, "axes.facecolor": SURF, "axes.edgecolor": GRID,
                      "axes.labelcolor": INK2, "xtick.color": INK2, "ytick.color": INK2,
                      "text.color": INK, "axes.grid": True, "grid.color": GRID, "grid.linewidth": 0.6,
@@ -76,7 +76,7 @@ def t_frequency_response():
     """Small-signal response per model / stage / resonance; plus slopes."""
     fails = []
     for st, names, fc in (("l", LP_MODELS, 1000.0), ("h", HP_MODELS, 300.0)):
-        fig, axes = plt.subplots(2, 3, figsize=(11, 6), sharey=True)
+        fig, axes = plt.subplots(2, 4, figsize=(14, 6), sharey=True)
         axes = axes.ravel()
         for m, nm in enumerate(names):
             ax = axes[m]
@@ -106,7 +106,7 @@ def t_frequency_response():
     # slopes
     slope_rows = []
     for st, names, fc in (("l", LP_MODELS, 500.0), ("h", HP_MODELS, 2000.0)):
-        fig, axes = plt.subplots(2, 3, figsize=(11, 6), sharey=True)
+        fig, axes = plt.subplots(2, 4, figsize=(14, 6), sharey=True)
         axes = axes.ravel()
         for m, nm in enumerate(names):
             ax = axes[m]
@@ -141,6 +141,10 @@ def t_frequency_response():
             # check that 12 == 24 (no 12 dB tap) and each extension adds 12 dB/oct.
             exp = dnat["l"] + 12 * max(0, r["selected"] // 12 - 2)
             r["note"] = "native diode slope measured near fc; extensions add 12 dB/oct each"
+        if r["model"].startswith("ARP"):
+            # 4012: 24 dB only (no 12 dB tap), like the diode ladder; each extension adds 12 dB/oct
+            exp = 24 + 12 * max(0, r["selected"] // 12 - 2)
+            r["note"] = "4012 native 24 dB (no 12 dB tap) + 12 dB/oct per extension"
         if ("K35" in r["model"] or "Korg" in r["model"]) and r["stage"] == "h":
             # v1.6: MS-20 HP as built (Stinchcombe 2006 s.7): s(s+1)/D -> 6 dB/oct skirt below fc
             exp = 6 + 12 * (r["selected"] // 12 - 1)
@@ -151,7 +155,7 @@ def t_frequency_response():
             r["note"] = "Steiner HP injection skirt (6 dB/oct) + 12 dB/oct per extension"
         if abs(r["measured"] - exp) > 4:
             bad.append(f"{r['stage']}/{r['model']} sel {r['selected']} meas {r['measured']}")
-    record("Slope selector: measured slope (4–8× fc) within ±4 dB/oct of effective slope (diode, Steiner HP and K35 HP: native + 12 per extension)",
+    record("Slope selector: measured slope (4–8× fc) within ±4 dB/oct of effective slope (diode, ARP 4012, Steiner HP and K35 HP: native + 12 per extension)",
            not bad, "ok" if not bad else "; ".join(bad), rows=slope_rows)
 
 
@@ -161,7 +165,8 @@ def t_tracking():
         for st, names, cuts in (("l", LP_MODELS, (100, 300, 1000, 3000, 8000)), ("h", HP_MODELS, (40, 100, 300, 1000))):
             for m, nm in enumerate(names):
                 for fc in cuts:
-                    f, H = tf(dict(stage_p(st, m, cut=fc, res=85, slope=0), ovs_sel=ovs), n=1 << 17)
+                    # the 4012's RESONANCE reaches k = 4 at 69 % (Board 3 law): track it below oscillation, at res 60
+                    f, H = tf(dict(stage_p(st, m, cut=fc, res=60 if nm.startswith("ARP") else 85, slope=0), ovs_sel=ovs), n=1 << 17)
                     sel = (f > fc / 3) & (f < fc * 3)
                     pk = f[sel][np.argmax(np.abs(H[sel]))]
                     fexp = fc
@@ -169,6 +174,10 @@ def t_tracking():
                         # no resonance: track the corner instead, where two sections of s/(s+1) give |H| = 1/2 (-6.02 dB)
                         mag = np.abs(H[sel]); i_ = np.argmax(mag >= 0.5)
                         pk = f[sel][i_]
+                    if nm.startswith("ARP"):
+                        # ladder peak below onset: fc * sqrt(1 + sqrt(k) - sqrt(2) k^(1/4)) (D'Angelo & Valimaki), k at res 60
+                        ka_ = 1011120 * 0.6 / (152200 + 100000 * 0.6 * 0.4)
+                        fexp = fc * np.sqrt(1 + np.sqrt(ka_) - np.sqrt(2) * ka_ ** 0.25)
                     if "SEM" in nm:
                         # v1.6: SEM-1A RES law gives Q ~1.8 at res 85; a 2-pole peak then sits at fc*sqrt(1-2R^2) (LP)
                         # or fc/sqrt(1-2R^2) (HP), not at fc
@@ -180,7 +189,7 @@ def t_tracking():
                     tol = max(100, 1200 * np.log2((fc + 6) / fc))
                     if fc / (SR * (ovs + 1)) < 0.2 and abs(err) > tol:
                         bad.append(f"os{ovs + 1} {st}/{nm} fc{fc}: {err:+.0f} c")
-    record("Cutoff tracking: resonant peak within ±100 cents of the set cutoff (res 85%; SEM: of its circuit-Q peak position; 904B HP: its -6 dB corner)",
+    record("Cutoff tracking: resonant peak within ±100 cents of the set cutoff (res 85%, ARP 4012 res 60% (k 3.4, below its 69 % onset); SEM: of its circuit-Q peak position; 904B HP: its -6 dB corner)",
            not bad, "ok" if not bad else "; ".join(bad), rows=rows)
 
 
@@ -235,9 +244,12 @@ def t_self_osc():
                                      peak_dbfs=round(float(db(pk)), 1), freq=round(float(fr), 1),
                                      cents=None if cents is None else round(float(cents))))
                     expect = not (nm.startswith("SEM") or nm == "Sherman" or nm.startswith("Moog 904B")) and not (nm == "Ladder" and fc < 120)   # v1.6: Sherman partial self-oscillation; 904B has no resonance; Minimoog couplings stop the Ladder below ~120 Hz
-                    if not fin or pk > 1.25 or osc != expect or (osc and abs(cents) > 100):
+                    # ARP 4012: the Board 3 RESONANCE law reaches k = 6.64 at full travel, so the loop is driven far past
+                    # onset: the oscillation is ~+2.2 dBFS and about a semitone flat (measured); allow +2.6 dBFS / 150 c
+                    pmax, cmax = (1.35, 150) if nm.startswith("ARP") else (1.25, 100)
+                    if not fin or pk > pmax or osc != expect or (osc and abs(cents) > cmax):
                         bad.append(f"os{ovs + 1} {st}/{nm} fc{fc}: osc={osc} pk={db(pk):.1f}dBFS f={fr:.0f}")
-    record("Self-oscillation: stable, bounded (<+2 dBFS), on pitch (±100 c); SEM and Sherman do not sustain it and the 904B HP has no resonance (by design); Ladder not below ~120 Hz (Minimoog couplings)",
+    record("Self-oscillation: stable, bounded (<+2 dBFS), on pitch (±100 c; ARP 4012 at k 6.6: +2.6 dBFS / ±150 c); SEM and Sherman do not sustain it and the 904B HP has no resonance (by design); Ladder not below ~120 Hz (Minimoog couplings)",
            not bad, "ok" if not bad else "; ".join(bad), rows=rows)
 
 
@@ -245,7 +257,7 @@ def t_nonlinear():
     rows = []
     n = SR * 2
     t = np.arange(n) / SR
-    fig, axes = plt.subplots(2, 3, figsize=(11, 6), sharey=True)
+    fig, axes = plt.subplots(2, 4, figsize=(14, 6), sharey=True)
     axes = axes.ravel()
     for m, nm in enumerate(LP_MODELS):
         ax = axes[m]
@@ -388,7 +400,7 @@ def t_spec1_scenarios():
     spectro(y[:, 0], "scenario2_lpf_sweep.png", "Scenario 2 — Ladder LPF sweep 20 kHz→200 Hz, res 40%")
     # 3 LPF max resonance, each model, music in
     pk = []
-    for m in range(6):
+    for m in range(len(LP_MODELS)):
         y = run(xs, base(l_on=1, l_model=m, l_cut=700, l_res=100, softclip=0))
         pk.append(np.abs(y[SR:]).max())
     ok = all(np.isfinite(pk)) and max(pk) < 2.0
@@ -502,8 +514,8 @@ def t_denormal_dc():
     n = SR * 12
     x = test_signal(n); x[SR * 2:] = 0
     bad = []
-    for m in range(6):
-        p = base(l_on=1, h_on=1, l_model=m, h_model=min(m, 4), l_cut=500, h_cut=80, l_res=80, h_res=60)
+    for m in range(len(LP_MODELS)):
+        p = base(l_on=1, h_on=1, l_model=m, h_model=min(m, 4), l_cut=500, h_cut=80, l_res=60 if LP_MODELS[m].startswith("ARP") else 80, h_res=60)   # ARP 4012 oscillates from 69 %
         y = run(x, p)
         tail = y[-SR:]
         if np.abs(tail).max() > 0:
@@ -521,7 +533,7 @@ def t_denormal_dc():
     rows = []
     t = np.arange(SR * 3) / SR
     xin = 0.9 * np.sin(2 * np.pi * 80 * t)
-    for m in range(6):
+    for m in range(len(LP_MODELS)):
         y = run(xin, base(l_on=1, l_model=m, l_cut=3000, l_res=60, l_drive=100))[SR * 2:, 0]
         rows.append(dict(model=LP_MODELS[m], dc_dbfs=round(float(db(abs(y.mean()))), 1)))
     worst = max(r["dc_dbfs"] for r in rows)
@@ -575,6 +587,9 @@ def t_circuit_reference():
             lambda s, lad=lad: lad(s, 1000))
         add(f"Ladder HP — Moog 904B (dwg. 1118): (s/(s+1))^4, no resonance (res {res}% ignored)", "h", 2, 300, res, 1,
             lambda s: s ** 4 / (1 + s) ** 4)
+        ka = 1011120 * (res / 100) / (152200 + 100000 * (res / 100) * (1 - res / 100))
+        add(f"ARP 2600 4012 LP 24 — 1/((1+s)^4+k), k from the Board 3 RESONANCE law, res {res}%", "l", 6, 1000, res, 1,
+            lambda s, k=ka: 1 / ((1 + s) ** 4 + k))
         K = 0.05 + 2.03 * (res / 100) ** 1.1
         add(f"Korg 35 LP — 1/(s^2+(2-K)s+1), res {res}%", "l", 1, 1000, res, 0, lambda s, K=K: 1 / (s * s + (2 - K) * s + 1))
         add(f"Korg 35 HP — s(s+1)/(s^2+(2-K)s+1) (MS-20 as built), res {res}%", "h", 1, 300, res, 0, lambda s, K=K: s * (s + 1) / (s * s + (2 - K) * s + 1))
@@ -597,7 +612,7 @@ def t_circuit_reference():
             return h / (1 + kd * h * sh / (sh + 1))
         add(f"TB-303 — Stinchcombe 303 ladder (bottom C/2) + feedback HPF, res {res}%", "l", 5, 1000, res, 1, ref303)
     rows, bad = [], []
-    fig, axes = plt.subplots(3, 3, figsize=(12, 8.5))
+    fig, axes = plt.subplots(3, 4, figsize=(15, 8.5))
     axes = axes.ravel()
     seen = {}
     for (name, st, m, fc, res, slope, ref) in cases:
