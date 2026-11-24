@@ -55,8 +55,22 @@ for i, b in ob.items():
         if UI:
             bad = [k for k in diff if not ui_key_ok(b, k)]
             if b.get("maxclass") == "message" and "text" in diff:
-                if not all(c.strip().startswith(("script sendbox ", "script show ", "script hide ")) for c in n["text"].split(",")):
+                # display-only "set <text>" messages (info lines) may change their wording: they hold no state
+                display_only = b["text"].startswith("set ") and n["text"].startswith("set ") and "," not in b["text"] + n["text"]
+                if display_only:
+                    bad = [k for k in bad if k != "text"]
+                    notes.append(f"info text {i}: '{b['text']}' -> '{n['text']}' (display only)")
+                elif not all(c.strip().startswith(("script sendbox ", "script show ", "script hide ")) for c in n["text"].split(",")):
                     bad.append("text(non-scripting)")
+            if "saved_attribute_attributes" in bad and b.get("parameter_enable"):
+                # a menu item renamed in place: same number of items, every other valueof field unchanged. Live
+                # stores the item index, so sets, automation and MIDI maps are unaffected.
+                ov = b["saved_attribute_attributes"]["valueof"]; nv = n["saved_attribute_attributes"]["valueof"]
+                oe, ne = ov.get("parameter_enum"), nv.get("parameter_enum")
+                if oe and ne and len(oe) == len(ne) and {k: v for k, v in ov.items() if k != "parameter_enum"} == \
+                        {k: v for k, v in nv.items() if k != "parameter_enum"}:
+                    bad = [k for k in bad if k != "saved_attribute_attributes"]
+                    notes.append(f"menu {b.get('varname')}: items renamed {[(a, c) for a, c in zip(oe, ne) if a != c]} (index-stable)")
             if b.get("parameter_enable") and n.get("presentation") != 1:
                 bad.append("parameter control removed from presentation")
             if bad:

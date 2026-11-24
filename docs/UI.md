@@ -129,7 +129,7 @@ Every parameter and custom control now has Info View text (`annotation_name` + `
 | LOW-PASS | `l_char` | LPF Character / LPF Char | live.dial | 0 … 100 | 0 | LPF bypassed |
 | LOW-PASS | `l_slope` | LPF Slope / LPF Slope | live.tab | 12, 24, 36, 48 | 24 | LPF bypassed |
 | HIGH-PASS | `h_on` | HPF On / HPF On | live.text | off, on | on | — |
-| HIGH-PASS | `h_model` | HPF Model / HPF Model | live.menu | 01 Sherman Filterbank, 02 Korg 35 / MS-20, 03 Ladder HP - ALT pole-mix, 04 Steiner-Parker, 05 Oberheim SEM | 02 Korg 35 / MS-20 | HPF bypassed |
+| HIGH-PASS | `h_model` | HPF Model / HPF Model | live.menu | 01 Sherman Filterbank, 02 Korg 35 / MS-20, 03 Moog 904B HP, 04 Steiner-Parker, 05 Oberheim SEM | 02 Korg 35 / MS-20 | HPF bypassed |
 | HIGH-PASS | `h_cut` | HPF Cutoff / HPF Cut | live.dial | 20 … 2000 | 20 | HPF bypassed |
 | HIGH-PASS | `h_res` | HPF Resonance / HPF Res | live.dial | 0 … 100 | 0 | HPF bypassed |
 | HIGH-PASS | `h_drive` | HPF Drive / HPF Drive | live.dial | 0 … 100 | 0 | HPF bypassed |

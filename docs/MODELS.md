@@ -16,12 +16,12 @@ How much I could establish varies by circuit. The TB-303 and Moog ladder are tho
 |---|---|---|---|---|---|---|---|---|---|
 | 01 | Sherman Filterbank-inspired | **Behavioural** (no public schematic) | LP, BP, notch, HP (per the maker's spec) | LP | HP | 24 (filters 1+2) | 12 = filter 2 alone | partial (rings, no sustain; FEEDBACK can howl) | FEEDBACK |
 | 02 | Korg 35 / MS-20 (K35 Circuit: OTA Mk2 or KORG-35 Mk1) | Mk2: two buffered one-poles (LM13600). Mk1: Korg35 Sallen-Key | LP, HP | LP | HP (6 dB/oct, as built) | LP 12, HP 6 | 12 | yes | Mk2: FB CLIP · Mk1: DIODE DRIVE |
-| 03 | Moog transistor ladder-inspired | 4 differential-pair stages + global feedback | LP (HP/BP only by pole mixing) | LP | **ALT** pole-mix HP | 24 | 12 / 24 | yes | STAGE SAT |
+| 03 | Moog transistor ladder-inspired | 4 differential-pair stages + global feedback | LP (HP/BP only by pole mixing) | LP | **Moog 904B** HP (no resonance) | 24 | 12 / 24 | yes | STAGE SAT |
 | 04 | Steiner-Parker Synthacon-inspired | Sallen-Key, diode-string resistors, 3 injection points | LP, BP, HP | LP (+BP) | HP injection (+BP) | 12 (HP: see note) | 12 | yes | BP BLEND |
 | 05 | Oberheim SEM-inspired | OTA state-variable filter | LP, BP, notch, HP | LP→notch | HP→notch | 12 | 12 | no | NOTCH MORPH |
 | 06 | Roland TB-303-inspired | Diode ladder, TB-303 configuration | LP | LP | **not offered** | 24 | 24 only | yes | SQUELCH |
 
-Rules: no silent substitution (the HPF menu has five entries), the one alternative is labelled ALT in the menu itself, and slopes beyond a model's native response come from linear Butterworth-Q extension sections, which the slope info line marks as `EXT`.
+Rules: no silent substitution (the HPF menu has five entries), and slopes beyond a model's native response come from linear Butterworth-Q extension sections, which the slope info line marks as `EXT`.
 
 ---
 
@@ -90,8 +90,13 @@ Rules: no silent substitution (the HPF menu has five entries), the one alternati
 - **Emphasis:** k = 15.17·Rb/(R14 + 1330), with R14 a 50 kΩ reverse-audio rheostat. 15.17 is the Q7/Q5 gain-recovery gain times the R7/R3 tap; Rb = 441.5 Ω is the REGEN CAL setting, chosen so oscillation starts at Emphasis 9 (assumed). So k = 0.13 at 0, 1.06 at 50 % and 5.04 at 100 %.
 - **Couplings:** C5/C1 (15.4 Hz) on the ladder output, in the loop, and C10 (R14-dependent, 12 Hz at full Emphasis) in the feedback. The filter does not self-oscillate below about 120 Hz cutoff.
 - **Gain-recovery pair** Q7/Q5: tanh at the ladder's 2 V_T scale, in the output and in the loop.
-- **Scope:** the board applies to the low-pass only. The ALT high-pass pole-mix keeps the v1.5 law and is bit-identical. The 12 dB tap (y₂, not on a Minimoog) passes through the same output-pair saturation.
+- **Scope:** the board applies to the low-pass only. The 12 dB tap (y₂, not on a Minimoog) passes through the same output-pair saturation.
 - Self-oscillation is about 3.3 dB louder than v1.5, because k reaches 5.04.
+
+**High-pass: Moog 904B** (R. A. Moog drawing 1118, "904 B new version", 6/23/70, serial 194 and above; supplied by the user):
+- four C-R high-pass sections in series (0.39 µF coupling capacitors C5–C8 into transistor stages whose resistance is set by the control current), on matched transistor sets;
+- **no regeneration path:** the 904B has no resonance, so k = 0 and the binomial pole-mix of the four-pole core is exactly (s/(s+1))⁴, 24 dB/oct with four coincident poles;
+- the input is attenuated about 1:111 (R15 33 k / R16 300 Ω) and restored by the audio amp (R20 68 k / R26 510 Ω, ×134), so the stages run near-linear. The overall ×1.2 gain and the front-panel range switch are not modelled (the cutoff knob covers the range).
 
 ## 04 Steiner-Parker Synthacon-inspired, rebuilt
 

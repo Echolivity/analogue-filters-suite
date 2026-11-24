@@ -22,8 +22,8 @@
   "HPF m0 slope2": "b23e1b93b0aaa4ed5dcf059daada91548f7719aa4c0795eafd66cc0f692e46cb",
   "HPF m1 slope0": "69f2682b9078beaa21c131fbcd09958daa75a136f9f2de3023e720603d1981b1",
   "HPF m1 slope2": "9ec80113dcb1658e12a95143df6933cec2b651c9338adbc585398ad5cab52c18",
-  "HPF m2 slope0": "5a7dbb6f87677f58749e3b7fafcf170813e79439dd86ff11b15335f6a02008a6",
-  "HPF m2 slope2": "5cfbdc48f3aad259b89972756855196513eba82d7340a28908db1a17b47b583e",
+  "HPF m2 slope0": "d48a547f29aa514bde3315baba93b372503a3de2d5f6e912782c8adc4b59877c",
+  "HPF m2 slope2": "0c9f4718d511231c0a7a43e127aa66f5a55fd9202b95019ce2bbde25fd5fc5c9",
   "HPF m3 slope0": "3a9eac4a2dc8355af37d28adaaba3d630414d2bc46c73032eb892e2314a87d85",
   "HPF m3 slope2": "f97b31f338dacc0359a9f45ca2de9bcbf4f6c417b7a96c36ed8185623456ff07",
   "HPF m4 slope0": "d6989a43249b2234aa5221b49657e9c6c57c0055e44999cb1ffd111555db401c",
@@ -41,7 +41,7 @@
   "LPF sweep": "5d73adc09bc6fad6d5fec715c962d02ef2aab493996c45a2157defedf9a54490",
   "HPF sweep": "35cf40783a262c620244feb25e0c5f06816d7b9f9beb1da51672c99d0e59207d",
   "LPF model switches": "534ba35bf4f597b0eaa942e1ef847218d697d07ddccfbda09837335dbfdcd125",
-  "HPF model switches": "7883b5866515d78666b749a2faa38f71ccad71ea7b2b726028a55b4ed74cb5d8",
+  "HPF model switches": "c55bdd27eb48df327cfbd7a916bb7ca394c020f7df798c6c860b74f577ab9261",
   "enable toggles": "fb434131040ed252b694a5740ee0c8db738876e788f73d91444bcfc27f98680a",
   "order+os switch": "f78ad011f9f5e144a52e7c312d0481865bc3ca0151dc8d4eba2afecf4aa1041d",
   "slope+drive+char moves": "d5dba09a178f985518ac31cd3ac2c3e315f210061fd7034833d823599c81872d",
@@ -102,5 +102,5 @@
   "output stage",
   "slope+drive+char moves"
  ],
- "note": "v1.6 solver fix (Sherman, Steiner, BPF SVF limiter), Sherman partial self-oscillation (damping floor + resonance limiter), Ladder on the Minimoog filter board (Emphasis law, C5/C1/C10 couplings, gain-recovery pair; also the power-on fade from the default Ladder) and Reference-mode power-on default; legacy tests run in Creative mode (tests/dsp.py base)"
+ "note": "v1.6 solver fix (Sherman, Steiner, BPF SVF limiter), Sherman partial self-oscillation (damping floor + resonance limiter), Ladder HP replaced by the Moog 904B (dwg. 1118, no resonance), Ladder on the Minimoog filter board (Emphasis law, C5/C1/C10 couplings, gain-recovery pair; also the power-on fade from the default Ladder) and Reference-mode power-on default; legacy tests run in Creative mode (tests/dsp.py base)"
 }

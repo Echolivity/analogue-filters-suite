@@ -29,8 +29,17 @@ def sim(f, w, h, args, script):
 # 1 parameters: same set, same definitions, same box ids as v1.4
 par = lambda X: {b["box"]["id"]: (b["box"]["varname"], b["box"]["saved_attribute_attributes"]) for b in X["boxes"] if b["box"].get("parameter_enable")}
 po, pn = par(OLD), par(P)
-check("all 79 v1.4 parameters kept: identical ids, names and definitions (v1.6 appends 22)",
-      all(pn.get(i) == v for i, v in po.items()) and len(pn) == 101, f"{len(pn)} parameters")
+def _same_param(o_, n_):
+    # v1.6: an HPF menu item renamed in place ("03 Ladder HP - ALT pole-mix" -> "03 Moog 904B HP") is index-stable
+    if o_ == n_:
+        return True
+    if not (o_ and n_) or o_[0] != n_[0]:
+        return False
+    ov, nv = o_[1]["valueof"], n_[1]["valueof"]
+    return o_[0] == "h_model" and len(ov.get("parameter_enum", [])) == len(nv.get("parameter_enum", [])) and \
+        {k: v for k, v in ov.items() if k != "parameter_enum"} == {k: v for k, v in nv.items() if k != "parameter_enum"}
+check("all 79 v1.4 parameters kept: identical ids, names and definitions (v1.6 appends 22; HPF item 03 renamed in place)",
+      all(_same_param(v, pn.get(i)) for i, v in po.items()) and len(pn) == 101, f"{len(pn)} parameters")
 check("parameter table (Live identity): every v1.4 entry unchanged", all(P["parameters"].get(k) == v for k, v in OLD["parameters"].items()))
 gc = lambda X: next(b["box"]["patcher"]["boxes"][2]["box"]["code"] for b in X["boxes"] if b["box"].get("text") == "gen~")
 check("v1.6 is a DSP release: gen~ code differs from v1.5 (intended; see docs/V1.6_ENGINE.md)", gc(OLD15) != gc(P))

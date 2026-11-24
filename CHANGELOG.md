@@ -41,6 +41,7 @@ Details and before/after measurements: [docs/V1.6_ENGINE.md](docs/V1.6_ENGINE.md
   - **No input soft clip** (no circuit origin); the op-amp rails limit the outputs at ±13 V. At 1x it is far cleaner: −140 dBc aliasing (v1.5: −89).
   - **Unchanged:** notch and band-pass routing, which already matched the PS19 crossfade.
   - **Assumptions:** a linear RES pot; 5 V per unit; the Q floor.
+- **Changed: HPF model 03 is now the Moog 904B** (R. A. Moog drawing 1118, 6/23/70, supplied by you), replacing the "Ladder HP - ALT pole-mix". The 904B is four C-R high-pass sections in series with no resonance circuit, so the response is exactly (s/(s+1))⁴ and the Resonance knob has no effect on it (authentic, by your choice). Its input is attenuated about 1:111 and restored by the audio amp, so the stages run near-linear. Only renders with HPF model 03 change.
 - **New: ENVELOPE FILTER**, modelled on the **Musitronics Mu-Tron III** schematic (1975, "above S/N 02050"; topology also in Beigel's US patent 3,911,776; cross-checked with R. G. Keen's Neutron). It sits before the filter section and adds 13 appended parameters; off by default, and bit-identical when off.
   - **From the schematic:**
     - A1 preamp: ×0.12–×36.4.

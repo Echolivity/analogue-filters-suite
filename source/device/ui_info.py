@@ -15,7 +15,7 @@ DESC = {
     "h_on": "Switches the high-pass stage in or out. Off = clean bypass, no colouration.",
     "h_model": "Circuit model for the high-pass stage. Each model runs its own engine; nothing is substituted.",
     "h_cut": "High-pass cutoff frequency. Fully down (20 Hz) is transparent.",
-    "h_res": "Resonance / feedback of the high-pass stage.",
+    "h_res": "Resonance / feedback of the high-pass stage. No effect on 03 (Moog 904B), which has no resonance circuit.",
     "h_drive": "Input level into the high-pass model's nonlinear stages.",
     "h_comp": "Level compensation for resonance-related passband loss.",
     "h_char": "Model-specific control; its name (below the knob) changes with the model.",
