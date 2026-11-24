@@ -24,7 +24,7 @@ TOK = re.compile(r"""
 """, re.S | re.X)
 
 BUILTIN_F = {
-    "tanh": ("tanh", 1), "tan": ("tan", 1), "atan": ("atan", 1), "exp": ("exp", 1), "exp2": ("exp2", 1),
+    "tanh": ("tanh", 1), "tan": ("tan", 1), "atan": ("atan", 1), "atan2": ("atan2", 2), "exp": ("exp", 1), "exp2": ("exp2", 1),
     "log2": ("log2", 1), "log": ("log", 1), "log10": ("log10", 1), "pow": ("pow", 2), "sqrt": ("sqrt", 1),
     "abs": ("fabs", 1), "min": ("fmin", 2), "max": ("fmax", 2), "clamp": ("gclamp", 3),
     "floor": ("floor", 1), "sin": ("sin", 1), "cos": ("cos", 1), "fixdenorm": ("fixdenorm", 1),

@@ -19,3 +19,10 @@ Since v1.2, three of the five namesakes have been rebuilt from primary sources i
 4. **ARP 2600 / EMS VCS3:** keep them labelled "derived". A native VCS3 low-pass/band-pass model is possible from the cited sources if wanted.
 
 Each proposal leaves the BPF off by default, so the device's default renders stay bit-identical; only renders with that BPF model on would change.
+
+## Status: proposals 1–3 adopted (user decision, 2026-11-24)
+- **Korg 35 / MS-20, CASCADE:** 1-pole (6 dB/oct) HP (with the transconductor element) into the 2-pole LP. Loop-phase retuning keeps the resonant peak on the centre (it would otherwise sit about 4 semitones low), and the regeneration limiter is re-solved at the current value (an fs/4 sweep stays bounded). Measured at 1 kHz, res 0: 100 Hz −13 dB, 10 kHz −29.5 dB (asymmetric skirts).
+- **Steiner-Parker, SVF:** the LPF engine's Synthacon core (sinh diode strings, amplifier limit), input at the band-pass injection point; K = max(1 + 2.1·res^1.3, 3 − 1/Q). It self-oscillates at full resonance, as the Synthacon does.
+- **Oberheim SEM, SVF:** the LPF engine's SEM-1A core, band-pass node; damping = min(Q knob, SEM-1A RES law). It never self-oscillates (Q ≤ 10).
+- Other architectures of these models keep the generic (derived) elements. ARP 2600 / EMS VCS3 unchanged.
+- Golden renders: every BPF render changed. The untouched configurations differ only by the start-up crossfade out of the default SEM-SVF slot (≤ 0.005, then < 1e-7 residue).
