@@ -2,7 +2,7 @@ import numpy as np, subprocess, tempfile, os
 HERE = os.path.dirname(os.path.abspath(__file__))
 HARN = os.path.join(HERE, "..", "build", "harness")
 LP_MODELS = ["Sherman", "K35/MS-20", "Ladder", "Steiner-Parker", "SEM", "Diode/303"]
-HP_MODELS = ["Sherman", "K35/MS-20", "Ladder HP (ALT)", "Steiner-Parker", "SEM"]
+HP_MODELS = ["Sherman", "K35/MS-20", "Moog 904B HP", "Steiner-Parker", "SEM"]
 
 def base(**kw):
     """Neutral setup: both stages off unless enabled via kw."""

@@ -325,6 +325,10 @@ f_ladder(x, s1, s2, s3, s4, p0, p1, p2, p3, p4, h1, h2, pz, g, k, bc, hs, hp, ga
 		o12 = y2;
 		o24 = y4;
 	}
+	// HP: Moog 904B (R. A. Moog drawing 1118, 6/23/70): four C-R high-pass sections in series (0.39 uF coupling
+	// capacitors into the transistor stages), no regeneration path, so k = 0 and the binomial pole-mix of the
+	// four-pole core is exactly (s/(s+1))^4. Input attenuated ~1:111 (R15 33k / R16 300) before the stages and
+	// restored by the audio amp (68k / 510), so the stages stay near-linear; overall gain ~1.2 (not modelled).
 	if (hp > 0.5) {
 		o12 = u - 2 * y1 + y2;
 		o24 = u - 4 * y1 + 6 * y2 - 4 * y3 + y4;
@@ -511,7 +515,7 @@ MODELS = [
                "}}",
                "{acc} = {acc} + {mix} * o1;"]),
     dict(id=2, key="ld", name="Moog transistor ladder-inspired", taps="12/24",
-         states=["s1", "s2", "s3", "s4", "p0", "p1", "p2", "p3", "p4", "h1", "h2", "pz"], lp="native", hp="alt", char="STAGE SAT",
+         states=["s1", "s2", "s3", "s4", "p0", "p1", "p2", "p3", "p4", "h1", "h2", "pz"], lp="native", hp="native", char="STAGE SAT",
          coef=["{p}_g = {s}_gw;",
                # v1.6 Minimoog Emphasis (fig. 9-11 / 9-17): R14 50k reverse-audio rheostat in series with
                # REGEN CAL R73 (1k) + R76 (330) to AC ground; k = 15.17 * Rb / (R14 + 1330), where 15.17 is the
@@ -520,7 +524,7 @@ MODELS = [
                # procedure is not in the scan). Audio taper: 10 % at mid-rotation.
                # The Minimoog board applies to the LP ladder only; the HP ALT pole-mix keeps the v1.5 law.
                "{p}_R14 = 50000 * (exp(4.394 * (1 - {r})) - 1) / 79.96362664;",
-               "{p}_k = {lpflag} > 0.5 ? 6700.067 / ({p}_R14 + 1330) : 4.3 * pow({r}, 1.3);",
+               "{p}_k = {lpflag} > 0.5 ? 6700.067 / ({p}_R14 + 1330) : 0;",   # HP = Moog 904B (dwg. 1118): no regeneration path
                "{p}_ga = {lpflag} > 0.5 ? tan(pi * 15.3921608 / fso) : 0;",
                "{p}_gb = {lpflag} > 0.5 ? tan(pi * min(15915.4943 / ({p}_R14 + 1330), 0.2 * fso) / fso) : 0;",
                "{p}_bc = {s}_cmp * {lpflag};",

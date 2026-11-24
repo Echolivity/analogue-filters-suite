@@ -201,13 +201,13 @@ panel([0, 0, W, H], BG, rounded=0)
 
 LP_ITEMS = ["01 Sherman Filterbank", "02 Korg 35 / MS-20", "03 Moog-style Ladder",
             "04 Steiner-Parker", "05 Oberheim SEM", "06 TB-303 Diode Ladder"]
-HP_ITEMS = ["01 Sherman Filterbank", "02 Korg 35 / MS-20", "03 Ladder HP - ALT pole-mix",
+HP_ITEMS = ["01 Sherman Filterbank", "02 Korg 35 / MS-20", "03 Moog 904B HP",
             "04 Steiner-Parker", "05 Oberheim SEM"]
 CHAR_LP = ["FEEDBACK", "FB CLIP", "STAGE SAT", "BP BLEND", "NOTCH MORPH", "SQUELCH"]
 CHAR_HP = CHAR_LP[:5]
 INFO_LP = ["NATIVE 12 + 24 | 36-48 ADD EXT", "NATIVE 12 | 24-48 ADD EXT", "NATIVE 12 TAP + 24 | 36-48 EXT",
            "NATIVE 12 | 24-48 ADD EXT", "NATIVE 12 | 24-48 ADD EXT", "NATIVE 24 - NO 12 | 36-48 EXT"]
-INFO_HP = ["NATIVE 12 + 24 | 36-48 ADD EXT", "NATIVE 12 | 24-48 ADD EXT", "ALT POLE-MIX HP | 36-48 EXT",
+INFO_HP = ["NATIVE 12 + 24 | 36-48 ADD EXT", "NATIVE 12 | 24-48 ADD EXT", "904B 24 - NO RES | 36-48 EXT",
            "NATIVE 12 | 24-48 ADD EXT", "NATIVE 12 | 24-48 ADD EXT"]
 INFO_HP[3] = "HP INJ: 6dB SKIRT | 24-48 EXT"
 

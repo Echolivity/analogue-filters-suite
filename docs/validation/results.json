@@ -11,7 +11,7 @@
      "median_err_db": 0.0038
     },
     {
-     "reference": "Ladder HP ALT \u2014 pole-mix s^4/((1+s)^4+k), res 0%",
+     "reference": "Ladder HP \u2014 Moog 904B (dwg. 1118): (s/(s+1))^4, no resonance (res 0% ignored)",
      "max_err_db_p99": 0.028,
      "median_err_db": 0.0011
     },
@@ -56,8 +56,8 @@
      "median_err_db": 0.004
     },
     {
-     "reference": "Ladder HP ALT \u2014 pole-mix s^4/((1+s)^4+k), res 60%",
-     "max_err_db_p99": 0.022,
+     "reference": "Ladder HP \u2014 Moog 904B (dwg. 1118): (s/(s+1))^4, no resonance (res 60% ignored)",
+     "max_err_db_p99": 0.028,
      "median_err_db": 0.0011
     },
     {
@@ -309,25 +309,25 @@
     },
     {
      "stage": "h",
-     "model": "Ladder HP (ALT)",
+     "model": "Moog 904B HP",
      "selected": 12,
      "measured": 11.4
     },
     {
      "stage": "h",
-     "model": "Ladder HP (ALT)",
+     "model": "Moog 904B HP",
      "selected": 24,
      "measured": 22.8
     },
     {
      "stage": "h",
-     "model": "Ladder HP (ALT)",
+     "model": "Moog 904B HP",
      "selected": 36,
      "measured": 34.6
     },
     {
      "stage": "h",
-     "model": "Ladder HP (ALT)",
+     "model": "Moog 904B HP",
      "selected": 48,
      "measured": 46.3
     },
@@ -386,7 +386,7 @@
    ]
   },
   {
-   "name": "Cutoff tracking: resonant peak within \u00b1100 cents of the set cutoff (res 85%; SEM: of its circuit-Q peak position)",
+   "name": "Cutoff tracking: resonant peak within \u00b1100 cents of the set cutoff (res 85%; SEM: of its circuit-Q peak position; 904B HP: its -6 dB corner)",
    "passed": true,
    "detail": "ok",
    "rows": [
@@ -697,7 +697,7 @@
     {
      "os": 1,
      "stage": "h",
-     "model": "Ladder HP (ALT)",
+     "model": "Moog 904B HP",
      "fc": 40,
      "peak": 41.0,
      "cents": 43.0
@@ -705,26 +705,26 @@
     {
      "os": 1,
      "stage": "h",
-     "model": "Ladder HP (ALT)",
+     "model": "Moog 904B HP",
      "fc": 100,
-     "peak": 99.6,
-     "cents": -7.0
+     "peak": 105.5,
+     "cents": 92.0
     },
     {
      "os": 1,
      "stage": "h",
-     "model": "Ladder HP (ALT)",
+     "model": "Moog 904B HP",
      "fc": 300,
-     "peak": 287.1,
-     "cents": -76.0
+     "peak": 304.7,
+     "cents": 27.0
     },
     {
      "os": 1,
      "stage": "h",
-     "model": "Ladder HP (ALT)",
+     "model": "Moog 904B HP",
      "fc": 1000,
-     "peak": 966.8,
-     "cents": -58.0
+     "peak": 1002.0,
+     "cents": 3.0
     },
     {
      "os": 1,
@@ -1097,7 +1097,7 @@
     {
      "os": 2,
      "stage": "h",
-     "model": "Ladder HP (ALT)",
+     "model": "Moog 904B HP",
      "fc": 40,
      "peak": 41.0,
      "cents": 43.0
@@ -1105,26 +1105,26 @@
     {
      "os": 2,
      "stage": "h",
-     "model": "Ladder HP (ALT)",
+     "model": "Moog 904B HP",
      "fc": 100,
-     "peak": 99.6,
-     "cents": -7.0
+     "peak": 105.5,
+     "cents": 92.0
     },
     {
      "os": 2,
      "stage": "h",
-     "model": "Ladder HP (ALT)",
+     "model": "Moog 904B HP",
      "fc": 300,
-     "peak": 287.1,
-     "cents": -76.0
+     "peak": 304.7,
+     "cents": 27.0
     },
     {
      "os": 2,
      "stage": "h",
-     "model": "Ladder HP (ALT)",
+     "model": "Moog 904B HP",
      "fc": 1000,
-     "peak": 966.8,
-     "cents": -58.0
+     "peak": 1002.0,
+     "cents": 3.0
     },
     {
      "os": 2,
@@ -1198,7 +1198,7 @@
    "detail": "ok"
   },
   {
-   "name": "Self-oscillation: stable, bounded (<+2 dBFS), on pitch (\u00b1100 c); SEM and Sherman do not sustain it (by design); Ladder not below ~120 Hz (Minimoog couplings)",
+   "name": "Self-oscillation: stable, bounded (<+2 dBFS), on pitch (\u00b1100 c); SEM and Sherman do not sustain it and the 904B HP has no resonance (by design); Ladder not below ~120 Hz (Minimoog couplings)",
    "passed": true,
    "detail": "ok",
    "rows": [
@@ -1445,32 +1445,32 @@
     {
      "os": 1,
      "stage": "h",
-     "model": "Ladder HP (ALT)",
+     "model": "Moog 904B HP",
      "fc": 60,
-     "oscillates": true,
-     "peak_dbfs": -1.7,
-     "freq": 59.0,
-     "cents": -29
+     "oscillates": false,
+     "peak_dbfs": -240.0,
+     "freq": 0.0,
+     "cents": null
     },
     {
      "os": 1,
      "stage": "h",
-     "model": "Ladder HP (ALT)",
+     "model": "Moog 904B HP",
      "fc": 300,
-     "oscillates": true,
-     "peak_dbfs": -1.9,
-     "freq": 296.0,
-     "cents": -23
+     "oscillates": false,
+     "peak_dbfs": -240.0,
+     "freq": 0.0,
+     "cents": null
     },
     {
      "os": 1,
      "stage": "h",
-     "model": "Ladder HP (ALT)",
+     "model": "Moog 904B HP",
      "fc": 1500,
-     "oscillates": true,
-     "peak_dbfs": -2.6,
-     "freq": 1489.0,
-     "cents": -13
+     "oscillates": false,
+     "peak_dbfs": -240.0,
+     "freq": 0.0,
+     "cents": null
     },
     {
      "os": 1,
@@ -1775,32 +1775,32 @@
     {
      "os": 2,
      "stage": "h",
-     "model": "Ladder HP (ALT)",
+     "model": "Moog 904B HP",
      "fc": 60,
-     "oscillates": true,
-     "peak_dbfs": -1.7,
-     "freq": 59.0,
-     "cents": -29
+     "oscillates": false,
+     "peak_dbfs": -240.0,
+     "freq": 0.0,
+     "cents": null
     },
     {
      "os": 2,
      "stage": "h",
-     "model": "Ladder HP (ALT)",
+     "model": "Moog 904B HP",
      "fc": 300,
-     "oscillates": true,
-     "peak_dbfs": -1.8,
-     "freq": 295.0,
-     "cents": -29
+     "oscillates": false,
+     "peak_dbfs": -240.0,
+     "freq": 0.0,
+     "cents": null
     },
     {
      "os": 2,
      "stage": "h",
-     "model": "Ladder HP (ALT)",
+     "model": "Moog 904B HP",
      "fc": 1500,
-     "oscillates": true,
-     "peak_dbfs": -2.2,
-     "freq": 1483.0,
-     "cents": -20
+     "oscillates": false,
+     "peak_dbfs": -240.0,
+     "freq": 0.0,
+     "cents": null
     },
     {
      "os": 2,
@@ -2369,7 +2369,7 @@
      "finite": true
     },
     {
-     "case": "HPF model switch K35/MS-20\u2192Ladder HP (ALT)",
+     "case": "HPF model switch K35/MS-20\u2192Moog 904B HP",
      "hf_abs_dbfs": -107.6,
      "hf_rel_db": 46.8,
      "finite": true
@@ -2381,25 +2381,25 @@
      "finite": true
     },
     {
-     "case": "HPF Ladder HP (ALT): cutoff 20 Hz\u21921 kHz",
+     "case": "HPF Moog 904B HP: cutoff 20 Hz\u21921 kHz",
      "hf_abs_dbfs": -70.4,
      "hf_rel_db": 88.0,
      "finite": true
     },
     {
-     "case": "HPF Ladder HP (ALT): cutoff 1 kHz\u219220 Hz",
-     "hf_abs_dbfs": -115.6,
-     "hf_rel_db": 48.8,
+     "case": "HPF Moog 904B HP: cutoff 1 kHz\u219220 Hz",
+     "hf_abs_dbfs": -115.5,
+     "hf_rel_db": 48.9,
      "finite": true
     },
     {
-     "case": "HPF model switch Ladder HP (ALT)\u2192Steiner-Parker",
-     "hf_abs_dbfs": -103.1,
+     "case": "HPF model switch Moog 904B HP\u2192Steiner-Parker",
+     "hf_abs_dbfs": -104.2,
      "hf_rel_db": 56.1,
      "finite": true
     },
     {
-     "case": "HPF Ladder HP (ALT): stage on",
+     "case": "HPF Moog 904B HP: stage on",
      "hf_abs_dbfs": -147.2,
      "hf_rel_db": 11.1,
      "finite": true
@@ -2853,39 +2853,39 @@
   {
    "name": "CPU benchmark (transpiled C, gcc -O2, this machine)",
    "passed": true,
-   "detail": "Both stages off (pass-through): 4.79%; Default device (Ladder LPF 24 dB + K35 HPF), 1x: 6.32%; Diode LPF 48 dB + Sherman HPF 48 dB, 1x: 6.93%; Default device, 2x oversampling: 8.18%; Worst case: Diode+Sherman 48 dB, 2x, both mid-crossfade: 11.34%",
+   "detail": "Both stages off (pass-through): 8.68%; Default device (Ladder LPF 24 dB + K35 HPF), 1x: 10.75%; Diode LPF 48 dB + Sherman HPF 48 dB, 1x: 12.66%; Default device, 2x oversampling: 12.77%; Worst case: Diode+Sherman 48 dB, 2x, both mid-crossfade: 18.37%",
    "rows": [
     {
      "config": "Both stages off (pass-through)",
-     "ns_per_frame": 998.5,
-     "pct_of_one_core_48k": 4.79
+     "ns_per_frame": 1809.2,
+     "pct_of_one_core_48k": 8.68
     },
     {
      "config": "Default device (Ladder LPF 24 dB + K35 HPF), 1x",
-     "ns_per_frame": 1316.4,
-     "pct_of_one_core_48k": 6.32
+     "ns_per_frame": 2238.7,
+     "pct_of_one_core_48k": 10.75
     },
     {
      "config": "Diode LPF 48 dB + Sherman HPF 48 dB, 1x",
-     "ns_per_frame": 1444.6,
-     "pct_of_one_core_48k": 6.93
+     "ns_per_frame": 2637.7,
+     "pct_of_one_core_48k": 12.66
     },
     {
      "config": "Default device, 2x oversampling",
-     "ns_per_frame": 1703.8,
-     "pct_of_one_core_48k": 8.18
+     "ns_per_frame": 2660.5,
+     "pct_of_one_core_48k": 12.77
     },
     {
      "config": "Worst case: Diode+Sherman 48 dB, 2x, both mid-crossfade",
-     "ns_per_frame": 2362.6,
-     "pct_of_one_core_48k": 11.34
+     "ns_per_frame": 3828.0,
+     "pct_of_one_core_48k": 18.37
     }
    ]
   },
   {
    "name": "Denormals: decay tails flush to zero; silence costs no more than signal",
    "passed": true,
-   "detail": "silence/signal CPU ratio 0.87"
+   "detail": "silence/signal CPU ratio 0.83"
   },
   {
    "name": "DC offset at output with asymmetric saturation (drive 100%, hot input)",
@@ -4225,32 +4225,32 @@
   {
    "name": "CPU with BPF (transpiled C, gcc -O2, this machine)",
    "passed": true,
-   "detail": "v1.1 default device (LPF+HPF), BPF off: 6.29%; + BPF SVF: 6.99%; + BPF CASCADE: 6.66%; + BPF MULTIMODE (ARP): 7.18%; worst: all three, 48 dB slopes, 2x, BPF mid-crossfade: 12.51%",
+   "detail": "v1.1 default device (LPF+HPF), BPF off: 11.16%; + BPF SVF: 13.18%; + BPF CASCADE: 11.24%; + BPF MULTIMODE (ARP): 12.3%; worst: all three, 48 dB slopes, 2x, BPF mid-crossfade: 18.43%",
    "rows": [
     {
      "config": "v1.1 default device (LPF+HPF), BPF off",
-     "ns_per_frame": 1311.0,
-     "pct_of_one_core_48k": 6.29
+     "ns_per_frame": 2325.2,
+     "pct_of_one_core_48k": 11.16
     },
     {
      "config": "+ BPF SVF",
-     "ns_per_frame": 1456.9,
-     "pct_of_one_core_48k": 6.99
+     "ns_per_frame": 2746.5,
+     "pct_of_one_core_48k": 13.18
     },
     {
      "config": "+ BPF CASCADE",
-     "ns_per_frame": 1387.2,
-     "pct_of_one_core_48k": 6.66
+     "ns_per_frame": 2341.3,
+     "pct_of_one_core_48k": 11.24
     },
     {
      "config": "+ BPF MULTIMODE (ARP)",
-     "ns_per_frame": 1495.6,
-     "pct_of_one_core_48k": 7.18
+     "ns_per_frame": 2562.7,
+     "pct_of_one_core_48k": 12.3
     },
     {
      "config": "worst: all three, 48 dB slopes, 2x, BPF mid-crossfade",
-     "ns_per_frame": 2605.6,
-     "pct_of_one_core_48k": 12.51
+     "ns_per_frame": 3839.7,
+     "pct_of_one_core_48k": 18.43
     }
    ]
   },
@@ -4920,37 +4920,37 @@
   {
    "name": "CPU with the dynamics chain (transpiled C, gcc -O2, this machine)",
    "passed": true,
-   "detail": "v1.2 device, dynamics off: 6.07%; + TUBE: 7.64%; + OPTO: 7.5%; + VCA: 7.26%; + all three + gate: 8.72%; worst: LPF+HPF+BPF 2x + all dynamics, reordering every 20 ms: 14.25%",
+   "detail": "v1.2 device, dynamics off: 12.37%; + TUBE: 13.34%; + OPTO: 12.16%; + VCA: 12.17%; + all three + gate: 13.06%; worst: LPF+HPF+BPF 2x + all dynamics, reordering every 20 ms: 24.33%",
    "rows": [
     {
      "config": "v1.2 device, dynamics off",
-     "ns_per_frame": 1264.2,
-     "pct_of_one_core_48k": 6.07
+     "ns_per_frame": 2577.1,
+     "pct_of_one_core_48k": 12.37
     },
     {
      "config": "+ TUBE",
-     "ns_per_frame": 1590.7,
-     "pct_of_one_core_48k": 7.64
+     "ns_per_frame": 2779.1,
+     "pct_of_one_core_48k": 13.34
     },
     {
      "config": "+ OPTO",
-     "ns_per_frame": 1562.8,
-     "pct_of_one_core_48k": 7.5
+     "ns_per_frame": 2533.7,
+     "pct_of_one_core_48k": 12.16
     },
     {
      "config": "+ VCA",
-     "ns_per_frame": 1512.9,
-     "pct_of_one_core_48k": 7.26
+     "ns_per_frame": 2536.1,
+     "pct_of_one_core_48k": 12.17
     },
     {
      "config": "+ all three + gate",
-     "ns_per_frame": 1816.9,
-     "pct_of_one_core_48k": 8.72
+     "ns_per_frame": 2721.9,
+     "pct_of_one_core_48k": 13.06
     },
     {
      "config": "worst: LPF+HPF+BPF 2x + all dynamics, reordering every 20 ms",
-     "ns_per_frame": 2967.8,
-     "pct_of_one_core_48k": 14.25
+     "ns_per_frame": 5069.0,
+     "pct_of_one_core_48k": 24.33
     }
    ]
   },
@@ -5151,19 +5151,19 @@
   {
    "name": "CPU by routing mode (LPF + HPF + BPF on)",
    "passed": true,
-   "detail": "LPF + HPF + BPF, SERIES: 7.31%; LPF + HPF + BPF, PARALLEL: 7.34%; LPF + HPF + BPF, HYBRID: 7.4%",
+   "detail": "LPF + HPF + BPF, SERIES: 12.06%; LPF + HPF + BPF, PARALLEL: 12.36%; LPF + HPF + BPF, HYBRID: 11.99%",
    "rows": [
     {
      "config": "LPF + HPF + BPF, SERIES",
-     "pct_of_one_core_48k": 7.31
+     "pct_of_one_core_48k": 12.06
     },
     {
      "config": "LPF + HPF + BPF, PARALLEL",
-     "pct_of_one_core_48k": 7.34
+     "pct_of_one_core_48k": 12.36
     },
     {
      "config": "LPF + HPF + BPF, HYBRID",
-     "pct_of_one_core_48k": 7.4
+     "pct_of_one_core_48k": 11.99
     }
    ]
   },
@@ -5176,6 +5176,6 @@
  "summary": {
   "total": 95,
   "passed": 95,
-  "seconds": 267.2
+  "seconds": 486.5
  }
 }

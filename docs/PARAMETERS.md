@@ -23,7 +23,7 @@ Same as the low-pass stage, with these differences:
 |---|---|---|---|
 | HPF Cutoff | 20 Hz – 2 kHz | 20 Hz (open) | Exponential taper (exponent 3.46): the knob centre is about 200 Hz, the log-centre of the range. **OPEN zone:** 20–25 Hz crossfades to dry, so fully anticlockwise is transparent. |
 | HPF Slope | 12 / 24 / 36 / 48 | 12 | |
-| HPF Model | 5 models | 02 Korg 35 / MS-20 | TB-303 is not offered (it has no justified HPF). Ladder HP is labelled ALT. |
+| HPF Model | 5 models | 02 Korg 35 / MS-20 | TB-303 is not offered (it has no justified HPF). 03 is the Moog 904B high-pass (24 dB/oct, no resonance: the Resonance knob has no effect on it). |
 
 The other HPF parameters (Resonance, Drive, Compensation, Character, On) match their LPF counterparts.
 

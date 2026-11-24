@@ -165,6 +165,10 @@ def t_tracking():
                     sel = (f > fc / 3) & (f < fc * 3)
                     pk = f[sel][np.argmax(np.abs(H[sel]))]
                     fexp = fc
+                    if "904B" in nm:
+                        # no resonance: track the corner instead, where two sections of s/(s+1) give |H| = 1/2 (-6.02 dB)
+                        mag = np.abs(H[sel]); i_ = np.argmax(mag >= 0.5)
+                        pk = f[sel][i_]
                     if "SEM" in nm:
                         # v1.6: SEM-1A RES law gives Q ~1.8 at res 85; a 2-pole peak then sits at fc*sqrt(1-2R^2) (LP)
                         # or fc/sqrt(1-2R^2) (HP), not at fc
@@ -176,7 +180,7 @@ def t_tracking():
                     tol = max(100, 1200 * np.log2((fc + 6) / fc))
                     if fc / (SR * (ovs + 1)) < 0.2 and abs(err) > tol:
                         bad.append(f"os{ovs + 1} {st}/{nm} fc{fc}: {err:+.0f} c")
-    record("Cutoff tracking: resonant peak within ±100 cents of the set cutoff (res 85%; SEM: of its circuit-Q peak position)",
+    record("Cutoff tracking: resonant peak within ±100 cents of the set cutoff (res 85%; SEM: of its circuit-Q peak position; 904B HP: its -6 dB corner)",
            not bad, "ok" if not bad else "; ".join(bad), rows=rows)
 
 
@@ -230,10 +234,10 @@ def t_self_osc():
                     rows.append(dict(os=ovs + 1, stage=st, model=nm, fc=fc, oscillates=bool(osc),
                                      peak_dbfs=round(float(db(pk)), 1), freq=round(float(fr), 1),
                                      cents=None if cents is None else round(float(cents))))
-                    expect = not (nm.startswith("SEM") or nm == "Sherman") and not (nm == "Ladder" and fc < 120)   # v1.6: Sherman partial self-oscillation; Minimoog couplings stop the Ladder below ~120 Hz
+                    expect = not (nm.startswith("SEM") or nm == "Sherman" or nm.startswith("Moog 904B")) and not (nm == "Ladder" and fc < 120)   # v1.6: Sherman partial self-oscillation; 904B has no resonance; Minimoog couplings stop the Ladder below ~120 Hz
                     if not fin or pk > 1.25 or osc != expect or (osc and abs(cents) > 100):
                         bad.append(f"os{ovs + 1} {st}/{nm} fc{fc}: osc={osc} pk={db(pk):.1f}dBFS f={fr:.0f}")
-    record("Self-oscillation: stable, bounded (<+2 dBFS), on pitch (±100 c); SEM and Sherman do not sustain it (by design); Ladder not below ~120 Hz (Minimoog couplings)",
+    record("Self-oscillation: stable, bounded (<+2 dBFS), on pitch (±100 c); SEM and Sherman do not sustain it and the 904B HP has no resonance (by design); Ladder not below ~120 Hz (Minimoog couplings)",
            not bad, "ok" if not bad else "; ".join(bad), rows=rows)
 
 
@@ -569,9 +573,8 @@ def t_circuit_reference():
             return s ** 4 / ((1 + s) ** 4 + k * Hb * Hc) if hp else Hc / ((1 + s) ** 4 + k * Hb * Hc)
         add(f"Ladder LP 24 — Minimoog: Hc/((1+s)^4 + k Hb Hc), Stinchcombe core + fig. 9-11 couplings, res {res}%", "l", 2, 1000, res, 1,
             lambda s, lad=lad: lad(s, 1000))
-        kh = 4.3 * (res / 100) ** 1.3   # HP ALT is not a Minimoog: v1.5 law, no couplings
-        add(f"Ladder HP ALT — pole-mix s^4/((1+s)^4+k), res {res}%", "h", 2, 300, res, 1,
-            lambda s, k=kh: s ** 4 / ((1 + s) ** 4 + k))
+        add(f"Ladder HP — Moog 904B (dwg. 1118): (s/(s+1))^4, no resonance (res {res}% ignored)", "h", 2, 300, res, 1,
+            lambda s: s ** 4 / (1 + s) ** 4)
         K = 0.05 + 2.03 * (res / 100) ** 1.1
         add(f"Korg 35 LP — 1/(s^2+(2-K)s+1), res {res}%", "l", 1, 1000, res, 0, lambda s, K=K: 1 / (s * s + (2 - K) * s + 1))
         add(f"Korg 35 HP — s(s+1)/(s^2+(2-K)s+1) (MS-20 as built), res {res}%", "h", 1, 300, res, 0, lambda s, K=K: s * (s + 1) / (s * s + (2 - K) * s + 1))
