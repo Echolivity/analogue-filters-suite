@@ -103,6 +103,7 @@ Param ef_out(0, min=-24, max=12);
 Param ef_to_l(0, min=-5, max=5);
 Param ef_to_h(0, min=-5, max=5);
 Param ef_to_b(0, min=-5, max=5);
+Param v_det(0, min=0, max=1);
 
 History H_l_L_sh_s1a(0.0);
 History H_l_L_sh_s2a(0.0);
@@ -7398,7 +7399,8 @@ v_slope = (clamp(floor(v_ratio + 0.5), 0, 6) < 0.5 ? -0.33333333333333337 : (cla
 v_ams = (clamp(floor(v_att + 0.5), 0, 6) < 0.5 ? 0.03 : (clamp(floor(v_att + 0.5), 0, 6) < 1.5 ? 0.1 : (clamp(floor(v_att + 0.5), 0, 6) < 2.5 ? 0.3 : (clamp(floor(v_att + 0.5), 0, 6) < 3.5 ? 1 : (clamp(floor(v_att + 0.5), 0, 6) < 4.5 ? 3 : (clamp(floor(v_att + 0.5), 0, 6) < 5.5 ? 10 : 30))))));
 v_aat = 1 - exp(-1 / (0.001 * v_ams * fs));
 v_are = 1 - exp(-1 / (clamp(v_rel, 0.05, 3) * fs));
-v_arms = 1 - exp(-1 / (0.003 * fs));
+v_arms = v_det > 0.5 ? 1 : 1 - exp(-1 / (0.003 * fs));
+v_dofs = v_det > 0.5 ? 0 : 3.0103;
 v_kn = clamp(floor(v_knee + 0.5), 0, 2);
 v_ak = (v_kn + 1) * 0.045292704;
 v_c = -v_slope / 4.724320835978319;
@@ -9608,7 +9610,7 @@ if (d_any > 0.5 || dz_d_fade < 1) {
 				dP_V_L_hp = fixdenorm(dP_V_L_hp);
 				vst_L = v_thrust < 0.5 ? vs : vt * v_TN;
 				dP_V_L_ms = fixdenorm(dP_V_L_ms + (vst_L * vst_L - dP_V_L_ms) * v_arms);
-				vlv_L = 10 * log10(dP_V_L_ms + 1e-20) + 3.0103;
+				vlv_L = 10 * log10(dP_V_L_ms + 1e-20) + v_dofs;
 				vu_R = q0_R * dz_v_gi;
 				vs = (v_src < 0.5 ? (v_type > 0.5 ? dP_V_R_yp : vu_R) : (v_src < 1.5 ? cin_R : key_R));
 				vhl, dP_V_R_hp = f_op(vs, dP_V_R_hp, v_Ghp);
@@ -9635,8 +9637,8 @@ if (d_any > 0.5 || dz_d_fade < 1) {
 				dP_V_R_hp = fixdenorm(dP_V_R_hp);
 				vst_R = v_thrust < 0.5 ? vs : vt * v_TN;
 				dP_V_R_ms = fixdenorm(dP_V_R_ms + (vst_R * vst_R - dP_V_R_ms) * v_arms);
-				vlv_R = 10 * log10(dP_V_R_ms + 1e-20) + 3.0103;
-				vlk = 10 * log10(0.5 * (dP_V_L_ms + dP_V_R_ms) + 1e-20) + 3.0103;
+				vlv_R = 10 * log10(dP_V_R_ms + 1e-20) + v_dofs;
+				vlk = 10 * log10(0.5 * (dP_V_L_ms + dP_V_R_ms) + 1e-20) + v_dofs;
 				vgr = 0;
 				vlv = vlv_L + dz_v_lkz * (vlk - vlv_L);
 				vgc = f_k225(vlv - dz_v_thz, v_c, v_x0, v_ak, v_rz);
@@ -10347,7 +10349,7 @@ if (d_any > 0.5 || dz_d_fade < 1) {
 				dP_V_L_hp = fixdenorm(dP_V_L_hp);
 				vst_L = v_thrust < 0.5 ? vs : vt * v_TN;
 				dP_V_L_ms = fixdenorm(dP_V_L_ms + (vst_L * vst_L - dP_V_L_ms) * v_arms);
-				vlv_L = 10 * log10(dP_V_L_ms + 1e-20) + 3.0103;
+				vlv_L = 10 * log10(dP_V_L_ms + 1e-20) + v_dofs;
 				vu_R = q1_R * dz_v_gi;
 				vs = (v_src < 0.5 ? (v_type > 0.5 ? dP_V_R_yp : vu_R) : (v_src < 1.5 ? cin_R : key_R));
 				vhl, dP_V_R_hp = f_op(vs, dP_V_R_hp, v_Ghp);
@@ -10374,8 +10376,8 @@ if (d_any > 0.5 || dz_d_fade < 1) {
 				dP_V_R_hp = fixdenorm(dP_V_R_hp);
 				vst_R = v_thrust < 0.5 ? vs : vt * v_TN;
 				dP_V_R_ms = fixdenorm(dP_V_R_ms + (vst_R * vst_R - dP_V_R_ms) * v_arms);
-				vlv_R = 10 * log10(dP_V_R_ms + 1e-20) + 3.0103;
-				vlk = 10 * log10(0.5 * (dP_V_L_ms + dP_V_R_ms) + 1e-20) + 3.0103;
+				vlv_R = 10 * log10(dP_V_R_ms + 1e-20) + v_dofs;
+				vlk = 10 * log10(0.5 * (dP_V_L_ms + dP_V_R_ms) + 1e-20) + v_dofs;
 				vgr = 0;
 				vlv = vlv_L + dz_v_lkz * (vlk - vlv_L);
 				vgc = f_k225(vlv - dz_v_thz, v_c, v_x0, v_ak, v_rz);
@@ -11086,7 +11088,7 @@ if (d_any > 0.5 || dz_d_fade < 1) {
 				dP_V_L_hp = fixdenorm(dP_V_L_hp);
 				vst_L = v_thrust < 0.5 ? vs : vt * v_TN;
 				dP_V_L_ms = fixdenorm(dP_V_L_ms + (vst_L * vst_L - dP_V_L_ms) * v_arms);
-				vlv_L = 10 * log10(dP_V_L_ms + 1e-20) + 3.0103;
+				vlv_L = 10 * log10(dP_V_L_ms + 1e-20) + v_dofs;
 				vu_R = q2_R * dz_v_gi;
 				vs = (v_src < 0.5 ? (v_type > 0.5 ? dP_V_R_yp : vu_R) : (v_src < 1.5 ? cin_R : key_R));
 				vhl, dP_V_R_hp = f_op(vs, dP_V_R_hp, v_Ghp);
@@ -11113,8 +11115,8 @@ if (d_any > 0.5 || dz_d_fade < 1) {
 				dP_V_R_hp = fixdenorm(dP_V_R_hp);
 				vst_R = v_thrust < 0.5 ? vs : vt * v_TN;
 				dP_V_R_ms = fixdenorm(dP_V_R_ms + (vst_R * vst_R - dP_V_R_ms) * v_arms);
-				vlv_R = 10 * log10(dP_V_R_ms + 1e-20) + 3.0103;
-				vlk = 10 * log10(0.5 * (dP_V_L_ms + dP_V_R_ms) + 1e-20) + 3.0103;
+				vlv_R = 10 * log10(dP_V_R_ms + 1e-20) + v_dofs;
+				vlk = 10 * log10(0.5 * (dP_V_L_ms + dP_V_R_ms) + 1e-20) + v_dofs;
 				vgr = 0;
 				vlv = vlv_L + dz_v_lkz * (vlk - vlv_L);
 				vgc = f_k225(vlv - dz_v_thz, v_c, v_x0, v_ak, v_rz);
@@ -11831,7 +11833,7 @@ if (d_any > 0.5 || dz_d_fade < 1) {
 				dQ_V_L_hp = fixdenorm(dQ_V_L_hp);
 				vst_L = v_thrust < 0.5 ? vs : vt * v_TN;
 				dQ_V_L_ms = fixdenorm(dQ_V_L_ms + (vst_L * vst_L - dQ_V_L_ms) * v_arms);
-				vlv_L = 10 * log10(dQ_V_L_ms + 1e-20) + 3.0103;
+				vlv_L = 10 * log10(dQ_V_L_ms + 1e-20) + v_dofs;
 				vu_R = q0_R * dz_v_gi;
 				vs = (v_src < 0.5 ? (v_type > 0.5 ? dQ_V_R_yp : vu_R) : (v_src < 1.5 ? cin_R : key_R));
 				vhl, dQ_V_R_hp = f_op(vs, dQ_V_R_hp, v_Ghp);
@@ -11858,8 +11860,8 @@ if (d_any > 0.5 || dz_d_fade < 1) {
 				dQ_V_R_hp = fixdenorm(dQ_V_R_hp);
 				vst_R = v_thrust < 0.5 ? vs : vt * v_TN;
 				dQ_V_R_ms = fixdenorm(dQ_V_R_ms + (vst_R * vst_R - dQ_V_R_ms) * v_arms);
-				vlv_R = 10 * log10(dQ_V_R_ms + 1e-20) + 3.0103;
-				vlk = 10 * log10(0.5 * (dQ_V_L_ms + dQ_V_R_ms) + 1e-20) + 3.0103;
+				vlv_R = 10 * log10(dQ_V_R_ms + 1e-20) + v_dofs;
+				vlk = 10 * log10(0.5 * (dQ_V_L_ms + dQ_V_R_ms) + 1e-20) + v_dofs;
 				vgr = 0;
 				vlv = vlv_L + dz_v_lkz * (vlk - vlv_L);
 				vgc = f_k225(vlv - dz_v_thz, v_c, v_x0, v_ak, v_rz);
@@ -12570,7 +12572,7 @@ if (d_any > 0.5 || dz_d_fade < 1) {
 				dQ_V_L_hp = fixdenorm(dQ_V_L_hp);
 				vst_L = v_thrust < 0.5 ? vs : vt * v_TN;
 				dQ_V_L_ms = fixdenorm(dQ_V_L_ms + (vst_L * vst_L - dQ_V_L_ms) * v_arms);
-				vlv_L = 10 * log10(dQ_V_L_ms + 1e-20) + 3.0103;
+				vlv_L = 10 * log10(dQ_V_L_ms + 1e-20) + v_dofs;
 				vu_R = q1_R * dz_v_gi;
 				vs = (v_src < 0.5 ? (v_type > 0.5 ? dQ_V_R_yp : vu_R) : (v_src < 1.5 ? cin_R : key_R));
 				vhl, dQ_V_R_hp = f_op(vs, dQ_V_R_hp, v_Ghp);
@@ -12597,8 +12599,8 @@ if (d_any > 0.5 || dz_d_fade < 1) {
 				dQ_V_R_hp = fixdenorm(dQ_V_R_hp);
 				vst_R = v_thrust < 0.5 ? vs : vt * v_TN;
 				dQ_V_R_ms = fixdenorm(dQ_V_R_ms + (vst_R * vst_R - dQ_V_R_ms) * v_arms);
-				vlv_R = 10 * log10(dQ_V_R_ms + 1e-20) + 3.0103;
-				vlk = 10 * log10(0.5 * (dQ_V_L_ms + dQ_V_R_ms) + 1e-20) + 3.0103;
+				vlv_R = 10 * log10(dQ_V_R_ms + 1e-20) + v_dofs;
+				vlk = 10 * log10(0.5 * (dQ_V_L_ms + dQ_V_R_ms) + 1e-20) + v_dofs;
 				vgr = 0;
 				vlv = vlv_L + dz_v_lkz * (vlk - vlv_L);
 				vgc = f_k225(vlv - dz_v_thz, v_c, v_x0, v_ak, v_rz);
@@ -13309,7 +13311,7 @@ if (d_any > 0.5 || dz_d_fade < 1) {
 				dQ_V_L_hp = fixdenorm(dQ_V_L_hp);
 				vst_L = v_thrust < 0.5 ? vs : vt * v_TN;
 				dQ_V_L_ms = fixdenorm(dQ_V_L_ms + (vst_L * vst_L - dQ_V_L_ms) * v_arms);
-				vlv_L = 10 * log10(dQ_V_L_ms + 1e-20) + 3.0103;
+				vlv_L = 10 * log10(dQ_V_L_ms + 1e-20) + v_dofs;
 				vu_R = q2_R * dz_v_gi;
 				vs = (v_src < 0.5 ? (v_type > 0.5 ? dQ_V_R_yp : vu_R) : (v_src < 1.5 ? cin_R : key_R));
 				vhl, dQ_V_R_hp = f_op(vs, dQ_V_R_hp, v_Ghp);
@@ -13336,8 +13338,8 @@ if (d_any > 0.5 || dz_d_fade < 1) {
 				dQ_V_R_hp = fixdenorm(dQ_V_R_hp);
 				vst_R = v_thrust < 0.5 ? vs : vt * v_TN;
 				dQ_V_R_ms = fixdenorm(dQ_V_R_ms + (vst_R * vst_R - dQ_V_R_ms) * v_arms);
-				vlv_R = 10 * log10(dQ_V_R_ms + 1e-20) + 3.0103;
-				vlk = 10 * log10(0.5 * (dQ_V_L_ms + dQ_V_R_ms) + 1e-20) + 3.0103;
+				vlv_R = 10 * log10(dQ_V_R_ms + 1e-20) + v_dofs;
+				vlk = 10 * log10(0.5 * (dQ_V_L_ms + dQ_V_R_ms) + 1e-20) + v_dofs;
 				vgr = 0;
 				vlv = vlv_L + dz_v_lkz * (vlk - vlv_L);
 				vgc = f_k225(vlv - dz_v_thz, v_c, v_x0, v_ak, v_rz);

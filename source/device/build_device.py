@@ -903,6 +903,16 @@ _b7 = box("message", [bid_x[_m], 680, 80, 22], text=f"set {INFO_LP[6]}", numinle
 connect(_sel7, 0, _a7, 0); connect(_a7, 0, _lab, 0)
 connect(_sel7, 0, _b7, 0); connect(_b7, 0, _info, 0)
 
+# ------------------------------------------------- v1.6: VCA detector (RMS / PEAK), appended after every earlier
+# object so all existing ids stay put; shown only on the VCA page (its own show/hide messages from the page selector)
+_vdet = tab("v_det", "VCA Detector", "Detector", [dx(0), DY + 53, 150, 12], ["RMS", "PEAK (225L)"], 0, STEEL)
+hide(_vdet)
+for pg in range(4):
+    _mv = box("message", [1500 + 30 * pg, 1340 + 4 * pg, 120, 22], text=f"script {'show' if pg == 2 else 'hide'} v_det",
+              numinlets=2, numoutlets=1, outlettype=[""])
+    connect(esel, pg, _mv, 0)
+    connect(_mv, 0, thisp, 0)
+
 # Info View / hint text on every parameter and on the jsui controls
 for b in boxes:
     bb = b["box"]

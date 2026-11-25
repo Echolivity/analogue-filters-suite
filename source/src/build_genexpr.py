@@ -724,6 +724,7 @@ def build():
     P("sh_clock", 0, 0, 1)     # clocked (switched-capacitor) character, behavioural
     for (n, d, lo, hi) in envf.params():   # v1.6 envelope filter (appended)
         P(n, d, lo, hi)   # v1.6: K35 circuit, 0 = LM13600 OTA (Mk2, as v1.5), 1 = Korg35 (Mk1)
+    P("v_det", 0, 0, 1)        # v1.6 VCA detector: 0 = RMS (3 ms, as before), 1 = PEAK (API 225L trace: 2252 with 100 pF)
 
     # ----- state declarations -----
     statevars = []   # local names mirrored from histories

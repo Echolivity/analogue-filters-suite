@@ -187,6 +187,7 @@ Every parameter and custom control now has Info View text (`annotation_name` + `
 | PROCESSING CHAIN · VCA page | `v_type` | VCA Type / Type | live.tab | NEW, OLD | NEW | V module bypassed |
 | PROCESSING CHAIN · VCA page | `v_auto` | VCA Auto Makeup / Auto Makeup | live.text | off, on | off | V module bypassed |
 | PROCESSING CHAIN · VCA page | `v_src` | VCA SC Source / SC Src | live.tab | INT, CHAIN, EXT | INT | V module bypassed |
+| PROCESSING CHAIN · VCA page | `v_det` | VCA Detector / Detector | live.tab | RMS, PEAK (225L) | RMS | — (v1.6, below the dials; shown with the VCA page) |
 | PROCESSING CHAIN · GATE page | `g_thr` | Gate Threshold / Thresh | live.dial | -80 … 0 | -40 | G module bypassed |
 | PROCESSING CHAIN · GATE page | `g_att` | Gate Attack / Attack | live.dial | 0.1 … 50 | 1 | G module bypassed |
 | PROCESSING CHAIN · GATE page | `g_hold` | Gate Hold / Hold | live.dial | 0 … 500 | 20 | G module bypassed |

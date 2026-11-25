@@ -282,6 +282,29 @@ def run_all(record, plt, OUT, SEQ, CAT, GRID, sig):
     aerr = max(max(abs(r["out_at_pivot"] + 18), abs(r["out_10_over"] - r["expect_10_over"])) for r in arows)
     record("VCA: AUTO make-up pivots on +4 dBu (-18 dBFS) for every threshold, ratio, knee and TYPE (API 2500 manual), within 0.3 dB",
            aerr < 0.3, f"worst error {aerr:.2f} dB over thresholds -40/-26, ratios 2/4/inf, HARD and SOFT, NEW and OLD", rows=arows)
+    # DETECTOR switch: RMS (3 ms, API manuals) vs PEAK (traced 225L: 2252 with a 100 pF timing cap). A 1 kHz sine and a
+    # 500 Hz pulse train (crest +16 dB) at the same RMS: RMS compresses both alike, PEAK compresses the pulses by about
+    # (crest difference) x (1 - 1/R) more. A steady sine must land at the same level in both modes.
+    tt = np.arange(2 * SR) / SR
+    sn = 10 ** (-20 / 20) * np.sqrt(2) * np.sin(2 * np.pi * 1000 * tt)
+    pu = sum(np.cos(2 * np.pi * 500 * k * tt) for k in range(1, 21)); pu *= 10 ** (-20 / 20) / np.sqrt(np.mean(pu ** 2))
+    crest = 20 * np.log10(np.max(np.abs(pu)) / 10 ** (-20 / 20)) - 3.0103
+    drows = []
+    for det in (0, 1):
+        gg = []
+        for xx in (sn, pu):
+            yy = run(np.r_[np.zeros(SR // 2), xx], dyn(v_on=1, v_thr=-42, v_ratio=3, v_att=0, v_rel=0.5, v_det=det))[SR // 2:, 0]
+            gg.append(20 * np.log10(np.sqrt(np.mean(yy[SR:] ** 2)) / np.sqrt(np.mean(xx[SR:] ** 2))))
+        ys = run(np.r_[np.zeros(SR // 2), 10 ** (-10 / 20) * np.sin(2 * np.pi * 1000 * tt)],
+                 dyn(v_on=1, v_thr=-30, v_ratio=3, v_att=3, v_rel=0.3, v_det=det))[SR // 2:, 0]
+        drows.append(dict(detector=["RMS", "PEAK"][det], extra_gr_on_pulses_db=round(gg[0] - gg[1], 2),
+                          ideal_peak_extra_db=round(crest * 0.75, 2), sine_out_dbfs=round(20 * np.log10(np.sqrt(2 * np.mean(ys[SR:] ** 2))), 2)))
+    record("VCA: DETECTOR — RMS compresses a pulse train like a sine (< 1 dB extra), PEAK by about the crest difference x (1 - 1/R) "
+           "(> 80 % of ideal); a steady sine lands within 0.5 dB in both",
+           drows[0]["extra_gr_on_pulses_db"] < 1 and drows[1]["extra_gr_on_pulses_db"] > 0.8 * drows[1]["ideal_peak_extra_db"]
+           and abs(drows[0]["sine_out_dbfs"] - drows[1]["sine_out_dbfs"]) < 0.5,
+           "; ".join(f"{r['detector']}: +{r['extra_gr_on_pulses_db']} dB on pulses, sine {r['sine_out_dbfs']} dBFS" for r in drows)
+           + f" (ideal peak +{drows[1]['ideal_peak_extra_db']} dB)", rows=drows)
     # THRUST curve via KEY LISTEN (the detector signal): THRUST setting relative to NORM, so the SC HPF cancels.
     # LOUD = US 5,170,437 Fig. 4 circuit (cited by the API 2500 manual) relative to 632 Hz; MED modelled as half.
     def tlvl(f, th):

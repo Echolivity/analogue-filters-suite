@@ -43,8 +43,8 @@ def _same_param(o_, n_):
     if o_[0] == "l_model":     # item 07 (ARP 2600 4012) appended
         return ne[:len(oe)] == oe and len(ne) == len(oe) + 1 and rest(ov) == rest(nv)
     return False
-check("all 79 v1.4 parameters kept: identical ids, names and definitions (v1.6 appends 22; HPF item 03 renamed in place, LPF item 07 appended)",
-      all(_same_param(v, pn.get(i)) for i, v in po.items()) and len(pn) == 101, f"{len(pn)} parameters")
+check("all 79 v1.4 parameters kept: identical ids, names and definitions (v1.6 appends 23 incl. VCA Detector; HPF item 03 renamed in place, LPF item 07 appended)",
+      all(_same_param(v, pn.get(i)) for i, v in po.items()) and len(pn) == 102, f"{len(pn)} parameters")
 check("parameter table (Live identity): every v1.4 entry unchanged", all(P["parameters"].get(k) == v for k, v in OLD["parameters"].items()))
 gc = lambda X: next(b["box"]["patcher"]["boxes"][2]["box"]["code"] for b in X["boxes"] if b["box"].get("text") == "gen~")
 check("v1.6 is a DSP release: gen~ code differs from v1.5 (intended; see docs/V1.6_ENGINE.md)", gc(OLD15) != gc(P))
