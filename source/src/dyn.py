@@ -35,6 +35,15 @@ PERM_NAMES = ["TUBE > OPTO > VCA", "TUBE > VCA > OPTO", "OPTO > TUBE > VCA",
 PRESETS = {"WARM DUB": 0, "PUNCH & COLOUR": 4, "FINAL COLOUR": 3}
 V_RATIOS = [1.5, 2, 3, 4, 6, 10, 1e9]
 V_ATTACKS_MS = [0.03, 0.1, 0.3, 1, 3, 10, 30]
+# KNEE (API 225L traced schematic, VCA board): the soft knee is a 1N4148 chain to ground in the CV amplifier's gain
+# network. 225L: HARD = 1 diode, SOFT = 2 (NEW) / 3 (OLD, where S2a also puts R40 2k74 across R41 6k19). The 2500's
+# MED is modelled as one more diode per step: HARD 1, MED 2, SOFT 3 in both TYPEs (assumption). CV scale: the ratio
+# network sets c (V per dB over threshold) so NEW's asymptote has slope 1/R - 1; OLD uses the same c with its higher
+# gain network. X0 = CV at the threshold, chosen so the asymptote passes through the threshold.
+V_K_SNEW = 4.724320835978319            # dB of gain change per volt of CV, NEW asymptote
+V_K_RZ = {"NEW": 6190.0, "OLD": 1899.2833146696528}
+V_K_X0 = {'NEW': [0.572794, 0.91464, 1.252764], 'OLD': [0.639184, 1.167696, 1.690352]}   # volts, HARD / MED / SOFT
+V_K_A1 = 0.045292704                 # n * VT of one 1N4148
 V_AUTO_REF_DBFS = -18.0   # +4 dBu (API 2500 manual's AUTO make-up level) at 0 dBFS = +22 dBu
 # THRUST: the API 2500 manual cites US Patent 5,170,437 (Strahm, 1992). Its Fig. 4 is the active half-order
 # high-pass in front of the rectifier: 100k || (32k + 0.16u) || (10k + 0.05u) || (3.2k + 0.016u) || (1k + 0.005u)
@@ -85,16 +94,30 @@ f_tsh(v) {
 f_tube(x, b, ib) {
 	return (f_tsh(x + b) - f_tsh(b)) * ib;
 }
-// API-style gain computer (dB in -> gain change in dB, <= 0); slope = 1/R - 1, W = knee width
-f_gc(lv, thr, slope, W) {
-	o = lv - thr;
-	r = 0;
-	if (2 * o > W) {
-		r = slope * o;
-	} else if (2 * o > -W) {
-		r = slope * (o + 0.5 * W) * (o + 0.5 * W) / (2 * W);
+// API 225L knee / control-voltage stage (traced VCA-board schematic): current through r + a diode chain with v
+// across (a = diodes * n * VT); Newton on the diode voltage, started right of the root (convex: monotone);
+// 4 steps: within 0.001 dB of the converged network over 0-12 V
+f_dsol(v, r, a) {
+	i = 0;
+	if (v > 0) {
+		u = min(v, a * log(1 + v / (r * 2.52e-09)));
+		for (k = 0; k < 4; k += 1) {
+			ee = exp(u / a);
+			u = u - (u + r * 2.52e-09 * (ee - 1) - v) / (1 + r * 2.52e-09 * ee / a);
+		}
+		i = 2.52e-09 * (exp(u / a) - 1);
 	}
-	return r;
+	return i;
+}
+// gain change (dB, <= 0) for overshoot o (dB): CV x = c*o + x0 into IC3a (R2 9k09 and R1 100k + CR6 feedback,
+// rz + diode chain to ground), then CR9 into the IC3b virtual ground and the 2180 control port
+f_k225(o, c, x0, a, rz) {
+	x = c * o + x0;
+	iz = f_dsol(x, rz, a);
+	i6 = f_dsol(iz * 9090.0, 109090.0, 0.045292704);
+	y = x + 9090.0 * (iz - i6);
+	i9 = f_dsol(y, 28041.269841269837, 0.045292704);
+	return -56465.63903782551 * i9;
 }
 """
 
@@ -116,7 +139,7 @@ def register_state(SV, CV):
                  ("v_gi", 1.0), ("v_go", 1.0), ("v_mx", 1.0), ("v_w", 0.0), ("v_thz", -20.0), ("v_lkz", 1.0),
                  ("g_w", 0.0), ("kl_w", 0.0), ("kl_sel", 0),
                  ("d_oP", 0), ("d_oQ", 0), ("d_act", 0), ("d_fade", 1),
-                 ("T_dirty", 0), ("O_dirty", 0), ("V_dirty", 0), ("G_dirty", 0)):
+                 ("T_dirty", 0), ("O_dirty", 0), ("V_dirty", 0), ("G_dirty", 0), ("v_mkk", -1e9), ("v_mkc", 0)):
         CV(f"H_dyn_{n}" if False else f"dz_{n}", i)
 
 
@@ -124,7 +147,7 @@ def ctrl_names():
     return ["dz_t_gi", "dz_t_go", "dz_t_mx", "dz_t_w", "dz_t_dz", "dz_t_bz", "dz_o_gi", "dz_o_go", "dz_o_mx", "dz_o_w",
             "dz_o_prz", "dz_o_emz", "dz_o_lkz", "dz_v_gi", "dz_v_go", "dz_v_mx", "dz_v_w", "dz_v_thz", "dz_v_lkz",
             "dz_g_w", "dz_kl_w", "dz_kl_sel", "dz_d_oP", "dz_d_oQ", "dz_d_act", "dz_d_fade",
-            "dz_T_dirty", "dz_O_dirty", "dz_V_dirty", "dz_G_dirty"]
+            "dz_T_dirty", "dz_O_dirty", "dz_V_dirty", "dz_G_dirty", "dz_v_mkk", "dz_v_mkc"]
 
 
 def _sm(w, name, target, coef="a_par"):
@@ -235,7 +258,12 @@ def emit_controls(w, G):
     w("v_aat = 1 - exp(-1 / (0.001 * v_ams * fs));")
     w("v_are = 1 - exp(-1 / (clamp(v_rel, 0.05, 3) * fs));")
     w("v_arms = 1 - exp(-1 / (0.003 * fs));")
-    w("v_W = v_knee < 0.5 ? 0.0001 : (v_knee < 1.5 ? 6 : 12);")
+    w("v_kn = clamp(floor(v_knee + 0.5), 0, 2);")
+    w(f"v_ak = (v_kn + 1) * {V_K_A1!r};")
+    w(f"v_c = -v_slope / {V_K_SNEW!r};")
+    w(f"v_rz = v_type > 0.5 ? {V_K_RZ['OLD']!r} : {V_K_RZ['NEW']!r};")
+    xo, xn = V_K_X0["OLD"], V_K_X0["NEW"]
+    w(f"v_x0 = v_type > 0.5 ? (v_kn < 0.5 ? {xo[0]!r} : (v_kn < 1.5 ? {xo[1]!r} : {xo[2]!r})) : (v_kn < 0.5 ? {xn[0]!r} : (v_kn < 1.5 ? {xn[1]!r} : {xn[2]!r}));")
     w("v_ghp = tan(pi * clamp(v_hpf, 20, 500) / fs);")
     w("v_Ghp = v_ghp / (1 + v_ghp);")
     for i, fc in enumerate(V_THRUST_FC):
@@ -245,11 +273,32 @@ def emit_controls(w, G):
     w(f"v_TN = v_thrust < 1.5 ? {V_THRUST_NORM['MED']!r} : {V_THRUST_NORM['LOUD']!r};")
     # AUTO make-up (API 2500 manual): THRESH raises the output "until the output level is around +4 dBu", then it
     # "will maintain an even output level" as THRESH and RATIO change. So the make-up is the static gain reduction a
-    # +4 dBu signal would get: the transfer curve then pivots on +4 dBu (-18 dBFS, Waves mapping 0 dBFS = +22 dBu)
-    # whatever the threshold and ratio. In OLD the same law acts on the output, so the static slope is
-    # s / (1 - s) (4:1 behaves as 1.75:1); the make-up uses that effective slope so the pivot holds in both TYPEs.
-    w("v_sme = v_type > 0.5 ? v_slope / (1 - v_slope) : v_slope;")
-    w(f"v_mk = v_auto > 0.5 ? exp(-0.11512925465 * f_gc({V_AUTO_REF_DBFS!r}, dz_v_thz, v_sme, v_W)) : 1;")
+    # +4 dBu signal gets (-18 dBFS, Waves mapping 0 dBFS = +22 dBu): the curve pivots on +4 dBu for any threshold and
+    # ratio. NEW: the knee stage at the pivot. OLD (detector on the output): the static output level L solves
+    # L = Lin + G(L - T); bisection, recomputed only when threshold, ratio, knee or type change.
+    w("dz_v_mkk = dz_v_thz + 1000 * (clamp(floor(v_ratio + 0.5), 0, 6) + 10 * v_kn + 100 * (v_type > 0.5) + 1000 * (v_auto > 0.5));")
+    w("dz_v_mkc = H_dz_v_mkc;")
+    w("if (abs(dz_v_mkk - H_dz_v_mkk) > 0.000001) {")
+    w("	dz_v_mkc = 0;")
+    w("	if (v_auto > 0.5) {")
+    w("		if (v_type > 0.5) {")
+    w(f"			mlo = {V_AUTO_REF_DBFS!r} - 80;")
+    w(f"			mhi = {V_AUTO_REF_DBFS!r};")
+    w("			for (k = 0; k < 30; k += 1) {")
+    w("				mm = 0.5 * (mlo + mhi);")
+    w(f"				if (mm - {V_AUTO_REF_DBFS!r} - f_k225(mm - dz_v_thz, v_c, v_x0, v_ak, v_rz) > 0) {{")
+    w("					mhi = mm;")
+    w("				} else {")
+    w("					mlo = mm;")
+    w("				}")
+    w("			}")
+    w(f"			dz_v_mkc = {V_AUTO_REF_DBFS!r} - 0.5 * (mlo + mhi);")
+    w("		} else {")
+    w(f"			dz_v_mkc = -f_k225({V_AUTO_REF_DBFS!r} - dz_v_thz, v_c, v_x0, v_ak, v_rz);")
+    w("		}")
+    w("	}")
+    w("}")
+    w("v_mk = exp(0.11512925465 * dz_v_mkc);")
     # gate
     w("dz_g_wt = g_on > 0.5 ? 1 : 0;")
     _sm(w, "dz_g_w", "dz_g_wt", "a_mix")
@@ -471,7 +520,7 @@ def emit_vca(w, G, ln, xin, xout, meter):
     for ch in CH:
         gr = s(ch, "gr")
         w(f"vlv = vlv_{ch} + dz_v_lkz * (vlk - vlv_{ch});")
-        w(f"vgc = f_gc(vlv, dz_v_thz, v_slope, v_W);")
+        w("vgc = f_k225(vlv - dz_v_thz, v_c, v_x0, v_ak, v_rz);")
         w(f"{gr} = fixdenorm({gr} + (vgc - {gr}) * (vgc < {gr} ? v_aat : v_are));")
         w(f"vy = vu_{ch} * exp(0.11512925465 * {gr});")
         w(f"{s(ch, 'yp')} = vy;")

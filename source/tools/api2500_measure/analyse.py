@@ -127,15 +127,27 @@ def analyse(pack, rdir, odir):
             return knee_model(Lin, p[0], p[1], abs(p[2])) - GR
         fit = least_squares(r, [-22, 4, 3])
         T, Rt, W = fit.x[0], fit.x[1], abs(fit.x[2])
-        knees[k] = dict(setting=KNEES[k], threshold_dbfs=round(T, 2), ratio=round(Rt, 2), knee_width_db=round(W, 2),
+        # asymptote: straight line through the top of the curve (inputs >= 12 dB above the fitted threshold);
+        # ratio from its slope, threshold where it meets unity gain. Robust to diode-shaped knees.
+        top = Lin >= T + 12
+        if top.sum() >= 4:
+            m, b = np.polyfit(Lin[top], GR[top], 1)
+            a_ratio = 1 / (1 - m) if m < 0.999 else float("inf")
+            a_thr = -b / m if m > 1e-6 else float("nan")
+        else:
+            a_ratio, a_thr = float("nan"), float("nan")
+        knees[k] = dict(setting=KNEES[k], asymptote_threshold_dbfs=round(float(a_thr), 2), asymptote_ratio=round(float(a_ratio), 2),
+                        threshold_dbfs=round(T, 2), ratio=round(Rt, 2), knee_width_db=round(W, 2),
                         fit_rms_db=round(float(np.sqrt(np.mean(fit.fun ** 2))), 3), curve=[[float(a), round(float(b), 2)] for a, b in zip(Lin, GR)])
     if knees:
         res["static"] = knees
         rep += ["", "## Static curve and knees (1 kHz, threshold set to 0 dBu, 4:1)",
-                "Fit: quadratic soft knee of width W around the threshold.", "",
-                "| Render | Knee | Threshold (dBFS) | Ratio | Knee width (dB) | Fit error (dB rms) |", "|---|---|---|---|---|---|"]
+                "Asymptote: straight line through the curve 12 dB and more above threshold (ratio from its slope, threshold where it meets unity).",
+                "Fit: quadratic soft knee of width W around the threshold (a diode knee is not quadratic; use W as a rough width).", "",
+                "| Render | Knee | Asymptote threshold (dBFS) | Asymptote ratio | Fit threshold | Fit ratio | Knee width W (dB) | Fit error (dB rms) |",
+                "|---|---|---|---|---|---|---|---|"]
         for k, v in knees.items():
-            rep.append(f"| {k} | {v['setting']} | {v['threshold_dbfs']} | {v['ratio']} | {v['knee_width_db']} | {v['fit_rms_db']} |")
+            rep.append(f"| {k} | {v['setting']} | {v['asymptote_threshold_dbfs']} | {v['asymptote_ratio']} | {v['threshold_dbfs']} | {v['ratio']} | {v['knee_width_db']} | {v['fit_rms_db']} |")
 
     # ---- THRUST: GR per frequency at ratio 2 -> detector level change = 2 x GR change
     info = sched["02_thrust_sweep_-10dBFS.wav"]

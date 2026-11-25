@@ -3105,39 +3105,39 @@
   {
    "name": "CPU benchmark (transpiled C, gcc -O2, this machine)",
    "passed": true,
-   "detail": "Both stages off (pass-through): 7.72%; Default device (Ladder LPF 24 dB + K35 HPF), 1x: 9.88%; Diode LPF 48 dB + Sherman HPF 48 dB, 1x: 10.65%; Default device, 2x oversampling: 11.82%; Worst case: Diode+Sherman 48 dB, 2x, both mid-crossfade: 16.22%",
+   "detail": "Both stages off (pass-through): 4.97%; Default device (Ladder LPF 24 dB + K35 HPF), 1x: 6.72%; Diode LPF 48 dB + Sherman HPF 48 dB, 1x: 7.48%; Default device, 2x oversampling: 8.44%; Worst case: Diode+Sherman 48 dB, 2x, both mid-crossfade: 12.08%",
    "rows": [
     {
      "config": "Both stages off (pass-through)",
-     "ns_per_frame": 1608.5,
-     "pct_of_one_core_48k": 7.72
+     "ns_per_frame": 1035.3,
+     "pct_of_one_core_48k": 4.97
     },
     {
      "config": "Default device (Ladder LPF 24 dB + K35 HPF), 1x",
-     "ns_per_frame": 2057.8,
-     "pct_of_one_core_48k": 9.88
+     "ns_per_frame": 1399.1,
+     "pct_of_one_core_48k": 6.72
     },
     {
      "config": "Diode LPF 48 dB + Sherman HPF 48 dB, 1x",
-     "ns_per_frame": 2218.4,
-     "pct_of_one_core_48k": 10.65
+     "ns_per_frame": 1558.6,
+     "pct_of_one_core_48k": 7.48
     },
     {
      "config": "Default device, 2x oversampling",
-     "ns_per_frame": 2461.5,
-     "pct_of_one_core_48k": 11.82
+     "ns_per_frame": 1759.2,
+     "pct_of_one_core_48k": 8.44
     },
     {
      "config": "Worst case: Diode+Sherman 48 dB, 2x, both mid-crossfade",
-     "ns_per_frame": 3380.1,
-     "pct_of_one_core_48k": 16.22
+     "ns_per_frame": 2516.9,
+     "pct_of_one_core_48k": 12.08
     }
    ]
   },
   {
    "name": "Denormals: decay tails flush to zero; silence costs no more than signal",
    "passed": true,
-   "detail": "silence/signal CPU ratio 0.88"
+   "detail": "silence/signal CPU ratio 0.80"
   },
   {
    "name": "DC offset at output with asymmetric saturation (drive 100%, hot input)",
@@ -4481,32 +4481,32 @@
   {
    "name": "CPU with BPF (transpiled C, gcc -O2, this machine)",
    "passed": true,
-   "detail": "v1.1 default device (LPF+HPF), BPF off: 10.03%; + BPF SVF: 10.95%; + BPF CASCADE: 11.13%; + BPF MULTIMODE (ARP): 11.62%; worst: all three, 48 dB slopes, 2x, BPF mid-crossfade: 18.27%",
+   "detail": "v1.1 default device (LPF+HPF), BPF off: 6.68%; + BPF SVF: 7.48%; + BPF CASCADE: 7.4%; + BPF MULTIMODE (ARP): 8.17%; worst: all three, 48 dB slopes, 2x, BPF mid-crossfade: 13.2%",
    "rows": [
     {
      "config": "v1.1 default device (LPF+HPF), BPF off",
-     "ns_per_frame": 2089.4,
-     "pct_of_one_core_48k": 10.03
+     "ns_per_frame": 1391.3,
+     "pct_of_one_core_48k": 6.68
     },
     {
      "config": "+ BPF SVF",
-     "ns_per_frame": 2281.8,
-     "pct_of_one_core_48k": 10.95
+     "ns_per_frame": 1557.6,
+     "pct_of_one_core_48k": 7.48
     },
     {
      "config": "+ BPF CASCADE",
-     "ns_per_frame": 2318.1,
-     "pct_of_one_core_48k": 11.13
+     "ns_per_frame": 1541.7,
+     "pct_of_one_core_48k": 7.4
     },
     {
      "config": "+ BPF MULTIMODE (ARP)",
-     "ns_per_frame": 2419.9,
-     "pct_of_one_core_48k": 11.62
+     "ns_per_frame": 1701.4,
+     "pct_of_one_core_48k": 8.17
     },
     {
      "config": "worst: all three, 48 dB slopes, 2x, BPF mid-crossfade",
-     "ns_per_frame": 3806.3,
-     "pct_of_one_core_48k": 18.27
+     "ns_per_frame": 2749.4,
+     "pct_of_one_core_48k": 13.2
     }
    ]
   },
@@ -4538,54 +4538,54 @@
   {
    "name": "CHAIN: all six processing orders run (all modules on) \u2014 stable, bounded, audibly distinct, level spread < 6 dB",
    "passed": true,
-   "detail": "level spread across orders 1.07 dB; TUBE>OPTO>VCA -23.14 dBFS; TUBE>VCA>OPTO -23.29 dBFS; OPTO>TUBE>VCA -22.93 dBFS; OPTO>VCA>TUBE -22.22 dBFS; VCA>TUBE>OPTO -22.64 dBFS; VCA>OPTO>TUBE -22.41 dBFS",
+   "detail": "level spread across orders 0.92 dB; TUBE>OPTO>VCA -23.52 dBFS; TUBE>VCA>OPTO -23.49 dBFS; OPTO>TUBE>VCA -23.3 dBFS; OPTO>VCA>TUBE -22.6 dBFS; VCA>TUBE>OPTO -22.83 dBFS; VCA>OPTO>TUBE -22.61 dBFS",
    "rows": [
     {
      "order": "TUBE>OPTO>VCA",
-     "out_level_dbfs": -23.14,
-     "peak_dbfs": -10.33,
+     "out_level_dbfs": -23.52,
+     "peak_dbfs": -10.35,
      "opto_gr_db": 6.77,
-     "vca_gr_db": 6.6,
+     "vca_gr_db": 6.98,
      "finite": true
     },
     {
      "order": "TUBE>VCA>OPTO",
-     "out_level_dbfs": -23.29,
-     "peak_dbfs": -10.33,
-     "opto_gr_db": 1.9,
-     "vca_gr_db": 11.6,
+     "out_level_dbfs": -23.49,
+     "peak_dbfs": -10.35,
+     "opto_gr_db": 1.83,
+     "vca_gr_db": 11.88,
      "finite": true
     },
     {
      "order": "OPTO>TUBE>VCA",
-     "out_level_dbfs": -22.93,
-     "peak_dbfs": -10.33,
+     "out_level_dbfs": -23.3,
+     "peak_dbfs": -10.35,
      "opto_gr_db": 6.85,
-     "vca_gr_db": 7.05,
+     "vca_gr_db": 7.42,
      "finite": true
     },
     {
      "order": "OPTO>VCA>TUBE",
-     "out_level_dbfs": -22.22,
-     "peak_dbfs": -10.33,
+     "out_level_dbfs": -22.6,
+     "peak_dbfs": -10.35,
      "opto_gr_db": 6.85,
-     "vca_gr_db": 6.53,
+     "vca_gr_db": 6.92,
      "finite": true
     },
     {
      "order": "VCA>TUBE>OPTO",
-     "out_level_dbfs": -22.64,
-     "peak_dbfs": -10.33,
-     "opto_gr_db": 2.15,
-     "vca_gr_db": 11.63,
+     "out_level_dbfs": -22.83,
+     "peak_dbfs": -10.35,
+     "opto_gr_db": 2.06,
+     "vca_gr_db": 11.9,
      "finite": true
     },
     {
      "order": "VCA>OPTO>TUBE",
-     "out_level_dbfs": -22.41,
-     "peak_dbfs": -10.33,
-     "opto_gr_db": 1.95,
-     "vca_gr_db": 11.63,
+     "out_level_dbfs": -22.61,
+     "peak_dbfs": -10.35,
+     "opto_gr_db": 1.87,
+     "vca_gr_db": 11.9,
      "finite": true
     }
    ]
@@ -4597,12 +4597,12 @@
    "rows": [
     {
      "transition": "TUBE>OPTO>VCA -> TUBE>VCA>OPTO",
-     "hf_burst_dbfs": -153.3,
+     "hf_burst_dbfs": -153.8,
      "finite": true
     },
     {
      "transition": "TUBE>OPTO>VCA -> OPTO>TUBE>VCA",
-     "hf_burst_dbfs": -130.8,
+     "hf_burst_dbfs": -131.2,
      "finite": true
     },
     {
@@ -4612,7 +4612,7 @@
     },
     {
      "transition": "TUBE>OPTO>VCA -> VCA>TUBE>OPTO",
-     "hf_burst_dbfs": -132.6,
+     "hf_burst_dbfs": -132.3,
      "finite": true
     },
     {
@@ -4622,12 +4622,12 @@
     },
     {
      "transition": "TUBE>VCA>OPTO -> TUBE>OPTO>VCA",
-     "hf_burst_dbfs": -156.7,
+     "hf_burst_dbfs": -156.9,
      "finite": true
     },
     {
      "transition": "TUBE>VCA>OPTO -> OPTO>TUBE>VCA",
-     "hf_burst_dbfs": -145.7,
+     "hf_burst_dbfs": -146.2,
      "finite": true
     },
     {
@@ -4637,7 +4637,7 @@
     },
     {
      "transition": "TUBE>VCA>OPTO -> VCA>TUBE>OPTO",
-     "hf_burst_dbfs": -123.6,
+     "hf_burst_dbfs": -123.5,
      "finite": true
     },
     {
@@ -4647,62 +4647,62 @@
     },
     {
      "transition": "OPTO>TUBE>VCA -> TUBE>OPTO>VCA",
-     "hf_burst_dbfs": -141.2,
+     "hf_burst_dbfs": -141.6,
      "finite": true
     },
     {
      "transition": "OPTO>TUBE>VCA -> TUBE>VCA>OPTO",
-     "hf_burst_dbfs": -141.1,
+     "hf_burst_dbfs": -141.4,
      "finite": true
     },
     {
      "transition": "OPTO>TUBE>VCA -> OPTO>VCA>TUBE",
-     "hf_burst_dbfs": -133.5,
+     "hf_burst_dbfs": -133.3,
      "finite": true
     },
     {
      "transition": "OPTO>TUBE>VCA -> VCA>TUBE>OPTO",
-     "hf_burst_dbfs": -153.0,
+     "hf_burst_dbfs": -155.1,
      "finite": true
     },
     {
      "transition": "OPTO>TUBE>VCA -> VCA>OPTO>TUBE",
-     "hf_burst_dbfs": -133.5,
+     "hf_burst_dbfs": -133.2,
      "finite": true
     },
     {
      "transition": "OPTO>VCA>TUBE -> TUBE>OPTO>VCA",
-     "hf_burst_dbfs": -138.4,
+     "hf_burst_dbfs": -138.7,
      "finite": true
     },
     {
      "transition": "OPTO>VCA>TUBE -> TUBE>VCA>OPTO",
-     "hf_burst_dbfs": -138.3,
+     "hf_burst_dbfs": -138.6,
      "finite": true
     },
     {
      "transition": "OPTO>VCA>TUBE -> OPTO>TUBE>VCA",
-     "hf_burst_dbfs": -141.0,
+     "hf_burst_dbfs": -141.2,
      "finite": true
     },
     {
      "transition": "OPTO>VCA>TUBE -> VCA>TUBE>OPTO",
-     "hf_burst_dbfs": -140.2,
+     "hf_burst_dbfs": -140.5,
      "finite": true
     },
     {
      "transition": "OPTO>VCA>TUBE -> VCA>OPTO>TUBE",
-     "hf_burst_dbfs": -150.8,
+     "hf_burst_dbfs": -151.3,
      "finite": true
     },
     {
      "transition": "VCA>TUBE>OPTO -> TUBE>OPTO>VCA",
-     "hf_burst_dbfs": -139.2,
+     "hf_burst_dbfs": -139.3,
      "finite": true
     },
     {
      "transition": "VCA>TUBE>OPTO -> TUBE>VCA>OPTO",
-     "hf_burst_dbfs": -139.2,
+     "hf_burst_dbfs": -139.3,
      "finite": true
     },
     {
@@ -4712,37 +4712,37 @@
     },
     {
      "transition": "VCA>TUBE>OPTO -> OPTO>VCA>TUBE",
-     "hf_burst_dbfs": -145.4,
+     "hf_burst_dbfs": -145.8,
      "finite": true
     },
     {
      "transition": "VCA>TUBE>OPTO -> VCA>OPTO>TUBE",
-     "hf_burst_dbfs": -145.2,
+     "hf_burst_dbfs": -145.6,
      "finite": true
     },
     {
      "transition": "VCA>OPTO>TUBE -> TUBE>OPTO>VCA",
-     "hf_burst_dbfs": -138.5,
+     "hf_burst_dbfs": -138.7,
      "finite": true
     },
     {
      "transition": "VCA>OPTO>TUBE -> TUBE>VCA>OPTO",
-     "hf_burst_dbfs": -138.5,
+     "hf_burst_dbfs": -138.7,
      "finite": true
     },
     {
      "transition": "VCA>OPTO>TUBE -> OPTO>TUBE>VCA",
-     "hf_burst_dbfs": -138.8,
+     "hf_burst_dbfs": -138.9,
      "finite": true
     },
     {
      "transition": "VCA>OPTO>TUBE -> OPTO>VCA>TUBE",
-     "hf_burst_dbfs": -153.1,
+     "hf_burst_dbfs": -153.4,
      "finite": true
     },
     {
      "transition": "VCA>OPTO>TUBE -> VCA>TUBE>OPTO",
-     "hf_burst_dbfs": -147.4,
+     "hf_burst_dbfs": -147.7,
      "finite": true
     }
    ]
@@ -4750,42 +4750,42 @@
   {
    "name": "CHAIN: independent bypass \u2014 a bypassed module is fully transparent, does not affect the others, toggles click-free",
    "passed": true,
-   "detail": "orders equivalent without TUBE: True; VCA GR change when TUBE (downstream) bypassed: 0.00e+00 dB; worst toggle burst -125.9 dBFS"
+   "detail": "orders equivalent without TUBE: True; VCA GR change when TUBE (downstream) bypassed: 0.00e+00 dB; worst toggle burst -126.3 dBFS"
   },
   {
    "name": "GAIN STAGING: extreme settings (+12 dB into every module, max drive) \u2014 floating-point headroom, no internal clipping, output held by soft clip",
    "passed": true,
-   "detail": "TUBE>OPTO>VCA internal 5.6 dBFS / out -8.71; TUBE>VCA>OPTO internal 5.6 dBFS / out -8.71; OPTO>TUBE>VCA internal 5.6 dBFS / out -8.71; OPTO>VCA>TUBE internal 5.6 dBFS / out -8.71; VCA>TUBE>OPTO internal 5.6 dBFS / out -8.71; VCA>OPTO>TUBE internal 5.6 dBFS / out -8.71",
+   "detail": "TUBE>OPTO>VCA internal 5.6 dBFS / out -8.73; TUBE>VCA>OPTO internal 5.6 dBFS / out -8.73; OPTO>TUBE>VCA internal 5.6 dBFS / out -8.73; OPTO>VCA>TUBE internal 5.6 dBFS / out -8.73; VCA>TUBE>OPTO internal 5.6 dBFS / out -8.73; VCA>OPTO>TUBE internal 5.6 dBFS / out -8.73",
    "rows": [
     {
      "order": "TUBE>OPTO>VCA",
      "max_internal_dbfs": 5.6,
-     "out_peak_dbfs": -8.71
+     "out_peak_dbfs": -8.73
     },
     {
      "order": "TUBE>VCA>OPTO",
      "max_internal_dbfs": 5.6,
-     "out_peak_dbfs": -8.71
+     "out_peak_dbfs": -8.73
     },
     {
      "order": "OPTO>TUBE>VCA",
      "max_internal_dbfs": 5.6,
-     "out_peak_dbfs": -8.71
+     "out_peak_dbfs": -8.73
     },
     {
      "order": "OPTO>VCA>TUBE",
      "max_internal_dbfs": 5.6,
-     "out_peak_dbfs": -8.71
+     "out_peak_dbfs": -8.73
     },
     {
      "order": "VCA>TUBE>OPTO",
      "max_internal_dbfs": 5.6,
-     "out_peak_dbfs": -8.71
+     "out_peak_dbfs": -8.73
     },
     {
      "order": "VCA>OPTO>TUBE",
      "max_internal_dbfs": 5.6,
-     "out_peak_dbfs": -8.71
+     "out_peak_dbfs": -8.73
     }
    ]
   },
@@ -4797,7 +4797,7 @@
   {
    "name": "GAIN STAGING: per-module input/output gain and level meters (VCA in +6 dB, out \u22123 dB on a \u221210 dBFS tone)",
    "passed": true,
-   "detail": "meter in -4.00 dBFS, out -19.08 dBFS, GR 12.08 dB"
+   "detail": "meter in -4.00 dBFS, out -19.34 dBFS, GR 12.34 dB"
   },
   {
    "name": "TUBE: harmonic content rises with drive; bias produces even harmonics; no DC at the output",
@@ -4950,68 +4950,71 @@
   {
    "name": "VCA: static ratios 1.5:1 \u2026 \u221e:1 within \u00b10.5 dB (hard knee, threshold \u221224 dBFS, input 20 dB over)",
    "passed": true,
-   "detail": "1.5:1 \u2192 -10.7 (exp -10.67); 2:1 \u2192 -14.05 (exp -14.0); 3:1 \u2192 -17.4 (exp -17.33); 4:1 \u2192 -19.08 (exp -19.0); 6:1 \u2192 -20.75 (exp -20.67); 10:1 \u2192 -22.1 (exp -22.0); inf:1 \u2192 -24.11 (exp -24.0)",
+   "detail": "1.5:1 \u2192 -11.08 (exp -10.67); 2:1 \u2192 -14.35 (exp -14.0); 3:1 \u2192 -17.65 (exp -17.33); 4:1 \u2192 -19.3 (exp -19.0); 6:1 \u2192 -20.95 (exp -20.67); 10:1 \u2192 -22.28 (exp -22.0); inf:1 \u2192 -24.27 (exp -24.0)",
    "rows": [
     {
      "ratio": 1.5,
      "expected_dbfs": -10.67,
-     "measured_dbfs": -10.7
+     "measured_dbfs": -11.08
     },
     {
      "ratio": 2,
      "expected_dbfs": -14.0,
-     "measured_dbfs": -14.05
+     "measured_dbfs": -14.35
     },
     {
      "ratio": 3,
      "expected_dbfs": -17.33,
-     "measured_dbfs": -17.4
+     "measured_dbfs": -17.65
     },
     {
      "ratio": 4,
      "expected_dbfs": -19.0,
-     "measured_dbfs": -19.08
+     "measured_dbfs": -19.3
     },
     {
      "ratio": 6,
      "expected_dbfs": -20.67,
-     "measured_dbfs": -20.75
+     "measured_dbfs": -20.95
     },
     {
      "ratio": 10,
      "expected_dbfs": -22.0,
-     "measured_dbfs": -22.1
+     "measured_dbfs": -22.28
     },
     {
      "ratio": "inf",
      "expected_dbfs": -24.0,
-     "measured_dbfs": -24.11
+     "measured_dbfs": -24.27
     }
    ]
   },
   {
-   "name": "VCA: knee \u2014 gain reduction exactly at threshold: HARD 0 dB, MED/SOFT progressively more (soft onset)",
+   "name": "VCA: knee \u2014 gain reduction at threshold rises HARD < MED < SOFT and matches the 225L knee network within 0.25 dB (the circuit's single diode leaves HARD slightly soft)",
    "passed": true,
-   "detail": "HARD 0.11 dB; MED 0.8 dB; SOFT 1.55 dB",
+   "detail": "HARD 0.91 dB (ref 0.82); MED 1.41 dB (ref 1.33); SOFT 1.97 dB (ref 1.91)",
    "rows": [
     {
      "knee": "HARD",
-     "gr_at_threshold_db": 0.11
+     "gr_at_threshold_db": 0.91,
+     "reference_db": 0.82
     },
     {
      "knee": "MED",
-     "gr_at_threshold_db": 0.8
+     "gr_at_threshold_db": 1.41,
+     "reference_db": 1.33
     },
     {
      "knee": "SOFT",
-     "gr_at_threshold_db": 1.55
+     "gr_at_threshold_db": 1.97,
+     "reference_db": 1.91
     }
    ]
   },
   {
    "name": "VCA: attack settings .03\u201330 ms \u2014 measured gain-reduction rise follows the setting (RMS detector \u03c4 = 3 ms sets the floor)",
    "passed": true,
-   "detail": "0.03 \u2192 0.38 ms; 0.1 \u2192 0.54 ms; 0.3 \u2192 0.88 ms; 1 \u2192 1.81 ms; 3 \u2192 4.02 ms; 10 \u2192 11.08 ms; 30 \u2192 30.92 ms",
+   "detail": "0.03 \u2192 0.38 ms; 0.1 \u2192 0.52 ms; 0.3 \u2192 0.85 ms; 1 \u2192 1.79 ms; 3 \u2192 4.02 ms; 10 \u2192 11.06 ms; 30 \u2192 30.9 ms",
    "rows": [
     {
      "attack_setting_ms": 0.03,
@@ -5019,15 +5022,15 @@
     },
     {
      "attack_setting_ms": 0.1,
-     "measured_63_ms": 0.54
+     "measured_63_ms": 0.52
     },
     {
      "attack_setting_ms": 0.3,
-     "measured_63_ms": 0.88
+     "measured_63_ms": 0.85
     },
     {
      "attack_setting_ms": 1,
-     "measured_63_ms": 1.81
+     "measured_63_ms": 1.79
     },
     {
      "attack_setting_ms": 3,
@@ -5035,134 +5038,966 @@
     },
     {
      "attack_setting_ms": 10,
-     "measured_63_ms": 11.08
+     "measured_63_ms": 11.06
     },
     {
      "attack_setting_ms": 30,
-     "measured_63_ms": 30.92
+     "measured_63_ms": 30.9
     }
    ]
   },
   {
    "name": "VCA: THRUST (filter before the RMS detector) \u2014 bass-heavy material triggers less gain reduction NORM > MED > LOUD",
    "passed": true,
-   "detail": "GR NORM 16.0, MED 12.5, LOUD 10.9 dB"
+   "detail": "GR NORM 16.2, MED 12.7, LOUD 11.1 dB"
   },
   {
-   "name": "VCA: AUTO make-up pivots on +4 dBu (-18 dBFS) for every threshold, ratio and TYPE (API 2500 manual), within 0.5 dB",
+   "name": "VCA: static curve follows the API 225L knee network (1N4148 chain; HARD/MED/SOFT = 1/2/3 diodes) within 0.25 dB",
    "passed": true,
-   "detail": "worst error 0.09 dB over thresholds -40/-30/-22, ratios 2/4/inf, NEW and OLD (OLD at its feedback ratio 2 - 1/R)",
+   "detail": "worst error 0.10 dB over 3 knees x 2 types x ratios 1.5/4/inf x 5 levels",
    "rows": [
     {
-     "threshold": -40,
-     "ratio": 2,
-     "out_at_pivot": -18.05,
-     "out_10_over": -13.05,
-     "expect_10_over": -13.0
+     "type": "NEW",
+     "knee": "HARD",
+     "ratio": 1.5,
+     "input": -36,
+     "out": -36.0,
+     "ref": -36.0
     },
     {
-     "threshold": -40,
+     "type": "NEW",
+     "knee": "HARD",
+     "ratio": 1.5,
+     "input": -30,
+     "out": -30.84,
+     "ref": -30.82
+    },
+    {
+     "type": "NEW",
+     "knee": "HARD",
+     "ratio": 1.5,
+     "input": -26,
+     "out": -28.0,
+     "ref": -27.98
+    },
+    {
+     "type": "NEW",
+     "knee": "HARD",
+     "ratio": 1.5,
+     "input": -18,
+     "out": -22.5,
+     "ref": -22.47
+    },
+    {
+     "type": "NEW",
+     "knee": "HARD",
+     "ratio": 1.5,
+     "input": -6,
+     "out": -14.38,
+     "ref": -14.35
+    },
+    {
+     "type": "NEW",
+     "knee": "HARD",
      "ratio": 4,
-     "out_at_pivot": -18.07,
-     "out_10_over": -15.57,
-     "expect_10_over": -15.5
+     "input": -36,
+     "out": -36.0,
+     "ref": -36.0
     },
     {
-     "threshold": -40,
-     "ratio": "inf",
-     "out_at_pivot": -18.09,
-     "out_10_over": -18.09,
-     "expect_10_over": -18
-    },
-    {
-     "threshold": -30,
-     "ratio": 2,
-     "out_at_pivot": -18.05,
-     "out_10_over": -13.05,
-     "expect_10_over": -13.0
-    },
-    {
-     "threshold": -30,
+     "type": "NEW",
+     "knee": "HARD",
      "ratio": 4,
-     "out_at_pivot": -18.07,
-     "out_10_over": -15.57,
-     "expect_10_over": -15.5
+     "input": -30,
+     "out": -30.88,
+     "ref": -30.82
     },
     {
-     "threshold": -30,
-     "ratio": "inf",
-     "out_at_pivot": -18.09,
-     "out_10_over": -18.09,
-     "expect_10_over": -18
-    },
-    {
-     "threshold": -22,
-     "ratio": 2,
-     "out_at_pivot": -18.05,
-     "out_10_over": -13.05,
-     "expect_10_over": -13.0
-    },
-    {
-     "threshold": -22,
+     "type": "NEW",
+     "knee": "HARD",
      "ratio": 4,
-     "out_at_pivot": -18.07,
-     "out_10_over": -15.57,
-     "expect_10_over": -15.5
+     "input": -26,
+     "out": -29.59,
+     "ref": -29.52
     },
     {
-     "threshold": -22,
-     "ratio": "inf",
-     "out_at_pivot": -18.09,
-     "out_10_over": -18.09,
-     "expect_10_over": -18
+     "type": "NEW",
+     "knee": "HARD",
+     "ratio": 4,
+     "input": -18,
+     "out": -27.39,
+     "ref": -27.32
+    },
+    {
+     "type": "NEW",
+     "knee": "HARD",
+     "ratio": 4,
+     "input": -6,
+     "out": -24.25,
+     "ref": -24.18
+    },
+    {
+     "type": "NEW",
+     "knee": "HARD",
+     "ratio": Infinity,
+     "input": -36,
+     "out": -36.0,
+     "ref": -36.0
+    },
+    {
+     "type": "NEW",
+     "knee": "HARD",
+     "ratio": Infinity,
+     "input": -30,
+     "out": -30.9,
+     "ref": -30.82
+    },
+    {
+     "type": "NEW",
+     "knee": "HARD",
+     "ratio": Infinity,
+     "input": -26,
+     "out": -30.56,
+     "ref": -30.47
+    },
+    {
+     "type": "NEW",
+     "knee": "HARD",
+     "ratio": Infinity,
+     "input": -18,
+     "out": -30.36,
+     "ref": -30.27
+    },
+    {
+     "type": "NEW",
+     "knee": "HARD",
+     "ratio": Infinity,
+     "input": -6,
+     "out": -30.22,
+     "ref": -30.13
+    },
+    {
+     "type": "NEW",
+     "knee": "MED",
+     "ratio": 1.5,
+     "input": -36,
+     "out": -36.31,
+     "ref": -36.3
+    },
+    {
+     "type": "NEW",
+     "knee": "MED",
+     "ratio": 1.5,
+     "input": -30,
+     "out": -31.36,
+     "ref": -31.33
+    },
+    {
+     "type": "NEW",
+     "knee": "MED",
+     "ratio": 1.5,
+     "input": -26,
+     "out": -28.42,
+     "ref": -28.39
+    },
+    {
+     "type": "NEW",
+     "knee": "MED",
+     "ratio": 1.5,
+     "input": -18,
+     "out": -22.8,
+     "ref": -22.77
+    },
+    {
+     "type": "NEW",
+     "knee": "MED",
+     "ratio": 1.5,
+     "input": -6,
+     "out": -14.59,
+     "ref": -14.56
+    },
+    {
+     "type": "NEW",
+     "knee": "MED",
+     "ratio": 4,
+     "input": -36,
+     "out": -36.0,
+     "ref": -36.0
+    },
+    {
+     "type": "NEW",
+     "knee": "MED",
+     "ratio": 4,
+     "input": -30,
+     "out": -31.39,
+     "ref": -31.33
+    },
+    {
+     "type": "NEW",
+     "knee": "MED",
+     "ratio": 4,
+     "input": -26,
+     "out": -29.92,
+     "ref": -29.86
+    },
+    {
+     "type": "NEW",
+     "knee": "MED",
+     "ratio": 4,
+     "input": -18,
+     "out": -27.59,
+     "ref": -27.52
+    },
+    {
+     "type": "NEW",
+     "knee": "MED",
+     "ratio": 4,
+     "input": -6,
+     "out": -24.36,
+     "ref": -24.29
+    },
+    {
+     "type": "NEW",
+     "knee": "MED",
+     "ratio": Infinity,
+     "input": -36,
+     "out": -36.0,
+     "ref": -36.0
+    },
+    {
+     "type": "NEW",
+     "knee": "MED",
+     "ratio": Infinity,
+     "input": -30,
+     "out": -31.4,
+     "ref": -31.33
+    },
+    {
+     "type": "NEW",
+     "knee": "MED",
+     "ratio": Infinity,
+     "input": -26,
+     "out": -30.86,
+     "ref": -30.77
+    },
+    {
+     "type": "NEW",
+     "knee": "MED",
+     "ratio": Infinity,
+     "input": -18,
+     "out": -30.52,
+     "ref": -30.42
+    },
+    {
+     "type": "NEW",
+     "knee": "MED",
+     "ratio": Infinity,
+     "input": -6,
+     "out": -30.29,
+     "ref": -30.19
+    },
+    {
+     "type": "NEW",
+     "knee": "SOFT",
+     "ratio": 1.5,
+     "input": -36,
+     "out": -36.9,
+     "ref": -36.89
+    },
+    {
+     "type": "NEW",
+     "knee": "SOFT",
+     "ratio": 1.5,
+     "input": -30,
+     "out": -31.92,
+     "ref": -31.91
+    },
+    {
+     "type": "NEW",
+     "knee": "SOFT",
+     "ratio": 1.5,
+     "input": -26,
+     "out": -28.88,
+     "ref": -28.86
+    },
+    {
+     "type": "NEW",
+     "knee": "SOFT",
+     "ratio": 1.5,
+     "input": -18,
+     "out": -23.13,
+     "ref": -23.1
+    },
+    {
+     "type": "NEW",
+     "knee": "SOFT",
+     "ratio": 1.5,
+     "input": -6,
+     "out": -14.81,
+     "ref": -14.78
+    },
+    {
+     "type": "NEW",
+     "knee": "SOFT",
+     "ratio": 4,
+     "input": -36,
+     "out": -36.07,
+     "ref": -36.06
+    },
+    {
+     "type": "NEW",
+     "knee": "SOFT",
+     "ratio": 4,
+     "input": -30,
+     "out": -31.95,
+     "ref": -31.91
+    },
+    {
+     "type": "NEW",
+     "knee": "SOFT",
+     "ratio": 4,
+     "input": -26,
+     "out": -30.29,
+     "ref": -30.23
+    },
+    {
+     "type": "NEW",
+     "knee": "SOFT",
+     "ratio": 4,
+     "input": -18,
+     "out": -27.79,
+     "ref": -27.72
+    },
+    {
+     "type": "NEW",
+     "knee": "SOFT",
+     "ratio": 4,
+     "input": -6,
+     "out": -24.46,
+     "ref": -24.39
+    },
+    {
+     "type": "NEW",
+     "knee": "SOFT",
+     "ratio": Infinity,
+     "input": -36,
+     "out": -36.0,
+     "ref": -36.0
+    },
+    {
+     "type": "NEW",
+     "knee": "SOFT",
+     "ratio": Infinity,
+     "input": -30,
+     "out": -31.97,
+     "ref": -31.91
+    },
+    {
+     "type": "NEW",
+     "knee": "SOFT",
+     "ratio": Infinity,
+     "input": -26,
+     "out": -31.18,
+     "ref": -31.1
+    },
+    {
+     "type": "NEW",
+     "knee": "SOFT",
+     "ratio": Infinity,
+     "input": -18,
+     "out": -30.68,
+     "ref": -30.59
+    },
+    {
+     "type": "NEW",
+     "knee": "SOFT",
+     "ratio": Infinity,
+     "input": -6,
+     "out": -30.35,
+     "ref": -30.26
     },
     {
      "type": "OLD",
-     "threshold": -40,
-     "ratio": 2,
-     "out_at_pivot": -18.03,
-     "out_10_over": -11.36,
-     "expect_10_over": -11.33
+     "knee": "HARD",
+     "ratio": 1.5,
+     "input": -36,
+     "out": -36.02,
+     "ref": -36.01
     },
     {
      "type": "OLD",
+     "knee": "HARD",
+     "ratio": 1.5,
+     "input": -30,
+     "out": -31.26,
+     "ref": -31.23
+    },
+    {
+     "type": "OLD",
+     "knee": "HARD",
+     "ratio": 1.5,
+     "input": -26,
+     "out": -28.77,
+     "ref": -28.73
+    },
+    {
+     "type": "OLD",
+     "knee": "HARD",
+     "ratio": 1.5,
+     "input": -18,
+     "out": -24.02,
+     "ref": -23.98
+    },
+    {
+     "type": "OLD",
+     "knee": "HARD",
+     "ratio": 1.5,
+     "input": -6,
+     "out": -17.06,
+     "ref": -17.02
+    },
+    {
+     "type": "OLD",
+     "knee": "HARD",
+     "ratio": 4,
+     "input": -36,
+     "out": -36.0,
+     "ref": -36.0
+    },
+    {
+     "type": "OLD",
+     "knee": "HARD",
+     "ratio": 4,
+     "input": -30,
+     "out": -30.91,
+     "ref": -30.86
+    },
+    {
+     "type": "OLD",
+     "knee": "HARD",
+     "ratio": 4,
+     "input": -26,
+     "out": -29.21,
+     "ref": -29.15
+    },
+    {
+     "type": "OLD",
+     "knee": "HARD",
+     "ratio": 4,
+     "input": -18,
+     "out": -26.1,
+     "ref": -26.04
+    },
+    {
+     "type": "OLD",
+     "knee": "HARD",
+     "ratio": 4,
+     "input": -6,
+     "out": -21.58,
+     "ref": -21.52
+    },
+    {
+     "type": "OLD",
+     "knee": "HARD",
+     "ratio": Infinity,
+     "input": -36,
+     "out": -36.0,
+     "ref": -36.0
+    },
+    {
+     "type": "OLD",
+     "knee": "HARD",
+     "ratio": Infinity,
+     "input": -30,
+     "out": -30.79,
+     "ref": -30.74
+    },
+    {
+     "type": "OLD",
+     "knee": "HARD",
+     "ratio": Infinity,
+     "input": -26,
+     "out": -29.36,
+     "ref": -29.29
+    },
+    {
+     "type": "OLD",
+     "knee": "HARD",
+     "ratio": Infinity,
+     "input": -18,
+     "out": -26.79,
+     "ref": -26.72
+    },
+    {
+     "type": "OLD",
+     "knee": "HARD",
+     "ratio": Infinity,
+     "input": -6,
+     "out": -23.05,
+     "ref": -22.98
+    },
+    {
+     "type": "OLD",
+     "knee": "MED",
+     "ratio": 1.5,
+     "input": -36,
+     "out": -36.72,
+     "ref": -36.71
+    },
+    {
+     "type": "OLD",
+     "knee": "MED",
+     "ratio": 1.5,
+     "input": -30,
+     "out": -32.19,
+     "ref": -32.16
+    },
+    {
+     "type": "OLD",
+     "knee": "MED",
+     "ratio": 1.5,
+     "input": -26,
+     "out": -29.58,
+     "ref": -29.54
+    },
+    {
+     "type": "OLD",
+     "knee": "MED",
+     "ratio": 1.5,
+     "input": -18,
+     "out": -24.66,
+     "ref": -24.62
+    },
+    {
+     "type": "OLD",
+     "knee": "MED",
+     "ratio": 1.5,
+     "input": -6,
+     "out": -17.55,
+     "ref": -17.51
+    },
+    {
+     "type": "OLD",
+     "knee": "MED",
+     "ratio": 4,
+     "input": -36,
+     "out": -36.02,
+     "ref": -36.01
+    },
+    {
+     "type": "OLD",
+     "knee": "MED",
+     "ratio": 4,
+     "input": -30,
+     "out": -31.62,
+     "ref": -31.58
+    },
+    {
+     "type": "OLD",
+     "knee": "MED",
+     "ratio": 4,
+     "input": -26,
+     "out": -29.74,
+     "ref": -29.69
+    },
+    {
+     "type": "OLD",
+     "knee": "MED",
+     "ratio": 4,
+     "input": -18,
+     "out": -26.48,
+     "ref": -26.42
+    },
+    {
+     "type": "OLD",
+     "knee": "MED",
+     "ratio": 4,
+     "input": -6,
+     "out": -21.85,
+     "ref": -21.79
+    },
+    {
+     "type": "OLD",
+     "knee": "MED",
+     "ratio": Infinity,
+     "input": -36,
+     "out": -36.0,
+     "ref": -36.0
+    },
+    {
+     "type": "OLD",
+     "knee": "MED",
+     "ratio": Infinity,
+     "input": -30,
+     "out": -31.42,
+     "ref": -31.37
+    },
+    {
+     "type": "OLD",
+     "knee": "MED",
+     "ratio": Infinity,
+     "input": -26,
+     "out": -29.8,
+     "ref": -29.74
+    },
+    {
+     "type": "OLD",
+     "knee": "MED",
+     "ratio": Infinity,
+     "input": -18,
+     "out": -27.09,
+     "ref": -27.02
+    },
+    {
+     "type": "OLD",
+     "knee": "MED",
+     "ratio": Infinity,
+     "input": -6,
+     "out": -23.26,
+     "ref": -23.19
+    },
+    {
+     "type": "OLD",
+     "knee": "SOFT",
+     "ratio": 1.5,
+     "input": -36,
+     "out": -37.67,
+     "ref": -37.65
+    },
+    {
+     "type": "OLD",
+     "knee": "SOFT",
+     "ratio": 1.5,
+     "input": -30,
+     "out": -33.1,
+     "ref": -33.07
+    },
+    {
+     "type": "OLD",
+     "knee": "SOFT",
+     "ratio": 1.5,
+     "input": -26,
+     "out": -30.38,
+     "ref": -30.35
+    },
+    {
+     "type": "OLD",
+     "knee": "SOFT",
+     "ratio": 1.5,
+     "input": -18,
+     "out": -25.29,
+     "ref": -25.26
+    },
+    {
+     "type": "OLD",
+     "knee": "SOFT",
+     "ratio": 1.5,
+     "input": -6,
+     "out": -18.04,
+     "ref": -18.0
+    },
+    {
+     "type": "OLD",
+     "knee": "SOFT",
+     "ratio": 4,
+     "input": -36,
+     "out": -36.58,
+     "ref": -36.56
+    },
+    {
+     "type": "OLD",
+     "knee": "SOFT",
+     "ratio": 4,
+     "input": -30,
+     "out": -32.34,
+     "ref": -32.3
+    },
+    {
+     "type": "OLD",
+     "knee": "SOFT",
+     "ratio": 4,
+     "input": -26,
+     "out": -30.29,
+     "ref": -30.24
+    },
+    {
+     "type": "OLD",
+     "knee": "SOFT",
+     "ratio": 4,
+     "input": -18,
+     "out": -26.86,
+     "ref": -26.81
+    },
+    {
+     "type": "OLD",
+     "knee": "SOFT",
+     "ratio": 4,
+     "input": -6,
+     "out": -22.11,
+     "ref": -22.06
+    },
+    {
+     "type": "OLD",
+     "knee": "SOFT",
+     "ratio": Infinity,
+     "input": -36,
+     "out": -36.17,
+     "ref": -36.15
+    },
+    {
+     "type": "OLD",
+     "knee": "SOFT",
+     "ratio": Infinity,
+     "input": -30,
+     "out": -32.08,
+     "ref": -32.03
+    },
+    {
+     "type": "OLD",
+     "knee": "SOFT",
+     "ratio": Infinity,
+     "input": -26,
+     "out": -30.26,
+     "ref": -30.21
+    },
+    {
+     "type": "OLD",
+     "knee": "SOFT",
+     "ratio": Infinity,
+     "input": -18,
+     "out": -27.39,
+     "ref": -27.33
+    },
+    {
+     "type": "OLD",
+     "knee": "SOFT",
+     "ratio": Infinity,
+     "input": -6,
+     "out": -23.47,
+     "ref": -23.4
+    }
+   ]
+  },
+  {
+   "name": "VCA: AUTO make-up pivots on +4 dBu (-18 dBFS) for every threshold, ratio, knee and TYPE (API 2500 manual), within 0.3 dB",
+   "passed": true,
+   "detail": "worst error 0.10 dB over thresholds -40/-26, ratios 2/4/inf, HARD and SOFT, NEW and OLD",
+   "rows": [
+    {
+     "type": "NEW",
+     "knee": "HARD",
+     "threshold": -40,
+     "ratio": 2,
+     "out_at_pivot": -18.05,
+     "out_10_over": -12.97,
+     "expect_10_over": -12.93
+    },
+    {
+     "type": "NEW",
+     "knee": "HARD",
      "threshold": -40,
      "ratio": 4,
+     "out_at_pivot": -18.07,
+     "out_10_over": -15.49,
+     "expect_10_over": -15.42
+    },
+    {
+     "type": "NEW",
+     "knee": "HARD",
+     "threshold": -40,
+     "ratio": Infinity,
+     "out_at_pivot": -18.09,
+     "out_10_over": -18.02,
+     "expect_10_over": -17.92
+    },
+    {
+     "type": "NEW",
+     "knee": "HARD",
+     "threshold": -26,
+     "ratio": 2,
      "out_at_pivot": -18.04,
-     "out_10_over": -12.33,
-     "expect_10_over": -12.29
+     "out_10_over": -12.89,
+     "expect_10_over": -12.85
     },
     {
-     "type": "OLD",
-     "threshold": -40,
-     "ratio": "inf",
-     "out_at_pivot": -18.05,
-     "out_10_over": -13.05,
-     "expect_10_over": -13.0
-    },
-    {
-     "type": "OLD",
-     "threshold": -22,
-     "ratio": 2,
-     "out_at_pivot": -18.03,
-     "out_10_over": -11.36,
-     "expect_10_over": -11.33
-    },
-    {
-     "type": "OLD",
-     "threshold": -22,
+     "type": "NEW",
+     "knee": "HARD",
+     "threshold": -26,
      "ratio": 4,
+     "out_at_pivot": -18.07,
+     "out_10_over": -15.41,
+     "expect_10_over": -15.34
+    },
+    {
+     "type": "NEW",
+     "knee": "HARD",
+     "threshold": -26,
+     "ratio": Infinity,
+     "out_at_pivot": -18.09,
+     "out_10_over": -17.93,
+     "expect_10_over": -17.84
+    },
+    {
+     "type": "NEW",
+     "knee": "SOFT",
+     "threshold": -40,
+     "ratio": 2,
      "out_at_pivot": -18.04,
-     "out_10_over": -12.33,
-     "expect_10_over": -12.29
+     "out_10_over": -12.87,
+     "expect_10_over": -12.82
+    },
+    {
+     "type": "NEW",
+     "knee": "SOFT",
+     "threshold": -40,
+     "ratio": 4,
+     "out_at_pivot": -18.07,
+     "out_10_over": -15.39,
+     "expect_10_over": -15.32
+    },
+    {
+     "type": "NEW",
+     "knee": "SOFT",
+     "threshold": -40,
+     "ratio": Infinity,
+     "out_at_pivot": -18.09,
+     "out_10_over": -17.92,
+     "expect_10_over": -17.82
+    },
+    {
+     "type": "NEW",
+     "knee": "SOFT",
+     "threshold": -26,
+     "ratio": 2,
+     "out_at_pivot": -18.04,
+     "out_10_over": -12.67,
+     "expect_10_over": -12.62
+    },
+    {
+     "type": "NEW",
+     "knee": "SOFT",
+     "threshold": -26,
+     "ratio": 4,
+     "out_at_pivot": -18.07,
+     "out_10_over": -15.18,
+     "expect_10_over": -15.11
+    },
+    {
+     "type": "NEW",
+     "knee": "SOFT",
+     "threshold": -26,
+     "ratio": Infinity,
+     "out_at_pivot": -18.09,
+     "out_10_over": -17.71,
+     "expect_10_over": -17.61
     },
     {
      "type": "OLD",
-     "threshold": -22,
-     "ratio": "inf",
+     "knee": "HARD",
+     "threshold": -40,
+     "ratio": 2,
      "out_at_pivot": -18.05,
-     "out_10_over": -13.05,
-     "expect_10_over": -13.0
+     "out_10_over": -13.31,
+     "expect_10_over": -13.26
+    },
+    {
+     "type": "OLD",
+     "knee": "HARD",
+     "threshold": -40,
+     "ratio": 4,
+     "out_at_pivot": -18.06,
+     "out_10_over": -14.32,
+     "expect_10_over": -14.26
+    },
+    {
+     "type": "OLD",
+     "knee": "HARD",
+     "threshold": -40,
+     "ratio": Infinity,
+     "out_at_pivot": -18.06,
+     "out_10_over": -14.98,
+     "expect_10_over": -14.91
+    },
+    {
+     "type": "OLD",
+     "knee": "HARD",
+     "threshold": -26,
+     "ratio": 2,
+     "out_at_pivot": -18.05,
+     "out_10_over": -13.23,
+     "expect_10_over": -13.18
+    },
+    {
+     "type": "OLD",
+     "knee": "HARD",
+     "threshold": -26,
+     "ratio": 4,
+     "out_at_pivot": -18.06,
+     "out_10_over": -14.25,
+     "expect_10_over": -14.19
+    },
+    {
+     "type": "OLD",
+     "knee": "HARD",
+     "threshold": -26,
+     "ratio": Infinity,
+     "out_at_pivot": -18.06,
+     "out_10_over": -14.92,
+     "expect_10_over": -14.85
+    },
+    {
+     "type": "OLD",
+     "knee": "SOFT",
+     "threshold": -40,
+     "ratio": 2,
+     "out_at_pivot": -18.05,
+     "out_10_over": -13.16,
+     "expect_10_over": -13.12
+    },
+    {
+     "type": "OLD",
+     "knee": "SOFT",
+     "threshold": -40,
+     "ratio": 4,
+     "out_at_pivot": -18.06,
+     "out_10_over": -14.2,
+     "expect_10_over": -14.14
+    },
+    {
+     "type": "OLD",
+     "knee": "SOFT",
+     "threshold": -40,
+     "ratio": Infinity,
+     "out_at_pivot": -18.06,
+     "out_10_over": -14.88,
+     "expect_10_over": -14.81
+    },
+    {
+     "type": "OLD",
+     "knee": "SOFT",
+     "threshold": -26,
+     "ratio": 2,
+     "out_at_pivot": -18.04,
+     "out_10_over": -12.93,
+     "expect_10_over": -12.88
+    },
+    {
+     "type": "OLD",
+     "knee": "SOFT",
+     "threshold": -26,
+     "ratio": 4,
+     "out_at_pivot": -18.05,
+     "out_10_over": -13.99,
+     "expect_10_over": -13.93
+    },
+    {
+     "type": "OLD",
+     "knee": "SOFT",
+     "threshold": -26,
+     "ratio": Infinity,
+     "out_at_pivot": -18.06,
+     "out_10_over": -14.69,
+     "expect_10_over": -14.63
     }
    ]
   },
@@ -5225,32 +6060,32 @@
   {
    "name": "VCA: TYPE \u2014 OLD (feedback) compresses more gently than NEW (feed-forward) at the same settings",
    "passed": true,
-   "detail": "NEW -24.11, OLD -14.05 dBFS"
+   "detail": "NEW -24.27, OLD -18.30 dBFS"
   },
   {
    "name": "STEREO: identical L/R \u2192 bit-identical (6 orders + gate); VCA link 100 % applies the loud channel's GR to the quiet one, 0 % keeps them independent; no crosstalk",
    "passed": true,
-   "detail": "quiet-channel gain: linked -21.1 dB, unlinked -0.01 dB; R output with L-only input & link 0: 0.0e+00"
+   "detail": "quiet-channel gain: linked -21.3 dB, unlinked -0.01 dB; R output with L-only input & link 0: 0.0e+00"
   },
   {
    "name": "SIDECHAIN: external key (plugin~ 3/4) drives VCA and OPTO gain reduction; internal detection ignores the key",
    "passed": true,
-   "detail": "VCA ext: GR 19.3 dB during key vs 11.3 dB between; VCA int: 3.9 vs 4.0 dB; OPTO ext max GR 46.5 dB"
+   "detail": "VCA ext: GR 19.5 dB during key vs 11.4 dB between; VCA int: 4.4 vs 4.4 dB; OPTO ext max GR 46.5 dB"
   },
   {
    "name": "SIDECHAIN: detector sourcing \u2014 CHAIN source gives identical VCA gain reduction in all six orders; INT source follows the module's position",
    "passed": true,
-   "detail": "max GR difference across orders: CHAIN 0.00e+00 dB, INT 4.52 dB"
+   "detail": "max GR difference across orders: CHAIN 0.00e+00 dB, INT 4.41 dB"
   },
   {
    "name": "SIDECHAIN: SC HPF reduces bass-triggered gain reduction (50 Hz-heavy input)",
    "passed": true,
-   "detail": "GR 14.2 \u2192 1.6 dB"
+   "detail": "GR 14.4 \u2192 2.3 dB"
   },
   {
    "name": "KEY LISTEN: VCA listen outputs the THRUST-filtered detector signal (not the program)",
    "passed": true,
-   "detail": "listen vs program max difference 0.125"
+   "detail": "listen vs program max difference 0.120"
   },
   {
    "name": "GATE: externally keyed \u2014 open while the key is above threshold, closed to the Range floor between hits",
@@ -5270,7 +6105,7 @@
   {
    "name": "AUTOMATION: block-rate (64-sample) ramps of VCA threshold, tube drive, opto peak reduction \u2248 sample-accurate ramps (< \u221230 dB difference)",
    "passed": true,
-   "detail": "v_thr -67.9 dB; t_drive -72.3 dB; o_pr -66.0 dB",
+   "detail": "v_thr -67.9 dB; t_drive -72.3 dB; o_pr -65.9 dB",
    "rows": [
     {
      "param": "v_thr",
@@ -5282,14 +6117,14 @@
     },
     {
      "param": "o_pr",
-     "block_vs_sample_db": -66.0
+     "block_vs_sample_db": -65.9
     }
    ]
   },
   {
    "name": "MIDI: 7-bit CC stepping (one step per 8 ms) of tube drive, VCA threshold, gate threshold \u2014 >8 kHz energy within 1 dB of a smooth ramp (no zipper)",
    "passed": true,
-   "detail": "t_drive -0.00 dB; v_thr -0.00 dB; g_thr -0.00 dB",
+   "detail": "t_drive -0.00 dB; v_thr -0.00 dB; g_thr +0.00 dB",
    "rows": [
     {
      "param": "t_drive",
@@ -5301,7 +6136,7 @@
     },
     {
      "param": "g_thr",
-     "hf_vs_smooth_db": -0.0
+     "hf_vs_smooth_db": 0.0
     }
    ]
   },
@@ -5350,37 +6185,37 @@
   {
    "name": "CPU with the dynamics chain (transpiled C, gcc -O2, this machine)",
    "passed": true,
-   "detail": "v1.2 device, dynamics off: 9.86%; + TUBE: 11.11%; + OPTO: 11.53%; + VCA: 10.65%; + all three + gate: 12.78%; worst: LPF+HPF+BPF 2x + all dynamics, reordering every 20 ms: 20.72%",
+   "detail": "v1.2 device, dynamics off: 6.55%; + TUBE: 8.24%; + OPTO: 8.22%; + VCA: 11.09%; + all three + gate: 12.85%; worst: LPF+HPF+BPF 2x + all dynamics, reordering every 20 ms: 15.61%",
    "rows": [
     {
      "config": "v1.2 device, dynamics off",
-     "ns_per_frame": 2054.5,
-     "pct_of_one_core_48k": 9.86
+     "ns_per_frame": 1365.3,
+     "pct_of_one_core_48k": 6.55
     },
     {
      "config": "+ TUBE",
-     "ns_per_frame": 2313.7,
-     "pct_of_one_core_48k": 11.11
+     "ns_per_frame": 1716.2,
+     "pct_of_one_core_48k": 8.24
     },
     {
      "config": "+ OPTO",
-     "ns_per_frame": 2401.9,
-     "pct_of_one_core_48k": 11.53
+     "ns_per_frame": 1712.4,
+     "pct_of_one_core_48k": 8.22
     },
     {
      "config": "+ VCA",
-     "ns_per_frame": 2218.4,
-     "pct_of_one_core_48k": 10.65
+     "ns_per_frame": 2310.8,
+     "pct_of_one_core_48k": 11.09
     },
     {
      "config": "+ all three + gate",
-     "ns_per_frame": 2663.4,
-     "pct_of_one_core_48k": 12.78
+     "ns_per_frame": 2676.2,
+     "pct_of_one_core_48k": 12.85
     },
     {
      "config": "worst: LPF+HPF+BPF 2x + all dynamics, reordering every 20 ms",
-     "ns_per_frame": 4317.6,
-     "pct_of_one_core_48k": 20.72
+     "ns_per_frame": 3252.3,
+     "pct_of_one_core_48k": 15.61
     }
    ]
   },
@@ -5412,7 +6247,7 @@
   {
    "name": "REGRESSION v1.4: SERIES routing bit-exact (except documented v1.6 changes) \u2014 dynamics chain vs v1.3 (21)",
    "passed": true,
-   "detail": "11/21 bit-identical to legacy; 10 documented v1.6 changes (match the v1.6 capture: True)"
+   "detail": "2/21 bit-identical to legacy; 19 documented v1.6 changes (match the v1.6 capture: True)"
   },
   {
    "name": "REGRESSION v1.4: v1.1 presets/automation/MIDI maps intact",
@@ -5571,29 +6406,29 @@
   {
    "name": "ROUTING + DYNAMICS: PARALLEL filters feeding the full dynamics chain and gate",
    "passed": true,
-   "detail": "peak -13.40 dBFS"
+   "detail": "peak -13.63 dBFS"
   },
   {
    "name": "ROUTING: 20 s stress \u2014 random routing, levels, order, position, models, oversampling",
    "passed": true,
-   "detail": "peak -10.80 dBFS"
+   "detail": "peak -10.81 dBFS"
   },
   {
    "name": "CPU by routing mode (LPF + HPF + BPF on)",
    "passed": true,
-   "detail": "LPF + HPF + BPF, SERIES: 11.07%; LPF + HPF + BPF, PARALLEL: 11.29%; LPF + HPF + BPF, HYBRID: 11.12%",
+   "detail": "LPF + HPF + BPF, SERIES: 7.79%; LPF + HPF + BPF, PARALLEL: 7.82%; LPF + HPF + BPF, HYBRID: 7.91%",
    "rows": [
     {
      "config": "LPF + HPF + BPF, SERIES",
-     "pct_of_one_core_48k": 11.07
+     "pct_of_one_core_48k": 7.79
     },
     {
      "config": "LPF + HPF + BPF, PARALLEL",
-     "pct_of_one_core_48k": 11.29
+     "pct_of_one_core_48k": 7.82
     },
     {
      "config": "LPF + HPF + BPF, HYBRID",
-     "pct_of_one_core_48k": 11.12
+     "pct_of_one_core_48k": 7.91
     }
    ]
   },
@@ -5604,8 +6439,8 @@
   }
  ],
  "summary": {
-  "total": 97,
-  "passed": 97,
-  "seconds": 434.0
+  "total": 98,
+  "passed": 98,
+  "seconds": 398.4
  }
 }

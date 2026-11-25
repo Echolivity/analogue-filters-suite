@@ -224,9 +224,14 @@ def run_all(record, plt, OUT, SEQ, CAT, GRID, sig):
     for k in range(3):
         y = run(tone(1000, -24, 2), dyn(v_on=1, v_thr=-24, v_ratio=6, v_knee=k, v_att=2))
         krows.append(dict(knee=("HARD", "MED", "SOFT")[k], gr_at_threshold_db=round(-24 - lvl(y[-SR // 4:, 0]), 2)))
-    record("VCA: knee — gain reduction exactly at threshold: HARD 0 dB, MED/SOFT progressively more (soft onset)",
-           krows[0]["gr_at_threshold_db"] < 0.25 and krows[0]["gr_at_threshold_db"] < krows[1]["gr_at_threshold_db"] < krows[2]["gr_at_threshold_db"],
-           "; ".join(f"{r['knee']} {r['gr_at_threshold_db']} dB" for r in krows), rows=krows)
+    import api225_ref as K225k
+    for r, k in zip(krows, range(3)):
+        r["reference_db"] = round(-K225k.gain_change(0, 6, k, 0), 2)
+    record("VCA: knee — gain reduction at threshold rises HARD < MED < SOFT and matches the 225L knee network within 0.25 dB "
+           "(the circuit's single diode leaves HARD slightly soft)",
+           krows[0]["gr_at_threshold_db"] < krows[1]["gr_at_threshold_db"] < krows[2]["gr_at_threshold_db"]
+           and all(abs(r["gr_at_threshold_db"] - r["reference_db"]) < 0.25 for r in krows),
+           "; ".join(f"{r['knee']} {r['gr_at_threshold_db']} dB (ref {r['reference_db']})" for r in krows), rows=krows)
     arows = []
     for ai, ams in enumerate(DYN.V_ATTACKS_MS):
         nn = int(SR * 1.2)
@@ -245,28 +250,38 @@ def run_all(record, plt, OUT, SEQ, CAT, GRID, sig):
         trs.append(float(np.median(M[SR:, M_VGR]) * 30))
     record("VCA: THRUST (filter before the RMS detector) — bass-heavy material triggers less gain reduction NORM > MED > LOUD",
            trs[0] > trs[1] > trs[2], f"GR NORM {trs[0]:.1f}, MED {trs[1]:.1f}, LOUD {trs[2]:.1f} dB")
+    # KNEE / static curve: the 225L knee network (traced VCA board) against its independent reference
+    # (tests/api225_ref.py, bisection solve), every knee, both TYPEs, ratios 1.5 / 4 / inf, levels across the knee.
+    import api225_ref as K225
+    def lvl_out(lin, thr, ri, kn=0, typ=0, auto=0):
+        y = run(tone(1000, lin, 0.8), dyn(v_on=1, v_thr=thr, v_ratio=ri, v_knee=kn, v_type=typ, v_auto=auto, v_rel=0.05))
+        return 20 * np.log10(np.sqrt(2 * np.mean(y[int(0.5 * SR):] ** 2)) + 1e-30)
+    krows = []
+    for typ in (0, 1):
+        for kn in (0, 1, 2):
+            for ri in (0, 3, 6):
+                for lin in (-36, -30, -26, -18, -6):
+                    krows.append(dict(type="OLD" if typ else "NEW", knee=["HARD", "MED", "SOFT"][kn], ratio=K225.RATIOS[ri],
+                                      input=lin, out=round(lvl_out(lin, -30, ri, kn, typ), 2), ref=round(K225.static_out(lin, -30, ri, kn, typ), 2)))
+    kerr = max(abs(r["out"] - r["ref"]) for r in krows)
+    record("VCA: static curve follows the API 225L knee network (1N4148 chain; HARD/MED/SOFT = 1/2/3 diodes) within 0.25 dB",
+           kerr < 0.25, f"worst error {kerr:.2f} dB over 3 knees x 2 types x ratios 1.5/4/inf x 5 levels", rows=krows)
     # AUTO make-up (API 2500 manual): output brought up "until the output level is around +4 dBu", then an even
-    # output level whatever THRESH and RATIO: the curve pivots on +4 dBu = -18 dBFS. Input at the pivot must come
-    # out at -18 dBFS, and an input 10 dB above it at -18 + 10/R, for any threshold below the pivot.
-    def lvl_out(lin, thr, ri):
-        y = run(tone(1000, lin, 1), dyn(v_on=1, v_thr=thr, v_ratio=ri, v_auto=1, v_rel=0.05))
-        return 20 * np.log10(np.sqrt(2 * np.mean(y[SR // 2:] ** 2)) + 1e-30)
+    # output level whatever THRESH and RATIO: the curve pivots on +4 dBu = -18 dBFS. Input at the pivot must come out
+    # at -18 dBFS in both TYPEs and every knee; an input 10 dB above the pivot follows the static curve's reference.
     arows = []
-    for thr in (-40, -30, -22):
-        for ri, rr in ((1, 2), (3, 4), (6, None)):
-            arows.append(dict(threshold=thr, ratio=rr or "inf", out_at_pivot=round(lvl_out(-18, thr, ri), 2),
-                              out_10_over=round(lvl_out(-8, thr, ri), 2), expect_10_over=round(-18 + (10 / rr if rr else 0), 2)))
-    for thr in (-40, -22):
-        for ri, rr in ((1, 2), (3, 4), (6, None)):     # OLD: effective ratio 2 - 1/R (feedback), same pivot
-            re = 2 - 1 / rr if rr else 2
-            y = run(tone(1000, -18, 1), dyn(v_on=1, v_thr=thr, v_ratio=ri, v_auto=1, v_rel=0.05, v_type=1))
-            y8 = run(tone(1000, -8, 1), dyn(v_on=1, v_thr=thr, v_ratio=ri, v_auto=1, v_rel=0.05, v_type=1))
-            f = lambda z: 20 * np.log10(np.sqrt(2 * np.mean(z[SR // 2:] ** 2)) + 1e-30)
-            arows.append(dict(type="OLD", threshold=thr, ratio=rr or "inf", out_at_pivot=round(f(y), 2),
-                              out_10_over=round(f(y8), 2), expect_10_over=round(-18 + 10 / re, 2)))
+    for typ in (0, 1):
+        for kn in (0, 2):
+            for thr in (-40, -26):
+                for ri in (1, 3, 6):
+                    piv = K225.static_out(-18, thr, ri, kn, typ)
+                    arows.append(dict(type="OLD" if typ else "NEW", knee=["HARD", "MED", "SOFT"][kn], threshold=thr, ratio=K225.RATIOS[ri],
+                                      out_at_pivot=round(lvl_out(-18, thr, ri, kn, typ, 1), 2),
+                                      out_10_over=round(lvl_out(-8, thr, ri, kn, typ, 1), 2),
+                                      expect_10_over=round(K225.static_out(-8, thr, ri, kn, typ) - piv - 18, 2)))
     aerr = max(max(abs(r["out_at_pivot"] + 18), abs(r["out_10_over"] - r["expect_10_over"])) for r in arows)
-    record("VCA: AUTO make-up pivots on +4 dBu (-18 dBFS) for every threshold, ratio and TYPE (API 2500 manual), within 0.5 dB",
-           aerr < 0.5, f"worst error {aerr:.2f} dB over thresholds -40/-30/-22, ratios 2/4/inf, NEW and OLD (OLD at its feedback ratio 2 - 1/R)", rows=arows)
+    record("VCA: AUTO make-up pivots on +4 dBu (-18 dBFS) for every threshold, ratio, knee and TYPE (API 2500 manual), within 0.3 dB",
+           aerr < 0.3, f"worst error {aerr:.2f} dB over thresholds -40/-26, ratios 2/4/inf, HARD and SOFT, NEW and OLD", rows=arows)
     # THRUST curve via KEY LISTEN (the detector signal): THRUST setting relative to NORM, so the SC HPF cancels.
     # LOUD = US 5,170,437 Fig. 4 circuit (cited by the API 2500 manual) relative to 632 Hz; MED modelled as half.
     def tlvl(f, th):
