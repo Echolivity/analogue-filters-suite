@@ -54,6 +54,60 @@
   "boxes": [
    {
     "box": {
+     "id": "obj-558",
+     "maxclass": "comment",
+     "patching_rect": [
+      20,
+      2000,
+      600,
+      18
+     ],
+     "presentation": 1,
+     "presentation_rect": [
+      300,
+      80,
+      700,
+      16
+     ],
+     "text": "Panel images not found: keep the dfx_*.png files next to the .amxd, or Freeze the device in Max.",
+     "textcolor": [
+      0.9255,
+      0.8941,
+      0.8314,
+      1.0
+     ],
+     "fontsize": 9.0,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "background": 1
+    }
+   },
+   {
+    "box": {
+     "id": "obj-559",
+     "maxclass": "fpic",
+     "pic": "dfx_faceplate.png",
+     "autofit": 0,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "presentation": 1,
+     "presentation_rect": [
+      0,
+      0,
+      2748,
+      169
+     ],
+     "patching_rect": [
+      20,
+      2030,
+      2748,
+      169
+     ],
+     "background": 1
+    }
+   },
+   {
+    "box": {
      "id": "obj-1",
      "maxclass": "newobj",
      "patching_rect": [
@@ -814,10 +868,10 @@
       169
      ],
      "bgcolor": [
-      0.0784,
-      0.0745,
-      0.0706,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "rounded": 0,
      "numinlets": 1,
@@ -843,10 +897,10 @@
       161
      ],
      "bgcolor": [
-      0.1294,
-      0.1216,
-      0.1137,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "rounded": 4,
      "numinlets": 1,
@@ -854,10 +908,10 @@
      "background": 1,
      "border": 1,
      "bordercolor": [
-      0.3098,
-      0.2824,
-      0.2549,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ]
     }
    },
@@ -1150,6 +1204,30 @@
    },
    {
     "box": {
+     "id": "obj-560",
+     "maxclass": "fpic",
+     "pic": "dfx_knob_k76.png",
+     "autofit": 0,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "presentation": 1,
+     "presentation_rect": [
+      24.0,
+      62.0,
+      76,
+      76
+     ],
+     "patching_rect": [
+      20,
+      2100,
+      76,
+      76
+     ],
+     "varname": "l_cut_img"
+    }
+   },
+   {
+    "box": {
      "id": "obj-14",
      "maxclass": "live.dial",
      "patching_rect": [
@@ -1176,28 +1254,28 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.949,
-      0.6275,
-      0.2275,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "activeneedlecolor": [
-      0.9255,
-      0.8941,
-      0.8314,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "dialcolor": [
-      0.2902,
-      0.2667,
-      0.2392,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "needlecolor": [
-      0.3686,
-      0.3451,
-      0.3137,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "textcolor": [
       0.9255,
@@ -1231,7 +1309,13 @@
      "appearance": 0,
      "annotation_name": "LPF Cutoff",
      "annotation": "Low-pass cutoff frequency. Fully open (20 kHz) is transparent. Range 20 to 20000 Hz. Default 20000 Hz.",
-     "hint": "LPF Cutoff: Low-pass cutoff frequency. Fully open (20 kHz) is transparent."
+     "hint": "LPF Cutoff: Low-pass cutoff frequency. Fully open (20 kHz) is transparent.",
+     "tricolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
     }
    },
    {
@@ -1285,6 +1369,30 @@
    },
    {
     "box": {
+     "id": "obj-563",
+     "maxclass": "fpic",
+     "pic": "dfx_knob_k26.png",
+     "autofit": 0,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "presentation": 1,
+     "presentation_rect": [
+      136.0,
+      62.0,
+      26,
+      26
+     ],
+     "patching_rect": [
+      20,
+      2126,
+      26,
+      26
+     ],
+     "varname": "l_res_img"
+    }
+   },
+   {
+    "box": {
      "id": "obj-17",
      "maxclass": "live.dial",
      "patching_rect": [
@@ -1311,33 +1419,33 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.949,
-      0.6275,
-      0.2275,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "activeneedlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "dialcolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "needlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "textcolor": [
       0.9255,
       0.8941,
       0.8314,
-      1.0
-     ],
-     "dialcolor": [
-      0.2902,
-      0.2667,
-      0.2392,
-      1.0
-     ],
-     "needlecolor": [
-      0.3686,
-      0.3451,
-      0.3137,
-      1.0
-     ],
-     "textcolor": [
-      0.6392,
-      0.6039,
-      0.549,
       1.0
      ],
      "fontsize": 8.5,
@@ -1364,7 +1472,13 @@
      },
      "annotation_name": "LPF Resonance",
      "annotation": "Resonance / feedback. High settings self-oscillate on models that do so in hardware. Range 0 to 100 %. Default 0 %.",
-     "hint": "LPF Resonance: Resonance / feedback. High settings self-oscillate on models that do so in hardware."
+     "hint": "LPF Resonance: Resonance / feedback. High settings self-oscillate on models that do so in hardware.",
+     "tricolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
     }
    },
    {
@@ -1383,6 +1497,30 @@
      "outlettype": [
       ""
      ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-566",
+     "maxclass": "fpic",
+     "pic": "dfx_knob_k26.png",
+     "autofit": 0,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "presentation": 1,
+     "presentation_rect": [
+      194.0,
+      62.0,
+      26,
+      26
+     ],
+     "patching_rect": [
+      20,
+      2152,
+      26,
+      26
+     ],
+     "varname": "l_drive_img"
     }
    },
    {
@@ -1413,33 +1551,33 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.949,
-      0.6275,
-      0.2275,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "activeneedlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "dialcolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "needlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "textcolor": [
       0.9255,
       0.8941,
       0.8314,
-      1.0
-     ],
-     "dialcolor": [
-      0.2902,
-      0.2667,
-      0.2392,
-      1.0
-     ],
-     "needlecolor": [
-      0.3686,
-      0.3451,
-      0.3137,
-      1.0
-     ],
-     "textcolor": [
-      0.6392,
-      0.6039,
-      0.549,
       1.0
      ],
      "fontsize": 8.5,
@@ -1466,7 +1604,13 @@
      },
      "annotation_name": "LPF Drive",
      "annotation": "Input level into the model's nonlinear stages: more drive, more saturation. Range 0 to 100 %. Default 0 %.",
-     "hint": "LPF Drive: Input level into the model's nonlinear stages: more drive, more saturation."
+     "hint": "LPF Drive: Input level into the model's nonlinear stages: more drive, more saturation.",
+     "tricolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
     }
    },
    {
@@ -1485,6 +1629,30 @@
      "outlettype": [
       ""
      ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-569",
+     "maxclass": "fpic",
+     "pic": "dfx_knob_k26.png",
+     "autofit": 0,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "presentation": 1,
+     "presentation_rect": [
+      252.0,
+      62.0,
+      26,
+      26
+     ],
+     "patching_rect": [
+      20,
+      2178,
+      26,
+      26
+     ],
+     "varname": "l_comp_img"
     }
    },
    {
@@ -1515,33 +1683,33 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.949,
-      0.6275,
-      0.2275,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "activeneedlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "dialcolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "needlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "textcolor": [
       0.9255,
       0.8941,
       0.8314,
-      1.0
-     ],
-     "dialcolor": [
-      0.2902,
-      0.2667,
-      0.2392,
-      1.0
-     ],
-     "needlecolor": [
-      0.3686,
-      0.3451,
-      0.3137,
-      1.0
-     ],
-     "textcolor": [
-      0.6392,
-      0.6039,
-      0.549,
       1.0
      ],
      "fontsize": 8.5,
@@ -1568,7 +1736,13 @@
      },
      "annotation_name": "LPF Compensation",
      "annotation": "Level compensation for resonance-related passband loss. 100 % = full compensation. Range 0 to 100 %. Default 100 %.",
-     "hint": "LPF Compensation: Level compensation for resonance-related passband loss. 100 % = full compensation."
+     "hint": "LPF Compensation: Level compensation for resonance-related passband loss. 100 % = full compensation.",
+     "tricolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
     }
    },
    {
@@ -1587,6 +1761,30 @@
      "outlettype": [
       ""
      ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-572",
+     "maxclass": "fpic",
+     "pic": "dfx_knob_k22.png",
+     "autofit": 0,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "presentation": 1,
+     "presentation_rect": [
+      138.0,
+      115.0,
+      22,
+      22
+     ],
+     "patching_rect": [
+      20,
+      2204,
+      22,
+      22
+     ],
+     "varname": "l_char_img"
     }
    },
    {
@@ -1617,33 +1815,33 @@
      "showname": 0,
      "shownumber": 1,
      "activedialcolor": [
-      0.949,
-      0.6275,
-      0.2275,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "activeneedlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "dialcolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "needlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "textcolor": [
       0.9255,
       0.8941,
       0.8314,
-      1.0
-     ],
-     "dialcolor": [
-      0.2902,
-      0.2667,
-      0.2392,
-      1.0
-     ],
-     "needlecolor": [
-      0.3686,
-      0.3451,
-      0.3137,
-      1.0
-     ],
-     "textcolor": [
-      0.6392,
-      0.6039,
-      0.549,
       1.0
      ],
      "fontsize": 8.5,
@@ -1670,7 +1868,13 @@
      },
      "annotation_name": "LPF Character",
      "annotation": "Model-specific control; its name (below the knob) changes with the model. Range 0 to 100 %. Default 0 %.",
-     "hint": "LPF Character: Model-specific control; its name (below the knob) changes with the model."
+     "hint": "LPF Character: Model-specific control; its name (below the knob) changes with the model.",
+     "tricolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
     }
    },
    {
@@ -2175,10 +2379,10 @@
       161
      ],
      "bgcolor": [
-      0.1294,
-      0.1216,
-      0.1137,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "rounded": 4,
      "numinlets": 1,
@@ -2186,10 +2390,10 @@
      "background": 1,
      "border": 1,
      "bordercolor": [
-      0.3098,
-      0.2824,
-      0.2549,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ]
     }
    },
@@ -2480,6 +2684,30 @@
    },
    {
     "box": {
+     "id": "obj-575",
+     "maxclass": "fpic",
+     "pic": "dfx_knob_k76.png",
+     "autofit": 0,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "presentation": 1,
+     "presentation_rect": [
+      418.0,
+      62.0,
+      76,
+      76
+     ],
+     "patching_rect": [
+      20,
+      2230,
+      76,
+      76
+     ],
+     "varname": "h_cut_img"
+    }
+   },
+   {
+    "box": {
      "id": "obj-50",
      "maxclass": "live.dial",
      "patching_rect": [
@@ -2506,28 +2734,28 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.949,
-      0.6275,
-      0.2275,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "activeneedlecolor": [
-      0.9255,
-      0.8941,
-      0.8314,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "dialcolor": [
-      0.2902,
-      0.2667,
-      0.2392,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "needlecolor": [
-      0.3686,
-      0.3451,
-      0.3137,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "textcolor": [
       0.9255,
@@ -2561,7 +2789,13 @@
      "appearance": 0,
      "annotation_name": "HPF Cutoff",
      "annotation": "High-pass cutoff frequency. Fully down (20 Hz) is transparent. Range 20 to 2000 Hz. Default 20 Hz.",
-     "hint": "HPF Cutoff: High-pass cutoff frequency. Fully down (20 Hz) is transparent."
+     "hint": "HPF Cutoff: High-pass cutoff frequency. Fully down (20 Hz) is transparent.",
+     "tricolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
     }
    },
    {
@@ -2615,6 +2849,30 @@
    },
    {
     "box": {
+     "id": "obj-578",
+     "maxclass": "fpic",
+     "pic": "dfx_knob_k26.png",
+     "autofit": 0,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "presentation": 1,
+     "presentation_rect": [
+      530.0,
+      62.0,
+      26,
+      26
+     ],
+     "patching_rect": [
+      20,
+      2256,
+      26,
+      26
+     ],
+     "varname": "h_res_img"
+    }
+   },
+   {
+    "box": {
      "id": "obj-53",
      "maxclass": "live.dial",
      "patching_rect": [
@@ -2641,33 +2899,33 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.949,
-      0.6275,
-      0.2275,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "activeneedlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "dialcolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "needlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "textcolor": [
       0.9255,
       0.8941,
       0.8314,
-      1.0
-     ],
-     "dialcolor": [
-      0.2902,
-      0.2667,
-      0.2392,
-      1.0
-     ],
-     "needlecolor": [
-      0.3686,
-      0.3451,
-      0.3137,
-      1.0
-     ],
-     "textcolor": [
-      0.6392,
-      0.6039,
-      0.549,
       1.0
      ],
      "fontsize": 8.5,
@@ -2694,7 +2952,13 @@
      },
      "annotation_name": "HPF Resonance",
      "annotation": "Resonance / feedback of the high-pass stage. No effect on 03 (Moog 904B), which has no resonance circuit. Range 0 to 100 %. Default 0 %.",
-     "hint": "HPF Resonance: Resonance / feedback of the high-pass stage. No effect on 03 (Moog 904B), which has no resonance circuit."
+     "hint": "HPF Resonance: Resonance / feedback of the high-pass stage. No effect on 03 (Moog 904B), which has no resonance circuit.",
+     "tricolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
     }
    },
    {
@@ -2713,6 +2977,30 @@
      "outlettype": [
       ""
      ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-581",
+     "maxclass": "fpic",
+     "pic": "dfx_knob_k26.png",
+     "autofit": 0,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "presentation": 1,
+     "presentation_rect": [
+      588.0,
+      62.0,
+      26,
+      26
+     ],
+     "patching_rect": [
+      20,
+      2282,
+      26,
+      26
+     ],
+     "varname": "h_drive_img"
     }
    },
    {
@@ -2743,33 +3031,33 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.949,
-      0.6275,
-      0.2275,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "activeneedlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "dialcolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "needlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "textcolor": [
       0.9255,
       0.8941,
       0.8314,
-      1.0
-     ],
-     "dialcolor": [
-      0.2902,
-      0.2667,
-      0.2392,
-      1.0
-     ],
-     "needlecolor": [
-      0.3686,
-      0.3451,
-      0.3137,
-      1.0
-     ],
-     "textcolor": [
-      0.6392,
-      0.6039,
-      0.549,
       1.0
      ],
      "fontsize": 8.5,
@@ -2796,7 +3084,13 @@
      },
      "annotation_name": "HPF Drive",
      "annotation": "Input level into the high-pass model's nonlinear stages. Range 0 to 100 %. Default 0 %.",
-     "hint": "HPF Drive: Input level into the high-pass model's nonlinear stages."
+     "hint": "HPF Drive: Input level into the high-pass model's nonlinear stages.",
+     "tricolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
     }
    },
    {
@@ -2815,6 +3109,30 @@
      "outlettype": [
       ""
      ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-584",
+     "maxclass": "fpic",
+     "pic": "dfx_knob_k26.png",
+     "autofit": 0,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "presentation": 1,
+     "presentation_rect": [
+      646.0,
+      62.0,
+      26,
+      26
+     ],
+     "patching_rect": [
+      20,
+      2308,
+      26,
+      26
+     ],
+     "varname": "h_comp_img"
     }
    },
    {
@@ -2845,33 +3163,33 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.949,
-      0.6275,
-      0.2275,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "activeneedlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "dialcolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "needlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "textcolor": [
       0.9255,
       0.8941,
       0.8314,
-      1.0
-     ],
-     "dialcolor": [
-      0.2902,
-      0.2667,
-      0.2392,
-      1.0
-     ],
-     "needlecolor": [
-      0.3686,
-      0.3451,
-      0.3137,
-      1.0
-     ],
-     "textcolor": [
-      0.6392,
-      0.6039,
-      0.549,
       1.0
      ],
      "fontsize": 8.5,
@@ -2898,7 +3216,13 @@
      },
      "annotation_name": "HPF Compensation",
      "annotation": "Level compensation for resonance-related passband loss. Range 0 to 100 %. Default 100 %.",
-     "hint": "HPF Compensation: Level compensation for resonance-related passband loss."
+     "hint": "HPF Compensation: Level compensation for resonance-related passband loss.",
+     "tricolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
     }
    },
    {
@@ -2917,6 +3241,30 @@
      "outlettype": [
       ""
      ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-587",
+     "maxclass": "fpic",
+     "pic": "dfx_knob_k22.png",
+     "autofit": 0,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "presentation": 1,
+     "presentation_rect": [
+      532.0,
+      115.0,
+      22,
+      22
+     ],
+     "patching_rect": [
+      20,
+      2334,
+      22,
+      22
+     ],
+     "varname": "h_char_img"
     }
    },
    {
@@ -2947,33 +3295,33 @@
      "showname": 0,
      "shownumber": 1,
      "activedialcolor": [
-      0.949,
-      0.6275,
-      0.2275,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "activeneedlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "dialcolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "needlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "textcolor": [
       0.9255,
       0.8941,
       0.8314,
-      1.0
-     ],
-     "dialcolor": [
-      0.2902,
-      0.2667,
-      0.2392,
-      1.0
-     ],
-     "needlecolor": [
-      0.3686,
-      0.3451,
-      0.3137,
-      1.0
-     ],
-     "textcolor": [
-      0.6392,
-      0.6039,
-      0.549,
       1.0
      ],
      "fontsize": 8.5,
@@ -3000,7 +3348,13 @@
      },
      "annotation_name": "HPF Character",
      "annotation": "Model-specific control; its name (below the knob) changes with the model. Range 0 to 100 %. Default 0 %.",
-     "hint": "HPF Character: Model-specific control; its name (below the knob) changes with the model."
+     "hint": "HPF Character: Model-specific control; its name (below the knob) changes with the model.",
+     "tricolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
     }
    },
    {
@@ -3468,10 +3822,10 @@
       161
      ],
      "bgcolor": [
-      0.1294,
-      0.1216,
-      0.1137,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "rounded": 4,
      "numinlets": 1,
@@ -3479,10 +3833,10 @@
      "background": 1,
      "border": 1,
      "bordercolor": [
-      0.3098,
-      0.2824,
-      0.2549,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ]
     }
    },
@@ -3874,6 +4228,30 @@
    },
    {
     "box": {
+     "id": "obj-590",
+     "maxclass": "fpic",
+     "pic": "dfx_knob_k22.png",
+     "autofit": 0,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "presentation": 1,
+     "presentation_rect": [
+      339.0,
+      115.5,
+      22,
+      22
+     ],
+     "patching_rect": [
+      20,
+      2360,
+      22,
+      22
+     ],
+     "varname": "out_db_img"
+    }
+   },
+   {
+    "box": {
      "id": "obj-86",
      "maxclass": "live.dial",
      "patching_rect": [
@@ -3900,33 +4278,33 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.949,
-      0.6275,
-      0.2275,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "activeneedlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "dialcolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "needlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "textcolor": [
       0.9255,
       0.8941,
       0.8314,
-      1.0
-     ],
-     "dialcolor": [
-      0.2902,
-      0.2667,
-      0.2392,
-      1.0
-     ],
-     "needlecolor": [
-      0.3686,
-      0.3451,
-      0.3137,
-      1.0
-     ],
-     "textcolor": [
-      0.6392,
-      0.6039,
-      0.549,
       1.0
      ],
      "fontsize": 8.5,
@@ -3953,7 +4331,13 @@
      },
      "annotation_name": "Output",
      "annotation": "Device output level after all processing. Range -24 to 12 dB. Default 0 dB.",
-     "hint": "Output: Device output level after all processing."
+     "hint": "Output: Device output level after all processing.",
+     "tricolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
     }
    },
    {
@@ -4123,10 +4507,10 @@
       169
      ],
      "bgcolor": [
-      0.0784,
-      0.0745,
-      0.0706,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "rounded": 0,
      "numinlets": 1,
@@ -4152,10 +4536,10 @@
       161
      ],
      "bgcolor": [
-      0.1294,
-      0.1216,
-      0.1137,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "rounded": 4,
      "numinlets": 1,
@@ -4163,10 +4547,10 @@
      "background": 1,
      "border": 1,
      "bordercolor": [
-      0.3098,
-      0.2824,
-      0.2549,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ]
     }
    },
@@ -4589,6 +4973,30 @@
    },
    {
     "box": {
+     "id": "obj-593",
+     "maxclass": "fpic",
+     "pic": "dfx_knob_k76.png",
+     "autofit": 0,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "presentation": 1,
+     "presentation_rect": [
+      722.0,
+      62.0,
+      76,
+      76
+     ],
+     "patching_rect": [
+      20,
+      2386,
+      76,
+      76
+     ],
+     "varname": "b_freq_img"
+    }
+   },
+   {
+    "box": {
      "id": "obj-100",
      "maxclass": "live.dial",
      "patching_rect": [
@@ -4615,28 +5023,28 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.949,
-      0.6275,
-      0.2275,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "activeneedlecolor": [
-      0.9255,
-      0.8941,
-      0.8314,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "dialcolor": [
-      0.2902,
-      0.2667,
-      0.2392,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "needlecolor": [
-      0.3686,
-      0.3451,
-      0.3137,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "textcolor": [
       0.9255,
@@ -4670,7 +5078,13 @@
      "appearance": 0,
      "annotation_name": "BPF Centre",
      "annotation": "Band-pass centre frequency. Range 30 to 12000 Hz. Default 1000 Hz.",
-     "hint": "BPF Centre: Band-pass centre frequency."
+     "hint": "BPF Centre: Band-pass centre frequency.",
+     "tricolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
     }
    },
    {
@@ -4724,6 +5138,30 @@
    },
    {
     "box": {
+     "id": "obj-596",
+     "maxclass": "fpic",
+     "pic": "dfx_knob_k26.png",
+     "autofit": 0,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "presentation": 1,
+     "presentation_rect": [
+      834.0,
+      62.0,
+      26,
+      26
+     ],
+     "patching_rect": [
+      20,
+      2412,
+      26,
+      26
+     ],
+     "varname": "b_bw_img"
+    }
+   },
+   {
+    "box": {
      "id": "obj-103",
      "maxclass": "live.dial",
      "patching_rect": [
@@ -4750,33 +5188,33 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.949,
-      0.6275,
-      0.2275,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "activeneedlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "dialcolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "needlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "textcolor": [
       0.9255,
       0.8941,
       0.8314,
-      1.0
-     ],
-     "dialcolor": [
-      0.2902,
-      0.2667,
-      0.2392,
-      1.0
-     ],
-     "needlecolor": [
-      0.3686,
-      0.3451,
-      0.3137,
-      1.0
-     ],
-     "textcolor": [
-      0.6392,
-      0.6039,
-      0.549,
       1.0
      ],
      "fontsize": 8.5,
@@ -4804,7 +5242,13 @@
      },
      "annotation_name": "BPF Bandwidth",
      "annotation": "Band width in octaves. Used by CASC and MULTI; not used by SVF. Range 0.2 to 6 oct. Default 2 oct.",
-     "hint": "BPF Bandwidth: Band width in octaves. Used by CASC and MULTI; not used by SVF."
+     "hint": "BPF Bandwidth: Band width in octaves. Used by CASC and MULTI; not used by SVF.",
+     "tricolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
     }
    },
    {
@@ -4823,6 +5267,30 @@
      "outlettype": [
       ""
      ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-599",
+     "maxclass": "fpic",
+     "pic": "dfx_knob_k26.png",
+     "autofit": 0,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "presentation": 1,
+     "presentation_rect": [
+      892.0,
+      62.0,
+      26,
+      26
+     ],
+     "patching_rect": [
+      20,
+      2438,
+      26,
+      26
+     ],
+     "varname": "b_q_img"
     }
    },
    {
@@ -4853,33 +5321,33 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.949,
-      0.6275,
-      0.2275,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "activeneedlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "dialcolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "needlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "textcolor": [
       0.9255,
       0.8941,
       0.8314,
-      1.0
-     ],
-     "dialcolor": [
-      0.2902,
-      0.2667,
-      0.2392,
-      1.0
-     ],
-     "needlecolor": [
-      0.3686,
-      0.3451,
-      0.3137,
-      1.0
-     ],
-     "textcolor": [
-      0.6392,
-      0.6039,
-      0.549,
       1.0
      ],
      "fontsize": 8.5,
@@ -4907,7 +5375,13 @@
      },
      "annotation_name": "BPF Q",
      "annotation": "Resonant width of the SVF band, or edge Q of the CASC band. Not used by MULTI. Range 0.5 to 10. Default 0.707.",
-     "hint": "BPF Q: Resonant width of the SVF band, or edge Q of the CASC band. Not used by MULTI."
+     "hint": "BPF Q: Resonant width of the SVF band, or edge Q of the CASC band. Not used by MULTI.",
+     "tricolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
     }
    },
    {
@@ -4926,6 +5400,30 @@
      "outlettype": [
       ""
      ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-602",
+     "maxclass": "fpic",
+     "pic": "dfx_knob_k26.png",
+     "autofit": 0,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "presentation": 1,
+     "presentation_rect": [
+      950.0,
+      62.0,
+      26,
+      26
+     ],
+     "patching_rect": [
+      20,
+      2464,
+      26,
+      26
+     ],
+     "varname": "b_res_img"
     }
    },
    {
@@ -4956,33 +5454,33 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.949,
-      0.6275,
-      0.2275,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "activeneedlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "dialcolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "needlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "textcolor": [
       0.9255,
       0.8941,
       0.8314,
-      1.0
-     ],
-     "dialcolor": [
-      0.2902,
-      0.2667,
-      0.2392,
-      1.0
-     ],
-     "needlecolor": [
-      0.3686,
-      0.3451,
-      0.3137,
-      1.0
-     ],
-     "textcolor": [
-      0.6392,
-      0.6039,
-      0.549,
       1.0
      ],
      "fontsize": 8.5,
@@ -5009,7 +5507,13 @@
      },
      "annotation_name": "BPF Resonance",
      "annotation": "Band-pass resonance / feedback. Range 0 to 100 %. Default 0 %.",
-     "hint": "BPF Resonance: Band-pass resonance / feedback."
+     "hint": "BPF Resonance: Band-pass resonance / feedback.",
+     "tricolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
     }
    },
    {
@@ -5028,6 +5532,30 @@
      "outlettype": [
       ""
      ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-605",
+     "maxclass": "fpic",
+     "pic": "dfx_knob_k26.png",
+     "autofit": 0,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "presentation": 1,
+     "presentation_rect": [
+      1008.0,
+      62.0,
+      26,
+      26
+     ],
+     "patching_rect": [
+      20,
+      2490,
+      26,
+      26
+     ],
+     "varname": "b_drive_img"
     }
    },
    {
@@ -5058,33 +5586,33 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.949,
-      0.6275,
-      0.2275,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "activeneedlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "dialcolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "needlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "textcolor": [
       0.9255,
       0.8941,
       0.8314,
-      1.0
-     ],
-     "dialcolor": [
-      0.2902,
-      0.2667,
-      0.2392,
-      1.0
-     ],
-     "needlecolor": [
-      0.3686,
-      0.3451,
-      0.3137,
-      1.0
-     ],
-     "textcolor": [
-      0.6392,
-      0.6039,
-      0.549,
       1.0
      ],
      "fontsize": 8.5,
@@ -5111,7 +5639,13 @@
      },
      "annotation_name": "BPF Drive",
      "annotation": "Input level into the band-pass model's nonlinear stages. Range 0 to 100 %. Default 0 %.",
-     "hint": "BPF Drive: Input level into the band-pass model's nonlinear stages."
+     "hint": "BPF Drive: Input level into the band-pass model's nonlinear stages.",
+     "tricolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
     }
    },
    {
@@ -5130,6 +5664,30 @@
      "outlettype": [
       ""
      ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-608",
+     "maxclass": "fpic",
+     "pic": "dfx_knob_k22.png",
+     "autofit": 0,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "presentation": 1,
+     "presentation_rect": [
+      836.0,
+      116.0,
+      22,
+      22
+     ],
+     "patching_rect": [
+      20,
+      2516,
+      22,
+      22
+     ],
+     "varname": "b_comp_img"
     }
    },
    {
@@ -5160,33 +5718,33 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.949,
-      0.6275,
-      0.2275,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "activeneedlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "dialcolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "needlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "textcolor": [
       0.9255,
       0.8941,
       0.8314,
-      1.0
-     ],
-     "dialcolor": [
-      0.2902,
-      0.2667,
-      0.2392,
-      1.0
-     ],
-     "needlecolor": [
-      0.3686,
-      0.3451,
-      0.3137,
-      1.0
-     ],
-     "textcolor": [
-      0.6392,
-      0.6039,
-      0.549,
       1.0
      ],
      "fontsize": 8.5,
@@ -5213,7 +5771,13 @@
      },
      "annotation_name": "BPF Compensation",
      "annotation": "Centre-gain compensation. Not used by MULTI, whose tap gain is already unity. Range 0 to 100 %. Default 100 %.",
-     "hint": "BPF Compensation: Centre-gain compensation. Not used by MULTI, whose tap gain is already unity."
+     "hint": "BPF Compensation: Centre-gain compensation. Not used by MULTI, whose tap gain is already unity.",
+     "tricolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
     }
    },
    {
@@ -5232,6 +5796,30 @@
      "outlettype": [
       ""
      ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-611",
+     "maxclass": "fpic",
+     "pic": "dfx_knob_k22.png",
+     "autofit": 0,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "presentation": 1,
+     "presentation_rect": [
+      894.0,
+      116.0,
+      22,
+      22
+     ],
+     "patching_rect": [
+      20,
+      2542,
+      22,
+      22
+     ],
+     "varname": "b_mix_img"
     }
    },
    {
@@ -5262,33 +5850,33 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.949,
-      0.6275,
-      0.2275,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "activeneedlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "dialcolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "needlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "textcolor": [
       0.9255,
       0.8941,
       0.8314,
-      1.0
-     ],
-     "dialcolor": [
-      0.2902,
-      0.2667,
-      0.2392,
-      1.0
-     ],
-     "needlecolor": [
-      0.3686,
-      0.3451,
-      0.3137,
-      1.0
-     ],
-     "textcolor": [
-      0.6392,
-      0.6039,
-      0.549,
       1.0
      ],
      "fontsize": 8.5,
@@ -5315,7 +5903,13 @@
      },
      "annotation_name": "BPF Mix",
      "annotation": "Dry/wet mix of the band-pass engine. Range 0 to 100 %. Default 100 %.",
-     "hint": "BPF Mix: Dry/wet mix of the band-pass engine."
+     "hint": "BPF Mix: Dry/wet mix of the band-pass engine.",
+     "tricolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
     }
    },
    {
@@ -5905,10 +6499,10 @@
       169
      ],
      "bgcolor": [
-      0.0784,
-      0.0745,
-      0.0706,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "rounded": 0,
      "numinlets": 1,
@@ -5934,10 +6528,10 @@
       161
      ],
      "bgcolor": [
-      0.1294,
-      0.1216,
-      0.1137,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "rounded": 4,
      "numinlets": 1,
@@ -5945,10 +6539,10 @@
      "background": 1,
      "border": 1,
      "bordercolor": [
-      0.3098,
-      0.2824,
-      0.2549,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ]
     }
    },
@@ -9327,6 +9921,30 @@
    },
    {
     "box": {
+     "id": "obj-614",
+     "maxclass": "fpic",
+     "pic": "dfx_knob_k22.png",
+     "autofit": 0,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "presentation": 1,
+     "presentation_rect": [
+      1221.0,
+      107.0,
+      22,
+      22
+     ],
+     "patching_rect": [
+      20,
+      2568,
+      22,
+      22
+     ],
+     "varname": "t_in_img"
+    }
+   },
+   {
+    "box": {
      "id": "obj-237",
      "maxclass": "live.dial",
      "patching_rect": [
@@ -9353,33 +9971,33 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.949,
-      0.6275,
-      0.2275,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "activeneedlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "dialcolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "needlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "textcolor": [
       0.9255,
       0.8941,
       0.8314,
-      1.0
-     ],
-     "dialcolor": [
-      0.2902,
-      0.2667,
-      0.2392,
-      1.0
-     ],
-     "needlecolor": [
-      0.3686,
-      0.3451,
-      0.3137,
-      1.0
-     ],
-     "textcolor": [
-      0.6392,
-      0.6039,
-      0.549,
       1.0
      ],
      "fontsize": 8.5,
@@ -9406,7 +10024,13 @@
      },
      "annotation_name": "Tube Input",
      "annotation": "Level into the triode stage. Range -24 to 24 dB. Default 0 dB.",
-     "hint": "Tube Input: Level into the triode stage."
+     "hint": "Tube Input: Level into the triode stage.",
+     "tricolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
     }
    },
    {
@@ -9425,6 +10049,30 @@
      "outlettype": [
       ""
      ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-617",
+     "maxclass": "fpic",
+     "pic": "dfx_knob_k22.png",
+     "autofit": 0,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "presentation": 1,
+     "presentation_rect": [
+      1271.0,
+      107.0,
+      22,
+      22
+     ],
+     "patching_rect": [
+      20,
+      2594,
+      22,
+      22
+     ],
+     "varname": "t_drive_img"
     }
    },
    {
@@ -9455,33 +10103,33 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.949,
-      0.6275,
-      0.2275,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "activeneedlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "dialcolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "needlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "textcolor": [
       0.9255,
       0.8941,
       0.8314,
-      1.0
-     ],
-     "dialcolor": [
-      0.2902,
-      0.2667,
-      0.2392,
-      1.0
-     ],
-     "needlecolor": [
-      0.3686,
-      0.3451,
-      0.3137,
-      1.0
-     ],
-     "textcolor": [
-      0.6392,
-      0.6039,
-      0.549,
       1.0
      ],
      "fontsize": 8.5,
@@ -9508,7 +10156,13 @@
      },
      "annotation_name": "Tube Drive",
      "annotation": "Triode drive: amount of saturation. Range 0 to 100 %. Default 30 %.",
-     "hint": "Tube Drive: Triode drive: amount of saturation."
+     "hint": "Tube Drive: Triode drive: amount of saturation.",
+     "tricolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
     }
    },
    {
@@ -9527,6 +10181,30 @@
      "outlettype": [
       ""
      ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-620",
+     "maxclass": "fpic",
+     "pic": "dfx_knob_k22.png",
+     "autofit": 0,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "presentation": 1,
+     "presentation_rect": [
+      1321.0,
+      107.0,
+      22,
+      22
+     ],
+     "patching_rect": [
+      20,
+      2620,
+      22,
+      22
+     ],
+     "varname": "t_bias_img"
     }
    },
    {
@@ -9557,33 +10235,33 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.949,
-      0.6275,
-      0.2275,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "activeneedlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "dialcolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "needlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "textcolor": [
       0.9255,
       0.8941,
       0.8314,
-      1.0
-     ],
-     "dialcolor": [
-      0.2902,
-      0.2667,
-      0.2392,
-      1.0
-     ],
-     "needlecolor": [
-      0.3686,
-      0.3451,
-      0.3137,
-      1.0
-     ],
-     "textcolor": [
-      0.6392,
-      0.6039,
-      0.549,
       1.0
      ],
      "fontsize": 8.5,
@@ -9610,7 +10288,13 @@
      },
      "annotation_name": "Tube Bias",
      "annotation": "Operating point of the triode; shifts even-order (asymmetric) harmonics. Range -100 to 100. Default 20.",
-     "hint": "Tube Bias: Operating point of the triode; shifts even-order (asymmetric) harmonics."
+     "hint": "Tube Bias: Operating point of the triode; shifts even-order (asymmetric) harmonics.",
+     "tricolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
     }
    },
    {
@@ -9629,6 +10313,30 @@
      "outlettype": [
       ""
      ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-623",
+     "maxclass": "fpic",
+     "pic": "dfx_knob_k22.png",
+     "autofit": 0,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "presentation": 1,
+     "presentation_rect": [
+      1371.0,
+      107.0,
+      22,
+      22
+     ],
+     "patching_rect": [
+      20,
+      2646,
+      22,
+      22
+     ],
+     "varname": "t_tone_img"
     }
    },
    {
@@ -9659,33 +10367,33 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.949,
-      0.6275,
-      0.2275,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "activeneedlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "dialcolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "needlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "textcolor": [
       0.9255,
       0.8941,
       0.8314,
-      1.0
-     ],
-     "dialcolor": [
-      0.2902,
-      0.2667,
-      0.2392,
-      1.0
-     ],
-     "needlecolor": [
-      0.3686,
-      0.3451,
-      0.3137,
-      1.0
-     ],
-     "textcolor": [
-      0.6392,
-      0.6039,
-      0.549,
       1.0
      ],
      "fontsize": 8.5,
@@ -9713,7 +10421,13 @@
      },
      "annotation_name": "Tube Tone",
      "annotation": "Low-pass tone control after the triode. Range 1000 to 20000 Hz. Default 12000 Hz.",
-     "hint": "Tube Tone: Low-pass tone control after the triode."
+     "hint": "Tube Tone: Low-pass tone control after the triode.",
+     "tricolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
     }
    },
    {
@@ -9732,6 +10446,30 @@
      "outlettype": [
       ""
      ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-626",
+     "maxclass": "fpic",
+     "pic": "dfx_knob_k22.png",
+     "autofit": 0,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "presentation": 1,
+     "presentation_rect": [
+      1421.0,
+      107.0,
+      22,
+      22
+     ],
+     "patching_rect": [
+      20,
+      2672,
+      22,
+      22
+     ],
+     "varname": "t_mix_img"
     }
    },
    {
@@ -9762,33 +10500,33 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.949,
-      0.6275,
-      0.2275,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "activeneedlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "dialcolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "needlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "textcolor": [
       0.9255,
       0.8941,
       0.8314,
-      1.0
-     ],
-     "dialcolor": [
-      0.2902,
-      0.2667,
-      0.2392,
-      1.0
-     ],
-     "needlecolor": [
-      0.3686,
-      0.3451,
-      0.3137,
-      1.0
-     ],
-     "textcolor": [
-      0.6392,
-      0.6039,
-      0.549,
       1.0
      ],
      "fontsize": 8.5,
@@ -9815,7 +10553,13 @@
      },
      "annotation_name": "Tube Mix",
      "annotation": "Dry/wet mix of the tube stage (the dry path is phase-matched). Range 0 to 100 %. Default 100 %.",
-     "hint": "Tube Mix: Dry/wet mix of the tube stage (the dry path is phase-matched)."
+     "hint": "Tube Mix: Dry/wet mix of the tube stage (the dry path is phase-matched).",
+     "tricolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
     }
    },
    {
@@ -9834,6 +10578,30 @@
      "outlettype": [
       ""
      ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-629",
+     "maxclass": "fpic",
+     "pic": "dfx_knob_k22.png",
+     "autofit": 0,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "presentation": 1,
+     "presentation_rect": [
+      1471.0,
+      107.0,
+      22,
+      22
+     ],
+     "patching_rect": [
+      20,
+      2698,
+      22,
+      22
+     ],
+     "varname": "t_out_img"
     }
    },
    {
@@ -9864,33 +10632,33 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.949,
-      0.6275,
-      0.2275,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "activeneedlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "dialcolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "needlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "textcolor": [
       0.9255,
       0.8941,
       0.8314,
-      1.0
-     ],
-     "dialcolor": [
-      0.2902,
-      0.2667,
-      0.2392,
-      1.0
-     ],
-     "needlecolor": [
-      0.3686,
-      0.3451,
-      0.3137,
-      1.0
-     ],
-     "textcolor": [
-      0.6392,
-      0.6039,
-      0.549,
       1.0
      ],
      "fontsize": 8.5,
@@ -9917,7 +10685,13 @@
      },
      "annotation_name": "Tube Output",
      "annotation": "Level out of the tube stage. Range -24 to 24 dB. Default 0 dB.",
-     "hint": "Tube Output: Level out of the tube stage."
+     "hint": "Tube Output: Level out of the tube stage.",
+     "tricolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
     }
    },
    {
@@ -10103,6 +10877,31 @@
    },
    {
     "box": {
+     "id": "obj-632",
+     "maxclass": "fpic",
+     "pic": "dfx_knob_k22.png",
+     "autofit": 0,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "presentation": 1,
+     "presentation_rect": [
+      1221.0,
+      107.0,
+      22,
+      22
+     ],
+     "patching_rect": [
+      20,
+      2724,
+      22,
+      22
+     ],
+     "varname": "o_in_img",
+     "hidden": 1
+    }
+   },
+   {
+    "box": {
      "id": "obj-252",
      "maxclass": "live.dial",
      "patching_rect": [
@@ -10129,33 +10928,33 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.949,
-      0.6275,
-      0.2275,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "activeneedlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "dialcolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "needlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "textcolor": [
       0.9255,
       0.8941,
       0.8314,
-      1.0
-     ],
-     "dialcolor": [
-      0.2902,
-      0.2667,
-      0.2392,
-      1.0
-     ],
-     "needlecolor": [
-      0.3686,
-      0.3451,
-      0.3137,
-      1.0
-     ],
-     "textcolor": [
-      0.6392,
-      0.6039,
-      0.549,
       1.0
      ],
      "fontsize": 8.5,
@@ -10183,7 +10982,13 @@
      "hidden": 1,
      "annotation_name": "Opto Input",
      "annotation": "Level into the opto compressor. Range -24 to 24 dB. Default 0 dB.",
-     "hint": "Opto Input: Level into the opto compressor."
+     "hint": "Opto Input: Level into the opto compressor.",
+     "tricolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
     }
    },
    {
@@ -10202,6 +11007,31 @@
      "outlettype": [
       ""
      ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-635",
+     "maxclass": "fpic",
+     "pic": "dfx_knob_k22.png",
+     "autofit": 0,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "presentation": 1,
+     "presentation_rect": [
+      1271.0,
+      107.0,
+      22,
+      22
+     ],
+     "patching_rect": [
+      20,
+      2750,
+      22,
+      22
+     ],
+     "varname": "o_pr_img",
+     "hidden": 1
     }
    },
    {
@@ -10232,33 +11062,33 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.949,
-      0.6275,
-      0.2275,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "activeneedlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "dialcolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "needlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "textcolor": [
       0.9255,
       0.8941,
       0.8314,
-      1.0
-     ],
-     "dialcolor": [
-      0.2902,
-      0.2667,
-      0.2392,
-      1.0
-     ],
-     "needlecolor": [
-      0.3686,
-      0.3451,
-      0.3137,
-      1.0
-     ],
-     "textcolor": [
-      0.6392,
-      0.6039,
-      0.549,
       1.0
      ],
      "fontsize": 8.5,
@@ -10286,7 +11116,13 @@
      "hidden": 1,
      "annotation_name": "Opto Peak Reduction",
      "annotation": "Peak Reduction: how hard the optical cell is driven, as on the LA-2A. Range 0 to 100 %. Default 40 %.",
-     "hint": "Opto Peak Reduction: Peak Reduction: how hard the optical cell is driven, as on the LA-2A."
+     "hint": "Opto Peak Reduction: Peak Reduction: how hard the optical cell is driven, as on the LA-2A.",
+     "tricolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
     }
    },
    {
@@ -10305,6 +11141,31 @@
      "outlettype": [
       ""
      ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-638",
+     "maxclass": "fpic",
+     "pic": "dfx_knob_k22.png",
+     "autofit": 0,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "presentation": 1,
+     "presentation_rect": [
+      1321.0,
+      107.0,
+      22,
+      22
+     ],
+     "patching_rect": [
+      20,
+      2776,
+      22,
+      22
+     ],
+     "varname": "o_emph_img",
+     "hidden": 1
     }
    },
    {
@@ -10335,33 +11196,33 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.949,
-      0.6275,
-      0.2275,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "activeneedlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "dialcolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "needlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "textcolor": [
       0.9255,
       0.8941,
       0.8314,
-      1.0
-     ],
-     "dialcolor": [
-      0.2902,
-      0.2667,
-      0.2392,
-      1.0
-     ],
-     "needlecolor": [
-      0.3686,
-      0.3451,
-      0.3137,
-      1.0
-     ],
-     "textcolor": [
-      0.6392,
-      0.6039,
-      0.549,
       1.0
      ],
      "fontsize": 8.5,
@@ -10389,7 +11250,13 @@
      "hidden": 1,
      "annotation_name": "Opto HF Emphasis",
      "annotation": "The LA-2A's R37 control: cuts the low frequencies feeding the detector, so highs are levelled more than lows (at 100 %, about 12 dB more at 15 kHz than at 500 Hz). 0 % is flat. Range 0 to 100 %. Default 0 %.",
-     "hint": "Opto HF Emphasis: The LA-2A's R37 control: cuts the low frequencies feeding the detector, so highs are levelled more than lows (at 100 %, about 12 dB more at 15 kHz than at 500 Hz). 0 % is flat."
+     "hint": "Opto HF Emphasis: The LA-2A's R37 control: cuts the low frequencies feeding the detector, so highs are levelled more than lows (at 100 %, about 12 dB more at 15 kHz than at 500 Hz). 0 % is flat.",
+     "tricolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
     }
    },
    {
@@ -10408,6 +11275,31 @@
      "outlettype": [
       ""
      ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-641",
+     "maxclass": "fpic",
+     "pic": "dfx_knob_k22.png",
+     "autofit": 0,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "presentation": 1,
+     "presentation_rect": [
+      1371.0,
+      107.0,
+      22,
+      22
+     ],
+     "patching_rect": [
+      20,
+      2802,
+      22,
+      22
+     ],
+     "varname": "o_hpf_img",
+     "hidden": 1
     }
    },
    {
@@ -10438,33 +11330,33 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.949,
-      0.6275,
-      0.2275,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "activeneedlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "dialcolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "needlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "textcolor": [
       0.9255,
       0.8941,
       0.8314,
-      1.0
-     ],
-     "dialcolor": [
-      0.2902,
-      0.2667,
-      0.2392,
-      1.0
-     ],
-     "needlecolor": [
-      0.3686,
-      0.3451,
-      0.3137,
-      1.0
-     ],
-     "textcolor": [
-      0.6392,
-      0.6039,
-      0.549,
       1.0
      ],
      "fontsize": 8.5,
@@ -10493,7 +11385,13 @@
      "hidden": 1,
      "annotation_name": "Opto SC HPF",
      "annotation": "High-pass filter on the opto's sidechain, so bass doesn't pump the compressor. Range 20 to 500 Hz. Default 20 Hz.",
-     "hint": "Opto SC HPF: High-pass filter on the opto's sidechain, so bass doesn't pump the compressor."
+     "hint": "Opto SC HPF: High-pass filter on the opto's sidechain, so bass doesn't pump the compressor.",
+     "tricolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
     }
    },
    {
@@ -10512,6 +11410,31 @@
      "outlettype": [
       ""
      ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-644",
+     "maxclass": "fpic",
+     "pic": "dfx_knob_k22.png",
+     "autofit": 0,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "presentation": 1,
+     "presentation_rect": [
+      1421.0,
+      107.0,
+      22,
+      22
+     ],
+     "patching_rect": [
+      20,
+      2828,
+      22,
+      22
+     ],
+     "varname": "o_link_img",
+     "hidden": 1
     }
    },
    {
@@ -10542,33 +11465,33 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.949,
-      0.6275,
-      0.2275,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "activeneedlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "dialcolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "needlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "textcolor": [
       0.9255,
       0.8941,
       0.8314,
-      1.0
-     ],
-     "dialcolor": [
-      0.2902,
-      0.2667,
-      0.2392,
-      1.0
-     ],
-     "needlecolor": [
-      0.3686,
-      0.3451,
-      0.3137,
-      1.0
-     ],
-     "textcolor": [
-      0.6392,
-      0.6039,
-      0.549,
       1.0
      ],
      "fontsize": 8.5,
@@ -10596,7 +11519,13 @@
      "hidden": 1,
      "annotation_name": "Opto Link",
      "annotation": "Stereo link of the opto detector. 100 % = fully linked. Range 0 to 100 %. Default 100 %.",
-     "hint": "Opto Link: Stereo link of the opto detector. 100 % = fully linked."
+     "hint": "Opto Link: Stereo link of the opto detector. 100 % = fully linked.",
+     "tricolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
     }
    },
    {
@@ -10615,6 +11544,31 @@
      "outlettype": [
       ""
      ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-647",
+     "maxclass": "fpic",
+     "pic": "dfx_knob_k22.png",
+     "autofit": 0,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "presentation": 1,
+     "presentation_rect": [
+      1471.0,
+      107.0,
+      22,
+      22
+     ],
+     "patching_rect": [
+      20,
+      2854,
+      22,
+      22
+     ],
+     "varname": "o_mix_img",
+     "hidden": 1
     }
    },
    {
@@ -10645,33 +11599,33 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.949,
-      0.6275,
-      0.2275,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "activeneedlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "dialcolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "needlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "textcolor": [
       0.9255,
       0.8941,
       0.8314,
-      1.0
-     ],
-     "dialcolor": [
-      0.2902,
-      0.2667,
-      0.2392,
-      1.0
-     ],
-     "needlecolor": [
-      0.3686,
-      0.3451,
-      0.3137,
-      1.0
-     ],
-     "textcolor": [
-      0.6392,
-      0.6039,
-      0.549,
       1.0
      ],
      "fontsize": 8.5,
@@ -10699,7 +11653,13 @@
      "hidden": 1,
      "annotation_name": "Opto Mix",
      "annotation": "Dry/wet (parallel) mix of the opto compressor. Range 0 to 100 %. Default 100 %.",
-     "hint": "Opto Mix: Dry/wet (parallel) mix of the opto compressor."
+     "hint": "Opto Mix: Dry/wet (parallel) mix of the opto compressor.",
+     "tricolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
     }
    },
    {
@@ -10718,6 +11678,31 @@
      "outlettype": [
       ""
      ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-650",
+     "maxclass": "fpic",
+     "pic": "dfx_knob_k22.png",
+     "autofit": 0,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "presentation": 1,
+     "presentation_rect": [
+      1521.0,
+      107.0,
+      22,
+      22
+     ],
+     "patching_rect": [
+      20,
+      2880,
+      22,
+      22
+     ],
+     "varname": "o_out_img",
+     "hidden": 1
     }
    },
    {
@@ -10748,33 +11733,33 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.949,
-      0.6275,
-      0.2275,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "activeneedlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "dialcolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "needlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "textcolor": [
       0.9255,
       0.8941,
       0.8314,
-      1.0
-     ],
-     "dialcolor": [
-      0.2902,
-      0.2667,
-      0.2392,
-      1.0
-     ],
-     "needlecolor": [
-      0.3686,
-      0.3451,
-      0.3137,
-      1.0
-     ],
-     "textcolor": [
-      0.6392,
-      0.6039,
-      0.549,
       1.0
      ],
      "fontsize": 8.5,
@@ -10802,7 +11787,13 @@
      "hidden": 1,
      "annotation_name": "Opto Gain",
      "annotation": "Make-up gain after the opto compressor. Range -24 to 24 dB. Default 0 dB.",
-     "hint": "Opto Gain: Make-up gain after the opto compressor."
+     "hint": "Opto Gain: Make-up gain after the opto compressor.",
+     "tricolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
     }
    },
    {
@@ -11156,6 +12147,31 @@
    },
    {
     "box": {
+     "id": "obj-653",
+     "maxclass": "fpic",
+     "pic": "dfx_knob_k22.png",
+     "autofit": 0,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "presentation": 1,
+     "presentation_rect": [
+      1221.0,
+      107.0,
+      22,
+      22
+     ],
+     "patching_rect": [
+      20,
+      2906,
+      22,
+      22
+     ],
+     "varname": "v_in_img",
+     "hidden": 1
+    }
+   },
+   {
+    "box": {
      "id": "obj-272",
      "maxclass": "live.dial",
      "patching_rect": [
@@ -11182,33 +12198,33 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.949,
-      0.6275,
-      0.2275,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "activeneedlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "dialcolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "needlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "textcolor": [
       0.9255,
       0.8941,
       0.8314,
-      1.0
-     ],
-     "dialcolor": [
-      0.2902,
-      0.2667,
-      0.2392,
-      1.0
-     ],
-     "needlecolor": [
-      0.3686,
-      0.3451,
-      0.3137,
-      1.0
-     ],
-     "textcolor": [
-      0.6392,
-      0.6039,
-      0.549,
       1.0
      ],
      "fontsize": 8.5,
@@ -11236,7 +12252,13 @@
      "hidden": 1,
      "annotation_name": "VCA Input",
      "annotation": "Level into the VCA compressor. Range -24 to 24 dB. Default 0 dB.",
-     "hint": "VCA Input: Level into the VCA compressor."
+     "hint": "VCA Input: Level into the VCA compressor.",
+     "tricolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
     }
    },
    {
@@ -11255,6 +12277,31 @@
      "outlettype": [
       ""
      ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-656",
+     "maxclass": "fpic",
+     "pic": "dfx_knob_k22.png",
+     "autofit": 0,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "presentation": 1,
+     "presentation_rect": [
+      1271.0,
+      107.0,
+      22,
+      22
+     ],
+     "patching_rect": [
+      20,
+      2932,
+      22,
+      22
+     ],
+     "varname": "v_thr_img",
+     "hidden": 1
     }
    },
    {
@@ -11285,33 +12332,33 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.949,
-      0.6275,
-      0.2275,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "activeneedlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "dialcolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "needlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "textcolor": [
       0.9255,
       0.8941,
       0.8314,
-      1.0
-     ],
-     "dialcolor": [
-      0.2902,
-      0.2667,
-      0.2392,
-      1.0
-     ],
-     "needlecolor": [
-      0.3686,
-      0.3451,
-      0.3137,
-      1.0
-     ],
-     "textcolor": [
-      0.6392,
-      0.6039,
-      0.549,
       1.0
      ],
      "fontsize": 8.5,
@@ -11339,7 +12386,13 @@
      "hidden": 1,
      "annotation_name": "VCA Threshold",
      "annotation": "VCA compressor threshold. Range -50 to 0 dB. Default -20 dB.",
-     "hint": "VCA Threshold: VCA compressor threshold."
+     "hint": "VCA Threshold: VCA compressor threshold.",
+     "tricolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
     }
    },
    {
@@ -11358,6 +12411,31 @@
      "outlettype": [
       ""
      ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-659",
+     "maxclass": "fpic",
+     "pic": "dfx_knob_k22.png",
+     "autofit": 0,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "presentation": 1,
+     "presentation_rect": [
+      1321.0,
+      107.0,
+      22,
+      22
+     ],
+     "patching_rect": [
+      20,
+      2958,
+      22,
+      22
+     ],
+     "varname": "v_rel_img",
+     "hidden": 1
     }
    },
    {
@@ -11388,33 +12466,33 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.949,
-      0.6275,
-      0.2275,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "activeneedlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "dialcolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "needlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "textcolor": [
       0.9255,
       0.8941,
       0.8314,
-      1.0
-     ],
-     "dialcolor": [
-      0.2902,
-      0.2667,
-      0.2392,
-      1.0
-     ],
-     "needlecolor": [
-      0.3686,
-      0.3451,
-      0.3137,
-      1.0
-     ],
-     "textcolor": [
-      0.6392,
-      0.6039,
-      0.549,
       1.0
      ],
      "fontsize": 8.5,
@@ -11444,7 +12522,13 @@
      "hidden": 1,
      "annotation_name": "VCA Release",
      "annotation": "VCA compressor release time. Range 0.05 to 3 s. Default 0.3 s.",
-     "hint": "VCA Release: VCA compressor release time."
+     "hint": "VCA Release: VCA compressor release time.",
+     "tricolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
     }
    },
    {
@@ -11463,6 +12547,31 @@
      "outlettype": [
       ""
      ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-662",
+     "maxclass": "fpic",
+     "pic": "dfx_knob_k22.png",
+     "autofit": 0,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "presentation": 1,
+     "presentation_rect": [
+      1371.0,
+      107.0,
+      22,
+      22
+     ],
+     "patching_rect": [
+      20,
+      2984,
+      22,
+      22
+     ],
+     "varname": "v_hpf_img",
+     "hidden": 1
     }
    },
    {
@@ -11493,33 +12602,33 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.949,
-      0.6275,
-      0.2275,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "activeneedlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "dialcolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "needlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "textcolor": [
       0.9255,
       0.8941,
       0.8314,
-      1.0
-     ],
-     "dialcolor": [
-      0.2902,
-      0.2667,
-      0.2392,
-      1.0
-     ],
-     "needlecolor": [
-      0.3686,
-      0.3451,
-      0.3137,
-      1.0
-     ],
-     "textcolor": [
-      0.6392,
-      0.6039,
-      0.549,
       1.0
      ],
      "fontsize": 8.5,
@@ -11548,7 +12657,13 @@
      "hidden": 1,
      "annotation_name": "VCA SC HPF",
      "annotation": "High-pass filter on the VCA's sidechain. Range 20 to 500 Hz. Default 20 Hz.",
-     "hint": "VCA SC HPF: High-pass filter on the VCA's sidechain."
+     "hint": "VCA SC HPF: High-pass filter on the VCA's sidechain.",
+     "tricolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
     }
    },
    {
@@ -11567,6 +12682,31 @@
      "outlettype": [
       ""
      ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-665",
+     "maxclass": "fpic",
+     "pic": "dfx_knob_k22.png",
+     "autofit": 0,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "presentation": 1,
+     "presentation_rect": [
+      1421.0,
+      107.0,
+      22,
+      22
+     ],
+     "patching_rect": [
+      20,
+      3010,
+      22,
+      22
+     ],
+     "varname": "v_link_img",
+     "hidden": 1
     }
    },
    {
@@ -11597,33 +12737,33 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.949,
-      0.6275,
-      0.2275,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "activeneedlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "dialcolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "needlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "textcolor": [
       0.9255,
       0.8941,
       0.8314,
-      1.0
-     ],
-     "dialcolor": [
-      0.2902,
-      0.2667,
-      0.2392,
-      1.0
-     ],
-     "needlecolor": [
-      0.3686,
-      0.3451,
-      0.3137,
-      1.0
-     ],
-     "textcolor": [
-      0.6392,
-      0.6039,
-      0.549,
       1.0
      ],
      "fontsize": 8.5,
@@ -11651,7 +12791,13 @@
      "hidden": 1,
      "annotation_name": "VCA Link",
      "annotation": "Stereo link of the VCA detector. 100 % = fully linked. Range 0 to 100 %. Default 100 %.",
-     "hint": "VCA Link: Stereo link of the VCA detector. 100 % = fully linked."
+     "hint": "VCA Link: Stereo link of the VCA detector. 100 % = fully linked.",
+     "tricolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
     }
    },
    {
@@ -11670,6 +12816,31 @@
      "outlettype": [
       ""
      ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-668",
+     "maxclass": "fpic",
+     "pic": "dfx_knob_k22.png",
+     "autofit": 0,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "presentation": 1,
+     "presentation_rect": [
+      1471.0,
+      107.0,
+      22,
+      22
+     ],
+     "patching_rect": [
+      20,
+      3036,
+      22,
+      22
+     ],
+     "varname": "v_mix_img",
+     "hidden": 1
     }
    },
    {
@@ -11700,33 +12871,33 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.949,
-      0.6275,
-      0.2275,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "activeneedlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "dialcolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "needlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "textcolor": [
       0.9255,
       0.8941,
       0.8314,
-      1.0
-     ],
-     "dialcolor": [
-      0.2902,
-      0.2667,
-      0.2392,
-      1.0
-     ],
-     "needlecolor": [
-      0.3686,
-      0.3451,
-      0.3137,
-      1.0
-     ],
-     "textcolor": [
-      0.6392,
-      0.6039,
-      0.549,
       1.0
      ],
      "fontsize": 8.5,
@@ -11754,7 +12925,13 @@
      "hidden": 1,
      "annotation_name": "VCA Mix",
      "annotation": "Dry/wet (parallel) mix of the VCA compressor. Range 0 to 100 %. Default 100 %.",
-     "hint": "VCA Mix: Dry/wet (parallel) mix of the VCA compressor."
+     "hint": "VCA Mix: Dry/wet (parallel) mix of the VCA compressor.",
+     "tricolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
     }
    },
    {
@@ -11773,6 +12950,31 @@
      "outlettype": [
       ""
      ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-671",
+     "maxclass": "fpic",
+     "pic": "dfx_knob_k22.png",
+     "autofit": 0,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "presentation": 1,
+     "presentation_rect": [
+      1521.0,
+      107.0,
+      22,
+      22
+     ],
+     "patching_rect": [
+      20,
+      3062,
+      22,
+      22
+     ],
+     "varname": "v_out_img",
+     "hidden": 1
     }
    },
    {
@@ -11803,33 +13005,33 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.949,
-      0.6275,
-      0.2275,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "activeneedlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "dialcolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "needlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "textcolor": [
       0.9255,
       0.8941,
       0.8314,
-      1.0
-     ],
-     "dialcolor": [
-      0.2902,
-      0.2667,
-      0.2392,
-      1.0
-     ],
-     "needlecolor": [
-      0.3686,
-      0.3451,
-      0.3137,
-      1.0
-     ],
-     "textcolor": [
-      0.6392,
-      0.6039,
-      0.549,
       1.0
      ],
      "fontsize": 8.5,
@@ -11857,7 +13059,13 @@
      "hidden": 1,
      "annotation_name": "VCA Output",
      "annotation": "Level out of the VCA compressor. Range -24 to 24 dB. Default 0 dB.",
-     "hint": "VCA Output: Level out of the VCA compressor."
+     "hint": "VCA Output: Level out of the VCA compressor.",
+     "tricolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
     }
    },
    {
@@ -12739,6 +13947,31 @@
    },
    {
     "box": {
+     "id": "obj-674",
+     "maxclass": "fpic",
+     "pic": "dfx_knob_k22.png",
+     "autofit": 0,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "presentation": 1,
+     "presentation_rect": [
+      1221.0,
+      107.0,
+      22,
+      22
+     ],
+     "patching_rect": [
+      20,
+      3088,
+      22,
+      22
+     ],
+     "varname": "g_thr_img",
+     "hidden": 1
+    }
+   },
+   {
+    "box": {
      "id": "obj-300",
      "maxclass": "live.dial",
      "patching_rect": [
@@ -12765,33 +13998,33 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.949,
-      0.6275,
-      0.2275,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "activeneedlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "dialcolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "needlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "textcolor": [
       0.9255,
       0.8941,
       0.8314,
-      1.0
-     ],
-     "dialcolor": [
-      0.2902,
-      0.2667,
-      0.2392,
-      1.0
-     ],
-     "needlecolor": [
-      0.3686,
-      0.3451,
-      0.3137,
-      1.0
-     ],
-     "textcolor": [
-      0.6392,
-      0.6039,
-      0.549,
       1.0
      ],
      "fontsize": 8.5,
@@ -12819,7 +14052,13 @@
      "hidden": 1,
      "annotation_name": "Gate Threshold",
      "annotation": "Gate opening threshold. It closes 4 dB below (hysteresis). Range -80 to 0 dB. Default -40 dB.",
-     "hint": "Gate Threshold: Gate opening threshold. It closes 4 dB below (hysteresis)."
+     "hint": "Gate Threshold: Gate opening threshold. It closes 4 dB below (hysteresis).",
+     "tricolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
     }
    },
    {
@@ -12838,6 +14077,31 @@
      "outlettype": [
       ""
      ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-677",
+     "maxclass": "fpic",
+     "pic": "dfx_knob_k22.png",
+     "autofit": 0,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "presentation": 1,
+     "presentation_rect": [
+      1271.0,
+      107.0,
+      22,
+      22
+     ],
+     "patching_rect": [
+      20,
+      3114,
+      22,
+      22
+     ],
+     "varname": "g_att_img",
+     "hidden": 1
     }
    },
    {
@@ -12868,33 +14132,33 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.949,
-      0.6275,
-      0.2275,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "activeneedlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "dialcolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "needlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "textcolor": [
       0.9255,
       0.8941,
       0.8314,
-      1.0
-     ],
-     "dialcolor": [
-      0.2902,
-      0.2667,
-      0.2392,
-      1.0
-     ],
-     "needlecolor": [
-      0.3686,
-      0.3451,
-      0.3137,
-      1.0
-     ],
-     "textcolor": [
-      0.6392,
-      0.6039,
-      0.549,
       1.0
      ],
      "fontsize": 8.5,
@@ -12923,7 +14187,13 @@
      "hidden": 1,
      "annotation_name": "Gate Attack",
      "annotation": "Gate attack (opening) time. Range 0.1 to 50 ms. Default 1 ms.",
-     "hint": "Gate Attack: Gate attack (opening) time."
+     "hint": "Gate Attack: Gate attack (opening) time.",
+     "tricolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
     }
    },
    {
@@ -12942,6 +14212,31 @@
      "outlettype": [
       ""
      ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-680",
+     "maxclass": "fpic",
+     "pic": "dfx_knob_k22.png",
+     "autofit": 0,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "presentation": 1,
+     "presentation_rect": [
+      1321.0,
+      107.0,
+      22,
+      22
+     ],
+     "patching_rect": [
+      20,
+      3140,
+      22,
+      22
+     ],
+     "varname": "g_hold_img",
+     "hidden": 1
     }
    },
    {
@@ -12972,33 +14267,33 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.949,
-      0.6275,
-      0.2275,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "activeneedlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "dialcolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "needlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "textcolor": [
       0.9255,
       0.8941,
       0.8314,
-      1.0
-     ],
-     "dialcolor": [
-      0.2902,
-      0.2667,
-      0.2392,
-      1.0
-     ],
-     "needlecolor": [
-      0.3686,
-      0.3451,
-      0.3137,
-      1.0
-     ],
-     "textcolor": [
-      0.6392,
-      0.6039,
-      0.549,
       1.0
      ],
      "fontsize": 8.5,
@@ -13027,7 +14322,13 @@
      "hidden": 1,
      "annotation_name": "Gate Hold",
      "annotation": "Time the gate stays open after the key falls below threshold. Range 0 to 500 ms. Default 20 ms.",
-     "hint": "Gate Hold: Time the gate stays open after the key falls below threshold."
+     "hint": "Gate Hold: Time the gate stays open after the key falls below threshold.",
+     "tricolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
     }
    },
    {
@@ -13046,6 +14347,31 @@
      "outlettype": [
       ""
      ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-683",
+     "maxclass": "fpic",
+     "pic": "dfx_knob_k22.png",
+     "autofit": 0,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "presentation": 1,
+     "presentation_rect": [
+      1371.0,
+      107.0,
+      22,
+      22
+     ],
+     "patching_rect": [
+      20,
+      3166,
+      22,
+      22
+     ],
+     "varname": "g_rel_img",
+     "hidden": 1
     }
    },
    {
@@ -13076,33 +14402,33 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.949,
-      0.6275,
-      0.2275,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "activeneedlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "dialcolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "needlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "textcolor": [
       0.9255,
       0.8941,
       0.8314,
-      1.0
-     ],
-     "dialcolor": [
-      0.2902,
-      0.2667,
-      0.2392,
-      1.0
-     ],
-     "needlecolor": [
-      0.3686,
-      0.3451,
-      0.3137,
-      1.0
-     ],
-     "textcolor": [
-      0.6392,
-      0.6039,
-      0.549,
       1.0
      ],
      "fontsize": 8.5,
@@ -13131,7 +14457,13 @@
      "hidden": 1,
      "annotation_name": "Gate Release",
      "annotation": "Gate release (closing) time. Range 5 to 2000 ms. Default 150 ms.",
-     "hint": "Gate Release: Gate release (closing) time."
+     "hint": "Gate Release: Gate release (closing) time.",
+     "tricolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
     }
    },
    {
@@ -13150,6 +14482,31 @@
      "outlettype": [
       ""
      ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-686",
+     "maxclass": "fpic",
+     "pic": "dfx_knob_k22.png",
+     "autofit": 0,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "presentation": 1,
+     "presentation_rect": [
+      1421.0,
+      107.0,
+      22,
+      22
+     ],
+     "patching_rect": [
+      20,
+      3192,
+      22,
+      22
+     ],
+     "varname": "g_range_img",
+     "hidden": 1
     }
    },
    {
@@ -13180,33 +14537,33 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.949,
-      0.6275,
-      0.2275,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "activeneedlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "dialcolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "needlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "textcolor": [
       0.9255,
       0.8941,
       0.8314,
-      1.0
-     ],
-     "dialcolor": [
-      0.2902,
-      0.2667,
-      0.2392,
-      1.0
-     ],
-     "needlecolor": [
-      0.3686,
-      0.3451,
-      0.3137,
-      1.0
-     ],
-     "textcolor": [
-      0.6392,
-      0.6039,
-      0.549,
       1.0
      ],
      "fontsize": 8.5,
@@ -13234,7 +14591,13 @@
      "hidden": 1,
      "annotation_name": "Gate Range",
      "annotation": "Attenuation when closed. -80 dB is fully closed. Range -80 to 0 dB. Default -80 dB.",
-     "hint": "Gate Range: Attenuation when closed. -80 dB is fully closed."
+     "hint": "Gate Range: Attenuation when closed. -80 dB is fully closed.",
+     "tricolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
     }
    },
    {
@@ -13253,6 +14616,31 @@
      "outlettype": [
       ""
      ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-689",
+     "maxclass": "fpic",
+     "pic": "dfx_knob_k22.png",
+     "autofit": 0,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "presentation": 1,
+     "presentation_rect": [
+      1471.0,
+      107.0,
+      22,
+      22
+     ],
+     "patching_rect": [
+      20,
+      3218,
+      22,
+      22
+     ],
+     "varname": "g_hpf_img",
+     "hidden": 1
     }
    },
    {
@@ -13283,33 +14671,33 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.949,
-      0.6275,
-      0.2275,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "activeneedlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "dialcolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "needlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "textcolor": [
       0.9255,
       0.8941,
       0.8314,
-      1.0
-     ],
-     "dialcolor": [
-      0.2902,
-      0.2667,
-      0.2392,
-      1.0
-     ],
-     "needlecolor": [
-      0.3686,
-      0.3451,
-      0.3137,
-      1.0
-     ],
-     "textcolor": [
-      0.6392,
-      0.6039,
-      0.549,
       1.0
      ],
      "fontsize": 8.5,
@@ -13338,7 +14726,13 @@
      "hidden": 1,
      "annotation_name": "Gate Key HPF",
      "annotation": "High-pass filter on the gate key. Range 20 to 2000 Hz. Default 20 Hz.",
-     "hint": "Gate Key HPF: High-pass filter on the gate key."
+     "hint": "Gate Key HPF: High-pass filter on the gate key.",
+     "tricolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
     }
    },
    {
@@ -13357,6 +14751,31 @@
      "outlettype": [
       ""
      ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-692",
+     "maxclass": "fpic",
+     "pic": "dfx_knob_k22.png",
+     "autofit": 0,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "presentation": 1,
+     "presentation_rect": [
+      1521.0,
+      107.0,
+      22,
+      22
+     ],
+     "patching_rect": [
+      20,
+      3244,
+      22,
+      22
+     ],
+     "varname": "g_lpf_img",
+     "hidden": 1
     }
    },
    {
@@ -13387,33 +14806,33 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.949,
-      0.6275,
-      0.2275,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "activeneedlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "dialcolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "needlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "textcolor": [
       0.9255,
       0.8941,
       0.8314,
-      1.0
-     ],
-     "dialcolor": [
-      0.2902,
-      0.2667,
-      0.2392,
-      1.0
-     ],
-     "needlecolor": [
-      0.3686,
-      0.3451,
-      0.3137,
-      1.0
-     ],
-     "textcolor": [
-      0.6392,
-      0.6039,
-      0.549,
       1.0
      ],
      "fontsize": 8.5,
@@ -13442,7 +14861,13 @@
      "hidden": 1,
      "annotation_name": "Gate Key LPF",
      "annotation": "Low-pass filter on the gate key. Range 200 to 20000 Hz. Default 20000 Hz.",
-     "hint": "Gate Key LPF: Low-pass filter on the gate key."
+     "hint": "Gate Key LPF: Low-pass filter on the gate key.",
+     "tricolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
     }
    },
    {
@@ -13694,7 +15119,7 @@
       200,
       22
      ],
-     "text": "script show t_in, script show t_drive, script show t_bias, script show t_tone, script show t_mix, script show t_out, script show t_auto, script show pg0_7, script hide o_in, script hide o_pr, script hide o_emph, script hide o_hpf, script hide o_link, script hide o_mix, script hide o_out, script hide o_mode, script hide pg1_8, script hide o_src, script hide pg1_10, script hide v_in, script hide v_thr, script hide v_rel, script hide v_hpf, script hide v_link, script hide v_mix, script hide v_out, script hide v_ratio, script hide v_att, script hide v_knee, script hide v_thrust, script hide v_type, script hide v_auto, script hide v_src, script hide g_thr, script hide g_att, script hide g_hold, script hide g_rel, script hide g_range, script hide g_hpf, script hide g_lpf, script hide pg3_7, script hide g_src, script hide pg3_9",
+     "text": "script show t_in, script show t_drive, script show t_bias, script show t_tone, script show t_mix, script show t_out, script show t_auto, script show pg0_7, script hide o_in, script hide o_pr, script hide o_emph, script hide o_hpf, script hide o_link, script hide o_mix, script hide o_out, script hide o_mode, script hide pg1_8, script hide o_src, script hide pg1_10, script hide v_in, script hide v_thr, script hide v_rel, script hide v_hpf, script hide v_link, script hide v_mix, script hide v_out, script hide v_ratio, script hide v_att, script hide v_knee, script hide v_thrust, script hide v_type, script hide v_auto, script hide v_src, script hide g_thr, script hide g_att, script hide g_hold, script hide g_rel, script hide g_range, script hide g_hpf, script hide g_lpf, script hide pg3_7, script hide g_src, script hide pg3_9, script show t_in_img, script show t_drive_img, script show t_bias_img, script show t_tone_img, script show t_mix_img, script show t_out_img, script hide o_in_img, script hide o_pr_img, script hide o_emph_img, script hide o_hpf_img, script hide o_link_img, script hide o_mix_img, script hide o_out_img, script hide v_in_img, script hide v_thr_img, script hide v_rel_img, script hide v_hpf_img, script hide v_link_img, script hide v_mix_img, script hide v_out_img, script hide g_thr_img, script hide g_att_img, script hide g_hold_img, script hide g_rel_img, script hide g_range_img, script hide g_hpf_img, script hide g_lpf_img",
      "numinlets": 2,
      "numoutlets": 1,
      "outlettype": [
@@ -13712,7 +15137,7 @@
       200,
       22
      ],
-     "text": "script hide t_in, script hide t_drive, script hide t_bias, script hide t_tone, script hide t_mix, script hide t_out, script hide t_auto, script hide pg0_7, script show o_in, script show o_pr, script show o_emph, script show o_hpf, script show o_link, script show o_mix, script show o_out, script show o_mode, script show pg1_8, script show o_src, script show pg1_10, script hide v_in, script hide v_thr, script hide v_rel, script hide v_hpf, script hide v_link, script hide v_mix, script hide v_out, script hide v_ratio, script hide v_att, script hide v_knee, script hide v_thrust, script hide v_type, script hide v_auto, script hide v_src, script hide g_thr, script hide g_att, script hide g_hold, script hide g_rel, script hide g_range, script hide g_hpf, script hide g_lpf, script hide pg3_7, script hide g_src, script hide pg3_9",
+     "text": "script hide t_in, script hide t_drive, script hide t_bias, script hide t_tone, script hide t_mix, script hide t_out, script hide t_auto, script hide pg0_7, script show o_in, script show o_pr, script show o_emph, script show o_hpf, script show o_link, script show o_mix, script show o_out, script show o_mode, script show pg1_8, script show o_src, script show pg1_10, script hide v_in, script hide v_thr, script hide v_rel, script hide v_hpf, script hide v_link, script hide v_mix, script hide v_out, script hide v_ratio, script hide v_att, script hide v_knee, script hide v_thrust, script hide v_type, script hide v_auto, script hide v_src, script hide g_thr, script hide g_att, script hide g_hold, script hide g_rel, script hide g_range, script hide g_hpf, script hide g_lpf, script hide pg3_7, script hide g_src, script hide pg3_9, script hide t_in_img, script hide t_drive_img, script hide t_bias_img, script hide t_tone_img, script hide t_mix_img, script hide t_out_img, script show o_in_img, script show o_pr_img, script show o_emph_img, script show o_hpf_img, script show o_link_img, script show o_mix_img, script show o_out_img, script hide v_in_img, script hide v_thr_img, script hide v_rel_img, script hide v_hpf_img, script hide v_link_img, script hide v_mix_img, script hide v_out_img, script hide g_thr_img, script hide g_att_img, script hide g_hold_img, script hide g_rel_img, script hide g_range_img, script hide g_hpf_img, script hide g_lpf_img",
      "numinlets": 2,
      "numoutlets": 1,
      "outlettype": [
@@ -13730,7 +15155,7 @@
       200,
       22
      ],
-     "text": "script hide t_in, script hide t_drive, script hide t_bias, script hide t_tone, script hide t_mix, script hide t_out, script hide t_auto, script hide pg0_7, script hide o_in, script hide o_pr, script hide o_emph, script hide o_hpf, script hide o_link, script hide o_mix, script hide o_out, script hide o_mode, script hide pg1_8, script hide o_src, script hide pg1_10, script show v_in, script show v_thr, script show v_rel, script show v_hpf, script show v_link, script show v_mix, script show v_out, script show v_ratio, script show v_att, script show v_knee, script show v_thrust, script show v_type, script show v_auto, script show v_src, script hide g_thr, script hide g_att, script hide g_hold, script hide g_rel, script hide g_range, script hide g_hpf, script hide g_lpf, script hide pg3_7, script hide g_src, script hide pg3_9",
+     "text": "script hide t_in, script hide t_drive, script hide t_bias, script hide t_tone, script hide t_mix, script hide t_out, script hide t_auto, script hide pg0_7, script hide o_in, script hide o_pr, script hide o_emph, script hide o_hpf, script hide o_link, script hide o_mix, script hide o_out, script hide o_mode, script hide pg1_8, script hide o_src, script hide pg1_10, script show v_in, script show v_thr, script show v_rel, script show v_hpf, script show v_link, script show v_mix, script show v_out, script show v_ratio, script show v_att, script show v_knee, script show v_thrust, script show v_type, script show v_auto, script show v_src, script hide g_thr, script hide g_att, script hide g_hold, script hide g_rel, script hide g_range, script hide g_hpf, script hide g_lpf, script hide pg3_7, script hide g_src, script hide pg3_9, script hide t_in_img, script hide t_drive_img, script hide t_bias_img, script hide t_tone_img, script hide t_mix_img, script hide t_out_img, script hide o_in_img, script hide o_pr_img, script hide o_emph_img, script hide o_hpf_img, script hide o_link_img, script hide o_mix_img, script hide o_out_img, script show v_in_img, script show v_thr_img, script show v_rel_img, script show v_hpf_img, script show v_link_img, script show v_mix_img, script show v_out_img, script hide g_thr_img, script hide g_att_img, script hide g_hold_img, script hide g_rel_img, script hide g_range_img, script hide g_hpf_img, script hide g_lpf_img",
      "numinlets": 2,
      "numoutlets": 1,
      "outlettype": [
@@ -13748,7 +15173,7 @@
       200,
       22
      ],
-     "text": "script hide t_in, script hide t_drive, script hide t_bias, script hide t_tone, script hide t_mix, script hide t_out, script hide t_auto, script hide pg0_7, script hide o_in, script hide o_pr, script hide o_emph, script hide o_hpf, script hide o_link, script hide o_mix, script hide o_out, script hide o_mode, script hide pg1_8, script hide o_src, script hide pg1_10, script hide v_in, script hide v_thr, script hide v_rel, script hide v_hpf, script hide v_link, script hide v_mix, script hide v_out, script hide v_ratio, script hide v_att, script hide v_knee, script hide v_thrust, script hide v_type, script hide v_auto, script hide v_src, script show g_thr, script show g_att, script show g_hold, script show g_rel, script show g_range, script show g_hpf, script show g_lpf, script show pg3_7, script show g_src, script show pg3_9",
+     "text": "script hide t_in, script hide t_drive, script hide t_bias, script hide t_tone, script hide t_mix, script hide t_out, script hide t_auto, script hide pg0_7, script hide o_in, script hide o_pr, script hide o_emph, script hide o_hpf, script hide o_link, script hide o_mix, script hide o_out, script hide o_mode, script hide pg1_8, script hide o_src, script hide pg1_10, script hide v_in, script hide v_thr, script hide v_rel, script hide v_hpf, script hide v_link, script hide v_mix, script hide v_out, script hide v_ratio, script hide v_att, script hide v_knee, script hide v_thrust, script hide v_type, script hide v_auto, script hide v_src, script show g_thr, script show g_att, script show g_hold, script show g_rel, script show g_range, script show g_hpf, script show g_lpf, script show pg3_7, script show g_src, script show pg3_9, script hide t_in_img, script hide t_drive_img, script hide t_bias_img, script hide t_tone_img, script hide t_mix_img, script hide t_out_img, script hide o_in_img, script hide o_pr_img, script hide o_emph_img, script hide o_hpf_img, script hide o_link_img, script hide o_mix_img, script hide o_out_img, script hide v_in_img, script hide v_thr_img, script hide v_rel_img, script hide v_hpf_img, script hide v_link_img, script hide v_mix_img, script hide v_out_img, script show g_thr_img, script show g_att_img, script show g_hold_img, script show g_rel_img, script show g_range_img, script show g_hpf_img, script show g_lpf_img",
      "numinlets": 2,
      "numoutlets": 1,
      "outlettype": [
@@ -13774,10 +15199,10 @@
       169
      ],
      "bgcolor": [
-      0.0784,
-      0.0745,
-      0.0706,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "rounded": 0,
      "numinlets": 1,
@@ -13803,10 +15228,10 @@
       161
      ],
      "bgcolor": [
-      0.1294,
-      0.1216,
-      0.1137,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "rounded": 4,
      "numinlets": 1,
@@ -13814,10 +15239,10 @@
      "background": 1,
      "border": 1,
      "bordercolor": [
-      0.3098,
-      0.2824,
-      0.2549,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ]
     }
    },
@@ -14267,6 +15692,30 @@
    },
    {
     "box": {
+     "id": "obj-695",
+     "maxclass": "fpic",
+     "pic": "dfx_knob_k26.png",
+     "autofit": 0,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "presentation": 1,
+     "presentation_rect": [
+      1955.0,
+      128.0,
+      26,
+      26
+     ],
+     "patching_rect": [
+      20,
+      3270,
+      26,
+      26
+     ],
+     "varname": "par_l_img"
+    }
+   },
+   {
+    "box": {
      "id": "obj-341",
      "maxclass": "live.dial",
      "patching_rect": [
@@ -14293,33 +15742,33 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.949,
-      0.6275,
-      0.2275,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "activeneedlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "dialcolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "needlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "textcolor": [
       0.9255,
       0.8941,
       0.8314,
-      1.0
-     ],
-     "dialcolor": [
-      0.2902,
-      0.2667,
-      0.2392,
-      1.0
-     ],
-     "needlecolor": [
-      0.3686,
-      0.3451,
-      0.3137,
-      1.0
-     ],
-     "textcolor": [
-      0.6392,
-      0.6039,
-      0.549,
       1.0
      ],
      "fontsize": 8.5,
@@ -14346,7 +15795,13 @@
      },
      "annotation_name": "Parallel LPF Level",
      "annotation": "Low-pass level in the PARALLEL sum. Used only in PARALLEL. Range -40 to 6 dB. Default 0 dB.",
-     "hint": "Parallel LPF Level: Low-pass level in the PARALLEL sum. Used only in PARALLEL."
+     "hint": "Parallel LPF Level: Low-pass level in the PARALLEL sum. Used only in PARALLEL.",
+     "tricolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
     }
    },
    {
@@ -14365,6 +15820,30 @@
      "outlettype": [
       ""
      ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-698",
+     "maxclass": "fpic",
+     "pic": "dfx_knob_k26.png",
+     "autofit": 0,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "presentation": 1,
+     "presentation_rect": [
+      2015.0,
+      128.0,
+      26,
+      26
+     ],
+     "patching_rect": [
+      20,
+      3296,
+      26,
+      26
+     ],
+     "varname": "par_h_img"
     }
    },
    {
@@ -14395,33 +15874,33 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.949,
-      0.6275,
-      0.2275,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "activeneedlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "dialcolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "needlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "textcolor": [
       0.9255,
       0.8941,
       0.8314,
-      1.0
-     ],
-     "dialcolor": [
-      0.2902,
-      0.2667,
-      0.2392,
-      1.0
-     ],
-     "needlecolor": [
-      0.3686,
-      0.3451,
-      0.3137,
-      1.0
-     ],
-     "textcolor": [
-      0.6392,
-      0.6039,
-      0.549,
       1.0
      ],
      "fontsize": 8.5,
@@ -14448,7 +15927,13 @@
      },
      "annotation_name": "Parallel HPF Level",
      "annotation": "High-pass level in the PARALLEL sum. Used only in PARALLEL. Range -40 to 6 dB. Default 0 dB.",
-     "hint": "Parallel HPF Level: High-pass level in the PARALLEL sum. Used only in PARALLEL."
+     "hint": "Parallel HPF Level: High-pass level in the PARALLEL sum. Used only in PARALLEL.",
+     "tricolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
     }
    },
    {
@@ -14467,6 +15952,30 @@
      "outlettype": [
       ""
      ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-701",
+     "maxclass": "fpic",
+     "pic": "dfx_knob_k26.png",
+     "autofit": 0,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "presentation": 1,
+     "presentation_rect": [
+      2075.0,
+      128.0,
+      26,
+      26
+     ],
+     "patching_rect": [
+      20,
+      3322,
+      26,
+      26
+     ],
+     "varname": "par_b_img"
     }
    },
    {
@@ -14497,33 +16006,33 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.949,
-      0.6275,
-      0.2275,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "activeneedlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "dialcolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "needlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "textcolor": [
       0.9255,
       0.8941,
       0.8314,
-      1.0
-     ],
-     "dialcolor": [
-      0.2902,
-      0.2667,
-      0.2392,
-      1.0
-     ],
-     "needlecolor": [
-      0.3686,
-      0.3451,
-      0.3137,
-      1.0
-     ],
-     "textcolor": [
-      0.6392,
-      0.6039,
-      0.549,
       1.0
      ],
      "fontsize": 8.5,
@@ -14550,7 +16059,13 @@
      },
      "annotation_name": "Parallel BPF Level",
      "annotation": "Band-pass level in the PARALLEL sum and in HYBRID. Range -40 to 6 dB. Default 0 dB.",
-     "hint": "Parallel BPF Level: Band-pass level in the PARALLEL sum and in HYBRID."
+     "hint": "Parallel BPF Level: Band-pass level in the PARALLEL sum and in HYBRID.",
+     "tricolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
     }
    },
    {
@@ -14621,10 +16136,10 @@
       17
      ],
      "bgcolor": [
-      0.1686,
-      0.1569,
-      0.1451,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "rounded": 2,
      "numinlets": 1,
@@ -14650,10 +16165,10 @@
       17
      ],
      "bgcolor": [
-      0.1686,
-      0.1569,
-      0.1451,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "rounded": 2,
      "numinlets": 1,
@@ -14679,10 +16194,10 @@
       17
      ],
      "bgcolor": [
-      0.1686,
-      0.1569,
-      0.1451,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "rounded": 2,
      "numinlets": 1,
@@ -14708,10 +16223,10 @@
       17
      ],
      "bgcolor": [
-      0.1686,
-      0.1569,
-      0.1451,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "rounded": 2,
      "numinlets": 1,
@@ -14737,10 +16252,10 @@
       17
      ],
      "bgcolor": [
-      0.1686,
-      0.1569,
-      0.1451,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "rounded": 2,
      "numinlets": 1,
@@ -14766,10 +16281,10 @@
       17
      ],
      "bgcolor": [
-      0.1686,
-      0.1569,
-      0.1451,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "rounded": 2,
      "numinlets": 1,
@@ -14795,10 +16310,10 @@
       1
      ],
      "bgcolor": [
-      0.4863,
-      0.4471,
-      0.4,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "rounded": 2,
      "numinlets": 1,
@@ -14855,10 +16370,10 @@
       1
      ],
      "bgcolor": [
-      0.3098,
-      0.2824,
-      0.2549,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "rounded": 2,
      "numinlets": 1,
@@ -15541,7 +17056,7 @@
       200,
       22
      ],
-     "text": "activedialcolor 0.2902 0.2667 0.2392 1, activeneedlecolor 0.3686 0.3451 0.3137 1",
+     "text": "textcolor 0.3686 0.3451 0.3137 1",
      "numinlets": 2,
      "numoutlets": 1,
      "outlettype": [
@@ -15595,7 +17110,7 @@
       200,
       22
      ],
-     "text": "activedialcolor 0.949 0.6275 0.2275 1, activeneedlecolor 0.9255 0.8941 0.8314 1",
+     "text": "textcolor 0.9255 0.8941 0.8314 1",
      "numinlets": 2,
      "numoutlets": 1,
      "outlettype": [
@@ -15669,7 +17184,7 @@
       200,
       22
      ],
-     "text": "activedialcolor 0.2902 0.2667 0.2392 1, activeneedlecolor 0.3686 0.3451 0.3137 1",
+     "text": "textcolor 0.3686 0.3451 0.3137 1",
      "numinlets": 2,
      "numoutlets": 1,
      "outlettype": [
@@ -15723,7 +17238,7 @@
       200,
       22
      ],
-     "text": "activedialcolor 0.949 0.6275 0.2275 1, activeneedlecolor 0.9255 0.8941 0.8314 1",
+     "text": "textcolor 0.9255 0.8941 0.8314 1",
      "numinlets": 2,
      "numoutlets": 1,
      "outlettype": [
@@ -15815,7 +17330,7 @@
       200,
       22
      ],
-     "text": "activedialcolor 0.2902 0.2667 0.2392 1, activeneedlecolor 0.3686 0.3451 0.3137 1",
+     "text": "textcolor 0.3686 0.3451 0.3137 1",
      "numinlets": 2,
      "numoutlets": 1,
      "outlettype": [
@@ -15869,7 +17384,7 @@
       200,
       22
      ],
-     "text": "activedialcolor 0.949 0.6275 0.2275 1, activeneedlecolor 0.9255 0.8941 0.8314 1",
+     "text": "textcolor 0.9255 0.8941 0.8314 1",
      "numinlets": 2,
      "numoutlets": 1,
      "outlettype": [
@@ -15943,7 +17458,7 @@
       200,
       22
      ],
-     "text": "activedialcolor 0.2902 0.2667 0.2392 1, activeneedlecolor 0.3686 0.3451 0.3137 1",
+     "text": "textcolor 0.3686 0.3451 0.3137 1",
      "numinlets": 2,
      "numoutlets": 1,
      "outlettype": [
@@ -15961,7 +17476,7 @@
       200,
       22
      ],
-     "text": "activedialcolor 0.949 0.6275 0.2275 1, activeneedlecolor 0.9255 0.8941 0.8314 1",
+     "text": "textcolor 0.9255 0.8941 0.8314 1",
      "numinlets": 2,
      "numoutlets": 1,
      "outlettype": [
@@ -16035,7 +17550,7 @@
       200,
       22
      ],
-     "text": "activedialcolor 0.2902 0.2667 0.2392 1, activeneedlecolor 0.3686 0.3451 0.3137 1",
+     "text": "textcolor 0.3686 0.3451 0.3137 1",
      "numinlets": 2,
      "numoutlets": 1,
      "outlettype": [
@@ -16053,7 +17568,7 @@
       200,
       22
      ],
-     "text": "activedialcolor 0.949 0.6275 0.2275 1, activeneedlecolor 0.9255 0.8941 0.8314 1",
+     "text": "textcolor 0.9255 0.8941 0.8314 1",
      "numinlets": 2,
      "numoutlets": 1,
      "outlettype": [
@@ -16311,7 +17826,7 @@
       200,
       22
      ],
-     "text": "activedialcolor 0.2902 0.2667 0.2392 1, activeneedlecolor 0.3686 0.3451 0.3137 1",
+     "text": "textcolor 0.3686 0.3451 0.3137 1",
      "numinlets": 2,
      "numoutlets": 1,
      "outlettype": [
@@ -16329,7 +17844,7 @@
       200,
       22
      ],
-     "text": "activedialcolor 0.949 0.6275 0.2275 1, activeneedlecolor 0.9255 0.8941 0.8314 1",
+     "text": "textcolor 0.9255 0.8941 0.8314 1",
      "numinlets": 2,
      "numoutlets": 1,
      "outlettype": [
@@ -16403,7 +17918,7 @@
       200,
       22
      ],
-     "text": "activedialcolor 0.2902 0.2667 0.2392 1, activeneedlecolor 0.3686 0.3451 0.3137 1",
+     "text": "textcolor 0.3686 0.3451 0.3137 1",
      "numinlets": 2,
      "numoutlets": 1,
      "outlettype": [
@@ -16421,7 +17936,7 @@
       200,
       22
      ],
-     "text": "activedialcolor 0.949 0.6275 0.2275 1, activeneedlecolor 0.9255 0.8941 0.8314 1",
+     "text": "textcolor 0.9255 0.8941 0.8314 1",
      "numinlets": 2,
      "numoutlets": 1,
      "outlettype": [
@@ -16459,7 +17974,7 @@
       200,
       22
      ],
-     "text": "activedialcolor 0.2902 0.2667 0.2392 1, activeneedlecolor 0.3686 0.3451 0.3137 1",
+     "text": "textcolor 0.3686 0.3451 0.3137 1",
      "numinlets": 2,
      "numoutlets": 1,
      "outlettype": [
@@ -16495,7 +18010,7 @@
       200,
       22
      ],
-     "text": "activedialcolor 0.949 0.6275 0.2275 1, activeneedlecolor 0.9255 0.8941 0.8314 1",
+     "text": "textcolor 0.9255 0.8941 0.8314 1",
      "numinlets": 2,
      "numoutlets": 1,
      "outlettype": [
@@ -16551,7 +18066,7 @@
       200,
       22
      ],
-     "text": "activedialcolor 0.2902 0.2667 0.2392 1, activeneedlecolor 0.3686 0.3451 0.3137 1",
+     "text": "textcolor 0.3686 0.3451 0.3137 1",
      "numinlets": 2,
      "numoutlets": 1,
      "outlettype": [
@@ -16587,7 +18102,7 @@
       200,
       22
      ],
-     "text": "activedialcolor 0.949 0.6275 0.2275 1, activeneedlecolor 0.9255 0.8941 0.8314 1",
+     "text": "textcolor 0.9255 0.8941 0.8314 1",
      "numinlets": 2,
      "numoutlets": 1,
      "outlettype": [
@@ -16643,7 +18158,7 @@
       200,
       22
      ],
-     "text": "activedialcolor 0.2902 0.2667 0.2392 1, activeneedlecolor 0.3686 0.3451 0.3137 1",
+     "text": "textcolor 0.3686 0.3451 0.3137 1",
      "numinlets": 2,
      "numoutlets": 1,
      "outlettype": [
@@ -16715,7 +18230,7 @@
       200,
       22
      ],
-     "text": "activedialcolor 0.949 0.6275 0.2275 1, activeneedlecolor 0.9255 0.8941 0.8314 1",
+     "text": "textcolor 0.9255 0.8941 0.8314 1",
      "numinlets": 2,
      "numoutlets": 1,
      "outlettype": [
@@ -16807,7 +18322,7 @@
       200,
       22
      ],
-     "text": "activedialcolor 0.2902 0.2667 0.2392 1, activeneedlecolor 0.3686 0.3451 0.3137 1",
+     "text": "textcolor 0.3686 0.3451 0.3137 1",
      "numinlets": 2,
      "numoutlets": 1,
      "outlettype": [
@@ -16843,7 +18358,7 @@
       200,
       22
      ],
-     "text": "activedialcolor 0.949 0.6275 0.2275 1, activeneedlecolor 0.9255 0.8941 0.8314 1",
+     "text": "textcolor 0.9255 0.8941 0.8314 1",
      "numinlets": 2,
      "numoutlets": 1,
      "outlettype": [
@@ -16887,10 +18402,10 @@
       169
      ],
      "bgcolor": [
-      0.0784,
-      0.0745,
-      0.0706,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "rounded": 0,
      "numinlets": 1,
@@ -16916,10 +18431,10 @@
       161
      ],
      "bgcolor": [
-      0.1294,
-      0.1216,
-      0.1137,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "rounded": 4,
      "numinlets": 1,
@@ -16927,10 +18442,10 @@
      "background": 1,
      "border": 1,
      "bordercolor": [
-      0.3098,
-      0.2824,
-      0.2549,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ]
     }
    },
@@ -16952,10 +18467,10 @@
       17
      ],
      "bgcolor": [
-      0.1686,
-      0.1569,
-      0.1451,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "rounded": 2,
      "numinlets": 1,
@@ -17338,10 +18853,10 @@
       1
      ],
      "bgcolor": [
-      0.3098,
-      0.2824,
-      0.2549,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "rounded": 2,
      "numinlets": 1,
@@ -17709,10 +19224,10 @@
       169
      ],
      "bgcolor": [
-      0.0784,
-      0.0745,
-      0.0706,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "rounded": 0,
      "numinlets": 1,
@@ -17738,10 +19253,10 @@
       161
      ],
      "bgcolor": [
-      0.1294,
-      0.1216,
-      0.1137,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "rounded": 4,
      "numinlets": 1,
@@ -17749,10 +19264,10 @@
      "background": 1,
      "border": 1,
      "bordercolor": [
-      0.3098,
-      0.2824,
-      0.2549,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ]
     }
    },
@@ -17774,10 +19289,10 @@
       17
      ],
      "bgcolor": [
-      0.1686,
-      0.1569,
-      0.1451,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "rounded": 2,
      "numinlets": 1,
@@ -18244,10 +19759,10 @@
       169
      ],
      "bgcolor": [
-      0.0784,
-      0.0745,
-      0.0706,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "rounded": 0,
      "numinlets": 1,
@@ -18273,10 +19788,10 @@
       161
      ],
      "bgcolor": [
-      0.1294,
-      0.1216,
-      0.1137,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "rounded": 4,
      "numinlets": 1,
@@ -18284,10 +19799,10 @@
      "background": 1,
      "border": 1,
      "bordercolor": [
-      0.3098,
-      0.2824,
-      0.2549,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ]
     }
    },
@@ -18309,10 +19824,10 @@
       17
      ],
      "bgcolor": [
-      0.1686,
-      0.1569,
-      0.1451,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "rounded": 2,
      "numinlets": 1,
@@ -18484,6 +19999,30 @@
    },
    {
     "box": {
+     "id": "obj-704",
+     "maxclass": "fpic",
+     "pic": "dfx_knob_k24.png",
+     "autofit": 0,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "presentation": 1,
+     "presentation_rect": [
+      2370.0,
+      60.0,
+      24,
+      24
+     ],
+     "patching_rect": [
+      20,
+      3348,
+      24,
+      24
+     ],
+     "varname": "sh_bal_img"
+    }
+   },
+   {
+    "box": {
      "id": "obj-501",
      "maxclass": "live.dial",
      "patching_rect": [
@@ -18510,33 +20049,33 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.949,
-      0.6275,
-      0.2275,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "activeneedlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "dialcolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "needlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "textcolor": [
       0.9255,
       0.8941,
       0.8314,
-      1.0
-     ],
-     "dialcolor": [
-      0.2902,
-      0.2667,
-      0.2392,
-      1.0
-     ],
-     "needlecolor": [
-      0.3686,
-      0.3451,
-      0.3137,
-      1.0
-     ],
-     "textcolor": [
-      0.6392,
-      0.6039,
-      0.549,
       1.0
      ],
      "fontsize": 8.5,
@@ -18563,7 +20102,13 @@
      },
      "annotation_name": "Sherman Balance",
      "annotation": "Filterbank 2 Lp/Bp/Hp balance: low-pass at 0, band-pass at 50, high-pass at 100, crossfading between. PANEL mode only. Range 0 to 100 %. Default 0 %.",
-     "hint": "Sherman Balance: Filterbank 2 Lp/Bp/Hp balance: low-pass at 0, band-pass at 50, high-pass at 100, crossfading between. PANEL mode only."
+     "hint": "Sherman Balance: Filterbank 2 Lp/Bp/Hp balance: low-pass at 0, band-pass at 50, high-pass at 100, crossfading between. PANEL mode only.",
+     "tricolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
     }
    },
    {
@@ -18582,6 +20127,30 @@
      "outlettype": [
       ""
      ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-707",
+     "maxclass": "fpic",
+     "pic": "dfx_knob_k24.png",
+     "autofit": 0,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "presentation": 1,
+     "presentation_rect": [
+      2417.0,
+      60.0,
+      24,
+      24
+     ],
+     "patching_rect": [
+      20,
+      3374,
+      24,
+      24
+     ],
+     "varname": "sh_corr_img"
     }
    },
    {
@@ -18612,33 +20181,33 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.949,
-      0.6275,
-      0.2275,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "activeneedlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "dialcolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "needlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "textcolor": [
       0.9255,
       0.8941,
       0.8314,
-      1.0
-     ],
-     "dialcolor": [
-      0.2902,
-      0.2667,
-      0.2392,
-      1.0
-     ],
-     "needlecolor": [
-      0.3686,
-      0.3451,
-      0.3137,
-      1.0
-     ],
-     "textcolor": [
-      0.6392,
-      0.6039,
-      0.549,
       1.0
      ],
      "fontsize": 8.5,
@@ -18665,7 +20234,13 @@
      },
      "annotation_name": "Sherman Correction",
      "annotation": "Filterbank 2 correction knob: adds -Bp at -100, nothing at 0, -Bp+Lp+Hp at +100. With Balance on Bp: -100 is silent, +100 is a notch, +50 passes everything at about half level. PANEL mode only. Range -100 to 100 %. Default 0 %.",
-     "hint": "Sherman Correction: Filterbank 2 correction knob: adds -Bp at -100, nothing at 0, -Bp+Lp+Hp at +100. With Balance on Bp: -100 is silent, +100 is a notch, +50 passes everything at about half level. PANEL mode only."
+     "hint": "Sherman Correction: Filterbank 2 correction knob: adds -Bp at -100, nothing at 0, -Bp+Lp+Hp at +100. With Balance on Bp: -100 is silent, +100 is a notch, +50 passes everything at about half level. PANEL mode only.",
+     "tricolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
     }
    },
    {
@@ -19284,10 +20859,10 @@
       169
      ],
      "bgcolor": [
-      0.0784,
-      0.0745,
-      0.0706,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "rounded": 0,
      "numinlets": 1,
@@ -19313,10 +20888,10 @@
       161
      ],
      "bgcolor": [
-      0.1294,
-      0.1216,
-      0.1137,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "rounded": 4,
      "numinlets": 1,
@@ -19324,10 +20899,10 @@
      "background": 1,
      "border": 1,
      "bordercolor": [
-      0.3098,
-      0.2824,
-      0.2549,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ]
     }
    },
@@ -19349,10 +20924,10 @@
       17
      ],
      "bgcolor": [
-      0.1686,
-      0.1569,
-      0.1451,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "rounded": 2,
      "numinlets": 1,
@@ -19879,6 +21454,30 @@
    },
    {
     "box": {
+     "id": "obj-710",
+     "maxclass": "fpic",
+     "pic": "dfx_knob_k24.png",
+     "autofit": 0,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "presentation": 1,
+     "presentation_rect": [
+      2529.0,
+      60.0,
+      24,
+      24
+     ],
+     "patching_rect": [
+      20,
+      3400,
+      24,
+      24
+     ],
+     "varname": "ef_peak_img"
+    }
+   },
+   {
+    "box": {
      "id": "obj-530",
      "maxclass": "live.dial",
      "patching_rect": [
@@ -19905,33 +21504,33 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.949,
-      0.6275,
-      0.2275,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "activeneedlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "dialcolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "needlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "textcolor": [
       0.9255,
       0.8941,
       0.8314,
-      1.0
-     ],
-     "dialcolor": [
-      0.2902,
-      0.2667,
-      0.2392,
-      1.0
-     ],
-     "needlecolor": [
-      0.3686,
-      0.3451,
-      0.3137,
-      1.0
-     ],
-     "textcolor": [
-      0.6392,
-      0.6039,
-      0.549,
       1.0
      ],
      "fontsize": 8.5,
@@ -19958,7 +21557,13 @@
      },
      "annotation_name": "EnvF Peak",
      "annotation": "Envelope filter Q (Mu-tron PEAK, 150k CW log in the band-pass feedback): Q 1.8 to 17.7. As in the original, gain rises with Q: band-pass +8 to +31 dB. Range 0 to 100 %. Default 50 %.",
-     "hint": "EnvF Peak: Envelope filter Q (Mu-tron PEAK, 150k CW log in the band-pass feedback): Q 1.8 to 17.7. As in the original, gain rises with Q: band-pass +8 to +31 dB."
+     "hint": "EnvF Peak: Envelope filter Q (Mu-tron PEAK, 150k CW log in the band-pass feedback): Q 1.8 to 17.7. As in the original, gain rises with Q: band-pass +8 to +31 dB.",
+     "tricolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
     }
    },
    {
@@ -19977,6 +21582,30 @@
      "outlettype": [
       ""
      ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-713",
+     "maxclass": "fpic",
+     "pic": "dfx_knob_k24.png",
+     "autofit": 0,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "presentation": 1,
+     "presentation_rect": [
+      2586.0,
+      60.0,
+      24,
+      24
+     ],
+     "patching_rect": [
+      20,
+      3426,
+      24,
+      24
+     ],
+     "varname": "ef_gain_img"
     }
    },
    {
@@ -20007,33 +21636,33 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.949,
-      0.6275,
-      0.2275,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "activeneedlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "dialcolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "needlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "textcolor": [
       0.9255,
       0.8941,
       0.8314,
-      1.0
-     ],
-     "dialcolor": [
-      0.2902,
-      0.2667,
-      0.2392,
-      1.0
-     ],
-     "needlecolor": [
-      0.3686,
-      0.3451,
-      0.3137,
-      1.0
-     ],
-     "textcolor": [
-      0.6392,
-      0.6039,
-      0.549,
       1.0
      ],
      "fontsize": 8.5,
@@ -20060,7 +21689,13 @@
      },
      "annotation_name": "EnvF Gain",
      "annotation": "Envelope filter preamp gain (A1: x0.12 to x36, -18.4 to +31.2 dB). Sets both how far the envelope sweeps and the level into the filter. The rectifier has a gain of 45, so the sweep is sensitive: set Gain for your source; high settings reach the op-amp rails. Range -18.4 to 31.2 dB. Default 0 dB.",
-     "hint": "EnvF Gain: Envelope filter preamp gain (A1: x0.12 to x36, -18.4 to +31.2 dB). Sets both how far the envelope sweeps and the level into the filter. The rectifier has a gain of 45, so the sweep is sensitive: set Gain for your source; high settings reach the op-amp rails."
+     "hint": "EnvF Gain: Envelope filter preamp gain (A1: x0.12 to x36, -18.4 to +31.2 dB). Sets both how far the envelope sweeps and the level into the filter. The rectifier has a gain of 45, so the sweep is sensitive: set Gain for your source; high settings reach the op-amp rails.",
+     "tricolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
     }
    },
    {
@@ -20079,6 +21714,30 @@
      "outlettype": [
       ""
      ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-716",
+     "maxclass": "fpic",
+     "pic": "dfx_knob_k24.png",
+     "autofit": 0,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "presentation": 1,
+     "presentation_rect": [
+      2643.0,
+      60.0,
+      24,
+      24
+     ],
+     "patching_rect": [
+      20,
+      3452,
+      24,
+      24
+     ],
+     "varname": "ef_att_img"
     }
    },
    {
@@ -20109,33 +21768,33 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.949,
-      0.6275,
-      0.2275,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "activeneedlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "dialcolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "needlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "textcolor": [
       0.9255,
       0.8941,
       0.8314,
-      1.0
-     ],
-     "dialcolor": [
-      0.2902,
-      0.2667,
-      0.2392,
-      1.0
-     ],
-     "needlecolor": [
-      0.3686,
-      0.3451,
-      0.3137,
-      1.0
-     ],
-     "textcolor": [
-      0.6392,
-      0.6039,
-      0.549,
       1.0
      ],
      "fontsize": 8.5,
@@ -20163,7 +21822,13 @@
      },
      "annotation_name": "EnvF Attack",
      "annotation": "Envelope attack (ms): C9 charge time constant; the circuit is 1.55 ms (R17 330 ohm x 4.7 uF). The P873-13 photocell then follows: fast when bright (about 4 ms), slower when dim. Range 0.5 to 50 ms. Default 1.55 ms.",
-     "hint": "EnvF Attack: Envelope attack (ms): C9 charge time constant; the circuit is 1.55 ms (R17 330 ohm x 4.7 uF). The P873-13 photocell then follows: fast when bright (about 4 ms), slower when dim."
+     "hint": "EnvF Attack: Envelope attack (ms): C9 charge time constant; the circuit is 1.55 ms (R17 330 ohm x 4.7 uF). The P873-13 photocell then follows: fast when bright (about 4 ms), slower when dim.",
+     "tricolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
     }
    },
    {
@@ -20182,6 +21847,30 @@
      "outlettype": [
       ""
      ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-719",
+     "maxclass": "fpic",
+     "pic": "dfx_knob_k24.png",
+     "autofit": 0,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "presentation": 1,
+     "presentation_rect": [
+      2700.0,
+      60.0,
+      24,
+      24
+     ],
+     "patching_rect": [
+      20,
+      3478,
+      24,
+      24
+     ],
+     "varname": "ef_rel_img"
     }
    },
    {
@@ -20212,33 +21901,33 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.949,
-      0.6275,
-      0.2275,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "activeneedlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "dialcolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "needlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "textcolor": [
       0.9255,
       0.8941,
       0.8314,
-      1.0
-     ],
-     "dialcolor": [
-      0.2902,
-      0.2667,
-      0.2392,
-      1.0
-     ],
-     "needlecolor": [
-      0.3686,
-      0.3451,
-      0.3137,
-      1.0
-     ],
-     "textcolor": [
-      0.6392,
-      0.6039,
-      0.549,
       1.0
      ],
      "fontsize": 8.5,
@@ -20266,7 +21955,13 @@
      },
      "annotation_name": "EnvF Release",
      "annotation": "Envelope release (ms): C9 drain time constant toward -9 V, so the fall is nearly linear; the circuit is 221 ms (R18 47k x 4.7 uF). The P873-13 photocell then recovers hyperbolically (CdS), so the filter drifts back slowly after a note. Range 10 to 1000 ms. Default 221 ms.",
-     "hint": "EnvF Release: Envelope release (ms): C9 drain time constant toward -9 V, so the fall is nearly linear; the circuit is 221 ms (R18 47k x 4.7 uF). The P873-13 photocell then recovers hyperbolically (CdS), so the filter drifts back slowly after a note."
+     "hint": "EnvF Release: Envelope release (ms): C9 drain time constant toward -9 V, so the fall is nearly linear; the circuit is 221 ms (R18 47k x 4.7 uF). The P873-13 photocell then recovers hyperbolically (CdS), so the filter drifts back slowly after a note.",
+     "tricolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
     }
    },
    {
@@ -20285,6 +21980,30 @@
      "outlettype": [
       ""
      ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-722",
+     "maxclass": "fpic",
+     "pic": "dfx_knob_k24.png",
+     "autofit": 0,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "presentation": 1,
+     "presentation_rect": [
+      2524.0,
+      114.0,
+      24,
+      24
+     ],
+     "patching_rect": [
+      20,
+      3504,
+      24,
+      24
+     ],
+     "varname": "ef_mix_img"
     }
    },
    {
@@ -20315,33 +22034,33 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.949,
-      0.6275,
-      0.2275,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "activeneedlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "dialcolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "needlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "textcolor": [
       0.9255,
       0.8941,
       0.8314,
-      1.0
-     ],
-     "dialcolor": [
-      0.2902,
-      0.2667,
-      0.2392,
-      1.0
-     ],
-     "needlecolor": [
-      0.3686,
-      0.3451,
-      0.3137,
-      1.0
-     ],
-     "textcolor": [
-      0.6392,
-      0.6039,
-      0.549,
       1.0
      ],
      "fontsize": 8.5,
@@ -20368,7 +22087,13 @@
      },
      "annotation_name": "EnvF Mix",
      "annotation": "Envelope filter dry / wet. Range 0 to 100 %. Default 100 %.",
-     "hint": "EnvF Mix: Envelope filter dry / wet."
+     "hint": "EnvF Mix: Envelope filter dry / wet.",
+     "tricolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
     }
    },
    {
@@ -20387,6 +22112,30 @@
      "outlettype": [
       ""
      ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-725",
+     "maxclass": "fpic",
+     "pic": "dfx_knob_k24.png",
+     "autofit": 0,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "presentation": 1,
+     "presentation_rect": [
+      2570.0,
+      114.0,
+      24,
+      24
+     ],
+     "patching_rect": [
+      20,
+      3530,
+      24,
+      24
+     ],
+     "varname": "ef_out_img"
     }
    },
    {
@@ -20417,33 +22166,33 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.949,
-      0.6275,
-      0.2275,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "activeneedlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "dialcolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "needlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "textcolor": [
       0.9255,
       0.8941,
       0.8314,
-      1.0
-     ],
-     "dialcolor": [
-      0.2902,
-      0.2667,
-      0.2392,
-      1.0
-     ],
-     "needlecolor": [
-      0.3686,
-      0.3451,
-      0.3137,
-      1.0
-     ],
-     "textcolor": [
-      0.6392,
-      0.6039,
-      0.549,
       1.0
      ],
      "fontsize": 8.5,
@@ -20470,7 +22219,13 @@
      },
      "annotation_name": "EnvF Output",
      "annotation": "Envelope filter output level (dB), to balance the Gain and Peak level changes. Range -24 to 12 dB. Default 0 dB.",
-     "hint": "EnvF Output: Envelope filter output level (dB), to balance the Gain and Peak level changes."
+     "hint": "EnvF Output: Envelope filter output level (dB), to balance the Gain and Peak level changes.",
+     "tricolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
     }
    },
    {
@@ -20489,6 +22244,30 @@
      "outlettype": [
       ""
      ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-728",
+     "maxclass": "fpic",
+     "pic": "dfx_knob_k24.png",
+     "autofit": 0,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "presentation": 1,
+     "presentation_rect": [
+      2616.0,
+      114.0,
+      24,
+      24
+     ],
+     "patching_rect": [
+      20,
+      3556,
+      24,
+      24
+     ],
+     "varname": "ef_to_l_img"
     }
    },
    {
@@ -20519,33 +22298,33 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.949,
-      0.6275,
-      0.2275,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "activeneedlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "dialcolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "needlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "textcolor": [
       0.9255,
       0.8941,
       0.8314,
-      1.0
-     ],
-     "dialcolor": [
-      0.2902,
-      0.2667,
-      0.2392,
-      1.0
-     ],
-     "needlecolor": [
-      0.3686,
-      0.3451,
-      0.3137,
-      1.0
-     ],
-     "textcolor": [
-      0.6392,
-      0.6039,
-      0.549,
       1.0
      ],
      "fontsize": 8.5,
@@ -20573,7 +22352,13 @@
      },
      "annotation_name": "EnvF to LPF",
      "annotation": "Envelope to LPF cutoff: octaves added at full sweep (negative = closes). Works with the envelope filter on or off; UP/DOWN sets the direction too. Range -5 to 5 %+0.1f oct. Default 0 %+0.1f oct.",
-     "hint": "EnvF to LPF: Envelope to LPF cutoff: octaves added at full sweep (negative = closes). Works with the envelope filter on or off; UP/DOWN sets the direction too."
+     "hint": "EnvF to LPF: Envelope to LPF cutoff: octaves added at full sweep (negative = closes). Works with the envelope filter on or off; UP/DOWN sets the direction too.",
+     "tricolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
     }
    },
    {
@@ -20592,6 +22377,30 @@
      "outlettype": [
       ""
      ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-731",
+     "maxclass": "fpic",
+     "pic": "dfx_knob_k24.png",
+     "autofit": 0,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "presentation": 1,
+     "presentation_rect": [
+      2662.0,
+      114.0,
+      24,
+      24
+     ],
+     "patching_rect": [
+      20,
+      3582,
+      24,
+      24
+     ],
+     "varname": "ef_to_h_img"
     }
    },
    {
@@ -20622,33 +22431,33 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.949,
-      0.6275,
-      0.2275,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "activeneedlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "dialcolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "needlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "textcolor": [
       0.9255,
       0.8941,
       0.8314,
-      1.0
-     ],
-     "dialcolor": [
-      0.2902,
-      0.2667,
-      0.2392,
-      1.0
-     ],
-     "needlecolor": [
-      0.3686,
-      0.3451,
-      0.3137,
-      1.0
-     ],
-     "textcolor": [
-      0.6392,
-      0.6039,
-      0.549,
       1.0
      ],
      "fontsize": 8.5,
@@ -20676,7 +22485,13 @@
      },
      "annotation_name": "EnvF to HPF",
      "annotation": "Envelope to HPF cutoff: octaves added at full sweep (negative = lowers). Range -5 to 5 %+0.1f oct. Default 0 %+0.1f oct.",
-     "hint": "EnvF to HPF: Envelope to HPF cutoff: octaves added at full sweep (negative = lowers)."
+     "hint": "EnvF to HPF: Envelope to HPF cutoff: octaves added at full sweep (negative = lowers).",
+     "tricolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
     }
    },
    {
@@ -20695,6 +22510,30 @@
      "outlettype": [
       ""
      ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-734",
+     "maxclass": "fpic",
+     "pic": "dfx_knob_k24.png",
+     "autofit": 0,
+     "numinlets": 1,
+     "numoutlets": 0,
+     "presentation": 1,
+     "presentation_rect": [
+      2708.0,
+      114.0,
+      24,
+      24
+     ],
+     "patching_rect": [
+      20,
+      3608,
+      24,
+      24
+     ],
+     "varname": "ef_to_b_img"
     }
    },
    {
@@ -20725,33 +22564,33 @@
      "showname": 1,
      "shownumber": 1,
      "activedialcolor": [
-      0.949,
-      0.6275,
-      0.2275,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0
      ],
      "activeneedlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "dialcolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "needlecolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "textcolor": [
       0.9255,
       0.8941,
       0.8314,
-      1.0
-     ],
-     "dialcolor": [
-      0.2902,
-      0.2667,
-      0.2392,
-      1.0
-     ],
-     "needlecolor": [
-      0.3686,
-      0.3451,
-      0.3137,
-      1.0
-     ],
-     "textcolor": [
-      0.6392,
-      0.6039,
-      0.549,
       1.0
      ],
      "fontsize": 8.5,
@@ -20779,7 +22618,13 @@
      },
      "annotation_name": "EnvF to BPF",
      "annotation": "Envelope to BPF centre: octaves added at full sweep. Range -5 to 5 %+0.1f oct. Default 0 %+0.1f oct.",
-     "hint": "EnvF to BPF: Envelope to BPF centre: octaves added at full sweep."
+     "hint": "EnvF to BPF: Envelope to BPF centre: octaves added at full sweep.",
+     "tricolor": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
     }
    },
    {
@@ -21084,6 +22929,2130 @@
      ],
      "text": "script hide v_det",
      "numinlets": 2,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-561",
+     "maxclass": "newobj",
+     "patching_rect": [
+      400,
+      2100,
+      300,
+      22
+     ],
+     "text": "expr -int(pow(max(0., min(1., ($f1 - 20) / 19980)), 0.2) * 100. + 0.5) * 76",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-562",
+     "maxclass": "newobj",
+     "patching_rect": [
+      720,
+      2100,
+      110,
+      22
+     ],
+     "text": "prepend offset 0",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-564",
+     "maxclass": "newobj",
+     "patching_rect": [
+      400,
+      2126,
+      300,
+      22
+     ],
+     "text": "expr -int(max(0., min(1., ($f1 - 0) / 100)) * 100. + 0.5) * 26",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-565",
+     "maxclass": "newobj",
+     "patching_rect": [
+      720,
+      2126,
+      110,
+      22
+     ],
+     "text": "prepend offset 0",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-567",
+     "maxclass": "newobj",
+     "patching_rect": [
+      400,
+      2152,
+      300,
+      22
+     ],
+     "text": "expr -int(max(0., min(1., ($f1 - 0) / 100)) * 100. + 0.5) * 26",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-568",
+     "maxclass": "newobj",
+     "patching_rect": [
+      720,
+      2152,
+      110,
+      22
+     ],
+     "text": "prepend offset 0",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-570",
+     "maxclass": "newobj",
+     "patching_rect": [
+      400,
+      2178,
+      300,
+      22
+     ],
+     "text": "expr -int(max(0., min(1., ($f1 - 0) / 100)) * 100. + 0.5) * 26",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-571",
+     "maxclass": "newobj",
+     "patching_rect": [
+      720,
+      2178,
+      110,
+      22
+     ],
+     "text": "prepend offset 0",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-573",
+     "maxclass": "newobj",
+     "patching_rect": [
+      400,
+      2204,
+      300,
+      22
+     ],
+     "text": "expr -int(max(0., min(1., ($f1 - 0) / 100)) * 100. + 0.5) * 22",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-574",
+     "maxclass": "newobj",
+     "patching_rect": [
+      720,
+      2204,
+      110,
+      22
+     ],
+     "text": "prepend offset 0",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-576",
+     "maxclass": "newobj",
+     "patching_rect": [
+      400,
+      2230,
+      300,
+      22
+     ],
+     "text": "expr -int(pow(max(0., min(1., ($f1 - 20) / 1980)), 0.28901734104046245) * 100. + 0.5) * 76",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-577",
+     "maxclass": "newobj",
+     "patching_rect": [
+      720,
+      2230,
+      110,
+      22
+     ],
+     "text": "prepend offset 0",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-579",
+     "maxclass": "newobj",
+     "patching_rect": [
+      400,
+      2256,
+      300,
+      22
+     ],
+     "text": "expr -int(max(0., min(1., ($f1 - 0) / 100)) * 100. + 0.5) * 26",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-580",
+     "maxclass": "newobj",
+     "patching_rect": [
+      720,
+      2256,
+      110,
+      22
+     ],
+     "text": "prepend offset 0",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-582",
+     "maxclass": "newobj",
+     "patching_rect": [
+      400,
+      2282,
+      300,
+      22
+     ],
+     "text": "expr -int(max(0., min(1., ($f1 - 0) / 100)) * 100. + 0.5) * 26",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-583",
+     "maxclass": "newobj",
+     "patching_rect": [
+      720,
+      2282,
+      110,
+      22
+     ],
+     "text": "prepend offset 0",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-585",
+     "maxclass": "newobj",
+     "patching_rect": [
+      400,
+      2308,
+      300,
+      22
+     ],
+     "text": "expr -int(max(0., min(1., ($f1 - 0) / 100)) * 100. + 0.5) * 26",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-586",
+     "maxclass": "newobj",
+     "patching_rect": [
+      720,
+      2308,
+      110,
+      22
+     ],
+     "text": "prepend offset 0",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-588",
+     "maxclass": "newobj",
+     "patching_rect": [
+      400,
+      2334,
+      300,
+      22
+     ],
+     "text": "expr -int(max(0., min(1., ($f1 - 0) / 100)) * 100. + 0.5) * 22",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-589",
+     "maxclass": "newobj",
+     "patching_rect": [
+      720,
+      2334,
+      110,
+      22
+     ],
+     "text": "prepend offset 0",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-591",
+     "maxclass": "newobj",
+     "patching_rect": [
+      400,
+      2360,
+      300,
+      22
+     ],
+     "text": "expr -int(max(0., min(1., ($f1 - -24) / 36)) * 100. + 0.5) * 22",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-592",
+     "maxclass": "newobj",
+     "patching_rect": [
+      720,
+      2360,
+      110,
+      22
+     ],
+     "text": "prepend offset 0",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-594",
+     "maxclass": "newobj",
+     "patching_rect": [
+      400,
+      2386,
+      300,
+      22
+     ],
+     "text": "expr -int(pow(max(0., min(1., ($f1 - 30) / 11970)), 0.22779043280182235) * 100. + 0.5) * 76",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-595",
+     "maxclass": "newobj",
+     "patching_rect": [
+      720,
+      2386,
+      110,
+      22
+     ],
+     "text": "prepend offset 0",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-597",
+     "maxclass": "newobj",
+     "patching_rect": [
+      400,
+      2412,
+      300,
+      22
+     ],
+     "text": "expr -int(max(0., min(1., ($f1 - 0.2) / 5.8)) * 100. + 0.5) * 26",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-598",
+     "maxclass": "newobj",
+     "patching_rect": [
+      720,
+      2412,
+      110,
+      22
+     ],
+     "text": "prepend offset 0",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-600",
+     "maxclass": "newobj",
+     "patching_rect": [
+      400,
+      2438,
+      300,
+      22
+     ],
+     "text": "expr -int(pow(max(0., min(1., ($f1 - 0.5) / 9.5)), 0.5) * 100. + 0.5) * 26",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-601",
+     "maxclass": "newobj",
+     "patching_rect": [
+      720,
+      2438,
+      110,
+      22
+     ],
+     "text": "prepend offset 0",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-603",
+     "maxclass": "newobj",
+     "patching_rect": [
+      400,
+      2464,
+      300,
+      22
+     ],
+     "text": "expr -int(max(0., min(1., ($f1 - 0) / 100)) * 100. + 0.5) * 26",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-604",
+     "maxclass": "newobj",
+     "patching_rect": [
+      720,
+      2464,
+      110,
+      22
+     ],
+     "text": "prepend offset 0",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-606",
+     "maxclass": "newobj",
+     "patching_rect": [
+      400,
+      2490,
+      300,
+      22
+     ],
+     "text": "expr -int(max(0., min(1., ($f1 - 0) / 100)) * 100. + 0.5) * 26",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-607",
+     "maxclass": "newobj",
+     "patching_rect": [
+      720,
+      2490,
+      110,
+      22
+     ],
+     "text": "prepend offset 0",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-609",
+     "maxclass": "newobj",
+     "patching_rect": [
+      400,
+      2516,
+      300,
+      22
+     ],
+     "text": "expr -int(max(0., min(1., ($f1 - 0) / 100)) * 100. + 0.5) * 22",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-610",
+     "maxclass": "newobj",
+     "patching_rect": [
+      720,
+      2516,
+      110,
+      22
+     ],
+     "text": "prepend offset 0",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-612",
+     "maxclass": "newobj",
+     "patching_rect": [
+      400,
+      2542,
+      300,
+      22
+     ],
+     "text": "expr -int(max(0., min(1., ($f1 - 0) / 100)) * 100. + 0.5) * 22",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-613",
+     "maxclass": "newobj",
+     "patching_rect": [
+      720,
+      2542,
+      110,
+      22
+     ],
+     "text": "prepend offset 0",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-615",
+     "maxclass": "newobj",
+     "patching_rect": [
+      400,
+      2568,
+      300,
+      22
+     ],
+     "text": "expr -int(max(0., min(1., ($f1 - -24) / 48)) * 100. + 0.5) * 22",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-616",
+     "maxclass": "newobj",
+     "patching_rect": [
+      720,
+      2568,
+      110,
+      22
+     ],
+     "text": "prepend offset 0",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-618",
+     "maxclass": "newobj",
+     "patching_rect": [
+      400,
+      2594,
+      300,
+      22
+     ],
+     "text": "expr -int(max(0., min(1., ($f1 - 0) / 100)) * 100. + 0.5) * 22",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-619",
+     "maxclass": "newobj",
+     "patching_rect": [
+      720,
+      2594,
+      110,
+      22
+     ],
+     "text": "prepend offset 0",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-621",
+     "maxclass": "newobj",
+     "patching_rect": [
+      400,
+      2620,
+      300,
+      22
+     ],
+     "text": "expr -int(max(0., min(1., ($f1 - -100) / 200)) * 100. + 0.5) * 22",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-622",
+     "maxclass": "newobj",
+     "patching_rect": [
+      720,
+      2620,
+      110,
+      22
+     ],
+     "text": "prepend offset 0",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-624",
+     "maxclass": "newobj",
+     "patching_rect": [
+      400,
+      2646,
+      300,
+      22
+     ],
+     "text": "expr -int(pow(max(0., min(1., ($f1 - 1000) / 19000)), 0.5) * 100. + 0.5) * 22",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-625",
+     "maxclass": "newobj",
+     "patching_rect": [
+      720,
+      2646,
+      110,
+      22
+     ],
+     "text": "prepend offset 0",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-627",
+     "maxclass": "newobj",
+     "patching_rect": [
+      400,
+      2672,
+      300,
+      22
+     ],
+     "text": "expr -int(max(0., min(1., ($f1 - 0) / 100)) * 100. + 0.5) * 22",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-628",
+     "maxclass": "newobj",
+     "patching_rect": [
+      720,
+      2672,
+      110,
+      22
+     ],
+     "text": "prepend offset 0",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-630",
+     "maxclass": "newobj",
+     "patching_rect": [
+      400,
+      2698,
+      300,
+      22
+     ],
+     "text": "expr -int(max(0., min(1., ($f1 - -24) / 48)) * 100. + 0.5) * 22",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-631",
+     "maxclass": "newobj",
+     "patching_rect": [
+      720,
+      2698,
+      110,
+      22
+     ],
+     "text": "prepend offset 0",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-633",
+     "maxclass": "newobj",
+     "patching_rect": [
+      400,
+      2724,
+      300,
+      22
+     ],
+     "text": "expr -int(max(0., min(1., ($f1 - -24) / 48)) * 100. + 0.5) * 22",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-634",
+     "maxclass": "newobj",
+     "patching_rect": [
+      720,
+      2724,
+      110,
+      22
+     ],
+     "text": "prepend offset 0",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-636",
+     "maxclass": "newobj",
+     "patching_rect": [
+      400,
+      2750,
+      300,
+      22
+     ],
+     "text": "expr -int(max(0., min(1., ($f1 - 0) / 100)) * 100. + 0.5) * 22",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-637",
+     "maxclass": "newobj",
+     "patching_rect": [
+      720,
+      2750,
+      110,
+      22
+     ],
+     "text": "prepend offset 0",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-639",
+     "maxclass": "newobj",
+     "patching_rect": [
+      400,
+      2776,
+      300,
+      22
+     ],
+     "text": "expr -int(max(0., min(1., ($f1 - 0) / 100)) * 100. + 0.5) * 22",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-640",
+     "maxclass": "newobj",
+     "patching_rect": [
+      720,
+      2776,
+      110,
+      22
+     ],
+     "text": "prepend offset 0",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-642",
+     "maxclass": "newobj",
+     "patching_rect": [
+      400,
+      2802,
+      300,
+      22
+     ],
+     "text": "expr -int(pow(max(0., min(1., ($f1 - 20) / 480)), 0.5) * 100. + 0.5) * 22",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-643",
+     "maxclass": "newobj",
+     "patching_rect": [
+      720,
+      2802,
+      110,
+      22
+     ],
+     "text": "prepend offset 0",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-645",
+     "maxclass": "newobj",
+     "patching_rect": [
+      400,
+      2828,
+      300,
+      22
+     ],
+     "text": "expr -int(max(0., min(1., ($f1 - 0) / 100)) * 100. + 0.5) * 22",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-646",
+     "maxclass": "newobj",
+     "patching_rect": [
+      720,
+      2828,
+      110,
+      22
+     ],
+     "text": "prepend offset 0",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-648",
+     "maxclass": "newobj",
+     "patching_rect": [
+      400,
+      2854,
+      300,
+      22
+     ],
+     "text": "expr -int(max(0., min(1., ($f1 - 0) / 100)) * 100. + 0.5) * 22",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-649",
+     "maxclass": "newobj",
+     "patching_rect": [
+      720,
+      2854,
+      110,
+      22
+     ],
+     "text": "prepend offset 0",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-651",
+     "maxclass": "newobj",
+     "patching_rect": [
+      400,
+      2880,
+      300,
+      22
+     ],
+     "text": "expr -int(max(0., min(1., ($f1 - -24) / 48)) * 100. + 0.5) * 22",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-652",
+     "maxclass": "newobj",
+     "patching_rect": [
+      720,
+      2880,
+      110,
+      22
+     ],
+     "text": "prepend offset 0",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-654",
+     "maxclass": "newobj",
+     "patching_rect": [
+      400,
+      2906,
+      300,
+      22
+     ],
+     "text": "expr -int(max(0., min(1., ($f1 - -24) / 48)) * 100. + 0.5) * 22",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-655",
+     "maxclass": "newobj",
+     "patching_rect": [
+      720,
+      2906,
+      110,
+      22
+     ],
+     "text": "prepend offset 0",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-657",
+     "maxclass": "newobj",
+     "patching_rect": [
+      400,
+      2932,
+      300,
+      22
+     ],
+     "text": "expr -int(max(0., min(1., ($f1 - -50) / 50)) * 100. + 0.5) * 22",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-658",
+     "maxclass": "newobj",
+     "patching_rect": [
+      720,
+      2932,
+      110,
+      22
+     ],
+     "text": "prepend offset 0",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-660",
+     "maxclass": "newobj",
+     "patching_rect": [
+      400,
+      2958,
+      300,
+      22
+     ],
+     "text": "expr -int(pow(max(0., min(1., ($f1 - 0.05) / 2.95)), 0.4) * 100. + 0.5) * 22",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-661",
+     "maxclass": "newobj",
+     "patching_rect": [
+      720,
+      2958,
+      110,
+      22
+     ],
+     "text": "prepend offset 0",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-663",
+     "maxclass": "newobj",
+     "patching_rect": [
+      400,
+      2984,
+      300,
+      22
+     ],
+     "text": "expr -int(pow(max(0., min(1., ($f1 - 20) / 480)), 0.5) * 100. + 0.5) * 22",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-664",
+     "maxclass": "newobj",
+     "patching_rect": [
+      720,
+      2984,
+      110,
+      22
+     ],
+     "text": "prepend offset 0",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-666",
+     "maxclass": "newobj",
+     "patching_rect": [
+      400,
+      3010,
+      300,
+      22
+     ],
+     "text": "expr -int(max(0., min(1., ($f1 - 0) / 100)) * 100. + 0.5) * 22",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-667",
+     "maxclass": "newobj",
+     "patching_rect": [
+      720,
+      3010,
+      110,
+      22
+     ],
+     "text": "prepend offset 0",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-669",
+     "maxclass": "newobj",
+     "patching_rect": [
+      400,
+      3036,
+      300,
+      22
+     ],
+     "text": "expr -int(max(0., min(1., ($f1 - 0) / 100)) * 100. + 0.5) * 22",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-670",
+     "maxclass": "newobj",
+     "patching_rect": [
+      720,
+      3036,
+      110,
+      22
+     ],
+     "text": "prepend offset 0",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-672",
+     "maxclass": "newobj",
+     "patching_rect": [
+      400,
+      3062,
+      300,
+      22
+     ],
+     "text": "expr -int(max(0., min(1., ($f1 - -24) / 48)) * 100. + 0.5) * 22",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-673",
+     "maxclass": "newobj",
+     "patching_rect": [
+      720,
+      3062,
+      110,
+      22
+     ],
+     "text": "prepend offset 0",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-675",
+     "maxclass": "newobj",
+     "patching_rect": [
+      400,
+      3088,
+      300,
+      22
+     ],
+     "text": "expr -int(max(0., min(1., ($f1 - -80) / 80)) * 100. + 0.5) * 22",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-676",
+     "maxclass": "newobj",
+     "patching_rect": [
+      720,
+      3088,
+      110,
+      22
+     ],
+     "text": "prepend offset 0",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-678",
+     "maxclass": "newobj",
+     "patching_rect": [
+      400,
+      3114,
+      300,
+      22
+     ],
+     "text": "expr -int(pow(max(0., min(1., ($f1 - 0.1) / 49.9)), 0.3333333333333333) * 100. + 0.5) * 22",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-679",
+     "maxclass": "newobj",
+     "patching_rect": [
+      720,
+      3114,
+      110,
+      22
+     ],
+     "text": "prepend offset 0",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-681",
+     "maxclass": "newobj",
+     "patching_rect": [
+      400,
+      3140,
+      300,
+      22
+     ],
+     "text": "expr -int(pow(max(0., min(1., ($f1 - 0) / 500)), 0.5) * 100. + 0.5) * 22",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-682",
+     "maxclass": "newobj",
+     "patching_rect": [
+      720,
+      3140,
+      110,
+      22
+     ],
+     "text": "prepend offset 0",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-684",
+     "maxclass": "newobj",
+     "patching_rect": [
+      400,
+      3166,
+      300,
+      22
+     ],
+     "text": "expr -int(pow(max(0., min(1., ($f1 - 5) / 1995)), 0.3333333333333333) * 100. + 0.5) * 22",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-685",
+     "maxclass": "newobj",
+     "patching_rect": [
+      720,
+      3166,
+      110,
+      22
+     ],
+     "text": "prepend offset 0",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-687",
+     "maxclass": "newobj",
+     "patching_rect": [
+      400,
+      3192,
+      300,
+      22
+     ],
+     "text": "expr -int(max(0., min(1., ($f1 - -80) / 80)) * 100. + 0.5) * 22",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-688",
+     "maxclass": "newobj",
+     "patching_rect": [
+      720,
+      3192,
+      110,
+      22
+     ],
+     "text": "prepend offset 0",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-690",
+     "maxclass": "newobj",
+     "patching_rect": [
+      400,
+      3218,
+      300,
+      22
+     ],
+     "text": "expr -int(pow(max(0., min(1., ($f1 - 20) / 1980)), 0.3333333333333333) * 100. + 0.5) * 22",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-691",
+     "maxclass": "newobj",
+     "patching_rect": [
+      720,
+      3218,
+      110,
+      22
+     ],
+     "text": "prepend offset 0",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-693",
+     "maxclass": "newobj",
+     "patching_rect": [
+      400,
+      3244,
+      300,
+      22
+     ],
+     "text": "expr -int(pow(max(0., min(1., ($f1 - 200) / 19800)), 0.3333333333333333) * 100. + 0.5) * 22",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-694",
+     "maxclass": "newobj",
+     "patching_rect": [
+      720,
+      3244,
+      110,
+      22
+     ],
+     "text": "prepend offset 0",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-696",
+     "maxclass": "newobj",
+     "patching_rect": [
+      400,
+      3270,
+      300,
+      22
+     ],
+     "text": "expr -int(max(0., min(1., ($f1 - -40) / 46)) * 100. + 0.5) * 26",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-697",
+     "maxclass": "newobj",
+     "patching_rect": [
+      720,
+      3270,
+      110,
+      22
+     ],
+     "text": "prepend offset 0",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-699",
+     "maxclass": "newobj",
+     "patching_rect": [
+      400,
+      3296,
+      300,
+      22
+     ],
+     "text": "expr -int(max(0., min(1., ($f1 - -40) / 46)) * 100. + 0.5) * 26",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-700",
+     "maxclass": "newobj",
+     "patching_rect": [
+      720,
+      3296,
+      110,
+      22
+     ],
+     "text": "prepend offset 0",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-702",
+     "maxclass": "newobj",
+     "patching_rect": [
+      400,
+      3322,
+      300,
+      22
+     ],
+     "text": "expr -int(max(0., min(1., ($f1 - -40) / 46)) * 100. + 0.5) * 26",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-703",
+     "maxclass": "newobj",
+     "patching_rect": [
+      720,
+      3322,
+      110,
+      22
+     ],
+     "text": "prepend offset 0",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-705",
+     "maxclass": "newobj",
+     "patching_rect": [
+      400,
+      3348,
+      300,
+      22
+     ],
+     "text": "expr -int(max(0., min(1., ($f1 - 0) / 100)) * 100. + 0.5) * 24",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-706",
+     "maxclass": "newobj",
+     "patching_rect": [
+      720,
+      3348,
+      110,
+      22
+     ],
+     "text": "prepend offset 0",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-708",
+     "maxclass": "newobj",
+     "patching_rect": [
+      400,
+      3374,
+      300,
+      22
+     ],
+     "text": "expr -int(max(0., min(1., ($f1 - -100) / 200)) * 100. + 0.5) * 24",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-709",
+     "maxclass": "newobj",
+     "patching_rect": [
+      720,
+      3374,
+      110,
+      22
+     ],
+     "text": "prepend offset 0",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-711",
+     "maxclass": "newobj",
+     "patching_rect": [
+      400,
+      3400,
+      300,
+      22
+     ],
+     "text": "expr -int(max(0., min(1., ($f1 - 0) / 100)) * 100. + 0.5) * 24",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-712",
+     "maxclass": "newobj",
+     "patching_rect": [
+      720,
+      3400,
+      110,
+      22
+     ],
+     "text": "prepend offset 0",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-714",
+     "maxclass": "newobj",
+     "patching_rect": [
+      400,
+      3426,
+      300,
+      22
+     ],
+     "text": "expr -int(max(0., min(1., ($f1 - -18.4) / 49.599999999999994)) * 100. + 0.5) * 24",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-715",
+     "maxclass": "newobj",
+     "patching_rect": [
+      720,
+      3426,
+      110,
+      22
+     ],
+     "text": "prepend offset 0",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-717",
+     "maxclass": "newobj",
+     "patching_rect": [
+      400,
+      3452,
+      300,
+      22
+     ],
+     "text": "expr -int(pow(max(0., min(1., ($f1 - 0.5) / 49.5)), 0.4) * 100. + 0.5) * 24",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-718",
+     "maxclass": "newobj",
+     "patching_rect": [
+      720,
+      3452,
+      110,
+      22
+     ],
+     "text": "prepend offset 0",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-720",
+     "maxclass": "newobj",
+     "patching_rect": [
+      400,
+      3478,
+      300,
+      22
+     ],
+     "text": "expr -int(pow(max(0., min(1., ($f1 - 10) / 990)), 0.4) * 100. + 0.5) * 24",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-721",
+     "maxclass": "newobj",
+     "patching_rect": [
+      720,
+      3478,
+      110,
+      22
+     ],
+     "text": "prepend offset 0",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-723",
+     "maxclass": "newobj",
+     "patching_rect": [
+      400,
+      3504,
+      300,
+      22
+     ],
+     "text": "expr -int(max(0., min(1., ($f1 - 0) / 100)) * 100. + 0.5) * 24",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-724",
+     "maxclass": "newobj",
+     "patching_rect": [
+      720,
+      3504,
+      110,
+      22
+     ],
+     "text": "prepend offset 0",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-726",
+     "maxclass": "newobj",
+     "patching_rect": [
+      400,
+      3530,
+      300,
+      22
+     ],
+     "text": "expr -int(max(0., min(1., ($f1 - -24) / 36)) * 100. + 0.5) * 24",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-727",
+     "maxclass": "newobj",
+     "patching_rect": [
+      720,
+      3530,
+      110,
+      22
+     ],
+     "text": "prepend offset 0",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-729",
+     "maxclass": "newobj",
+     "patching_rect": [
+      400,
+      3556,
+      300,
+      22
+     ],
+     "text": "expr -int(max(0., min(1., ($f1 - -5) / 10)) * 100. + 0.5) * 24",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-730",
+     "maxclass": "newobj",
+     "patching_rect": [
+      720,
+      3556,
+      110,
+      22
+     ],
+     "text": "prepend offset 0",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-732",
+     "maxclass": "newobj",
+     "patching_rect": [
+      400,
+      3582,
+      300,
+      22
+     ],
+     "text": "expr -int(max(0., min(1., ($f1 - -5) / 10)) * 100. + 0.5) * 24",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-733",
+     "maxclass": "newobj",
+     "patching_rect": [
+      720,
+      3582,
+      110,
+      22
+     ],
+     "text": "prepend offset 0",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-735",
+     "maxclass": "newobj",
+     "patching_rect": [
+      400,
+      3608,
+      300,
+      22
+     ],
+     "text": "expr -int(max(0., min(1., ($f1 - -5) / 10)) * 100. + 0.5) * 24",
+     "numinlets": 1,
+     "numoutlets": 1,
+     "outlettype": [
+      ""
+     ]
+    }
+   },
+   {
+    "box": {
+     "id": "obj-736",
+     "maxclass": "newobj",
+     "patching_rect": [
+      720,
+      3608,
+      110,
+      22
+     ],
+     "text": "prepend offset 0",
+     "numinlets": 1,
      "numoutlets": 1,
      "outlettype": [
       ""
@@ -30091,6 +34060,2130 @@
       0
      ]
     }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-14",
+      0
+     ],
+     "destination": [
+      "obj-561",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-561",
+      0
+     ],
+     "destination": [
+      "obj-562",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-562",
+      0
+     ],
+     "destination": [
+      "obj-560",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-17",
+      0
+     ],
+     "destination": [
+      "obj-564",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-564",
+      0
+     ],
+     "destination": [
+      "obj-565",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-565",
+      0
+     ],
+     "destination": [
+      "obj-563",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-19",
+      0
+     ],
+     "destination": [
+      "obj-567",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-567",
+      0
+     ],
+     "destination": [
+      "obj-568",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-568",
+      0
+     ],
+     "destination": [
+      "obj-566",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-21",
+      0
+     ],
+     "destination": [
+      "obj-570",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-570",
+      0
+     ],
+     "destination": [
+      "obj-571",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-571",
+      0
+     ],
+     "destination": [
+      "obj-569",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-23",
+      0
+     ],
+     "destination": [
+      "obj-573",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-573",
+      0
+     ],
+     "destination": [
+      "obj-574",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-574",
+      0
+     ],
+     "destination": [
+      "obj-572",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-50",
+      0
+     ],
+     "destination": [
+      "obj-576",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-576",
+      0
+     ],
+     "destination": [
+      "obj-577",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-577",
+      0
+     ],
+     "destination": [
+      "obj-575",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-53",
+      0
+     ],
+     "destination": [
+      "obj-579",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-579",
+      0
+     ],
+     "destination": [
+      "obj-580",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-580",
+      0
+     ],
+     "destination": [
+      "obj-578",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-55",
+      0
+     ],
+     "destination": [
+      "obj-582",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-582",
+      0
+     ],
+     "destination": [
+      "obj-583",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-583",
+      0
+     ],
+     "destination": [
+      "obj-581",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-57",
+      0
+     ],
+     "destination": [
+      "obj-585",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-585",
+      0
+     ],
+     "destination": [
+      "obj-586",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-586",
+      0
+     ],
+     "destination": [
+      "obj-584",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-59",
+      0
+     ],
+     "destination": [
+      "obj-588",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-588",
+      0
+     ],
+     "destination": [
+      "obj-589",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-589",
+      0
+     ],
+     "destination": [
+      "obj-587",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-86",
+      0
+     ],
+     "destination": [
+      "obj-591",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-591",
+      0
+     ],
+     "destination": [
+      "obj-592",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-592",
+      0
+     ],
+     "destination": [
+      "obj-590",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-100",
+      0
+     ],
+     "destination": [
+      "obj-594",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-594",
+      0
+     ],
+     "destination": [
+      "obj-595",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-595",
+      0
+     ],
+     "destination": [
+      "obj-593",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-103",
+      0
+     ],
+     "destination": [
+      "obj-597",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-597",
+      0
+     ],
+     "destination": [
+      "obj-598",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-598",
+      0
+     ],
+     "destination": [
+      "obj-596",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-105",
+      0
+     ],
+     "destination": [
+      "obj-600",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-600",
+      0
+     ],
+     "destination": [
+      "obj-601",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-601",
+      0
+     ],
+     "destination": [
+      "obj-599",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-107",
+      0
+     ],
+     "destination": [
+      "obj-603",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-603",
+      0
+     ],
+     "destination": [
+      "obj-604",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-604",
+      0
+     ],
+     "destination": [
+      "obj-602",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-109",
+      0
+     ],
+     "destination": [
+      "obj-606",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-606",
+      0
+     ],
+     "destination": [
+      "obj-607",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-607",
+      0
+     ],
+     "destination": [
+      "obj-605",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-111",
+      0
+     ],
+     "destination": [
+      "obj-609",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-609",
+      0
+     ],
+     "destination": [
+      "obj-610",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-610",
+      0
+     ],
+     "destination": [
+      "obj-608",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-113",
+      0
+     ],
+     "destination": [
+      "obj-612",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-612",
+      0
+     ],
+     "destination": [
+      "obj-613",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-613",
+      0
+     ],
+     "destination": [
+      "obj-611",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-237",
+      0
+     ],
+     "destination": [
+      "obj-615",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-615",
+      0
+     ],
+     "destination": [
+      "obj-616",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-616",
+      0
+     ],
+     "destination": [
+      "obj-614",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-239",
+      0
+     ],
+     "destination": [
+      "obj-618",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-618",
+      0
+     ],
+     "destination": [
+      "obj-619",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-619",
+      0
+     ],
+     "destination": [
+      "obj-617",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-241",
+      0
+     ],
+     "destination": [
+      "obj-621",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-621",
+      0
+     ],
+     "destination": [
+      "obj-622",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-622",
+      0
+     ],
+     "destination": [
+      "obj-620",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-243",
+      0
+     ],
+     "destination": [
+      "obj-624",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-624",
+      0
+     ],
+     "destination": [
+      "obj-625",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-625",
+      0
+     ],
+     "destination": [
+      "obj-623",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-245",
+      0
+     ],
+     "destination": [
+      "obj-627",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-627",
+      0
+     ],
+     "destination": [
+      "obj-628",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-628",
+      0
+     ],
+     "destination": [
+      "obj-626",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-247",
+      0
+     ],
+     "destination": [
+      "obj-630",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-630",
+      0
+     ],
+     "destination": [
+      "obj-631",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-631",
+      0
+     ],
+     "destination": [
+      "obj-629",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-252",
+      0
+     ],
+     "destination": [
+      "obj-633",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-633",
+      0
+     ],
+     "destination": [
+      "obj-634",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-634",
+      0
+     ],
+     "destination": [
+      "obj-632",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-254",
+      0
+     ],
+     "destination": [
+      "obj-636",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-636",
+      0
+     ],
+     "destination": [
+      "obj-637",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-637",
+      0
+     ],
+     "destination": [
+      "obj-635",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-256",
+      0
+     ],
+     "destination": [
+      "obj-639",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-639",
+      0
+     ],
+     "destination": [
+      "obj-640",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-640",
+      0
+     ],
+     "destination": [
+      "obj-638",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-258",
+      0
+     ],
+     "destination": [
+      "obj-642",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-642",
+      0
+     ],
+     "destination": [
+      "obj-643",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-643",
+      0
+     ],
+     "destination": [
+      "obj-641",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-260",
+      0
+     ],
+     "destination": [
+      "obj-645",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-645",
+      0
+     ],
+     "destination": [
+      "obj-646",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-646",
+      0
+     ],
+     "destination": [
+      "obj-644",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-262",
+      0
+     ],
+     "destination": [
+      "obj-648",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-648",
+      0
+     ],
+     "destination": [
+      "obj-649",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-649",
+      0
+     ],
+     "destination": [
+      "obj-647",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-264",
+      0
+     ],
+     "destination": [
+      "obj-651",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-651",
+      0
+     ],
+     "destination": [
+      "obj-652",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-652",
+      0
+     ],
+     "destination": [
+      "obj-650",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-272",
+      0
+     ],
+     "destination": [
+      "obj-654",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-654",
+      0
+     ],
+     "destination": [
+      "obj-655",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-655",
+      0
+     ],
+     "destination": [
+      "obj-653",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-274",
+      0
+     ],
+     "destination": [
+      "obj-657",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-657",
+      0
+     ],
+     "destination": [
+      "obj-658",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-658",
+      0
+     ],
+     "destination": [
+      "obj-656",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-276",
+      0
+     ],
+     "destination": [
+      "obj-660",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-660",
+      0
+     ],
+     "destination": [
+      "obj-661",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-661",
+      0
+     ],
+     "destination": [
+      "obj-659",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-278",
+      0
+     ],
+     "destination": [
+      "obj-663",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-663",
+      0
+     ],
+     "destination": [
+      "obj-664",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-664",
+      0
+     ],
+     "destination": [
+      "obj-662",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-280",
+      0
+     ],
+     "destination": [
+      "obj-666",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-666",
+      0
+     ],
+     "destination": [
+      "obj-667",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-667",
+      0
+     ],
+     "destination": [
+      "obj-665",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-282",
+      0
+     ],
+     "destination": [
+      "obj-669",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-669",
+      0
+     ],
+     "destination": [
+      "obj-670",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-670",
+      0
+     ],
+     "destination": [
+      "obj-668",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-284",
+      0
+     ],
+     "destination": [
+      "obj-672",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-672",
+      0
+     ],
+     "destination": [
+      "obj-673",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-673",
+      0
+     ],
+     "destination": [
+      "obj-671",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-300",
+      0
+     ],
+     "destination": [
+      "obj-675",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-675",
+      0
+     ],
+     "destination": [
+      "obj-676",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-676",
+      0
+     ],
+     "destination": [
+      "obj-674",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-302",
+      0
+     ],
+     "destination": [
+      "obj-678",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-678",
+      0
+     ],
+     "destination": [
+      "obj-679",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-679",
+      0
+     ],
+     "destination": [
+      "obj-677",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-304",
+      0
+     ],
+     "destination": [
+      "obj-681",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-681",
+      0
+     ],
+     "destination": [
+      "obj-682",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-682",
+      0
+     ],
+     "destination": [
+      "obj-680",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-306",
+      0
+     ],
+     "destination": [
+      "obj-684",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-684",
+      0
+     ],
+     "destination": [
+      "obj-685",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-685",
+      0
+     ],
+     "destination": [
+      "obj-683",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-308",
+      0
+     ],
+     "destination": [
+      "obj-687",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-687",
+      0
+     ],
+     "destination": [
+      "obj-688",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-688",
+      0
+     ],
+     "destination": [
+      "obj-686",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-310",
+      0
+     ],
+     "destination": [
+      "obj-690",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-690",
+      0
+     ],
+     "destination": [
+      "obj-691",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-691",
+      0
+     ],
+     "destination": [
+      "obj-689",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-312",
+      0
+     ],
+     "destination": [
+      "obj-693",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-693",
+      0
+     ],
+     "destination": [
+      "obj-694",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-694",
+      0
+     ],
+     "destination": [
+      "obj-692",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-341",
+      0
+     ],
+     "destination": [
+      "obj-696",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-696",
+      0
+     ],
+     "destination": [
+      "obj-697",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-697",
+      0
+     ],
+     "destination": [
+      "obj-695",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-343",
+      0
+     ],
+     "destination": [
+      "obj-699",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-699",
+      0
+     ],
+     "destination": [
+      "obj-700",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-700",
+      0
+     ],
+     "destination": [
+      "obj-698",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-345",
+      0
+     ],
+     "destination": [
+      "obj-702",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-702",
+      0
+     ],
+     "destination": [
+      "obj-703",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-703",
+      0
+     ],
+     "destination": [
+      "obj-701",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-501",
+      0
+     ],
+     "destination": [
+      "obj-705",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-705",
+      0
+     ],
+     "destination": [
+      "obj-706",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-706",
+      0
+     ],
+     "destination": [
+      "obj-704",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-503",
+      0
+     ],
+     "destination": [
+      "obj-708",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-708",
+      0
+     ],
+     "destination": [
+      "obj-709",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-709",
+      0
+     ],
+     "destination": [
+      "obj-707",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-530",
+      0
+     ],
+     "destination": [
+      "obj-711",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-711",
+      0
+     ],
+     "destination": [
+      "obj-712",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-712",
+      0
+     ],
+     "destination": [
+      "obj-710",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-532",
+      0
+     ],
+     "destination": [
+      "obj-714",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-714",
+      0
+     ],
+     "destination": [
+      "obj-715",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-715",
+      0
+     ],
+     "destination": [
+      "obj-713",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-534",
+      0
+     ],
+     "destination": [
+      "obj-717",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-717",
+      0
+     ],
+     "destination": [
+      "obj-718",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-718",
+      0
+     ],
+     "destination": [
+      "obj-716",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-536",
+      0
+     ],
+     "destination": [
+      "obj-720",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-720",
+      0
+     ],
+     "destination": [
+      "obj-721",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-721",
+      0
+     ],
+     "destination": [
+      "obj-719",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-538",
+      0
+     ],
+     "destination": [
+      "obj-723",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-723",
+      0
+     ],
+     "destination": [
+      "obj-724",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-724",
+      0
+     ],
+     "destination": [
+      "obj-722",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-540",
+      0
+     ],
+     "destination": [
+      "obj-726",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-726",
+      0
+     ],
+     "destination": [
+      "obj-727",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-727",
+      0
+     ],
+     "destination": [
+      "obj-725",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-542",
+      0
+     ],
+     "destination": [
+      "obj-729",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-729",
+      0
+     ],
+     "destination": [
+      "obj-730",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-730",
+      0
+     ],
+     "destination": [
+      "obj-728",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-544",
+      0
+     ],
+     "destination": [
+      "obj-732",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-732",
+      0
+     ],
+     "destination": [
+      "obj-733",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-733",
+      0
+     ],
+     "destination": [
+      "obj-731",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-546",
+      0
+     ],
+     "destination": [
+      "obj-735",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-735",
+      0
+     ],
+     "destination": [
+      "obj-736",
+      0
+     ]
+    }
+   },
+   {
+    "patchline": {
+     "source": [
+      "obj-736",
+      0
+     ],
+     "destination": [
+      "obj-734",
+      0
+     ]
+    }
    }
   ],
   "parameters": {
@@ -30606,7 +36699,58 @@
    ],
    "inherited_shortname": 1
   },
-  "dependency_cache": [],
+  "dependency_cache": [
+   {
+    "name": "dfx_faceplate.png",
+    "type": "PNG",
+    "implicit": 1
+   },
+   {
+    "name": "dfx_knob_k22.png",
+    "type": "PNG",
+    "implicit": 1
+   },
+   {
+    "name": "dfx_knob_k24.png",
+    "type": "PNG",
+    "implicit": 1
+   },
+   {
+    "name": "dfx_knob_k26.png",
+    "type": "PNG",
+    "implicit": 1
+   },
+   {
+    "name": "dfx_knob_k76.png",
+    "type": "PNG",
+    "implicit": 1
+   },
+   {
+    "name": "dfx_faceplate@2x.png",
+    "type": "PNG",
+    "implicit": 1
+   },
+   {
+    "name": "dfx_knob_k22@2x.png",
+    "type": "PNG",
+    "implicit": 1
+   },
+   {
+    "name": "dfx_knob_k24@2x.png",
+    "type": "PNG",
+    "implicit": 1
+   },
+   {
+    "name": "dfx_knob_k26@2x.png",
+    "type": "PNG",
+    "implicit": 1
+   },
+   {
+    "name": "dfx_knob_k76@2x.png",
+    "type": "PNG",
+    "implicit": 1
+   }
+  ],
   "latency": 0,
   "is_mpe": 0,
   "minimum_live_version": "",

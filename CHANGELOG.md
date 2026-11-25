@@ -1,5 +1,11 @@
 # Changelog
 
+## Hardware panel (branch `hw-panel`, 2026-11-26): no change to the sound or the parameters
+- Echolivity hardware-replica look: one rendered faceplate (charcoal, brushed) with the static plates, header bands and wells painted in, and image knobs (black, spun-aluminium caps) under every dial. The dials' own arcs are transparent; names and values stay. Knob images follow the processing-chain pages (TUBE / OPTO / VCA / GATE). Unavailable dials now dim their text instead of their arc.
+- Images `dfx_*.png` (1x and @2x) sit next to `DubFilter.amxd`; **keep them together** (or Freeze the device in Max). A note shows if they're missing. Rendered by `source/device/render_panel.py` with the shared `source/device/hwpanel.py`; `build.sh` copies them.
+- Same boxes, ids, parameters (102), cords to gen~ and engine code; the painted panels stay in the patch, transparent. `tests/compat.py --ui` against v1.1–v1.5 passes (colour-only availability messages are now accepted as display-only). UI tests 47/47; full `build.sh` validation passes. Preview: `docs/ui/hardware_panel.png`.
+- Max 9 / Live 12: not run.
+
 ## v1.6: stability, fault containment, 4x–16x oversampling, Reference mode
 
 Details and before/after measurements: [docs/V1.6_ENGINE.md](docs/V1.6_ENGINE.md).

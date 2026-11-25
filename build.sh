@@ -25,7 +25,7 @@ mkdir -p "$ROOT/docs/ui"
 python3 device/preview.py "$ROOT/docs/ui/after_default.png"
 python3 device/preview.py "$ROOT/docs/ui/after_parallel_multi_opto.png" flt_route=1 b_on=1 b_arch=2 t_on=1 o_on=1 _page=1
 python3 device/preview.py "$ROOT/docs/ui/after_hybrid_hp_first_vca.png" flt_route=2 order_sel=1 b_on=1 b_arch=1 v_on=1 g_on=1 c_order=4 _page=2
-cp build/device/DubFilter.amxd build/device/DubFilter.maxpat build/device/df_*.js "$ROOT/"
+cp build/device/DubFilter.amxd build/device/DubFilter.maxpat build/device/df_*.js build/device/dfx_*.png "$ROOT/"
 cp build/dubfilter.genexpr "$ROOT/source/dubfilter.genexpr"
 rm -rf "$ROOT/docs/validation"; cp -r docs/validation "$ROOT/docs/"
 cp docs/VALIDATION.md "$ROOT/docs/"; cp build/device/preview.png "$ROOT/docs/preview.png"

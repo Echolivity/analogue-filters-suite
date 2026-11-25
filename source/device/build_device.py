@@ -712,8 +712,9 @@ for vn, msg in (("b_arch", "arch"), ("b_on", "on")):
 # editable (active stays 1), so values can be prepared before switching.
 c4 = lambda c: " ".join(f"{v:g}" for v in c)
 LOOK = {
-    "live.dial": ({"activedialcolor": T.AMBER, "activeneedlecolor": T.TEXT},
-                  {"activedialcolor": T.ARC_OFF, "activeneedlecolor": T.TEXT_DIM}),
+    # hardware panel: the knob is an image under a transparent live.dial, so availability
+    # is shown by the dial's name/value contrast
+    "live.dial": ({"textcolor": T.TEXT}, {"textcolor": T.TEXT_DIM}),
     "live.tab": ({"activebgoncolor": T.AMBER, "textcolor": T.LABEL}, {"activebgoncolor": T.AMBER_DIM, "textcolor": T.TEXT_DIM}),
     "live.text": ({"activebgoncolor": T.AMBER, "activetextcolor": T.LABEL},
                   {"activebgoncolor": T.AMBER_DIM, "activetextcolor": T.TEXT_DIM}),
@@ -980,6 +981,87 @@ patcher = {
     }
 }
 
+# ---------------------------------------------------------------- hardware panel
+# Echolivity family look: one rendered faceplate (charcoal, brushed) with the static plates,
+# header bands and wells painted in; image knobs (black, spun-aluminium caps) under every
+# live.dial, whose knob graphics are transparent (name and value stay). Panels that are named,
+# hidden per page or driven stay real Max panels. Images: source/device/panel/dfx_*.png
+# (1x, @2x), rendered by device/render_panel.py with the shared device/hwpanel.py.
+import hwpanel  # noqa: E402
+SPEC = {"prefix": "dfx_", "W": int(W_TOTAL), "H": 169, "screws": False, "paint": [], "knobs": {}, "knob_boxes": {},
+        "finish": {"base": tuple(round(c * 255) for c in T.CHASSIS[:3]), "texture": "brushed",
+                   "legend": tuple(round(c * 255) for c in T.TEXT[:3])}}
+_driven = {l["patchline"]["destination"][0] for l in lines}
+_first = boxes[0]["box"]["id"] if boxes[0]["box"]["maxclass"] == "panel" else None
+_keep = []
+for b in boxes:
+    bx_ = b["box"]
+    if (bx_["maxclass"] == "panel" and bx_.get("background") == 1 and bx_["id"] != _first
+            and not bx_.get("varname") and not bx_.get("hidden") and bx_["id"] not in _driven):
+        x_, y_, w_, h_ = bx_["presentation_rect"]
+        SPEC["paint"].append((x_, y_, w_, h_, [round(c * 255) for c in bx_["bgcolor"][:3]], bx_.get("rounded", 0)))
+        if bx_.get("border"):
+            SPEC.setdefault("frames_flat", []).append((x_, y_, w_, h_, [round(c * 255) for c in bx_["bordercolor"][:3]],
+                                                       bx_.get("rounded", 0)))
+        # kept (same box id, so Sets / compat are unaffected) but transparent: painted in the faceplate
+        bx_["bgcolor"] = hwpanel.CLEAR
+        if bx_.get("border"):
+            bx_["bordercolor"] = hwpanel.CLEAR
+    _keep.append(b)
+_fallback = [box("comment", [20, 2000, 600, 18], [300, 80, 700, 16],
+                 text="Panel images not found: keep the dfx_*.png files next to the .amxd, or Freeze the device in Max.",
+                 textcolor=T.TEXT, fontsize=9.0, numinlets=1, numoutlets=0, background=1)]
+_face = {"box": hwpanel.fpic_box(oid(), hwpanel.image_name(SPEC, "faceplate"), [0, 0, int(W_TOTAL), 169],
+                                 (20, 2030), background=True)}
+_pos = 1 if _first else 0
+_fb = boxes.pop()                       # the fallback comment just appended
+boxes.insert(_pos, _fb)
+boxes.insert(_pos + 1, _face)
+_ky = [2100]
+_imgs = set()
+for b in list(boxes):
+    bx_ = b["box"]
+    if bx_["maxclass"] != "live.dial":
+        continue
+    x_, y_, w_, h_ = bx_["presentation_rect"]
+    va = bx_["saved_attribute_attributes"]["valueof"]
+    kb = int(max(22, min(w_ - 4, h_ - 24))) // 2 * 2
+    kind = f"k{kb}"
+    SPEC["knob_boxes"][kind] = kb
+    key = bx_["varname"]
+    SPEC["knobs"][key] = {"cx": x_ + w_ / 2, "cy": y_ + h_ / 2 + (2 if bx_.get("showname", 1) else 0),
+                          "kind": kind, "scale": "none"}
+    for c in ("activedialcolor", "dialcolor", "needlecolor", "activeneedlecolor", "tricolor"):
+        bx_[c] = hwpanel.CLEAR
+    bx_["textcolor"] = T.TEXT
+    pic = {"box": hwpanel.fpic_box(oid(), hwpanel.image_name(SPEC, "knob", key), hwpanel.rect(SPEC, "knob", key),
+                                   (20, _ky[0]))}
+    pic["box"]["varname"] = key + "_img"      # shown / hidden with its dial (page scripting below)
+    if bx_.get("hidden"):
+        pic["box"]["hidden"] = 1
+    _imgs.add(key)
+    boxes.insert(boxes.index(b), pic)
+    fr = newobj("expr " + hwpanel.knob_frame_expr(kb, va["parameter_mmin"], va["parameter_mmax"],
+                                                  va.get("parameter_exponent", 1.0)), [400, _ky[0], 300, 22], 1, 1, [""])
+    of = newobj("prepend offset 0", [720, _ky[0], 110, 22], 1, 1, [""])
+    connect(bx_["id"], 0, fr, 0); connect(fr, 0, of, 0); connect(of, 0, pic["box"]["id"], 0)
+    _ky[0] += 26
+# every "script show/hide <dial>" also shows/hides that dial's knob image
+for b in boxes:
+    bx_ = b["box"]
+    if bx_["maxclass"] != "message" or "script " not in str(bx_.get("text", "")):
+        continue
+    parts = [c.strip() for c in bx_["text"].split(",")]
+    extra = [f"{t[0]} {t[1]} {t[2]}_img" for t in (c.split() for c in parts)
+             if len(t) == 3 and t[0] == "script" and t[1] in ("show", "hide") and t[2] in _imgs]
+    if extra:
+        bx_["text"] = ", ".join(parts + extra)
+_pics = sorted({b["box"]["pic"] for b in boxes if b["box"]["maxclass"] == "fpic"})
+patcher["patcher"]["dependency_cache"] = [{"name": n, "type": "PNG", "implicit": 1} for n in _pics] + \
+    [{"name": n.replace(".png", "@2x.png"), "type": "PNG", "implicit": 1} for n in _pics]
+patcher["patcher"]["boxes"] = boxes
+patcher["patcher"]["lines"] = lines
+
 txt = json.dumps(patcher, indent=1)
 out_dir = os.path.join(ROOT, "build", "device")
 os.makedirs(out_dir, exist_ok=True)
@@ -994,6 +1076,16 @@ import shutil
 for f in sorted(os.listdir(os.path.join(HERE, "jsui"))):
     if f.endswith(".js"):
         shutil.copy(os.path.join(HERE, "jsui", f), os.path.join(out_dir, f))
+_missing = []
+for n in _pics:
+    for v in (n, n.replace(".png", "@2x.png")):
+        src_ = os.path.join(HERE, "panel", v)
+        if os.path.exists(src_):
+            shutil.copy(src_, os.path.join(out_dir, v))
+        else:
+            _missing.append(v)
+if _missing:
+    print("WARNING: panel images missing (run device/render_panel.py):", _missing[:4])
 with open(os.path.join(out_dir, "ui_availability.json"), "w") as f:
     json.dump(AVAIL, f, indent=1)
 print(f"boxes {len(boxes)}, lines {len(lines)}, parameters {len(param_ids)}, amxd {len(amxd)} bytes")

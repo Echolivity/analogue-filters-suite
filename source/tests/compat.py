@@ -24,6 +24,12 @@ UI_KEYS = {"presentation_rect", "presentation", "patching_rect", "hidden", "font
            "textjustification", "rounded", "border", "annotation", "annotation_name", "hint", "num_lines_presentation",
            "background"}
 UI_TEXT = {"comment"}
+def colour_only(text):
+    """a message whose every comma-separated part is '<something>color r g b a'"""
+    parts = [c.strip().split() for c in str(text).split(",")]
+    return bool(parts) and all(len(p) == 5 and p[0].endswith("color") for p in parts)
+
+
 def ui_key_ok(b, k):
     if k in UI_KEYS or k.endswith("color"):
         return True
@@ -60,6 +66,11 @@ for i, b in ob.items():
                 if display_only:
                     bad = [k for k in bad if k != "text"]
                     notes.append(f"info text {i}: '{b['text']}' -> '{n['text']}' (display only)")
+                elif colour_only(b["text"]) and colour_only(n["text"]):
+                    # hardware panel: availability messages that only set colour attributes (no state);
+                    # dials now dim their text instead of their (now hidden) arc
+                    bad = [k for k in bad if k != "text"]
+                    notes.append(f"colour message {i}: display only")
                 elif not all(c.strip().startswith(("script sendbox ", "script show ", "script hide ")) for c in n["text"].split(",")):
                     bad.append("text(non-scripting)")
             if "saved_attribute_attributes" in bad and b.get("parameter_enable"):
