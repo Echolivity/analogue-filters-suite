@@ -913,6 +913,113 @@ for pg in range(4):
     connect(esel, pg, _mv, 0)
     connect(_mv, 0, thisp, 0)
 
+# ------------------------------------------------- v1.6: VCA page drawn as an API 2500-style faceplate
+# Black face, engraved white section legends (COMPRESSOR / TONE / SIDECHAIN / OUTPUT as on the 2500's front panel),
+# silver knobs with white pointers, captions under the knobs, and coloured square push-button rows for the TONE and
+# OUTPUT switches. No logo or trade dress is reproduced. Existing VCA controls keep their ids and parameters; only
+# their presentation (rect, colours, label display) changes, which tests/compat.py treats as UI. New objects are
+# appended and shown only with the VCA page. Availability dimming: the v1.5 chain sets the amber look first; a
+# deferred v_on chain then applies this page's own on / dimmed colours.
+HW_FACE = [0.07, 0.07, 0.075, 1.0]
+HW_EDGE = [0.20, 0.20, 0.21, 1.0]
+HW_LEG = [0.93, 0.92, 0.88, 1.0]
+HW_CAP = [0.78, 0.78, 0.76, 1.0]
+HW_DIV = [0.22, 0.22, 0.23, 1.0]
+HW_ARC = [0.22, 0.22, 0.23, 1.0]
+HW_SILVER = [0.80, 0.82, 0.85, 1.0]
+HW_WHITE = [1.0, 1.0, 1.0, 1.0]
+HW_VAL = [0.68, 0.70, 0.73, 1.0]
+HW_DIMTXT = [0.42, 0.42, 0.42, 1.0]
+HW_BTN = [0.15, 0.15, 0.16, 1.0]
+HW_BTNTXT = [0.80, 0.80, 0.78, 1.0]
+HW_DARKTXT = [0.08, 0.08, 0.08, 1.0]
+HW_ON = {"v_knee": ([0.93, 0.93, 0.90, 1.0], HW_DARKTXT), "v_thrust": ([0.96, 0.77, 0.16, 1.0], HW_DARKTXT),
+         "v_type": ([0.12, 0.47, 1.00, 1.0], HW_WHITE), "v_auto": ([0.22, 0.72, 0.33, 1.0], HW_WHITE),
+         "v_det": ([0.66, 0.70, 0.75, 1.0], HW_DARKTXT), "v_src": ([0.45, 0.50, 0.56, 1.0], HW_WHITE)}
+dimc = lambda c, f=0.42: [c[0] * f, c[1] * f, c[2] * f, 1.0]
+HX = DX        # page origin (x); the face spans DX-2 .. DX+546, y 88 .. 166
+LAY = {        # varname: presentation rect
+    "v_in": [HX + 0, 99, 42, 40], "v_thr": [HX + 46, 99, 42, 40],
+    "v_att": [HX + 94, 110, 48, 15], "v_ratio": [HX + 146, 110, 48, 15], "v_rel": [HX + 198, 99, 42, 40],
+    "v_det": [HX + 46, 150, 194, 12],
+    "v_knee": [HX + 276, 99, 76, 13], "v_thrust": [HX + 276, 114, 76, 13], "v_type": [HX + 276, 129, 76, 13],
+    "v_hpf": [HX + 360, 99, 42, 40], "v_link": [HX + 406, 99, 42, 40], "v_src": [HX + 360, 150, 88, 12],
+    "v_out": [HX + 456, 99, 42, 40], "v_mix": [HX + 502, 99, 42, 40], "v_auto": [HX + 456, 150, 88, 12],
+}
+CAPS = {"v_in": "INPUT", "v_thr": "THRESHOLD", "v_att": "ATTACK", "v_ratio": "RATIO", "v_rel": "RELEASE",
+        "v_hpf": "SC HPF", "v_link": "L/R LINK", "v_out": "OUTPUT", "v_mix": "MIX"}
+DIALS = [v for v in LAY if BYV(v)["maxclass"] == "live.dial"]
+
+
+def hw_look(vn, on=True):
+    """colour attributes for one VCA control, on (module active) or dimmed"""
+    cls = BYV(vn)["maxclass"]
+    if cls == "live.dial":
+        return {"dialcolor": HW_ARC, "activedialcolor": HW_SILVER if on else dimc(HW_SILVER),
+                "needlecolor": HW_DIMTXT, "activeneedlecolor": HW_WHITE if on else HW_DIMTXT,
+                "textcolor": HW_VAL if on else HW_DIMTXT, "focusbordercolor": HW_SILVER}
+    if cls == "live.menu":
+        return {"bgcolor": [0.035, 0.035, 0.04, 1.0], "activebgcolor": [0.035, 0.035, 0.04, 1.0],
+                "textcolor": HW_WHITE if on else HW_DIMTXT, "tricolor": HW_SILVER if on else HW_DIMTXT}
+    onc, ont = HW_ON[vn]
+    base = {"bgcolor": HW_BTN, "activebgcolor": HW_BTN, "bordercolor": HW_EDGE, "focusbordercolor": HW_SILVER,
+            "bgoncolor": dimc(onc), "activebgoncolor": onc if on else dimc(onc)}
+    if cls == "live.tab":
+        base.update(textcolor=HW_BTNTXT if on else HW_DIMTXT, textoncolor=ont if on else HW_DIMTXT,
+                    inactivetextoffcolor=HW_DIMTXT, inactivetextoncolor=HW_DIMTXT)
+    else:   # live.text
+        base.update(activetextcolor=HW_BTNTXT if on else HW_DIMTXT, activetextoncolor=ont if on else HW_DIMTXT,
+                    textcolor=HW_DIMTXT, textoncolor=HW_DIMTXT)
+    return base
+
+
+for vn, r in LAY.items():
+    bb = BYV(vn)
+    bb["presentation_rect"] = r
+    bb.update(hw_look(vn))
+    if bb["maxclass"] == "live.dial":
+        bb["showname"] = 0
+        bb["shownumber"] = 1
+        bb["fontsize"] = 7.5
+    elif bb["maxclass"] in ("live.tab", "live.text"):
+        bb["fontsize"] = 7.0
+# new page-2 objects: face, legends, dividers, captions
+_hw = []
+_hw.append(panel([HX - 2, 88, 548, 78], HW_FACE, border=HW_EDGE, rounded=3))
+for txt, x0, w in (("COMPRESSOR", 0, 240), ("TONE", 246, 106), ("SIDECHAIN / LINK", 360, 88), ("OUTPUT", 456, 88)):
+    _hw.append(comment(txt, [HX + x0, 89, w, 9], HW_LEG, 6.5, 1, 1))
+for xd in (243, 355, 452):
+    _hw.append(panel([HX + xd, 92, 1, 70], HW_DIV, rounded=0))
+for vn, txt in CAPS.items():
+    r = LAY[vn]
+    _hw.append(comment(txt, [r[0] - 4, 139, r[2] + 8, 8], HW_CAP, 5.5, 1, 1))
+for txt, y in (("KNEE", 101), ("THRUST", 116), ("TYPE", 131)):
+    _hw.append(comment(txt, [HX + 246, y, 30, 9], HW_CAP, 5.5, 1, 0))
+_hw.append(comment("DETECTOR", [HX + 0, 151, 44, 9], HW_CAP, 5.5, 1, 0))
+for j, bid in enumerate(_hw):
+    hide(bid)
+    BYID_ = next(b["box"] for b in boxes if b["box"]["id"] == bid)
+    BYID_["varname"] = f"pg2_hw{j}"
+for pg in range(4):
+    _mh = box("message", [1500 + 30 * pg, 1370 + 4 * pg, 200, 22],
+              text=", ".join(f"script {'show' if pg == 2 else 'hide'} pg2_hw{j}" for j in range(len(_hw))),
+              numinlets=2, numoutlets=1, outlettype=[""])
+    connect(esel, pg, _mh, 0)
+    connect(_mh, 0, thisp, 0)
+# availability: re-apply this page's colours after the v1.5 amber messages (deferred)
+_von = BID("v_on")
+_dl = newobj("deferlow", [vx(), 1700, 60, 22], 1, 1, [""])
+connect(_von, 0, _dl, 0)
+_sl = newobj("sel 0 1", [vx(), 1730, 50, 22], 2, 3, ["bang", "bang", ""])
+connect(_dl, 0, _sl, 0)
+for state in (0, 1):
+    for vn in LAY:
+        _m = box("message", [vx(), 1760 + 30 * state, 200, 22],
+                 text=", ".join(f"{k} {c4(v)}" for k, v in hw_look(vn, on=bool(state)).items()),
+                 numinlets=2, numoutlets=1, outlettype=[""])
+        connect(_sl, state, _m, 0)
+        connect(_m, 0, BID(vn), 0)
+
 # Info View / hint text on every parameter and on the jsui controls
 for b in boxes:
     bb = b["box"]

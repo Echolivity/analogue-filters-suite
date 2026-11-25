@@ -22,7 +22,7 @@ GEN_IO = {"patcher", "numinlets", "numoutlets", "outlettype"}  # v1.3: gen~ gain
 UI = "--ui" in sys.argv
 UI_KEYS = {"presentation_rect", "presentation", "patching_rect", "hidden", "fontsize", "fontface", "fontname",
            "textjustification", "rounded", "border", "annotation", "annotation_name", "hint", "num_lines_presentation",
-           "background"}
+           "background", "showname", "shownumber"}   # v1.6: label / value display of a live.dial (VCA faceplate)
 UI_TEXT = {"comment"}
 def ui_key_ok(b, k):
     if k in UI_KEYS or k.endswith("color"):
