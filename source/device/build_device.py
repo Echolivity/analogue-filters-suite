@@ -934,8 +934,9 @@ HW_BTN = [0.15, 0.15, 0.16, 1.0]
 HW_BTNTXT = [0.80, 0.80, 0.78, 1.0]
 HW_DARKTXT = [0.08, 0.08, 0.08, 1.0]
 HW_ON = {"v_knee": ([0.93, 0.93, 0.90, 1.0], HW_DARKTXT), "v_thrust": ([0.96, 0.77, 0.16, 1.0], HW_DARKTXT),
-         "v_type": ([0.12, 0.47, 1.00, 1.0], HW_WHITE), "v_auto": ([0.22, 0.72, 0.33, 1.0], HW_WHITE),
-         "v_det": ([0.66, 0.70, 0.75, 1.0], HW_DARKTXT), "v_src": ([0.45, 0.50, 0.56, 1.0], HW_WHITE)}
+         "v_type": ([0.12, 0.47, 1.00, 1.0], HW_WHITE), "v_auto": ([0.86, 0.13, 0.13, 1.0], HW_WHITE),
+         "v_det": ([0.66, 0.70, 0.75, 1.0], HW_DARKTXT), "v_src": ([0.22, 0.72, 0.33, 1.0], HW_WHITE)}
+# button colours follow the 2500 photo's placement: green in the LINK section, red in the OUTPUT section
 dimc = lambda c, f=0.42: [c[0] * f, c[1] * f, c[2] * f, 1.0]
 HX = DX        # page origin (x); the face spans DX-2 .. DX+546, y 88 .. 166
 LAY = {        # varname: presentation rect
