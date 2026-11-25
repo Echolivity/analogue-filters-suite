@@ -66,20 +66,22 @@ Sources: the API 2500 user manual (apiaudio.com, 2018), the 2500 pages of the AP
 | Ratio | 1.5, 2, 3, 4, 6, 10, ∞:1 | same |
 | Attack | 30 µs, 100 µs, 300 µs, 1, 3, 10, 30 ms | same |
 | Release | 50, 100, 200, 500 ms, 1, 2 s, VARIABLE 50 ms–3 s | continuous 50 ms–3 s (covers every step) |
-| Knee | HARD / MED / SOFT, no widths published | 0 / 6 / 12 dB (assumption) |
+| Knee | HARD / MED / SOFT, no widths published. 225L (traced schematic): a 1N4148 chain in the control-voltage amplifier's gain network, HARD = 1 diode, SOFT = 2 (NEW) / 3 (OLD) | **the 225L circuit:** HARD / MED / SOFT = 1 / 2 / 3 diodes (MED, a 2500 addition, assumed as one more diode). The knee width follows from the diodes and the ratio: at 4:1 about 3.6 / 7.9 / 12.4 dB, at 1.5:1 about 8 / 18 / 28 dB, at ∞:1 about 2.8 / 5.8 / 9.3 dB (10–90 % of the final slope) |
 | THRUST | NORM flat; MED "slight" low cut and high lift; LOUD "a gradual, linear filter (3 dB/oct)", −15 dB at 20 Hz, +15 dB at 20 kHz, ahead of the RMS detector; the manual cites US Patent 5,170,437 | NORM flat; **LOUD = the patent's Fig. 4 circuit** (−15.6 dB at 20 Hz, 0 dB at 632 Hz, +13.8 dB at 20 kHz); **MED half its dB curve (±7 dB), an assumption** |
-| Type | NEW: feed-forward, the detector gives "an exact ratio"; OLD: feedback, detector on the VCA output, "very smooth" | same. OLD applies the same law to the output, so its effective ratio is 2 − 1/R (4:1 acts as 1.75:1, ∞:1 as 2:1); the manual gives an exact ratio only for NEW, so this natural feedback softening is kept |
+| Type | NEW: feed-forward, the detector gives "an exact ratio"; OLD: feedback, detector on the VCA output, "very smooth". 225L: in OLD the TYPE switch also puts R40 2k74 across R41 6k19 (≈2.3× the control gain) and a third diode in the soft knee | same, with the 225L's OLD network: OLD's effective ratio is 1 + 2.30 × (1 − 1/R): 1.5:1 → 1.77, 2:1 → 2.15, 4:1 → 2.72, ∞:1 → 3.30 |
 | Detector | one RMS detector per channel, log-domain (calibration: 1 V DC per 10 dB) | true RMS, 3 ms, dB domain |
 | L/R Link | IND, 50–100 % in six steps; each channel keeps its own detector | continuous 0–100 % (covers every step) |
 | Shape (link filter) | HP / LP / BP, no frequencies published | not modelled |
 | Makeup | AUTO: THRESH raises the output "until the output level is around +4 dBu", then it "will maintain an even output level" as THRESH and RATIO change | AUTO: make-up = the static gain reduction of a +4 dBu (−18 dBFS) signal, so the curve pivots on +4 dBu for any threshold and ratio; no make-up while the threshold is above +4 dBu |
 | Defaults | 4:1, 1 ms, VARIABLE 0.5 s, HARD, NORM, NEW, 100 %, AUTO | 4:1, 1 ms, 0.3 s, HARD, NORM, NEW, 100 %, manual (kept for saved-set compatibility) |
 
-The model is a true-RMS detector (3 ms), a dB-domain gain computer with HARD/MED/SOFT knee, and attack/release ballistics on the gain reduction.
+The model is a true-RMS detector (3 ms), attack/release ballistics on the gain reduction, and the API 225L's knee / control-voltage stage as a circuit: the CV amplifier (TL082, R2 9k09, R1 100k + CR6) with the switched 1N4148 chain (R41 6k19, R40 2k74 in OLD), CR9 into the next stage and the 2180's 6.1 mV/dB control port, solved per sample. Calibration: the ratio sets the CV per dB so NEW's asymptote has the marked ratio, and the threshold is where that asymptote meets unity gain. Reference: tests/api225_ref.py; the VALIDATION static-curve test holds the engine within 0.25 dB of it.
+
+**Source caveat:** the 225L schematic is a third-party trace marked "UNTESTED", and the 2500 is the 225L's successor, not the same board. The attack values it predicts (10–90 %: 1.8 / 14 / 63 ms) match the 225L spec (2 / 18 / 75 ms), which supports the trace in that area.
 
 **THRUST circuit (US 5,170,437, Fig. 4):** an active half-order high-pass in front of the rectifier: 100 kΩ in parallel with 32 kΩ + 0.16 µF, 10 kΩ + 0.05 µF, 3.2 kΩ + 0.016 µF and 1 kΩ + 0.005 µF (corners 31 Hz, 318 Hz, 3.1 kHz, 31.8 kHz) into an inverting stage with 10 kΩ feedback. Each branch adds about 10 dB per decade, so the response is a stepped approximation of +10 dB/decade with about 1.5 dB of ripple, falling short of the ideal at the top because the last corner is at 31.8 kHz. The model fits six first-order high shelves to that circuit's response (within 0.16 dB at 44.1/48 kHz, 0.8 dB at 96 kHz near 20 kHz), normalised to 0 dB at 632 Hz. The patent shows one curve, so MED is an assumption. The VALIDATION THRUST curve test measures both through KEY LISTEN.
 
-**Not published, so behavioural:** knee widths, detector time constant, the VARIABLE release's programme dependence (Waves: heavier compression recovers more slowly), and the Shape filters.
+**Not published, so behavioural:** detector time constant (the traced 225L runs its 2252 with a 100 pF timing capacitor, i.e. close to peak sensing, while the API manuals say RMS; the test pack can settle it), the VARIABLE release's programme dependence (Waves: heavier compression recovers more slowly), the Shape filters, and the 2500's MED knee.
 
 ### GATE: independent, after the chain
 - **Detection:** threshold with 4 dB hysteresis; a linked stereo key (max of L/R) through its own KEY HPF and LPF.

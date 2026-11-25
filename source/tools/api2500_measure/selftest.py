@@ -1,6 +1,6 @@
 """Self-test: render the pack through this project's own VCA model with the settings in RENDER_INSTRUCTIONS.txt,
 analyse the renders, and check the analysis recovers the model's known values (threshold, ratio, knee widths
-0/6/12 dB, the engine's THRUST curves, attack ordering, release, link). Needs the built harness (./build.sh).
+the engine's knee curves, the engine's THRUST curves, attack ordering, release, link). Needs the built harness (./build.sh).
 Usage: python3 selftest.py [work_dir]"""
 import os, sys, subprocess, tempfile
 import numpy as np
@@ -39,10 +39,22 @@ def check(name, cond, detail):
     print(("PASS " if cond else "FAIL ") + name + " - " + detail)
 
 st = res["static"]
-check("static: threshold -22 dBFS, ratio 4 recovered (HARD)", abs(st["R02"]["threshold_dbfs"] + 22) < 0.5 and abs(st["R02"]["ratio"] - 4) < 0.2,
-      f"T {st['R02']['threshold_dbfs']}, R {st['R02']['ratio']}")
-check("static: knee widths 0 / 6 / 12 dB recovered within 1.5 dB", all(abs(st[k]["knee_width_db"] - w) < 1.5 for k, w in (("R02", 0), ("R03", 6), ("R04", 12))),
-      ", ".join(f"{st[k]['setting']} {st[k]['knee_width_db']}" for k in ("R02", "R03", "R04")))
+import api225_ref as K225a
+_c = np.array(st["R02"]["curve"]); _top = _c[:, 0] >= st["R02"]["threshold_dbfs"] + 12
+_g = np.array([l - K225a.static_out(l, -22, 3, 0, 0) for l in _c[_top, 0]])
+_m, _b = np.polyfit(_c[_top, 0], _g, 1); ref_r, ref_t = 1 / (1 - _m), -_b / _m
+check("static: asymptote threshold and ratio match the engine's reference over the same range (HARD, NEW, 4:1, thr -22)",
+      abs(st["R02"]["asymptote_threshold_dbfs"] - ref_t) < 0.3 and abs(st["R02"]["asymptote_ratio"] - ref_r) < 0.1,
+      f"measured T {st['R02']['asymptote_threshold_dbfs']}, R {st['R02']['asymptote_ratio']}; reference T {ref_t:.2f}, R {ref_r:.2f} "
+      "(the diode network reaches the marked 4:1 only gradually)")
+import api225_ref as K225
+kerr = 0.0
+for k, kn, typ in (("R02", 0, 0), ("R03", 1, 0), ("R04", 2, 0), ("R05", 0, 1)):
+    for lin, gr in st[k]["curve"]:
+        if lin >= -50:
+            kerr = max(kerr, abs(gr - (lin - K225.static_out(lin, -22, 3, kn, typ))))
+check("static: measured curves (HARD/MED/SOFT, OLD) match the engine's knee-network reference within 0.5 dB", kerr < 0.5,
+      f"worst error {kerr:.2f} dB; fitted quadratic-knee widths " + ", ".join(f"{st[k]['setting']} {st[k]['knee_width_db']}" for k in ("R02", "R03", "R04")))
 
 # ground truth: the built engine's own THRUST curve via KEY LISTEN (the detector signal), relative to NORM
 def kl(f, th):

@@ -556,6 +556,8 @@ History H_dz_T_dirty(0);
 History H_dz_O_dirty(0);
 History H_dz_V_dirty(0);
 History H_dz_G_dirty(0);
+History H_dz_v_mkk(-1000000000.0);
+History H_dz_v_mkc(0);
 History H_dP_T_L_upa0(0.0);
 History H_dP_T_L_upa1(0.0);
 History H_dP_T_L_upa2(0.0);
@@ -2034,16 +2036,30 @@ f_tsh(v) {
 f_tube(x, b, ib) {
 	return (f_tsh(x + b) - f_tsh(b)) * ib;
 }
-// API-style gain computer (dB in -> gain change in dB, <= 0); slope = 1/R - 1, W = knee width
-f_gc(lv, thr, slope, W) {
-	o = lv - thr;
-	r = 0;
-	if (2 * o > W) {
-		r = slope * o;
-	} else if (2 * o > -W) {
-		r = slope * (o + 0.5 * W) * (o + 0.5 * W) / (2 * W);
+// API 225L knee / control-voltage stage (traced VCA-board schematic): current through r + a diode chain with v
+// across (a = diodes * n * VT); Newton on the diode voltage, started right of the root (convex: monotone);
+// 4 steps: within 0.001 dB of the converged network over 0-12 V
+f_dsol(v, r, a) {
+	i = 0;
+	if (v > 0) {
+		u = min(v, a * log(1 + v / (r * 2.52e-09)));
+		for (k = 0; k < 4; k += 1) {
+			ee = exp(u / a);
+			u = u - (u + r * 2.52e-09 * (ee - 1) - v) / (1 + r * 2.52e-09 * ee / a);
+		}
+		i = 2.52e-09 * (exp(u / a) - 1);
 	}
-	return r;
+	return i;
+}
+// gain change (dB, <= 0) for overshoot o (dB): CV x = c*o + x0 into IC3a (R2 9k09 and R1 100k + CR6 feedback,
+// rz + diode chain to ground), then CR9 into the IC3b virtual ground and the 2180 control port
+f_k225(o, c, x0, a, rz) {
+	x = c * o + x0;
+	iz = f_dsol(x, rz, a);
+	i6 = f_dsol(iz * 9090.0, 109090.0, 0.045292704);
+	y = x + 9090.0 * (iz - i6);
+	i9 = f_dsol(y, 28041.269841269837, 0.045292704);
+	return -56465.63903782551 * i9;
 }
 
 // ======================= MAIN =======================
@@ -7383,7 +7399,11 @@ v_ams = (clamp(floor(v_att + 0.5), 0, 6) < 0.5 ? 0.03 : (clamp(floor(v_att + 0.5
 v_aat = 1 - exp(-1 / (0.001 * v_ams * fs));
 v_are = 1 - exp(-1 / (clamp(v_rel, 0.05, 3) * fs));
 v_arms = 1 - exp(-1 / (0.003 * fs));
-v_W = v_knee < 0.5 ? 0.0001 : (v_knee < 1.5 ? 6 : 12);
+v_kn = clamp(floor(v_knee + 0.5), 0, 2);
+v_ak = (v_kn + 1) * 0.045292704;
+v_c = -v_slope / 4.724320835978319;
+v_rz = v_type > 0.5 ? 1899.2833146696528 : 6190.0;
+v_x0 = v_type > 0.5 ? (v_kn < 0.5 ? 0.639184 : (v_kn < 1.5 ? 1.167696 : 1.690352)) : (v_kn < 0.5 ? 0.572794 : (v_kn < 1.5 ? 0.91464 : 1.252764));
 v_ghp = tan(pi * clamp(v_hpf, 20, 500) / fs);
 v_Ghp = v_ghp / (1 + v_ghp);
 v_tg0 = tan(pi * min(31.289, 0.45 * fs) / fs);
@@ -7405,8 +7425,29 @@ v_tg5 = tan(pi * min(15000.0, 0.45 * fs) / fs);
 v_TG5 = v_tg5 / (1 + v_tg5);
 v_TA5 = v_thrust < 1.5 ? 0.2667600000000001 : 0.36024999999999996;
 v_TN = v_thrust < 1.5 ? 0.31194282437539395 : 0.05648264163180767;
-v_sme = v_type > 0.5 ? v_slope / (1 - v_slope) : v_slope;
-v_mk = v_auto > 0.5 ? exp(-0.11512925465 * f_gc(-18.0, dz_v_thz, v_sme, v_W)) : 1;
+dz_v_mkk = dz_v_thz + 1000 * (clamp(floor(v_ratio + 0.5), 0, 6) + 10 * v_kn + 100 * (v_type > 0.5) + 1000 * (v_auto > 0.5));
+dz_v_mkc = H_dz_v_mkc;
+if (abs(dz_v_mkk - H_dz_v_mkk) > 0.000001) {
+	dz_v_mkc = 0;
+	if (v_auto > 0.5) {
+		if (v_type > 0.5) {
+			mlo = -18.0 - 80;
+			mhi = -18.0;
+			for (k = 0; k < 30; k += 1) {
+				mm = 0.5 * (mlo + mhi);
+				if (mm - -18.0 - f_k225(mm - dz_v_thz, v_c, v_x0, v_ak, v_rz) > 0) {
+					mhi = mm;
+				} else {
+					mlo = mm;
+				}
+			}
+			dz_v_mkc = -18.0 - 0.5 * (mlo + mhi);
+		} else {
+			dz_v_mkc = -f_k225(-18.0 - dz_v_thz, v_c, v_x0, v_ak, v_rz);
+		}
+	}
+}
+v_mk = exp(0.11512925465 * dz_v_mkc);
 dz_g_wt = g_on > 0.5 ? 1 : 0;
 dz_g_w = H_dz_g_w + a_mix * (dz_g_wt - H_dz_g_w);
 if (abs(dz_g_w - (dz_g_wt)) < 0.0001) {
@@ -9598,7 +9639,7 @@ if (d_any > 0.5 || dz_d_fade < 1) {
 				vlk = 10 * log10(0.5 * (dP_V_L_ms + dP_V_R_ms) + 1e-20) + 3.0103;
 				vgr = 0;
 				vlv = vlv_L + dz_v_lkz * (vlk - vlv_L);
-				vgc = f_gc(vlv, dz_v_thz, v_slope, v_W);
+				vgc = f_k225(vlv - dz_v_thz, v_c, v_x0, v_ak, v_rz);
 				dP_V_L_gr = fixdenorm(dP_V_L_gr + (vgc - dP_V_L_gr) * (vgc < dP_V_L_gr ? v_aat : v_are));
 				vy = vu_L * exp(0.11512925465 * dP_V_L_gr);
 				dP_V_L_yp = vy;
@@ -9606,7 +9647,7 @@ if (d_any > 0.5 || dz_d_fade < 1) {
 				q1_L = q0_L + dz_v_w * dz_v_mx * (vy * v_mk * dz_v_go - q0_L);
 				mP_vsc_L = vst_L;
 				vlv = vlv_R + dz_v_lkz * (vlk - vlv_R);
-				vgc = f_gc(vlv, dz_v_thz, v_slope, v_W);
+				vgc = f_k225(vlv - dz_v_thz, v_c, v_x0, v_ak, v_rz);
 				dP_V_R_gr = fixdenorm(dP_V_R_gr + (vgc - dP_V_R_gr) * (vgc < dP_V_R_gr ? v_aat : v_are));
 				vy = vu_R * exp(0.11512925465 * dP_V_R_gr);
 				dP_V_R_yp = vy;
@@ -10337,7 +10378,7 @@ if (d_any > 0.5 || dz_d_fade < 1) {
 				vlk = 10 * log10(0.5 * (dP_V_L_ms + dP_V_R_ms) + 1e-20) + 3.0103;
 				vgr = 0;
 				vlv = vlv_L + dz_v_lkz * (vlk - vlv_L);
-				vgc = f_gc(vlv, dz_v_thz, v_slope, v_W);
+				vgc = f_k225(vlv - dz_v_thz, v_c, v_x0, v_ak, v_rz);
 				dP_V_L_gr = fixdenorm(dP_V_L_gr + (vgc - dP_V_L_gr) * (vgc < dP_V_L_gr ? v_aat : v_are));
 				vy = vu_L * exp(0.11512925465 * dP_V_L_gr);
 				dP_V_L_yp = vy;
@@ -10345,7 +10386,7 @@ if (d_any > 0.5 || dz_d_fade < 1) {
 				q2_L = q1_L + dz_v_w * dz_v_mx * (vy * v_mk * dz_v_go - q1_L);
 				mP_vsc_L = vst_L;
 				vlv = vlv_R + dz_v_lkz * (vlk - vlv_R);
-				vgc = f_gc(vlv, dz_v_thz, v_slope, v_W);
+				vgc = f_k225(vlv - dz_v_thz, v_c, v_x0, v_ak, v_rz);
 				dP_V_R_gr = fixdenorm(dP_V_R_gr + (vgc - dP_V_R_gr) * (vgc < dP_V_R_gr ? v_aat : v_are));
 				vy = vu_R * exp(0.11512925465 * dP_V_R_gr);
 				dP_V_R_yp = vy;
@@ -11076,7 +11117,7 @@ if (d_any > 0.5 || dz_d_fade < 1) {
 				vlk = 10 * log10(0.5 * (dP_V_L_ms + dP_V_R_ms) + 1e-20) + 3.0103;
 				vgr = 0;
 				vlv = vlv_L + dz_v_lkz * (vlk - vlv_L);
-				vgc = f_gc(vlv, dz_v_thz, v_slope, v_W);
+				vgc = f_k225(vlv - dz_v_thz, v_c, v_x0, v_ak, v_rz);
 				dP_V_L_gr = fixdenorm(dP_V_L_gr + (vgc - dP_V_L_gr) * (vgc < dP_V_L_gr ? v_aat : v_are));
 				vy = vu_L * exp(0.11512925465 * dP_V_L_gr);
 				dP_V_L_yp = vy;
@@ -11084,7 +11125,7 @@ if (d_any > 0.5 || dz_d_fade < 1) {
 				q3_L = q2_L + dz_v_w * dz_v_mx * (vy * v_mk * dz_v_go - q2_L);
 				mP_vsc_L = vst_L;
 				vlv = vlv_R + dz_v_lkz * (vlk - vlv_R);
-				vgc = f_gc(vlv, dz_v_thz, v_slope, v_W);
+				vgc = f_k225(vlv - dz_v_thz, v_c, v_x0, v_ak, v_rz);
 				dP_V_R_gr = fixdenorm(dP_V_R_gr + (vgc - dP_V_R_gr) * (vgc < dP_V_R_gr ? v_aat : v_are));
 				vy = vu_R * exp(0.11512925465 * dP_V_R_gr);
 				dP_V_R_yp = vy;
@@ -11821,7 +11862,7 @@ if (d_any > 0.5 || dz_d_fade < 1) {
 				vlk = 10 * log10(0.5 * (dQ_V_L_ms + dQ_V_R_ms) + 1e-20) + 3.0103;
 				vgr = 0;
 				vlv = vlv_L + dz_v_lkz * (vlk - vlv_L);
-				vgc = f_gc(vlv, dz_v_thz, v_slope, v_W);
+				vgc = f_k225(vlv - dz_v_thz, v_c, v_x0, v_ak, v_rz);
 				dQ_V_L_gr = fixdenorm(dQ_V_L_gr + (vgc - dQ_V_L_gr) * (vgc < dQ_V_L_gr ? v_aat : v_are));
 				vy = vu_L * exp(0.11512925465 * dQ_V_L_gr);
 				dQ_V_L_yp = vy;
@@ -11829,7 +11870,7 @@ if (d_any > 0.5 || dz_d_fade < 1) {
 				q1_L = q0_L + dz_v_w * dz_v_mx * (vy * v_mk * dz_v_go - q0_L);
 				mQ_vsc_L = vst_L;
 				vlv = vlv_R + dz_v_lkz * (vlk - vlv_R);
-				vgc = f_gc(vlv, dz_v_thz, v_slope, v_W);
+				vgc = f_k225(vlv - dz_v_thz, v_c, v_x0, v_ak, v_rz);
 				dQ_V_R_gr = fixdenorm(dQ_V_R_gr + (vgc - dQ_V_R_gr) * (vgc < dQ_V_R_gr ? v_aat : v_are));
 				vy = vu_R * exp(0.11512925465 * dQ_V_R_gr);
 				dQ_V_R_yp = vy;
@@ -12560,7 +12601,7 @@ if (d_any > 0.5 || dz_d_fade < 1) {
 				vlk = 10 * log10(0.5 * (dQ_V_L_ms + dQ_V_R_ms) + 1e-20) + 3.0103;
 				vgr = 0;
 				vlv = vlv_L + dz_v_lkz * (vlk - vlv_L);
-				vgc = f_gc(vlv, dz_v_thz, v_slope, v_W);
+				vgc = f_k225(vlv - dz_v_thz, v_c, v_x0, v_ak, v_rz);
 				dQ_V_L_gr = fixdenorm(dQ_V_L_gr + (vgc - dQ_V_L_gr) * (vgc < dQ_V_L_gr ? v_aat : v_are));
 				vy = vu_L * exp(0.11512925465 * dQ_V_L_gr);
 				dQ_V_L_yp = vy;
@@ -12568,7 +12609,7 @@ if (d_any > 0.5 || dz_d_fade < 1) {
 				q2_L = q1_L + dz_v_w * dz_v_mx * (vy * v_mk * dz_v_go - q1_L);
 				mQ_vsc_L = vst_L;
 				vlv = vlv_R + dz_v_lkz * (vlk - vlv_R);
-				vgc = f_gc(vlv, dz_v_thz, v_slope, v_W);
+				vgc = f_k225(vlv - dz_v_thz, v_c, v_x0, v_ak, v_rz);
 				dQ_V_R_gr = fixdenorm(dQ_V_R_gr + (vgc - dQ_V_R_gr) * (vgc < dQ_V_R_gr ? v_aat : v_are));
 				vy = vu_R * exp(0.11512925465 * dQ_V_R_gr);
 				dQ_V_R_yp = vy;
@@ -13299,7 +13340,7 @@ if (d_any > 0.5 || dz_d_fade < 1) {
 				vlk = 10 * log10(0.5 * (dQ_V_L_ms + dQ_V_R_ms) + 1e-20) + 3.0103;
 				vgr = 0;
 				vlv = vlv_L + dz_v_lkz * (vlk - vlv_L);
-				vgc = f_gc(vlv, dz_v_thz, v_slope, v_W);
+				vgc = f_k225(vlv - dz_v_thz, v_c, v_x0, v_ak, v_rz);
 				dQ_V_L_gr = fixdenorm(dQ_V_L_gr + (vgc - dQ_V_L_gr) * (vgc < dQ_V_L_gr ? v_aat : v_are));
 				vy = vu_L * exp(0.11512925465 * dQ_V_L_gr);
 				dQ_V_L_yp = vy;
@@ -13307,7 +13348,7 @@ if (d_any > 0.5 || dz_d_fade < 1) {
 				q3_L = q2_L + dz_v_w * dz_v_mx * (vy * v_mk * dz_v_go - q2_L);
 				mQ_vsc_L = vst_L;
 				vlv = vlv_R + dz_v_lkz * (vlk - vlv_R);
-				vgc = f_gc(vlv, dz_v_thz, v_slope, v_W);
+				vgc = f_k225(vlv - dz_v_thz, v_c, v_x0, v_ak, v_rz);
 				dQ_V_R_gr = fixdenorm(dQ_V_R_gr + (vgc - dQ_V_R_gr) * (vgc < dQ_V_R_gr ? v_aat : v_are));
 				vy = vu_R * exp(0.11512925465 * dQ_V_R_gr);
 				dQ_V_R_yp = vy;
@@ -15947,3 +15988,5 @@ H_dz_T_dirty = dz_T_dirty;
 H_dz_O_dirty = dz_O_dirty;
 H_dz_V_dirty = dz_V_dirty;
 H_dz_G_dirty = dz_G_dirty;
+H_dz_v_mkk = dz_v_mkk;
+H_dz_v_mkc = dz_v_mkc;
