@@ -26,7 +26,7 @@ How to render
 Hardware only: also record 00_calibration with the unit BYPASSED and tell me your interface's level
 (e.g. "0 dBFS = +18 dBu"), so I can convert dBFS to dBu.
 
-Renders (17)
+Renders (17, plus 19 and 20 below)
 ------------
  #  Source file                          Change from base settings             Save as
 --  -----------------------------------  ------------------------------------  ------------------------------
@@ -51,6 +51,10 @@ Renders (17)
 
 (If your version has a flat / no-SHAPE link setting, add R18_link_FLAT.wav with LINK 100 % and that setting.)
 
+Detector type (2 renders; added later):
+19  06_detector_sine_vs_pulses.wav       ATTACK 30 us, RELEASE 500 ms (fixed)  R19_detector_NEW.wav
+20  06_detector_sine_vs_pulses.wav       same as 19, TYPE OLD                  R20_detector_OLD.wav
+
 What each one measures
 ----------------------
  R02-R05  input stepped -60..-1 dBFS in 1 dB steps -> the static curve: threshold, ratio and each knee's width;
@@ -59,6 +63,8 @@ What each one measures
           the THRUST MED and LOUD curves (NORM is the reference).
  R09-R11  level jumps of 40 dB -> attack shape and the RMS detector's own speed (at 30 us the detector dominates).
  R12-R13  bursts 2, 17 and 32 dB over threshold -> whether VARIABLE release slows down after heavier compression.
+ R19-R20  a sine and a spiky pulse train at the same RMS level -> whether the detector reacts to RMS (both compressed
+          alike) or to peaks (the pulse train compressed more).
  R14-R17  loud tones on Left only, quiet steady tone on Right -> how the link passes Left's gain reduction to Right
           at each frequency: the SHAPE filters.
 

@@ -82,5 +82,21 @@ L = np.concatenate([tone(f, -10, 1.5) for f in FREQS])
 R = tone(1000, -50, len(L) / SR, fade=False) * ramp(len(L), 20)
 write("05_link_shape_L-sweep_R-1k.wav", L, R, info=dict(freqs=FREQS, each_s=1.5, left_dbfs=-10, right=[1000, -50]))
 
+# 6 - detector type: a 1 kHz sine and a 500 Hz band-limited pulse train (20 cosine-phase harmonics, crest about
+#     +16 dB) at the SAME RMS level (-20 dBFS RMS), 2 s each, twice. An RMS detector compresses both alike; a peak
+#     detector compresses the pulse train by up to (crest difference) x (1 - 1/R) more.
+def pulses(sec):
+    t = np.arange(int(sec * SR)) / SR
+    y = sum(np.cos(2 * np.pi * 500 * k * t) for k in range(1, 21))
+    return y
+P = pulses(2.0)
+P *= a(-20) / np.sqrt(np.mean(P ** 2))
+S = a(-20) * np.sqrt(2) * np.sin(2 * np.pi * 1000 * np.arange(len(P)) / SR)
+r = ramp(len(P), 20)
+seq = np.concatenate([S * r, P * r, S * r, P * r])
+crest = 20 * np.log10(np.max(np.abs(P)) / a(-20))
+write("06_detector_sine_vs_pulses.wav", seq, info=dict(segments=["sine", "pulses", "sine", "pulses"], each_s=2.0,
+      rms_dbfs=-20, pulse_crest_db=round(float(crest), 2), sine_crest_db=3.01))
+
 json.dump(sched, open(os.path.join(OUT, "schedule.json"), "w"), indent=1)
 print("written:", sorted(os.listdir(OUT)))
