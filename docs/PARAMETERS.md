@@ -1,6 +1,6 @@
 # Parameters, automation and MIDI mapping
 
-All 101 controls are Live parameters: the 20 from v1.1, 11 from v1.2 and 44 from v1.3, all unchanged, plus 4 for v1.4 filter routing and 8 for v1.6 (Engine Mode, High Oversampling, K35 Circuit, 6 Sherman controls and 13 envelope-filter controls). Every one can be automated, MIDI-mapped (Cmd/Ctrl+M, click the control, move a controller) and key-mapped, and all are stored with the Live Set. Names below are the exact names in Live's automation chooser.
+All 102 controls are Live parameters: the 20 from v1.1, 11 from v1.2 and 44 from v1.3, all unchanged, plus 4 for v1.4 filter routing and the v1.6 additions (Engine Mode, High Oversampling, K35 Circuit, 6 Sherman controls, 13 envelope-filter controls and VCA Detector). Every one can be automated, MIDI-mapped (Cmd/Ctrl+M, click the control, move a controller) and key-mapped, and all are stored with the Live Set. Names below are the exact names in Live's automation chooser.
 
 ## Low-pass stage (amber)
 
@@ -115,6 +115,7 @@ See CHAIN.md for routing, detector sourcing and gain staging. The drag grips, ED
 | VCA SC Source | INT / CHAIN / EXT | INT |
 | VCA Link | 0 – 100 % | 100 |
 | VCA Auto Makeup | off / on | off |
+| VCA Detector | RMS / PEAK (225L) | RMS |
 | Gate On | off / on | off |
 | Gate Threshold | -80 – 0 dB(FS) | -40 |
 | Gate Attack | 0.1 – 50 ms | 1 |
@@ -147,6 +148,12 @@ See V1.6_ENGINE.md.
 
 The ENGINE strip's RUNNING AT readout shows the factors in effect.
 | K35 Circuit | OTA (Mk2) / KORG-35 (Mk1) | OTA (Mk2) | Which MS-20 filter circuit model 02 uses, for both the LPF and the HPF. OTA is the v1.5 sound. KORG-35 puts the clipping diodes in the signal path, and CHARACTER drives them. A change ducks for 8 ms and resets the filter states. See MODELS.md. |
+
+## VCA detector (v1.6)
+
+| Live name | Range | Default | Behaviour |
+|---|---|---|---|
+| VCA Detector | RMS / PEAK (225L) | RMS | RMS: 3 ms true RMS, as the API manuals describe (and as before). PEAK: the traced API 225L, whose THAT 2252 runs with a 100 pF timing capacitor and so reads the instantaneous level; attack and release then act in the dB domain. Both are referenced to the sine peak, so the threshold means the same for a steady sine. Which one the real 2500 uses is open: the measurement pack's R19/R20 renders settle it. |
 
 ## Envelope filter (v1.6, Musitronics Mu-Tron III)
 

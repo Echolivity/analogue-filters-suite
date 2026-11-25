@@ -257,7 +257,12 @@ def emit_controls(w, G):
     w(f"v_ams = {at} : {V_ATTACKS_MS[-1]!r}{')' * (len(V_ATTACKS_MS) - 1)};")
     w("v_aat = 1 - exp(-1 / (0.001 * v_ams * fs));")
     w("v_are = 1 - exp(-1 / (clamp(v_rel, 0.05, 3) * fs));")
-    w("v_arms = 1 - exp(-1 / (0.003 * fs));")
+    # DETECTOR: RMS = 3 ms true-RMS (API manuals: "RMS detector"). PEAK = the traced 225L: its THAT 2252 has a 100 pF
+    # timing capacitor and 7.5 uA timing current (R12 2M to -15 V), a time constant of about 3467 x 100 pF = 0.35 us
+    # (THAT), so it reads the instantaneous level in dB; attack/release then act in the dB domain. Peak reading is
+    # referenced to the sine peak, like the RMS reading (+3.01 dB), so the threshold means the same for sines.
+    w("v_arms = v_det > 0.5 ? 1 : 1 - exp(-1 / (0.003 * fs));")
+    w("v_dofs = v_det > 0.5 ? 0 : 3.0103;")
     w("v_kn = clamp(floor(v_knee + 0.5), 0, 2);")
     w(f"v_ak = (v_kn + 1) * {V_K_A1!r};")
     w(f"v_c = -v_slope / {V_K_SNEW!r};")
@@ -514,8 +519,8 @@ def emit_vca(w, G, ln, xin, xout, meter):
         w(f"{s(ch, 'hp')} = fixdenorm({s(ch, 'hp')});")
         w(f"vst_{ch} = v_thrust < 0.5 ? vs : vt * v_TN;")
         w(f"{s(ch, 'ms')} = fixdenorm({s(ch, 'ms')} + (vst_{ch} * vst_{ch} - {s(ch, 'ms')}) * v_arms);")
-        w(f"vlv_{ch} = 10 * log10({s(ch, 'ms')} + 1e-20) + 3.0103;")
-    w("vlk = 10 * log10(0.5 * (dVms_L + dVms_R) + 1e-20) + 3.0103;".replace("dVms_L", s("L", "ms")).replace("dVms_R", s("R", "ms")))
+        w(f"vlv_{ch} = 10 * log10({s(ch, 'ms')} + 1e-20) + v_dofs;")
+    w("vlk = 10 * log10(0.5 * (dVms_L + dVms_R) + 1e-20) + v_dofs;".replace("dVms_L", s("L", "ms")).replace("dVms_R", s("R", "ms")))
     w("vgr = 0;")
     for ch in CH:
         gr = s(ch, "gr")

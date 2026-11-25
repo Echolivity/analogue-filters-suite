@@ -95,6 +95,7 @@ DESC = {
     "v_thrust": "Sidechain Thrust: NORM is flat; MED and LOUD reduce the detector's bass sensitivity.",
     "v_type": "Detector topology: NEW (feed-forward) or OLD (feedback).",
     "v_auto": "Automatic make-up gain from the threshold and ratio.",
+    "v_det": "Detector: RMS (3 ms true RMS, as the API manuals describe) or PEAK (the traced API 225L, whose RMS chip runs with a tiny timing capacitor and reads peaks).",
     "v_src": "VCA sidechain source: INT, CHAIN or EXT (external key).",
     "g_thr": "Gate opening threshold. It closes 4 dB below (hysteresis).",
     "g_att": "Gate attack (opening) time.",
