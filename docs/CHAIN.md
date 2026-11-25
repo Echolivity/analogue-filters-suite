@@ -68,11 +68,11 @@ Sources: the API 2500 user manual (apiaudio.com, 2018), the 2500 pages of the AP
 | Release | 50, 100, 200, 500 ms, 1, 2 s, VARIABLE 50 ms–3 s | continuous 50 ms–3 s (covers every step) |
 | Knee | HARD / MED / SOFT, no widths published | 0 / 6 / 12 dB (assumption) |
 | THRUST | NORM flat; MED "slight" low cut and high lift; LOUD "a gradual, linear filter (3 dB/oct)", −15 dB at 20 Hz, +15 dB at 20 kHz, ahead of the RMS detector; the manual cites US Patent 5,170,437 | NORM flat; **LOUD = the patent's Fig. 4 circuit** (−15.6 dB at 20 Hz, 0 dB at 632 Hz, +13.8 dB at 20 kHz); **MED half its dB curve (±7 dB), an assumption** |
-| Type | NEW feed-forward / OLD feedback | same |
+| Type | NEW: feed-forward, the detector gives "an exact ratio"; OLD: feedback, detector on the VCA output, "very smooth" | same. OLD applies the same law to the output, so its effective ratio is 2 − 1/R (4:1 acts as 1.75:1, ∞:1 as 2:1); the manual gives an exact ratio only for NEW, so this natural feedback softening is kept |
 | Detector | one RMS detector per channel, log-domain (calibration: 1 V DC per 10 dB) | true RMS, 3 ms, dB domain |
 | L/R Link | IND, 50–100 % in six steps; each channel keeps its own detector | continuous 0–100 % (covers every step) |
 | Shape (link filter) | HP / LP / BP, no frequencies published | not modelled |
-| Makeup | AUTO keeps output about constant as threshold and ratio change | AUTO = static makeup from threshold and ratio |
+| Makeup | AUTO: THRESH raises the output "until the output level is around +4 dBu", then it "will maintain an even output level" as THRESH and RATIO change | AUTO: make-up = the static gain reduction of a +4 dBu (−18 dBFS) signal, so the curve pivots on +4 dBu for any threshold and ratio; no make-up while the threshold is above +4 dBu |
 | Defaults | 4:1, 1 ms, VARIABLE 0.5 s, HARD, NORM, NEW, 100 %, AUTO | 4:1, 1 ms, 0.3 s, HARD, NORM, NEW, 100 %, manual (kept for saved-set compatibility) |
 
 The model is a true-RMS detector (3 ms), a dB-domain gain computer with HARD/MED/SOFT knee, and attack/release ballistics on the gain reduction.
