@@ -245,6 +245,28 @@ def run_all(record, plt, OUT, SEQ, CAT, GRID, sig):
         trs.append(float(np.median(M[SR:, M_VGR]) * 30))
     record("VCA: THRUST (filter before the RMS detector) — bass-heavy material triggers less gain reduction NORM > MED > LOUD",
            trs[0] > trs[1] > trs[2], f"GR NORM {trs[0]:.1f}, MED {trs[1]:.1f}, LOUD {trs[2]:.1f} dB")
+    # AUTO make-up (API 2500 manual): output brought up "until the output level is around +4 dBu", then an even
+    # output level whatever THRESH and RATIO: the curve pivots on +4 dBu = -18 dBFS. Input at the pivot must come
+    # out at -18 dBFS, and an input 10 dB above it at -18 + 10/R, for any threshold below the pivot.
+    def lvl_out(lin, thr, ri):
+        y = run(tone(1000, lin, 1), dyn(v_on=1, v_thr=thr, v_ratio=ri, v_auto=1, v_rel=0.05))
+        return 20 * np.log10(np.sqrt(2 * np.mean(y[SR // 2:] ** 2)) + 1e-30)
+    arows = []
+    for thr in (-40, -30, -22):
+        for ri, rr in ((1, 2), (3, 4), (6, None)):
+            arows.append(dict(threshold=thr, ratio=rr or "inf", out_at_pivot=round(lvl_out(-18, thr, ri), 2),
+                              out_10_over=round(lvl_out(-8, thr, ri), 2), expect_10_over=round(-18 + (10 / rr if rr else 0), 2)))
+    for thr in (-40, -22):
+        for ri, rr in ((1, 2), (3, 4), (6, None)):     # OLD: effective ratio 2 - 1/R (feedback), same pivot
+            re = 2 - 1 / rr if rr else 2
+            y = run(tone(1000, -18, 1), dyn(v_on=1, v_thr=thr, v_ratio=ri, v_auto=1, v_rel=0.05, v_type=1))
+            y8 = run(tone(1000, -8, 1), dyn(v_on=1, v_thr=thr, v_ratio=ri, v_auto=1, v_rel=0.05, v_type=1))
+            f = lambda z: 20 * np.log10(np.sqrt(2 * np.mean(z[SR // 2:] ** 2)) + 1e-30)
+            arows.append(dict(type="OLD", threshold=thr, ratio=rr or "inf", out_at_pivot=round(f(y), 2),
+                              out_10_over=round(f(y8), 2), expect_10_over=round(-18 + 10 / re, 2)))
+    aerr = max(max(abs(r["out_at_pivot"] + 18), abs(r["out_10_over"] - r["expect_10_over"])) for r in arows)
+    record("VCA: AUTO make-up pivots on +4 dBu (-18 dBFS) for every threshold, ratio and TYPE (API 2500 manual), within 0.5 dB",
+           aerr < 0.5, f"worst error {aerr:.2f} dB over thresholds -40/-30/-22, ratios 2/4/inf, NEW and OLD (OLD at its feedback ratio 2 - 1/R)", rows=arows)
     # THRUST curve via KEY LISTEN (the detector signal): THRUST setting relative to NORM, so the SC HPF cancels.
     # LOUD = US 5,170,437 Fig. 4 circuit (cited by the API 2500 manual) relative to 632 Hz; MED modelled as half.
     def tlvl(f, th):

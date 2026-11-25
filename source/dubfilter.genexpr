@@ -7405,7 +7405,8 @@ v_tg5 = tan(pi * min(15000.0, 0.45 * fs) / fs);
 v_TG5 = v_tg5 / (1 + v_tg5);
 v_TA5 = v_thrust < 1.5 ? 0.2667600000000001 : 0.36024999999999996;
 v_TN = v_thrust < 1.5 ? 0.31194282437539395 : 0.05648264163180767;
-v_mk = v_auto > 0.5 ? exp(0.11512925465 * 0.5 * (-v_slope) * (-dz_v_thz)) : 1;
+v_sme = v_type > 0.5 ? v_slope / (1 - v_slope) : v_slope;
+v_mk = v_auto > 0.5 ? exp(-0.11512925465 * f_gc(-18.0, dz_v_thz, v_sme, v_W)) : 1;
 dz_g_wt = g_on > 0.5 ? 1 : 0;
 dz_g_w = H_dz_g_w + a_mix * (dz_g_wt - H_dz_g_w);
 if (abs(dz_g_w - (dz_g_wt)) < 0.0001) {

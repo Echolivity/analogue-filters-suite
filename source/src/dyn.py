@@ -35,6 +35,7 @@ PERM_NAMES = ["TUBE > OPTO > VCA", "TUBE > VCA > OPTO", "OPTO > TUBE > VCA",
 PRESETS = {"WARM DUB": 0, "PUNCH & COLOUR": 4, "FINAL COLOUR": 3}
 V_RATIOS = [1.5, 2, 3, 4, 6, 10, 1e9]
 V_ATTACKS_MS = [0.03, 0.1, 0.3, 1, 3, 10, 30]
+V_AUTO_REF_DBFS = -18.0   # +4 dBu (API 2500 manual's AUTO make-up level) at 0 dBFS = +22 dBu
 # THRUST: the API 2500 manual cites US Patent 5,170,437 (Strahm, 1992). Its Fig. 4 is the active half-order
 # high-pass in front of the rectifier: 100k || (32k + 0.16u) || (10k + 0.05u) || (3.2k + 0.016u) || (1k + 0.005u)
 # into a 10k-feedback inverting stage (corners 31 Hz, 318 Hz, 3.1 kHz, 31.8 kHz; "+10 dB/decade").
@@ -242,7 +243,13 @@ def emit_controls(w, G):
         w(f"v_TG{i} = v_tg{i} / (1 + v_tg{i});")
         w(f"v_TA{i} = v_thrust < 1.5 ? {V_THRUST_A_MED[i] - 1!r} : {V_THRUST_A_LOUD[i] - 1!r};")
     w(f"v_TN = v_thrust < 1.5 ? {V_THRUST_NORM['MED']!r} : {V_THRUST_NORM['LOUD']!r};")
-    w("v_mk = v_auto > 0.5 ? exp(0.11512925465 * 0.5 * (-v_slope) * (-dz_v_thz)) : 1;")
+    # AUTO make-up (API 2500 manual): THRESH raises the output "until the output level is around +4 dBu", then it
+    # "will maintain an even output level" as THRESH and RATIO change. So the make-up is the static gain reduction a
+    # +4 dBu signal would get: the transfer curve then pivots on +4 dBu (-18 dBFS, Waves mapping 0 dBFS = +22 dBu)
+    # whatever the threshold and ratio. In OLD the same law acts on the output, so the static slope is
+    # s / (1 - s) (4:1 behaves as 1.75:1); the make-up uses that effective slope so the pivot holds in both TYPEs.
+    w("v_sme = v_type > 0.5 ? v_slope / (1 - v_slope) : v_slope;")
+    w(f"v_mk = v_auto > 0.5 ? exp(-0.11512925465 * f_gc({V_AUTO_REF_DBFS!r}, dz_v_thz, v_sme, v_W)) : 1;")
     # gate
     w("dz_g_wt = g_on > 0.5 ? 1 : 0;")
     _sm(w, "dz_g_w", "dz_g_wt", "a_mix")
