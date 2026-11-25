@@ -25,7 +25,8 @@ R = {"R01": dict(v_thr=0), "R02": dict(v_thr=-22), "R03": dict(v_thr=-22, v_knee
      "R06": dict(v_ratio=RAT[2], v_att=ATT[30], v_rel=0.2), "R07": dict(v_ratio=RAT[2], v_att=ATT[30], v_rel=0.2, v_thrust=1),
      "R08": dict(v_ratio=RAT[2], v_att=ATT[30], v_rel=0.2, v_thrust=2),
      "R09": dict(v_ratio=RAT[10], v_att=ATT[0.03]), "R10": dict(v_ratio=RAT[10], v_att=ATT[1]), "R11": dict(v_ratio=RAT[10], v_att=ATT[30]),
-     "R12": dict(v_ratio=RAT[10], v_rel=0.5), "R14": dict(v_link=0), "R15": dict(v_link=100)}
+     "R12": dict(v_ratio=RAT[10], v_rel=0.5), "R14": dict(v_link=0), "R15": dict(v_link=100),
+     "R19": dict(v_att=ATT[0.03], v_rel=0.5)}
 for k, p in R.items():
     x, _ = sf.read(os.path.join(pack, AN.SRC[k]), always_2d=True)
     y = run(x, base(**{**B, **p}))
@@ -77,5 +78,8 @@ check("release: fixed 500 ms gives a GR-independent 37 % time (model has no prog
 lk = res["link"]
 check("link: IND passes no GR to Right; 100 % passes Left's GR", max(lk["IND"]["right_gr_db"]) < 0.3 and min(lk["HP"]["right_gr_db"]) > 3,
       f"IND max {max(lk['IND']['right_gr_db'])} dB, 100% min {min(lk['HP']['right_gr_db'])} dB")
+d = res["detector"]["R19"]
+check("detector: the model's true-RMS detector compresses pulses and sine alike (extra GR on pulses < 1 dB)",
+      abs(d["extra_gr_on_pulses_db"]) < 1.0, f"sine {d['gr_sine_db']} dB, pulses {d['gr_pulses_db']} dB, crest difference {d['crest_difference_db']} dB")
 print("SELFTEST", "OK" if ok else "FAILED", "- report:", os.path.join(rend, "analysis", "report.md"))
 sys.exit(0 if ok else 1)

@@ -22,12 +22,14 @@ SRC = {"R01": "00_calibration_1k_-20dBFS.wav", "R02": "01_static_curve_1k_steps.
        "R07": "02_thrust_sweep_-10dBFS.wav", "R08": "02_thrust_sweep_-10dBFS.wav", "R09": "03_attack_bursts_1k.wav",
        "R10": "03_attack_bursts_1k.wav", "R11": "03_attack_bursts_1k.wav", "R12": "04_release_bursts_1k.wav",
        "R13": "04_release_bursts_1k.wav", "R14": "05_link_shape_L-sweep_R-1k.wav", "R15": "05_link_shape_L-sweep_R-1k.wav",
-       "R16": "05_link_shape_L-sweep_R-1k.wav", "R17": "05_link_shape_L-sweep_R-1k.wav", "R18": "05_link_shape_L-sweep_R-1k.wav"}
+       "R16": "05_link_shape_L-sweep_R-1k.wav", "R17": "05_link_shape_L-sweep_R-1k.wav", "R18": "05_link_shape_L-sweep_R-1k.wav",
+       "R19": "06_detector_sine_vs_pulses.wav", "R20": "06_detector_sine_vs_pulses.wav"}
 KNEES = {"R02": "HARD", "R03": "MED", "R04": "SOFT", "R05": "HARD (OLD / feedback)"}
 THRUST = {"R06": "NORM", "R07": "MED", "R08": "LOUD"}
 ATTACK = {"R09": 0.03, "R10": 1.0, "R11": 30.0}
 RELEASE = {"R12": "500 ms fixed", "R13": "VAR at 500 ms"}
 LINK = {"R14": "IND", "R15": "HP", "R16": "LP", "R17": "BP", "R18": "FLAT"}
+DET = {"R19": "NEW", "R20": "OLD"}
 
 
 def db(x):
@@ -261,6 +263,29 @@ def analyse(pack, rdir, odir):
                 "| Hz | " + " | ".join(f"{m} R GR (dB)" for m in lk) + " |", "|---|" + "---|" * len(lk)]
         for i, f in enumerate(F):
             rep.append(f"| {f:g} | " + " | ".join(f"{v['right_gr_db'][i]:.2f}" for v in lk.values()) + " |")
+
+    # ---- detector type: GR on pulses vs GR on a sine at the same RMS
+    info = sched.get("06_detector_sine_vs_pulses.wav")
+    det = {}
+    for k in [k for k in DET if k in Y and info]:
+        x, y = src[k], Y[k]
+        each = info["each_s"]
+        grs = []
+        for i, name in enumerate(info["segments"]):
+            a = START + int((i * each + 1.0) * SR)
+            b = START + int((i * each + each - 0.1) * SR)
+            grs.append((name, -(db(rms(y[a:b, 0])) - db(rms(x[a:b, 0])) - g0)))
+        gs = np.mean([g for n, g in grs if n == "sine"]); gp = np.mean([g for n, g in grs if n == "pulses"])
+        det[k] = dict(type=DET[k], gr_sine_db=round(float(gs), 2), gr_pulses_db=round(float(gp), 2),
+                      extra_gr_on_pulses_db=round(float(gp - gs), 2), crest_difference_db=round(info["pulse_crest_db"] - info["sine_crest_db"], 2))
+    if det:
+        res["detector"] = det
+        rep += ["", "## Detector type (sine vs pulse train at the same RMS, 4:1, attack 30 us)",
+                "RMS detector: under 1 dB extra GR on the pulses (this project's 3 ms RMS model: 0.8 dB). Ideal peak detector:",
+                "(crest difference) x (1 - 1/R), about 10 dB at 4:1 for this pulse train.", "",
+                "| Render | Type | GR sine (dB) | GR pulses (dB) | Extra GR on pulses (dB) | Crest difference (dB) |", "|---|---|---|---|---|---|"]
+        for k, v in det.items():
+            rep.append(f"| {k} | {v['type']} | {v['gr_sine_db']} | {v['gr_pulses_db']} | {v['extra_gr_on_pulses_db']} | {v['crest_difference_db']} |")
 
     json.dump(res, open(os.path.join(odir, "results.json"), "w"), indent=1)
     open(os.path.join(odir, "report.md"), "w").write("\n".join(rep) + "\n")
